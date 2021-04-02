@@ -1,42 +1,81 @@
 package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.enumerations.CardColor;
+import it.polimi.ingsw.enumerations.ResourceType;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.cards.effects.ProductionPower;
-import jdk.internal.module.Resources;
+import it.polimi.ingsw.model.Playerboard;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Alice Cariboni
+ * This class represents a developent card
+ */
 public class DevelopmentCard extends Card{
-    private String color;
+    private CardColor color;
     private int level;
-    private Map<Resource,Integer> cost;
+    private ArrayList<Resource> cost;
     private int victoryPoints;
     private ProductionPower productionPower;
 
 
-    public DevelopmentCard(String color, int level, Map<Resource,Integer> cost, int victoryPoints, ProductionPower productionPower) {
+    public DevelopmentCard(CardColor color, int level, ArrayList<Resource> cost, int victoryPoints, ProductionPower productionPower) {
         this.color = color;
         this.level = level;
         this.cost = cost;
         this.victoryPoints = victoryPoints;
         this.productionPower = productionPower;
     }
-    public boolean isBuyable(PlayerBoard b){
-        List<Resources> res = b.getResources();
 
+    /**
+     * Checks ia a player have enough resources to buy the card
+     * @param b is the playerboard of the player who wants to buy the card
+     * @return true if the player can buy the card, false if he doesn't
+     */
+    public boolean isBuyable(Playerboard b){
+        ArrayList<Resource> res = b.getResources();
+        for(ResourceType resourceType : ResourceType.values()) {
+            Resource resource = new Resource(resourceType);
+            long isRequired = cost.stream()
+                    .filter(r -> r.equals(resource))
+                    .count();
+            long playerHas = res.stream()
+                    .filter(r -> r.equals(resource))
+                    .count();
+            if (playerHas < isRequired) {
+                return false;
+            }
+        }
 
+        return true;
     }
-    public String getColor() {
+    /**
+     * this method apply the production to a playerboard, it removes the resources that are required to start the production
+     * and add to the strongbox the resources that are produced
+     * @param b playerboard in which che power is applied
+     */
+    public void startProduction(Playerboard b) {
+        ArrayList<Resource> entryResources = this.productionPower.getEntryResources();
+        ArrayList<Resource> productResources = this.productionPower.getProductResources();
+        b.removeResources(entryResources);
+        b.addStrongBox(productResources);
+    }
+
+    public void addPointsTo(Player player){
+        player.addVictoryPoints(victoryPoints);
+    }
+    public CardColor getColor() {
         return color;
     }
 
     public int getLevel() {
         return level;
-    }
-
-    public List<Resource> getCost() {
-        return cost;
     }
 
     public int getVictoryPoints() {
@@ -45,5 +84,9 @@ public class DevelopmentCard extends Card{
 
     public ProductionPower getProductionPower() {
         return productionPower;
+    }
+
+    public ArrayList<Resource> getCost() {
+        return cost;
     }
 }
