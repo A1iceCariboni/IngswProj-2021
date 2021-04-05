@@ -3,7 +3,7 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.Playerboard;
+import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.cards.effects.ProductionPower;
 import org.junit.jupiter.api.AfterEach;
@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 class TempPlayer extends Player {
@@ -31,9 +30,9 @@ class TempPlayer extends Player {
     }
 }
 
-class TempPlayerBoard extends Playerboard {
+class TempPlayerBoard1 extends PlayerBoard {
     private ArrayList<Resource> res;
-    public TempPlayerBoard(ArrayList<Resource> res){
+    public TempPlayerBoard1(ArrayList<Resource> res){
         this.res = res;
     }
     @Override
@@ -56,7 +55,7 @@ class DevelopmentCardTest {
     private static ArrayList<Resource> prod;
     private static ArrayList<Resource> res;
     private static ProductionPower pp;
-    private static Playerboard b;
+    private static PlayerBoard b;
     private static DevelopmentCard dev;
     private static Player p;
 
@@ -118,7 +117,7 @@ class DevelopmentCardTest {
         Resource e2 = new Resource(ResourceType.SERVANT);
         res.add(e1);
         res.add(e2);
-        b = new TempPlayerBoard(res);
+        b = new TempPlayerBoard1(res);
         assertFalse(dev.isBuyable(b));
     }
 
@@ -127,7 +126,7 @@ class DevelopmentCardTest {
      */
     @Test
     void emptyRes() {
-        b = new TempPlayerBoard(res);
+        b = new TempPlayerBoard1(res);
         assertFalse(dev.isBuyable(b));
     }
 
@@ -141,7 +140,7 @@ class DevelopmentCardTest {
          res.add(e1);
          res.add(e1);
          res.add(e2);
-         b = new TempPlayerBoard(res);
+         b = new TempPlayerBoard1(res);
          assertTrue(dev.isBuyable(b));
      }
     /**
@@ -168,7 +167,7 @@ class DevelopmentCardTest {
         res.add(r2);
         res.add(r3);
         res.add(r4);
-        b = new TempPlayerBoard(res);
+        b = new TempPlayerBoard1(res);
         dev.startProduction(b);
         assertEquals(b.getResources().get(0).getResourceType(),ResourceType.SHIELD);
         assertEquals(b.getResources().get(1).getResourceType(),ResourceType.STONE);

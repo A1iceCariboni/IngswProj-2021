@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.cards.effects;
 
 
 import it.polimi.ingsw.enumerations.ResourceType;
-import it.polimi.ingsw.model.Playerboard;
+import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.Resource;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,8 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
-class TempPlayerBoard extends Playerboard{
+class TempPlayerBoard extends PlayerBoard {
     private ArrayList<Resource> res;
     public TempPlayerBoard(ArrayList<Resource> res){
         this.res = res;
@@ -37,7 +36,7 @@ class ProductionPowerTest {
     private static ArrayList<Resource> prod;
     private static ArrayList<Resource> res;
     private static ProductionPower pp;
-    private static Playerboard b;
+    private static PlayerBoard b;
 
     @BeforeAll
     public static void init(){

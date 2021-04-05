@@ -1,9 +1,12 @@
 package it.polimi.ingsw.model;
 
 
+import it.polimi.ingsw.model.cards.DevelopmentCard;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class Playerboard {
+public class PlayerBoard {
 
 
     private ArrayList<Resource> res;
@@ -16,5 +19,9 @@ public class Playerboard {
     }
 
     public void addStrongBox(ArrayList<Resource> productResources) {
+    }
+
+    public ArrayList<DevelopmentCard> getDevCards() {
+        return new ArrayList<>();
     }
 }

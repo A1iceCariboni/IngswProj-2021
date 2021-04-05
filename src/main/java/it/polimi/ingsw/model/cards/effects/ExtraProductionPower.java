@@ -4,14 +4,15 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Resource;
 
 /**
- * this effect is an extra slot in the wharehouse only for resource of type resourceType
+ * this effect is an extra production power that produces a resource resourcetype and a faith point with any resource type as entry resource
+ * @author Alice Cariboni
  */
-public class ExtraSlot implements LeaderEffect{
+public class ExtraProductionPower implements LeaderEffect{
     private final Resource resourceType;
     private final int quantity;
 
 
-    public ExtraSlot(Resource resourceType, int quantity) {
+    public ExtraProductionPower(Resource resourceType, int quantity) {
         this.resourceType = resourceType;
         this.quantity = quantity;
     }

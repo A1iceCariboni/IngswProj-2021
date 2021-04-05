@@ -1,4 +1,6 @@
-package it.polimi.ingsw.model.cards;
+package it.polimi.ingsw.model;
 
-public class Marble implements MarbleEffect{
+import it.polimi.ingsw.model.cards.MarbleEffect;
+
+public class Marble implements MarbleEffect {
 }

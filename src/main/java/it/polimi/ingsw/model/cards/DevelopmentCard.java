@@ -5,13 +5,9 @@ import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.cards.effects.ProductionPower;
-import it.polimi.ingsw.model.Playerboard;
+import it.polimi.ingsw.model.PlayerBoard;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author Alice Cariboni
@@ -38,7 +34,7 @@ public class DevelopmentCard extends Card{
      * @param b is the playerboard of the player who wants to buy the card
      * @return true if the player can buy the card, false if he doesn't
      */
-    public boolean isBuyable(Playerboard b){
+    public boolean isBuyable(PlayerBoard b){
         ArrayList<Resource> res = b.getResources();
         for(ResourceType resourceType : ResourceType.values()) {
             Resource resource = new Resource(resourceType);
@@ -60,7 +56,7 @@ public class DevelopmentCard extends Card{
      * and add to the strongbox the resources that are produced
      * @param b playerboard in which che power is applied
      */
-    public void startProduction(Playerboard b) {
+    public void startProduction(PlayerBoard b) {
         ArrayList<Resource> entryResources = this.productionPower.getEntryResources();
         ArrayList<Resource> productResources = this.productionPower.getProductResources();
         b.removeResources(entryResources);

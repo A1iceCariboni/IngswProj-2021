@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.cards.effects;
 
 import it.polimi.ingsw.enumerations.ResourceType;
-import it.polimi.ingsw.model.Playerboard;
+import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.Resource;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class ProductionPower {
      * @param b is the player board of the player who wants to activate the power
      * @return true is the player can activate the power, false if he hasn't enough resources
      */
-    public boolean isActivable(Playerboard b) {
+    public boolean isActivable(PlayerBoard b) {
         ArrayList<Resource> res = b.getResources();
         for (ResourceType resource : ResourceType.values()) {
             long playerHas = res.stream()

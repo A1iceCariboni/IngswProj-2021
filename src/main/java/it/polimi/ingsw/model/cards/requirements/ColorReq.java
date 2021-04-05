@@ -7,29 +7,27 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import java.util.ArrayList;
 
 /**
- *  this class represent the requirement of a leader card that needs a certain level of development cards owned by the player who wants
+ *  this class represent the requirement of a leader card that needs a certain color of development cards owned by the player who wants
  *  to activate it
  * @author Alice Cariboni
  */
-public class LevelReq implements Requirement{
-    private final int level;
+
+public class ColorReq implements Requirement{
     private final CardColor color;
     private final int quantity;
 
 
-    public LevelReq(int level, CardColor color, int quantity) {
-        this.level = level;
+    public ColorReq(CardColor color, int quantity) {
         this.color = color;
         this.quantity = quantity;
     }
 
-
     @Override
     public boolean hasEnough(PlayerBoard b) {
-        ArrayList<DevelopmentCard> dev = b.getDevCards();
-        long c = dev.stream()
-                    .filter(d -> ((d.getColor() == color)&&(d.getLevel() == level)))
-                    .count();
+        ArrayList<DevelopmentCard> devCards = b.getDevCards();
+        long c = devCards.stream()
+                .filter(d -> d.getColor() == color)
+                .count();
         return c >= quantity;
     }
 }
