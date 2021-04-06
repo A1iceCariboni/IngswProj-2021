@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.ResourceType;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.cards.effects.JollyMarble;
@@ -22,23 +21,18 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Alice Cariboni
  */
-
-class TempPlayerBoard2 extends PlayerBoard {
+class TempPlayerBoard2 extends PlayerBoard{
     private ArrayList<Resource> res;
     private ArrayList<DevelopmentCard> dev;
+
 
     public TempPlayerBoard2(ArrayList<Resource> res, ArrayList<DevelopmentCard> dev) {
         this.res = res;
         this.dev = dev;
     }
-
+    @Override
     public ArrayList<DevelopmentCard> getDevCards() {
         return dev;
-    }
-
-    @Override
-    public ArrayList<Resource> getResources() {
-        return res;
     }
 
     @Override
@@ -47,10 +41,16 @@ class TempPlayerBoard2 extends PlayerBoard {
     }
 
     @Override
+    public ArrayList<Resource> getResources() {
+        return res;
+    }
+
+    @Override
     public void addStrongBox(ArrayList<Resource> productResources) {
         this.res.addAll(productResources);
     }
 }
+
 
 class LeaderCardTest {
     private static PlayerBoard b;

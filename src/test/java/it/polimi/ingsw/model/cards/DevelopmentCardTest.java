@@ -13,26 +13,13 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-class TempPlayer extends Player {
-    private int victoryPoints;
 
-    public TempPlayer(int victoryPoints){
-        this.victoryPoints = victoryPoints;
-    }
 
-    @Override
-    public void addVictoryPoints(int victoryPoints) {
-        this.victoryPoints = this.victoryPoints + victoryPoints;
-    }
-    @Override
-    public int getVictoryPoints() {
-        return victoryPoints;
-    }
-}
 
-class TempPlayerBoard1 extends PlayerBoard {
+class TempPlayerBoard1 extends PlayerBoard{
     private ArrayList<Resource> res;
-    public TempPlayerBoard1(ArrayList<Resource> res){
+
+    public TempPlayerBoard1(ArrayList<Resource> res) {
         this.res = res;
     }
     @Override
@@ -48,7 +35,6 @@ class TempPlayerBoard1 extends PlayerBoard {
         this.res.addAll(productResources);
     }
 }
-
 
 class DevelopmentCardTest {
     private static ArrayList<Resource> entry;
@@ -149,7 +135,10 @@ class DevelopmentCardTest {
 
     @Test
     void addPoints(){
-        p = new TempPlayer(2);
+        ArrayList<LeaderCard> leaderCards = new ArrayList<>();
+        ArrayList<Resource> res = new ArrayList<>();
+        PlayerBoard b = new TempPlayerBoard1(res);
+        p = new Player(false,"ali",2,leaderCards,b);
         dev.addPointsTo(p);
         assertEquals(p.getVictoryPoints(),2+dev.getVictoryPoints());
     }
