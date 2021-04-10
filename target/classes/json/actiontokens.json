@@ -1,0 +1,23 @@
+{
+  "actiontokens" :
+[
+  {
+    "name": "DRAW_YELLOW"
+  },
+  {
+    "name": "DRAW_BLUE"
+  },
+  {
+    "name": "DRAW_GREEN"
+  },
+  {
+    "name": "DRAW_PURPLE"
+  },
+  {
+    "name": "MOVE_2"
+  },
+  {
+    "name": "MOVE_AND_SHUFFLE"
+  }
+]
+}
