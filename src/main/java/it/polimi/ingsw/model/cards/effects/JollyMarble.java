@@ -12,7 +12,7 @@ public class JollyMarble implements LeaderEffect{
     private boolean useThis;
 
 
-    public JollyMarble(Resource resourceType, int quantity) {
+    public JollyMarble(Resource resourceType) {
         this.resourceType = resourceType;
         this.useThis = false;
     }

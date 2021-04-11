@@ -7,18 +7,18 @@ import java.util.Collections;
  * this class represents a deck of any type of card : leader card ora development card
  * @author Alice Cariboni
  */
-public class CardDeck extends Deck{
-   private ArrayList<Card> cardDeck;
+public class DevelopmentCardDeck extends Deck{
+   private ArrayList<DevelopmentCard> cardDeck;
 
-    public CardDeck(ArrayList<Card> cardDeck) {
+    public DevelopmentCardDeck(ArrayList<DevelopmentCard> cardDeck) {
         this.cardDeck = cardDeck;
     }
 
     /**
      * @return first card of the deck and remove the card from the deck
      */
-    public Card popCard(){
-        Card c = cardDeck.get(0);
+    public DevelopmentCard popCard(){
+        DevelopmentCard c = cardDeck.get(0);
         cardDeck.remove(c);
         return c;
     }
@@ -26,7 +26,7 @@ public class CardDeck extends Deck{
     /**
      * @param card add card to the deck
      */
-    public void addCard(Card card){
+    public void addCard(DevelopmentCard card){
         cardDeck.add(card);
     }
 

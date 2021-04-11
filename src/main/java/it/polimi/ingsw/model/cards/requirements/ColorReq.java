@@ -30,4 +30,12 @@ public class ColorReq implements Requirement{
                 .count();
         return c >= quantity;
     }
+
+    public CardColor getColor() {
+        return color;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
 }

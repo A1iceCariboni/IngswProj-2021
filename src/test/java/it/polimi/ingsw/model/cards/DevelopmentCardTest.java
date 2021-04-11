@@ -70,7 +70,7 @@ class DevelopmentCardTest {
         cost.add(r1);
         cost.add(r2);
         pp = new ProductionPower(entry,prod);
-        dev = new DevelopmentCard(CardColor.GREEN,2, cost,10,pp );
+        dev = new DevelopmentCard(1, cost, 2, CardColor.GREEN, pp, 10 );
     }
 
     /**
@@ -157,7 +157,8 @@ class DevelopmentCardTest {
         res.add(r3);
         res.add(r4);
         b = new TempPlayerBoard1(res);
-        dev.startProduction(b);
+        Player p = new Player(false, "ali", 0, new ArrayList<>(), b);
+        dev.startProduction(b,p);
         assertEquals(b.getResources().get(0).getResourceType(),ResourceType.SHIELD);
         assertEquals(b.getResources().get(1).getResourceType(),ResourceType.STONE);
     }

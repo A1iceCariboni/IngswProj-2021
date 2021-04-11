@@ -8,20 +8,24 @@ import it.polimi.ingsw.model.cards.effects.ProductionPower;
 import it.polimi.ingsw.model.PlayerBoard;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Alice Cariboni
  * This class represents a developent card
  */
 public class DevelopmentCard extends Card{
-    private CardColor color;
-    private int level;
+    private int id;
     private ArrayList<Resource> cost;
-    private int victoryPoints;
+    private int level;
+    private CardColor color;
     private ProductionPower productionPower;
+    private int victoryPoints;
 
 
-    public DevelopmentCard(CardColor color, int level, ArrayList<Resource> cost, int victoryPoints, ProductionPower productionPower) {
+    public DevelopmentCard(int id, ArrayList<Resource> cost, int level, CardColor color , ProductionPower productionPower,int victoryPoints ) {
+        this.id = id;
         this.color = color;
         this.level = level;
         this.cost = cost;
@@ -56,10 +60,18 @@ public class DevelopmentCard extends Card{
      * and add to the strongbox the resources that are produced
      * @param b playerboard in which che power is applied
      */
-    public void startProduction(PlayerBoard b) {
+    public void startProduction(PlayerBoard b, Player p) {
         ArrayList<Resource> entryResources = this.productionPower.getEntryResources();
         ArrayList<Resource> productResources = this.productionPower.getProductResources();
         b.removeResources(entryResources);
+        long faithPoints= productResources.stream()
+                            .filter(r -> r.equals(new Resource(ResourceType.FAITH)))
+                            .count();
+        productResources.removeIf(res -> res.equals(new Resource(ResourceType.FAITH)));
+
+
+
+        p.addVictoryPoints((int) faithPoints);
         b.addStrongBox(productResources);
     }
 

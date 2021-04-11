@@ -69,10 +69,10 @@ class LeaderCardTest {
         res.add(new Resource(ResourceType.SERVANT));
         res.add(new Resource(ResourceType.SHIELD));
         pp = new ProductionPower(entry,prod);
-        dev.add(new DevelopmentCard(CardColor.GREEN,2, cost,10,pp ));
-        dev.add(new DevelopmentCard(CardColor.GREEN,3, cost,10,pp));
-        dev.add(new DevelopmentCard(CardColor.YELLOW,1, cost,10,pp));
-        dev.add(new DevelopmentCard(CardColor.GREEN,3, cost,10,pp));
+        dev.add(new DevelopmentCard(1, cost, 2, CardColor.GREEN, pp, 10 ));
+        dev.add(new DevelopmentCard(2, cost, 2, CardColor.GREEN, pp, 10 ));
+        dev.add(new DevelopmentCard(3, cost, 3, CardColor.YELLOW, pp, 10));
+        dev.add(new DevelopmentCard(4, cost, 3, CardColor.GREEN, pp, 10 ));
         b = new TempPlayerBoard2(res,dev);
     }
 
@@ -83,7 +83,7 @@ class LeaderCardTest {
     @Test
     public void isNotActivableLevel(){
         Resource r1 = new Resource(ResourceType.SHIELD);
-        LeaderEffect effect = new JollyMarble( r1 , 1);
+        LeaderEffect effect = new JollyMarble( r1);
         ArrayList<Requirement> req = new ArrayList<>();
         req.add(new LevelReq(3, CardColor.YELLOW, 2));
         leaderCard = new LeaderCard(effect, 10, req);
@@ -96,7 +96,7 @@ class LeaderCardTest {
     @Test
     public void isNotActivableResources(){
         Resource r1 = new Resource(ResourceType.SHIELD);
-        LeaderEffect effect = new JollyMarble( r1 , 1);
+        LeaderEffect effect = new JollyMarble( r1 );
         ArrayList<Requirement> req = new ArrayList<>();
         req.add(new ResourceReq(ResourceType.SHIELD, 2));
         req.add(new ResourceReq(ResourceType.COIN,1));
@@ -110,7 +110,7 @@ class LeaderCardTest {
     @Test
     public void isNotActivableColor(){
         Resource r1 = new Resource(ResourceType.SHIELD);
-        LeaderEffect effect = new JollyMarble( r1 , 1);
+        LeaderEffect effect = new JollyMarble( r1);
         ArrayList<Requirement> req = new ArrayList<>();
         req.add(new ColorReq(CardColor.BLUE,3));
         leaderCard = new LeaderCard(effect, 10, req);
@@ -124,7 +124,7 @@ class LeaderCardTest {
     @Test
     public void isNotActivable(){
         Resource r1 = new Resource(ResourceType.SHIELD);
-        LeaderEffect effect = new JollyMarble( r1 , 1);
+        LeaderEffect effect = new JollyMarble( r1);
         ArrayList<Requirement> req = new ArrayList<>();
         req.add(new ColorReq(CardColor.GREEN,3));
         req.add(new ResourceReq(ResourceType.COIN,2));
@@ -139,7 +139,7 @@ class LeaderCardTest {
     @Test
     public void isActivable(){
         Resource r1 = new Resource(ResourceType.SHIELD);
-        LeaderEffect effect = new JollyMarble( r1 , 1);
+        LeaderEffect effect = new JollyMarble( r1 );
         ArrayList<Requirement> req = new ArrayList<>();
         req.add(new ColorReq(CardColor.GREEN,3));
         req.add(new ResourceReq(ResourceType.COIN,2));
@@ -154,7 +154,7 @@ class LeaderCardTest {
     @Test
         public void emptyArray(){
         Resource r1 = new Resource(ResourceType.SHIELD);
-        LeaderEffect effect = new JollyMarble( r1 , 1);
+        LeaderEffect effect = new JollyMarble( r1);
         ArrayList<Requirement> req = new ArrayList<>();
         leaderCard = new LeaderCard(effect, 10, req);
         assertTrue(leaderCard.isActivableBy(b));
@@ -167,7 +167,7 @@ class LeaderCardTest {
     @Test
     public void activeTest(){
         Resource r1 = new Resource(ResourceType.SHIELD);
-        LeaderEffect effect = new JollyMarble( r1 , 1);
+        LeaderEffect effect = new JollyMarble( r1 );
         ArrayList<Requirement> req = new ArrayList<>();
         req.add(new ColorReq(CardColor.GREEN,3));
         req.add(new ResourceReq(ResourceType.COIN,2));
