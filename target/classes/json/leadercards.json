@@ -1,0 +1,9 @@
+
+[
+  {
+    "isActive": false,
+    "leaderEffect": {"name": "DISCOUNT","resourceType" : "SERVANT", "quantity" :  "1"},
+    "victoryPoints" : 2,
+    "requirements": [{"name": "COLORREQ","color" : "YELLOW", "quantity" :  1}, {"name": "COLORREQ","color" : "GREEN", "quantity" : 1}]
+  }
+]

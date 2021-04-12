@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ingswAM2021-atria-cariboni-canestraci" />
+        <module name="AM26" />
       </profile>
     </annotationProcessing>
   </component>
