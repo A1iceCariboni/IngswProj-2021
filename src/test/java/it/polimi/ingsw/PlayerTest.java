@@ -82,36 +82,24 @@ public class PlayerTest {
 
     /**
      * checks if the card is correctly removed
-     */
-    @Test
-    public void discLcard() {
-        ArrayList<LeaderCard> leaderCards = new ArrayList<>();
-        Resource r1 = new Resource(ResourceType.SHIELD);
-        LeaderEffect effect = new JollyMarble(r1);
-        ArrayList<Requirement> req = new ArrayList<>();
-        LeaderCard card = new LeaderCard(effect, 10, req);
-        PlayerBoard p = new PlayerBoard();
-        //leaderCards.add(card);
-        //assertTrue(leaderCards.contains(card));
-        player1 = new Player(false, "Bob", 5, leaderCards, p);
-        leaderCards.remove(card);
-        assertFalse(leaderCards.contains(card));
-    }
-
-
-    /**
      * @throws NullCardException when the player doesn't have the leader card
      */
     @Test
-    public void LeaderCardnotFound(){
+    public void discLcard() throws NullCardException {
         ArrayList<LeaderCard> leaderCards = new ArrayList<>();
         Resource r1 = new Resource(ResourceType.SHIELD);
         LeaderEffect effect = new JollyMarble(r1);
         ArrayList<Requirement> req = new ArrayList<>();
         LeaderCard card = new LeaderCard(effect, 10, req);
         PlayerBoard p = new PlayerBoard();
+        leaderCards.add(card);
+        assertTrue(leaderCards.contains(card));
         player1 = new Player(false, "Bob", 5, leaderCards, p);
+        player1.discardLeader(card);
+        assertFalse(leaderCards.contains(card));
         assertThrows(NullCardException.class, () -> player1.discardLeader(card));
     }
+
+
 
 }
