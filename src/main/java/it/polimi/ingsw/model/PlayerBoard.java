@@ -29,6 +29,9 @@ public class PlayerBoard {
 
     public void addStrongBox(ArrayList<Resource> productResources) {
     }
+    public void moveFaithMarker(int pos){
+        this.faithMarker = this.faithMarker + pos;
+    }
 
     public ArrayList<DevelopmentCard> getDevCards() {
         return new ArrayList<>();
