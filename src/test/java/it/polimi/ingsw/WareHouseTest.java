@@ -24,7 +24,6 @@ public class WareHouseTest {
 
     @Before
     public void setUp() {
-        ArrayList<WareHouse> w = new ArrayList<>();
         wareHouse = new WareHouse();
 
     }
@@ -32,7 +31,6 @@ public class WareHouseTest {
     /**
      * checks if warehouse can get depots
      */
-
     @Test
     public void getDepots() {
         ArrayList<Resource> res = new ArrayList<>();
