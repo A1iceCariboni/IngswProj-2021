@@ -65,14 +65,12 @@ public class DepotTest {
         resources.add(r2);
         nRes = resources.size();
         assertTrue(nRes == 2);
+        assertTrue(depot1.getDepot().contains(r1));
         depot1.removeResource(r1);
+        assertFalse(depot1.getDepot().contains(r1));
         nRes = resources.size();
         assertTrue(nRes == 1);
         assertFalse(nRes == 2);
-        depot1.removeResource(r1);
-        nRes = resources.size();
-        assertFalse(nRes == 2);
-
     }
 
     /**
@@ -92,6 +90,9 @@ public class DepotTest {
         depot1.addResource(r3);
         nRes = resources.size();
         assertTrue(nRes == 3);
+        assertTrue(depot1.getDepot().contains(r1));
+        assertTrue(depot1.getDepot().contains(r2));
+        assertTrue(depot1.getDepot().contains(r3));
         depot1.addResource(r4);
         nRes = resources.size();
         assertFalse(nRes == 4);
