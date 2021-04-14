@@ -15,8 +15,12 @@ import java.util.stream.Collectors;
 public class DevelopmentCardDeck extends Deck{
    private ArrayList<DevelopmentCard> cardDeck;
 
+    public DevelopmentCardDeck(ArrayList<DevelopmentCard> cardDeck) {
+        this.cardDeck = cardDeck;
+    }
+
     public DevelopmentCardDeck() {
-        this.cardDeck = DevelopentCardParser.parseDevCards();
+     this.cardDeck = new ArrayList<>();
     }
 
     /**

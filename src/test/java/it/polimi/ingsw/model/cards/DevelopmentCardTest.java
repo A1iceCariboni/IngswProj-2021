@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.cards.effects.ProductionPower;
+import it.polimi.ingsw.utility.DevelopentCardParser;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -165,7 +166,7 @@ class DevelopmentCardTest {
 
     @Test
     void getByColor(){
-        DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck();
+        DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck(DevelopentCardParser.parseDevCards());
         assertFalse(developmentCardDeck.isEmpty());
          int size1 = developmentCardDeck.getCardDeck().size();
         DevelopmentCard dev = developmentCardDeck.getByColor(CardColor.GREEN);
@@ -176,7 +177,7 @@ class DevelopmentCardTest {
 
     @Test
     void getByLevel(){
-        DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck();
+        DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck(DevelopentCardParser.parseDevCards());
         assertFalse(developmentCardDeck.isEmpty());
         int size1 = developmentCardDeck.getCardDeck().size();
         DevelopmentCard dev = developmentCardDeck.getByLevel(2);
@@ -187,7 +188,7 @@ class DevelopmentCardTest {
 
     @Test
     void getByLevelAndColor(){
-        DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck();
+        DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck(DevelopentCardParser.parseDevCards());
         assertFalse(developmentCardDeck.isEmpty());
         int size1 = developmentCardDeck.getCardDeck().size();
         DevelopmentCard dev = developmentCardDeck.getByColorAndLevel(CardColor.BLUE,3);

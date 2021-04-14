@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
-import it.polimi.ingsw.model.FaithTrack;
-import it.polimi.ingsw.model.MarketTray;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.cards.Deck;
+import it.polimi.ingsw.model.cards.*;
+import it.polimi.ingsw.utility.DevelopentCardParser;
+import it.polimi.ingsw.utility.LeaderCardParser;
 
 import java.util.ArrayList;
 
@@ -13,16 +13,31 @@ import java.util.ArrayList;
  * the class controls the game if there are more than 1 player
  */
 public class MultiGame extends Game {
-    private Deck deckLeader;
-    private Deck deckDevelopment[][];
+    private LeaderDeck deckLeader;
+    private DevelopmentCardDeck[][] deckDevelopment;
     private FaithTrack faithTrack;
     private MarketTray marketTray;
-    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Player> players;
 
-    public MultiGame(ArrayList<Player> players, FaithTrack faithTrack, MarketTray marketTray){
+    public MultiGame(ArrayList<Player> players) throws JsonFileNotFoundException {
         this.players = players;
-        this.faithTrack = faithTrack;
-        this.marketTray = marketTray;
+        this.faithTrack = new FaithTrack();
+        this.marketTray = new MarketTray();
+        deckLeader = new LeaderDeck(LeaderCardParser.parseLeadCards());
+        this.deckDevelopment = new DevelopmentCardDeck[3][4];
+        for(int r = 0; r< 3; r++) {
+            for (int c = 0; c < 4; c++) {
+                this.deckDevelopment[r][c] = new DevelopmentCardDeck();
+            }
+        }
+        DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck(DevelopentCardParser.parseDevCards());
+        CardColor[] colors = {CardColor.GREEN, CardColor.YELLOW, CardColor.PURPLE, CardColor.BLUE};
+        for(int r = 0; r< 3; r++){
+            for(int c = 0; c< 4; c++){
+                this.deckDevelopment[r][c].addCard(developmentCardDeck.getByColorAndLevel(colors[c],r+1));
+            }
+        }
+
     }
 
     /**
@@ -30,10 +45,7 @@ public class MultiGame extends Game {
      */
     @Override
     public void startGame() throws JsonFileNotFoundException {
-        faithTrack = new FaithTrack();
-        marketTray = new MarketTray();
-        players = new ArrayList<Player>();
-
+        players = new ArrayList<>();
     }
 
     /**
@@ -105,11 +117,29 @@ public class MultiGame extends Game {
         return players.get(i);
     }
     @Override
-    public MarketTray getMarketTray(){ return this.marketTray;}
+    public MarketTray getMarketTray(){ return marketTray;}
     @Override
-    public FaithTrack getFaithTrack(){ return this.faithTrack;}
+    public FaithTrack getFaithTrack(){ return faithTrack;}
 
-    public ArrayList<Player> getPlayers(){ return this.players;}
+    public ArrayList<Player> getPlayers(){ return players;}
+
+    public LeaderDeck getDeckLeader() {
+        return deckLeader;
+    }
+
+    /**
+     *
+     * @param col column in the grid of dev cards
+     * @param row row in the grid of dev cards
+     * @return the card i have required and remove it from the table
+     */
+    public DevelopmentCard getCardFrom(int col, int row){
+       return this.deckDevelopment[row][col].popCard();
+    }
+
+    public DevelopmentCardDeck[][] getDeckDevelopment() {
+        return deckDevelopment;
+    }
 }
 
 
