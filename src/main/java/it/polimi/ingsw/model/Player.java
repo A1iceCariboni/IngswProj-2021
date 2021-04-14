@@ -124,6 +124,12 @@ public class Player {
     public void addPossibleWhiteMarbles(Resource possibleWhiteMarble) {
         this.possibleWhiteMarbles.add(possibleWhiteMarble);
     }
+
+    public void setInkwell(boolean b) {
+    }
+
+    public void setYourTurn(boolean b) {
+    }
 }
 
 
