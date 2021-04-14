@@ -40,4 +40,9 @@ public class PlayerBoard {
     public ArrayList<Resource> getResources() {
       return new ArrayList<>();
     }
+
+    public void addExtraDepot(Resource resource, int dimension){
+        ExtraDepot extraDepot = new ExtraDepot(dimension,resource);
+        this.wareHouse.addDepot(extraDepot);
+    }
 }

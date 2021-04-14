@@ -1,4 +1,6 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.exceptions.NotPossibleToAdd;
+
 import java.util.ArrayList;
 
 /**
@@ -18,7 +20,7 @@ public class WareHouse {
      * @param to is the depot where the resource res is moved
      * @param res is the resource moved
      */
-    public void moveResouces(Depot from, Depot to, Resource res){
+    public void moveResouces(Depot from, Depot to, Resource res) throws NotPossibleToAdd {
         from.removeResource(res);
         to.addResource(res);
     }

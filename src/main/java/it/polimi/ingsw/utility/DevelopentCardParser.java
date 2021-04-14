@@ -18,7 +18,7 @@ public class DevelopentCardParser {
 private DevelopentCardParser(){
 
 }
-    public static DevelopmentCardDeck parseDevCards() {
+    public static ArrayList<DevelopmentCard> parseDevCards() {
         String path = "/json/developmentcards.json";
 
         Gson gson = new Gson();
@@ -26,6 +26,6 @@ private DevelopentCardParser(){
                 JsonObject.class.getResourceAsStream(path)));
         DevelopmentCard[] developmentCards = gson.fromJson(reader, DevelopmentCard[].class);
         ArrayList<DevelopmentCard> developmentCardArrayList = new ArrayList<>(Arrays.asList(developmentCards));
-        return new DevelopmentCardDeck(developmentCardArrayList);
+        return developmentCardArrayList;
     }
 }

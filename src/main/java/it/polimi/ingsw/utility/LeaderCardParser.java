@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.LeaderDeck;
 import it.polimi.ingsw.model.cards.TokenDeck;
 import it.polimi.ingsw.model.cards.effects.*;
 import it.polimi.ingsw.model.cards.requirements.ColorReq;
@@ -27,7 +28,7 @@ public class LeaderCardParser {
 
         private LeaderCardParser(){
         }
-        public static void parseLeadCards() throws JsonFileNotFoundException {
+        public static ArrayList<LeaderCard> parseLeadCards() throws JsonFileNotFoundException {
             ArrayList<LeaderCard> leaderCards = new ArrayList<>();
             String path = "/json/leadercards.json";
 
@@ -120,7 +121,7 @@ public class LeaderCardParser {
                 }
 
             }
-            System.out.println(leaderCards.get(0).getRequirements());
+            return leaderCards;
         }
     }
 

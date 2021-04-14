@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.enumerations.PlayerMove;
 import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.effects.ProductionPower;
 
 import java.util.ArrayList;
 
@@ -16,6 +18,10 @@ public class Player {
     private int victoryPoints;
     private ArrayList<LeaderCard> leaderCards;
     private PlayerBoard playerBoard;
+    private PlayerMove playerMove;
+    private ArrayList<Resource> discountedResource;
+    private ArrayList<ExtraProduction> extraProductionPowers;
+    private ArrayList<Resource> possibleWhiteMarbles;
 
     public Player(boolean inkwell, String nickName, int victoryPoints, ArrayList<LeaderCard> leaderCards, PlayerBoard playerBoard) {
         this.inkwell = inkwell;
@@ -23,6 +29,9 @@ public class Player {
         this.victoryPoints = victoryPoints;
         this.leaderCards = leaderCards;
         this.playerBoard = playerBoard;
+        this.discountedResource = new ArrayList<>();
+        this.extraProductionPowers = new ArrayList<>();
+        this.possibleWhiteMarbles = new ArrayList<>();
     }
 
     public String getNickName() {
@@ -71,8 +80,50 @@ public class Player {
     }
 
 
+    public PlayerMove getPlayerMove() {
+        return playerMove;
+    }
+
+    public void setPlayerMove(PlayerMove playerMove) {
+        this.playerMove = playerMove;
+    }
+
+    /**
+     *
+     * @return an arraylist of the discounted resources because of a leadercard effect
+     */
+    public ArrayList<Resource> getDiscountedResource() {
+        return discountedResource;
+    }
+
+    public void addDiscountedResource(Resource discountedResource) {
+        this.discountedResource.add(discountedResource);
+    }
 
 
+    /**
+     *
+     * @return an array list of extra production powers given by some leadercards effects
+     */
+    public ArrayList<ExtraProduction> getExtraProductionPowers() {
+        return extraProductionPowers;
+    }
+
+    public void addExtraProductionPowers(ExtraProduction extraProduction) {
+        this.extraProductionPowers.add(extraProduction);
+    }
+
+    /**
+     *
+     * @return an array list of resources that the white marbles can give to the player if it' empty the white marbels give no resources
+     */
+    public ArrayList<Resource> getPossibleWhiteMarbles() {
+        return possibleWhiteMarbles;
+    }
+
+    public void addPossibleWhiteMarbles(Resource possibleWhiteMarble) {
+        this.possibleWhiteMarbles.add(possibleWhiteMarble);
+    }
 }
 
 

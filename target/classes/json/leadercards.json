@@ -2,8 +2,98 @@
 [
   {
     "isActive": false,
-    "leaderEffect": {"name": "DISCOUNT","resourceType" : "SERVANT", "quantity" :  "1"},
+    "leaderEffect": {"name": "DISCOUNT","resourceType" : "SERVANT", "quantity" :  1},
     "victoryPoints" : 2,
     "requirements": [{"name": "COLORREQ","color" : "YELLOW", "quantity" :  1}, {"name": "COLORREQ","color" : "GREEN", "quantity" : 1}]
+  },
+  {
+    "isActive": false,
+    "leaderEffect": {"name": "DISCOUNT","resourceType" : "SHIELD", "quantity" :  1},
+    "victoryPoints" : 2,
+    "requirements": [{"name": "COLORREQ","color" : "BLUE", "quantity" :  1}, {"name": "COLORREQ","color" : "PURPLE", "quantity" : 1}]
+  },
+  {
+    "isActive": false,
+    "leaderEffect": {"name": "EXTRA_PRODUCTION_POWER","resourceType" : "COIN", "quantity" :  1},
+    "victoryPoints" : 2,
+    "requirements": [{"name": "LEVELREQ","color" : "GREEN", "quantity" :  1, "level" :  2}]
+  },
+  {
+  "isActive": false,
+  "leaderEffect": {"name": "DISCOUNT","resourceType" : "STONE", "quantity" :  1},
+  "victoryPoints" : 2,
+  "requirements": [{"name": "COLORREQ","color" : "GREEN", "quantity" :  1}, {"name": "COLORREQ","color" : "BLUE", "quantity" : 1}]
+},
+  {
+    "isActive": false,
+    "leaderEffect": {"name": "DISCOUNT","resourceType" : "COIN", "quantity" :  1},
+    "victoryPoints" : 2,
+    "requirements": [{"name": "COLORREQ","color" : "YELLOW", "quantity" :  1}, {"name": "COLORREQ","color" : "PURPLE", "quantity" : 1}]
+  },
+  {
+    "isActive": false,
+    "leaderEffect": {"name": "EXTRA_SLOT","resourceType" : "STONE", "quantity" :  2},
+    "victoryPoints" : 3,
+    "requirements": [{"name": "RESOURCEREQ", "resourceType" : "COIN", "quantity" :  5}]
+  },
+  {
+    "isActive": false,
+    "leaderEffect": {"name": "EXTRA_SLOT","resourceType" : "SERVANT", "quantity" :  2},
+    "victoryPoints" : 3,
+    "requirements": [{"name": "RESOURCEREQ", "resourceType" : "STONE", "quantity" :  5}]
+  },
+  {
+    "isActive": false,
+    "leaderEffect": {"name": "EXTRA_SLOT","resourceType" : "SHIELD", "quantity" :  2},
+    "victoryPoints" : 3,
+    "requirements": [{"name": "RESOURCEREQ", "resourceType" : "SERVANT", "quantity" :  5}]
+  },
+  {
+    "isActive": false,
+    "leaderEffect": {"name": "EXTRA_SLOT","resourceType" : "COIN", "quantity" :  2},
+    "victoryPoints" : 3,
+    "requirements": [{"name": "RESOURCEREQ", "resourceType" : "SHIELD", "quantity" :  5}]
+  },
+  {
+    "isActive": false,
+    "leaderEffect": {"name": "JOLLY_MARBLE","resourceType" : "SERVANT"},
+    "victoryPoints" : 5,
+    "requirements": [{"name": "COLORREQ","color" : "YELLOW", "quantity" :  2},{"name": "COLORREQ","color" : "BLUE", "quantity" :  1}]
+  },
+  {
+    "isActive": false,
+    "leaderEffect": {"name": "JOLLY_MARBLE","resourceType" : "SHIELD"},
+    "victoryPoints" : 5,
+    "requirements": [{"name": "COLORREQ","color" : "GREEN", "quantity" :  2},{"name": "COLORREQ","color" : "PURPLE", "quantity" :  1}]
+  },
+  {
+    "isActive": false,
+    "leaderEffect": {"name": "JOLLY_MARBLE","resourceType" : "STONE"},
+    "victoryPoints" : 5,
+    "requirements": [{"name": "COLORREQ","color" : "BLUE", "quantity" :  2},{"name": "COLORREQ","color" : "YELLOW", "quantity" :  1}]
+  },
+  {
+    "isActive": false,
+    "leaderEffect": {"name": "JOLLY_MARBLE","resourceType" : "COIN"},
+    "victoryPoints" : 5,
+    "requirements": [{"name": "COLORREQ","color" : "PURPLE", "quantity" :  2},{"name": "COLORREQ","color" : "GREEN", "quantity" :  1}]
+  },
+  {
+    "isActive": false,
+    "leaderEffect": {"name": "EXTRA_PRODUCTION_POWER","resourceType" : "SHIELD", "quantity" :  1},
+    "victoryPoints" : 4,
+    "requirements": [{"name": "LEVELREQ","color" : "YELLOW", "quantity" :  1, "level" :  2}]
+  },
+  {
+    "isActive": false,
+    "leaderEffect": {"name": "EXTRA_PRODUCTION_POWER","resourceType" : "SERVANT", "quantity" :  1},
+    "victoryPoints" : 4,
+    "requirements": [{"name": "LEVELREQ","color" : "BLUE", "quantity" :  1, "level" :  2}]
+  },
+  {
+    "isActive": false,
+    "leaderEffect": {"name": "EXTRA_PRODUCTION_POWER","resourceType" : "STONE", "quantity" :  1},
+    "victoryPoints" : 4,
+    "requirements": [{"name": "LEVELREQ","color" : "PURPLE", "quantity" :  1, "level" :  2}]
   }
 ]

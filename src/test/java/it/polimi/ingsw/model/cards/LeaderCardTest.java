@@ -71,7 +71,7 @@ class LeaderCardTest {
         pp = new ProductionPower(entry,prod);
         dev.add(new DevelopmentCard(1, cost, 2, CardColor.GREEN, pp, 10 ));
         dev.add(new DevelopmentCard(2, cost, 2, CardColor.GREEN, pp, 10 ));
-        dev.add(new DevelopmentCard(3, cost, 3, CardColor.YELLOW, pp, 10));
+        dev.add(new DevelopmentCard(3, cost, 1, CardColor.YELLOW, pp, 10));
         dev.add(new DevelopmentCard(4, cost, 3, CardColor.GREEN, pp, 10 ));
         b = new TempPlayerBoard2(res,dev);
     }

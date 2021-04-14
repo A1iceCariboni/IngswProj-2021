@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model.cards.effects;
 
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.*;
+
+import java.util.ArrayList;
 
 /**
  * this effect is an extra production power that produces a resource resourcetype and a faith point with any resource type as entry resource
@@ -18,8 +19,13 @@ public class ExtraProductionPower implements LeaderEffect{
     }
 
     @Override
-    public void applyEffect(Player p) {
-
+    public void applyEffect(Player p, PlayerBoard b) {
+        ArrayList<Resource> entryResources = new ArrayList<>();
+        for(int i = 0; i<quantity; i++){
+            entryResources.add(resourceType);
+        }
+        ExtraProduction extraProduction = new ExtraProduction(entryResources);
+        p.addExtraProductionPowers(extraProduction);
     }
 
     public Resource getResourceType() {

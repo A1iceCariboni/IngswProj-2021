@@ -9,12 +9,12 @@ import java.util.ArrayList;
      * @author Alessandra Atria
      */
 
-    public class ExtraDepot{
+    public class ExtraDepot extends Depot{
             private int dimension;
             private ArrayList<Resource> resType;
-            private ResourceType type  ;
+            private Resource type  ;
 
-        public ExtraDepot(int dimension, ResourceType type) {
+        public ExtraDepot(int dimension, Resource type) {
             this.dimension = dimension;
             this.resType = new ArrayList<>();
             this.type = type;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
          * @throws NotPossibleToAdd if the depot is full or if the resource is not of the same type
          */
         public void addResource(Resource res) throws NotPossibleToAdd {
-            if(!res.getResourceType().equals(type) || this.resType.size() >= dimension){
+            if(!res.getResourceType().equals(type.getResourceType()) || this.resType.size() >= dimension){
                 throw new NotPossibleToAdd();
             }else
                 this.resType.add(res);

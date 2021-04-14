@@ -1,4 +1,5 @@
 package it.polimi.ingsw;
+import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.model.Depot;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.WareHouse;
@@ -51,7 +52,7 @@ public class WareHouseTest {
      * checks if resources can be moved from a depot to another one
      */
     @Test
-    public void moveRes() {
+    public void moveRes() throws NotPossibleToAdd {
         ArrayList<Resource> res = new ArrayList<>();
         ArrayList<Resource> res2 = new ArrayList<>();
         Resource r1 = new Resource(COIN);

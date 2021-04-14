@@ -19,7 +19,9 @@ public class ProductionPower {
         this.productResources = productResources;
     }
 
+    public ProductionPower() {
 
+    }
 
 
     /**

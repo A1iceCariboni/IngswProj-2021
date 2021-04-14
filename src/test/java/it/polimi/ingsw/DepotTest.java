@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 import it.polimi.ingsw.enumerations.ResourceType;
+import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.model.Depot;
 import it.polimi.ingsw.model.Resource;
 import org.junit.Before;
@@ -77,7 +78,7 @@ public class DepotTest {
      * checks if resources can be added to depot
      */
     @Test
-    public void addRes(){
+    public void addRes() throws NotPossibleToAdd {
         int nRes;
         ArrayList<Resource> resources = new ArrayList<>();
         Resource r1 = new Resource(ResourceType.COIN);
@@ -104,7 +105,7 @@ public class DepotTest {
      */
 
     @Test
-    public void isEmpty(){
+    public void isEmpty() throws NotPossibleToAdd {
         ArrayList<Resource> resources = new ArrayList<>();
         Resource r1 = new Resource(ResourceType.COIN);
         depot1 = new Depot( 3, resources);

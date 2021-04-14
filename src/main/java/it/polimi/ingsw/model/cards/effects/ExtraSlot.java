@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.cards.effects;
 
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.Resource;
 
 /**
@@ -17,8 +19,8 @@ public class ExtraSlot implements LeaderEffect{
     }
 
     @Override
-    public void applyEffect(Player p) {
-
+    public void applyEffect(Player p, PlayerBoard b) {
+    b.addExtraDepot(resourceType,quantity);
     }
 
     public Resource getResourceType() {

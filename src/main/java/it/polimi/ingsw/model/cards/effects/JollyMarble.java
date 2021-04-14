@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.cards.effects;
 
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.Resource;
 
 /**
@@ -9,28 +11,19 @@ import it.polimi.ingsw.model.Resource;
  */
 public class JollyMarble implements LeaderEffect{
     private final Resource resourceType;
-    private boolean useThis;
 
 
     public JollyMarble(Resource resourceType) {
         this.resourceType = resourceType;
-        this.useThis = false;
     }
 
     @Override
-    public void applyEffect(Player p) {
-
+    public void applyEffect(Player p, PlayerBoard b) {
+    p.addPossibleWhiteMarbles(resourceType);
     }
 
     public Resource getResourceType() {
         return resourceType;
     }
 
-    public void useThis(){
-        this.useThis = true;
-    }
-
-    public void dontUseThis(){
-        this.useThis = false;
-    }
 }

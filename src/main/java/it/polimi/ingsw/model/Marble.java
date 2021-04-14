@@ -23,4 +23,13 @@ public class Marble{
     public MarbleEffect getMarbleEffect() {
         return marbleEffect;
     }
+
+    @Override
+    public boolean equals(Object other){
+        if (!(other instanceof Marble)) {
+            return false;
+        }
+        Marble otherResource = (Marble)other;
+        return otherResource.getMarbleColor() == marbleColor;
+    }
 }

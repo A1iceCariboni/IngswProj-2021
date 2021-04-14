@@ -1,4 +1,6 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.exceptions.NotPossibleToAdd;
+
 import java.util.ArrayList;
 
 /**
@@ -14,11 +16,14 @@ import java.util.ArrayList;
             this.resources = resources;
         }
 
+    public Depot() {
+    }
+
     /**
      * This method adds resources to the depot
      * @param res represents the resource to add
      */
-        public void addResource(Resource res){
+        public void addResource(Resource res) throws NotPossibleToAdd {
             int countRes;
                 countRes = this.resources.size();
                 if(countRes < dimension)

@@ -89,4 +89,27 @@ public class TempMarketTray {
         this.slidingMarble = marbles1.get(cont);
 
     }
+
+    public ArrayList<Marble> getRow(int r){
+        ArrayList<Marble> rowMarble = new ArrayList<>();
+        for( int c = 0; c< 4; c++){
+            rowMarble.add(marbles[r][c]);
+        }
+        Marble temp = slidingMarble;
+        this.slidingMarble = marbles[r][3];
+        for(int c = 3; c > 0 ; c--){
+            this.marbles[r][c] = marbles[r][c - 1];
+        }
+        this.marbles[r][0] = temp;
+        return rowMarble;
+    }
+
+
+    public Marble[][] getMarbles() {
+        return marbles;
+    }
+
+    public Marble getSlidingMarble() {
+        return slidingMarble;
+    }
 }

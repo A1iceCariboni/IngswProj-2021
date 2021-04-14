@@ -162,4 +162,38 @@ class DevelopmentCardTest {
         assertEquals(b.getResources().get(0).getResourceType(),ResourceType.SHIELD);
         assertEquals(b.getResources().get(1).getResourceType(),ResourceType.STONE);
     }
+
+    @Test
+    void getByColor(){
+        DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck();
+        assertFalse(developmentCardDeck.isEmpty());
+         int size1 = developmentCardDeck.getCardDeck().size();
+        DevelopmentCard dev = developmentCardDeck.getByColor(CardColor.GREEN);
+        assertTrue(dev.getColor() == CardColor.GREEN);
+        int size2 = developmentCardDeck.getCardDeck().size();
+        assertTrue(size1 == size2 + 1);
+    }
+
+    @Test
+    void getByLevel(){
+        DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck();
+        assertFalse(developmentCardDeck.isEmpty());
+        int size1 = developmentCardDeck.getCardDeck().size();
+        DevelopmentCard dev = developmentCardDeck.getByLevel(2);
+        assertTrue(dev.getLevel() == 2);
+        int size2 = developmentCardDeck.getCardDeck().size();
+        assertTrue(size1 == size2 + 1);
+    }
+
+    @Test
+    void getByLevelAndColor(){
+        DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck();
+        assertFalse(developmentCardDeck.isEmpty());
+        int size1 = developmentCardDeck.getCardDeck().size();
+        DevelopmentCard dev = developmentCardDeck.getByColorAndLevel(CardColor.BLUE,3);
+        assertTrue(dev.getLevel() == 3);
+        assertTrue(dev.getColor() == CardColor.BLUE);
+        int size2 = developmentCardDeck.getCardDeck().size();
+        assertTrue(size1 == size2 + 1);
+    }
 }

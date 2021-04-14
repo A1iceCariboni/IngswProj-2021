@@ -56,9 +56,6 @@ private final ArrayList<Requirement> requirements;
         return true;
     }
 
-    public void applyEffectOn(Player p){
-        this.leaderEffect.applyEffect(p);
-    }
 
 }
 
