@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public abstract class Deck {
-    public abstract void shuffle();
+    private ArrayList<Card> cardDeck;
+
+
+
+
+        public abstract void shuffle();
 
 
 }

@@ -42,10 +42,9 @@ public abstract class Game {
 
     /**
      * it decides who is the player that has to play next
-     * @param player the player that ends the turn
      * @return the player that has to play next
      */
-    public abstract Player nextPlayer(Player player);
+    public abstract Player nextPlayer();
 
     public abstract MarketTray getMarketTray();
 

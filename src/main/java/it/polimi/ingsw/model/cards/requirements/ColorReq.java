@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *  this class represent the requirement of a leader card that needs a certain color of development cards owned by the player who wants
@@ -24,7 +25,7 @@ public class ColorReq implements Requirement{
 
     @Override
     public boolean hasEnough(PlayerBoard b) {
-        ArrayList<DevelopmentCard> devCards = b.getDevCards();
+        ArrayList<DevelopmentCard> devCards  = b.getAllDevelopmentCards();
         long c = devCards.stream()
                 .filter(d -> d.getColor() == color)
                 .count();

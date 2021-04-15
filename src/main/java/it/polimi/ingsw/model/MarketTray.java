@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * @autor Sofia Canestraci
@@ -58,30 +59,20 @@ public class MarketTray {
                     break;
                 case BLUE:
                     marbleEffect = playerBoard -> {
-                        ArrayList<Resource> res = new ArrayList<>();
-                        res.add(new Resource(ResourceType.SHIELD));
-                        playerBoard.addStrongBox(res);};
+                        playerBoard.getStrongBox().addResources(new Resource(ResourceType.SHIELD));};
                     marbles1 .add(new Marble(marbleColor,marbleEffect));
                     break;
                 case GREY:
                     marbleEffect = playerBoard -> {
-                        ArrayList<Resource> res = new ArrayList<>();
-                        res.add(new Resource(ResourceType.STONE));
-                        playerBoard.addStrongBox(res);};
+                        playerBoard.getStrongBox().addResources(new Resource(ResourceType.STONE));};
                     marbles1 .add(new Marble(marbleColor,marbleEffect));
                     break;
                 case YELLOW:
-                    marbleEffect = playerBoard -> {
-                        ArrayList<Resource> res = new ArrayList<>();
-                        res.add(new Resource(ResourceType.COIN));
-                        playerBoard.addStrongBox(res);};
+                    marbleEffect = playerBoard -> {playerBoard.getStrongBox().addResources(new Resource(ResourceType.COIN));};
                     marbles1 .add(new Marble(marbleColor,marbleEffect));
                     break;
                 case PURPLE:
-                    marbleEffect = playerBoard -> {
-                        ArrayList<Resource> res = new ArrayList<>();
-                        res.add(new Resource(ResourceType.SERVANT));
-                        playerBoard.addStrongBox(res);};
+                    marbleEffect = playerBoard -> {playerBoard.getStrongBox().addResources(new Resource(ResourceType.SERVANT));};
                     marbles1 .add(new Marble(marbleColor,marbleEffect));
                     break;
                 case RED:

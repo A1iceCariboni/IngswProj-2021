@@ -123,12 +123,31 @@ public class PlayerBoardTest {
         d2 = new DevelopmentCard(1, cost, 3, CardColor.GREEN, pp, 10 );
         p = new PlayerBoard(w,s);
         p.addDevCard(d1,2);
-        assertEquals(p.getDevelopmentCards()[2].getColor(), CardColor.PURPLE);
-        assertEquals(p.getDevelopmentCards()[2].getLevel(), 1);
-        assertEquals(p.getDevelopmentCards()[2].getCost(), cost);
-        assertEquals(p.getDevelopmentCards()[2].getVictoryPoints(), 5);
-        assertEquals(p.getDevelopmentCards()[2].getProductionPower(), pp);
+        assertEquals(p.getDevelopmentCards().get(0).getColor(), CardColor.PURPLE);
+        assertEquals(p.getDevelopmentCards().get(0).getLevel(), 1);
+        assertEquals(p.getDevelopmentCards().get(0).getCost(), cost);
+        assertEquals(p.getDevelopmentCards().get(0).getVictoryPoints(), 5);
+        assertEquals(p.getDevelopmentCards().get(0).getProductionPower(), pp);
         assertThrows(CannotAdd.class, () -> p.addDevCard(d2,2));
+    }
+
+    @Test
+    public void addAll() throws CannotAdd {
+        DevelopmentCard d1 = new DevelopmentCard(1, new ArrayList<>(), 1, CardColor.PURPLE, pp, 5 );
+        DevelopmentCard d2 = new DevelopmentCard(2, new ArrayList<>(), 2, CardColor.GREEN, pp, 10 );
+        DevelopmentCard d3 = new DevelopmentCard(3, new ArrayList<>(), 3, CardColor.PURPLE, pp, 5 );
+        DevelopmentCard d4 = new DevelopmentCard(4, new ArrayList<>(), 1, CardColor.GREEN, pp, 10 );
+        DevelopmentCard d5 = new DevelopmentCard(5, new ArrayList<>(), 2, CardColor.PURPLE, pp, 5 );
+        DevelopmentCard d6 = new DevelopmentCard(6, new ArrayList<>(), 3, CardColor.GREEN, pp, 10 );
+        DevelopmentCard d7 = new DevelopmentCard(7, new ArrayList<>(), 1, CardColor.PURPLE, pp, 5 );
+        Player p1 = new Player(false,"ale",1,new PlayerBoard(new WareHouse(), new StrongBox()));
+        p1.getPlayerBoard().addDevCard(d1,0);
+        p1.getPlayerBoard().addDevCard(d2,0);
+        p1.getPlayerBoard().addDevCard(d3,0);
+        assertEquals(d1,p1.getPlayerBoard().getCoveredDevCards().get(0));
+        assertEquals(d2,p1.getPlayerBoard().getCoveredDevCards().get(1));
+        assertEquals(d3,p1.getPlayerBoard().getDevelopmentCards().get(0));
+        assertEquals(p1.getPlayerBoard().getCountDevCards(), 3);
     }
 
 

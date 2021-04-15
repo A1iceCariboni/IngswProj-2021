@@ -1,4 +1,5 @@
 package it.polimi.ingsw;
+import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.model.FakePlayer;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         private static int b;
 
         @Before
-        public void setUp() {
+        public void setUp() throws JsonFileNotFoundException {
             f = new FakePlayer(b);
         }
 
@@ -25,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
      * checks if black cross can be moved of n pos
      */
         @Test
-        public void moveBCross(){
+        public void moveBCross() throws JsonFileNotFoundException {
             b = 5;
             f = new FakePlayer(b);
             assertEquals( f.getBlackCross(), 5 );

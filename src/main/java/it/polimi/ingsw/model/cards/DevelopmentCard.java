@@ -64,7 +64,6 @@ public class DevelopmentCard extends Card{
     public void startProduction(PlayerBoard b, Player p) {
         ArrayList<Resource> entryResources = this.productionPower.getEntryResources();
         ArrayList<Resource> productResources = this.productionPower.getProductResources();
-        b.removeResources(entryResources);
         long faithPoints= productResources.stream()
                             .filter(r -> r.equals(new Resource(ResourceType.FAITH)))
                             .count();
@@ -73,7 +72,9 @@ public class DevelopmentCard extends Card{
 
 
         p.addVictoryPoints((int) faithPoints);
-        b.addStrongBox(productResources);
+        for (Resource productResourceElem : productResources) {
+            b.getStrongBox().addResources(productResourceElem);
+        }
     }
 
     public void addPointsTo(Player player){

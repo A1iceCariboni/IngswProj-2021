@@ -2,9 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.NullCardException;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerBoard;
-import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.effects.JollyMarble;
 import it.polimi.ingsw.model.cards.effects.LeaderEffect;
@@ -28,8 +26,8 @@ public class PlayerTest {
     public void setUp() {
         PlayerBoard pb = new PlayerBoard();
         ArrayList<LeaderCard> lcard = new ArrayList<>();
-        player1 = new Player(true, "Ale", 10, lcard, pb);
-        player2 = new Player(false, "Sofi", 5, lcard, pb);
+        player1 = new Player(true, "Ale", 10, pb);
+        player2 = new Player(false, "Sofi", 5, pb);
     }
 
     @Test
@@ -47,8 +45,8 @@ public class PlayerTest {
         ArrayList<LeaderCard> l2 = new ArrayList<>();
         PlayerBoard pb1 = new PlayerBoard();
         PlayerBoard pb2 = new PlayerBoard();
-        player1 = new Player(true, "Ale", 10, l1, pb1);
-        player2 = new Player(false, "Sofi", 5, l2, pb2);
+        player1 = new Player(true, "Ale", 10, pb1);
+        player2 = new Player(false, "Sofi", 5,  pb2);
 
 
         assertEquals(player1.getVictoryPoints(), 10);
@@ -73,7 +71,7 @@ public class PlayerTest {
         int oldPoints;
         ArrayList<LeaderCard> leaderCards = new ArrayList<>();
         PlayerBoard p = new PlayerBoard();
-        player1 = new Player(false, "Ali", 2, leaderCards, p);
+        player1 = new Player(false, "Ali", 2, p);
         oldPoints = player1.getVictoryPoints();
         player1.addVictoryPoints(10);
         assertEquals(player1.getVictoryPoints(), 10 + oldPoints);
@@ -91,12 +89,13 @@ public class PlayerTest {
         LeaderEffect effect = new JollyMarble(r1);
         ArrayList<Requirement> req = new ArrayList<>();
         LeaderCard card = new LeaderCard(effect, 10, req);
-        PlayerBoard p = new PlayerBoard();
+        PlayerBoard p = new PlayerBoard(new WareHouse(), new StrongBox());
         leaderCards.add(card);
         assertTrue(leaderCards.contains(card));
-        player1 = new Player(false, "Bob", 5, leaderCards, p);
+        player1 = new Player(false, "Bob", 5, p);
+        player1.addLeaderCard(card);
         player1.discardLeader(card);
-        assertFalse(leaderCards.contains(card));
+        assertFalse(player1.getLeadercards().contains(card));
         assertThrows(NullCardException.class, () -> player1.discardLeader(card));
     }
 

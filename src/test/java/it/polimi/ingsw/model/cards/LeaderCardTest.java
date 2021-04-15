@@ -2,8 +2,11 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.ResourceType;
+import it.polimi.ingsw.exceptions.CannotAdd;
 import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.StrongBox;
+import it.polimi.ingsw.model.WareHouse;
 import it.polimi.ingsw.model.cards.effects.JollyMarble;
 import it.polimi.ingsw.model.cards.effects.LeaderEffect;
 import it.polimi.ingsw.model.cards.effects.ProductionPower;
@@ -21,35 +24,8 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Alice Cariboni
  */
-class TempPlayerBoard2 extends PlayerBoard{
-    private ArrayList<Resource> res;
-    private ArrayList<DevelopmentCard> dev;
 
 
-    public TempPlayerBoard2(ArrayList<Resource> res, ArrayList<DevelopmentCard> dev) {
-        this.res = res;
-        this.dev = dev;
-    }
-    @Override
-    public ArrayList<DevelopmentCard> getDevCards() {
-        return dev;
-    }
-
-    @Override
-    public void removeResources(ArrayList<Resource> entryResources) {
-        this.res.removeAll(entryResources);
-    }
-
-    @Override
-    public ArrayList<Resource> getResources() {
-        return res;
-    }
-
-    @Override
-    public void addStrongBox(ArrayList<Resource> productResources) {
-        this.res.addAll(productResources);
-    }
-}
 
 
 class LeaderCardTest {
@@ -57,7 +33,7 @@ class LeaderCardTest {
     private static LeaderCard leaderCard;
 
     @BeforeAll
-    public static void init(){
+    public static void init() throws CannotAdd {
         ArrayList<Resource> cost = new ArrayList<>();
         ArrayList<Resource> entry = new ArrayList<>();
         ArrayList<Resource> prod= new ArrayList<>();
@@ -69,11 +45,18 @@ class LeaderCardTest {
         res.add(new Resource(ResourceType.SERVANT));
         res.add(new Resource(ResourceType.SHIELD));
         pp = new ProductionPower(entry,prod);
-        dev.add(new DevelopmentCard(1, cost, 2, CardColor.GREEN, pp, 10 ));
+        dev.add(new DevelopmentCard(1, cost, 1, CardColor.GREEN, pp, 10 ));
         dev.add(new DevelopmentCard(2, cost, 2, CardColor.GREEN, pp, 10 ));
         dev.add(new DevelopmentCard(3, cost, 1, CardColor.YELLOW, pp, 10));
         dev.add(new DevelopmentCard(4, cost, 3, CardColor.GREEN, pp, 10 ));
-        b = new TempPlayerBoard2(res,dev);
+        b = new PlayerBoard(new WareHouse(),new StrongBox());
+        b.addDevCard(dev.get(0),0);
+        b.addDevCard(dev.get(1),0);
+        b.addDevCard(dev.get(2),1);
+        b.addDevCard(dev.get(3),0);
+        for(int i = 0; i < 4; i++) {
+            b.getStrongBox().addResources(res.get(i));
+        }
     }
 
 

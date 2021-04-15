@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.effects.ProductionPower;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Objects;
 
 /**
  * This class represents a Player
@@ -23,12 +25,11 @@ public class Player {
     private ArrayList<ExtraProduction> extraProductionPowers;
     private ArrayList<Resource> possibleWhiteMarbles;
 
-
-    public Player(boolean inkwell, String nickName, int victoryPoints, ArrayList<LeaderCard> leaderCards, PlayerBoard playerBoard) {
+    public Player(boolean inkwell, String nickName, int victoryPoints, PlayerBoard playerBoard) {
         this.inkwell = inkwell;
         this.nickName = nickName;
         this.victoryPoints = victoryPoints;
-        this.leaderCards = leaderCards;
+        this.leaderCards = new ArrayList<>();
         this.playerBoard = playerBoard;
         this.discountedResource = new ArrayList<>();
         this.extraProductionPowers = new ArrayList<>();
@@ -66,7 +67,7 @@ public class Player {
      */
     public void activateLeader(LeaderCard card) throws NullCardException{
         if (!this.leaderCards.contains(card))   throw new NullCardException();
-        this.leaderCards.get(leaderCards.lastIndexOf(card)).active();
+         this.leaderCards.get(leaderCards.lastIndexOf(card)).active();
     }
 
     /**
@@ -126,10 +127,37 @@ public class Player {
         this.possibleWhiteMarbles.add(possibleWhiteMarble);
     }
 
+    public void addLeaderCard(LeaderCard card){
+        this.leaderCards.add(card);
+    }
+
     public void setInkwell(boolean b) {
         this.inkwell = b;
     }
 
+    public void setYourTurn(boolean b) {
+    }
+
+    public boolean getInkwell() {
+        return inkwell;
+    }
+
+    public ArrayList<LeaderCard> getLeadercards() {
+        return leaderCards;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return player.getNickName().equals(nickName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(inkwell, nickName, victoryPoints, leaderCards, playerBoard, playerMove, discountedResource, extraProductionPowers, possibleWhiteMarbles);
+    }
 }
 
 

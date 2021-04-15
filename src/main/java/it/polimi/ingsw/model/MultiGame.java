@@ -31,14 +31,17 @@ public class MultiGame extends Game {
         this.deckDevelopment = new DevelopmentCardDeck[3][4];
         for(int r = 0; r< 3; r++) {
             for (int c = 0; c < 4; c++) {
-                this.deckDevelopment[r][c] = new DevelopmentCardDeck();
+
+                    this.deckDevelopment[r][c] = new DevelopmentCardDeck();
             }
         }
         DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck(DevelopentCardParser.parseDevCards());
         CardColor[] colors = {CardColor.GREEN, CardColor.YELLOW, CardColor.PURPLE, CardColor.BLUE};
         for(int r = 0; r< 3; r++){
             for(int c = 0; c< 4; c++){
-                this.deckDevelopment[r][c].addCard(developmentCardDeck.getByColorAndLevel(colors[c],r+1));
+                for(int i = 0; i < 4; i++) {
+                    this.deckDevelopment[r][c].addCard(developmentCardDeck.getByColorAndLevel(colors[c], r + 1));
+                }
             }
         }
 
@@ -49,6 +52,14 @@ public class MultiGame extends Game {
      */
     @Override
     public void startGame() throws JsonFileNotFoundException {
+       for(Player player: this.players) {
+           for (int i = 0; i < 4; i++) {
+               player.addLeaderCard(this.deckLeader.popCard());
+           }
+          if(player.getInkwell()){
+              this.currentPlayer = players.indexOf(player);
+          }
+       }
 
     }
 
@@ -62,7 +73,7 @@ public class MultiGame extends Game {
         Player player1 = player;
         for(int j=0; j<players.size(); j++){
             if (i != players.size() - 1){
-                player1 = nextPlayer(player1);
+                player1 = nextPlayer();
                 i = i+1;
             }
         }
@@ -108,11 +119,10 @@ public class MultiGame extends Game {
 
     /**
      * it decides who is the player that has to play next
-     * @param player the player that ends the turn
      * @return the player that has to play next
      */
     @Override
-    public Player nextPlayer(Player player){
+    public Player nextPlayer(){
         currentPlayer = (currentPlayer + 1) % players.size();
         return players.get(currentPlayer);
     }

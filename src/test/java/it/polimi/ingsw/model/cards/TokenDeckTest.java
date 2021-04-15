@@ -1,10 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
-import it.polimi.ingsw.model.FakePlayer;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerBoard;
-import it.polimi.ingsw.model.SingleGame;
+import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -51,9 +48,9 @@ public void init() throws JsonFileNotFoundException{
    @Test
     public void actionTokens() throws JsonFileNotFoundException {
        ActionToken actionToken;
-       Player player = new Player(false , "ali", 2, new ArrayList<>(), new PlayerBoard());
+       Player player = new Player(false , "ali", 2, new PlayerBoard());
        SingleGame singleGame= new SingleGame();
-       singleGame.addPlayer(player);
+       Player player1 = new Player(true,"ali",3,new PlayerBoard(new WareHouse(), new StrongBox()));
        FakePlayer fakePlayer = new FakePlayer(0);
        actionToken = tokenDeck.pickToken();
        actionToken.applyEffect(singleGame, fakePlayer);

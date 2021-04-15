@@ -33,7 +33,7 @@ class SingleGameTest {
         String playersing = "player1";
         ArrayList<LeaderCard> leaderCards = new ArrayList<>();
         PlayerBoard playerBoard = new PlayerBoard(new WareHouse(), new StrongBox());
-        player = new Player(true, playersing, 0, leaderCards, playerBoard);
+        player = new Player(true, playersing, 0, playerBoard);
     }
 
     /**
@@ -105,16 +105,15 @@ class SingleGameTest {
     void getColDevCardsTest() throws JsonFileNotFoundException {
         SingleGame singleGame = new SingleGame();
         ArrayList<DevelopmentCardDeck> developmentCardDeckA = new ArrayList<>();
-        DevelopmentCardDeck[][] developmentCardDecksM = new DevelopmentCardDeck[3][4];
+        DevelopmentCardDeck[][] developmentCardDecksM;
         developmentCardDecksM = singleGame.getDevelopmentCardDeck();
         developmentCardDeckA.add(developmentCardDecksM[0][0]);
         developmentCardDeckA.add(developmentCardDecksM[0][1]);
         developmentCardDeckA.add(developmentCardDecksM[0][2]);
 
-        assertEquals(developmentCardDeckA.get(0), singleGame.getColDevCards(0).get(0));
-//con la modifica del developmentCardDeck dovrebbero risultare giusti
-        //assertEquals(developmentCardDeckA.get(1), singleGame.getColDevCards(0).get(1));
-        //assertEquals(developmentCardDeckA.get(2), singleGame.getColDevCards(0).get(2));
+        assertEquals(developmentCardDeckA.get(0).getCardDeck().get(0), singleGame.getColDevCards(0).get(0).getCardDeck().get(0));
+       // assertEquals(developmentCardDeckA.get(1).getCardDeck().get(0), singleGame.getColDevCards(0).get(1).getCardDeck().get(0));
+       // assertEquals(developmentCardDeckA.get(2), singleGame.getColDevCards(0).get(2));
     }
 
     /**
@@ -137,7 +136,7 @@ class SingleGameTest {
         SingleGame singleGame = new SingleGame();
         ArrayList<LeaderCard> leaderCards = new ArrayList<>();
         PlayerBoard playerBoard = new PlayerBoard(new WareHouse(), new StrongBox());
-        Player player1 = new Player(true, "player", 0, leaderCards, playerBoard);
+        Player player1 = new Player(true, "player", 0, playerBoard);
         singleGame.addPlayer(player1);
         player1.getPlayerBoard().moveFaithMarker(13);
         FaithTrack faithTrack = new FaithTrack();

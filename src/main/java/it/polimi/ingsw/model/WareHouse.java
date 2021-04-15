@@ -48,4 +48,20 @@ public class WareHouse {
         }
         return false;
     }
+
+    public ArrayList<Resource> getWarehouse(){
+        ArrayList<Resource> res = new ArrayList<>();
+        for(Depot d : this.depots){
+            res.addAll(d.getDepot());
+        }
+        return res;
+    }
+
+    public void remove(Resource res){
+        for(Depot d : this.depots){
+            if(d.getDepot().contains(res)){
+                d.removeResource(res);
+            }
+        }
+    }
 }

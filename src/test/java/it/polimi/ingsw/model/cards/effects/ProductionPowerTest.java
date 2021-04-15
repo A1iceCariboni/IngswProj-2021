@@ -21,14 +21,6 @@ class TempPlayerBoard extends PlayerBoard {
     public ArrayList<Resource> getResources() {
         return res;
     }
-    @Override
-    public void removeResources(ArrayList<Resource> entryResources) {
-        this.res.removeAll(entryResources);
-    }
-    @Override
-    public void addStrongBox(ArrayList<Resource> productResources) {
-        this.res.addAll(productResources);
-    }
 }
 
 class ProductionPowerTest {

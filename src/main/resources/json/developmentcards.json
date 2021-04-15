@@ -429,7 +429,7 @@
       }
     ],
     "level": 1,
-    "color": "PURPLE",
+    "color": "BLUE",
     "productionPower": {
       "entryResources": [
         {
@@ -871,7 +871,7 @@
       }
     ],
     "level": 2,
-    "color": "BLUE",
+    "color": "GREEN",
     "productionPower": {
       "entryResources": [
         {

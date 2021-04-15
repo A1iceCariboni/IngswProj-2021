@@ -26,10 +26,11 @@ public class ExtraProduction extends ProductionPower {
      * @param productResource the resources that the player wants to produce
      */
     public void startProduction(PlayerBoard b, Player p, Resource productResource) {
-        b.removeResources(entryResources);
         p.addVictoryPoints(1);
         ArrayList<Resource> productResources = new ArrayList<>();
         productResources.add(productResource);
-        b.addStrongBox(productResources);
+        for (Resource productResourceElem : productResources) {
+            b.getStrongBox().addResources(productResourceElem);
+        }
     }
 }

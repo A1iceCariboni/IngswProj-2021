@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.CannotAdd;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /** @author Alessandra Atria
 */
@@ -9,11 +10,10 @@ import java.util.ArrayList;
 public class PlayerBoard {
     private WareHouse wareHouse;
     private StrongBox strongBox;
-    private DevelopmentCard[] devCardSlots;
+    private DevelopmentCard devCardSlots[];
     private int countDevCards;
     private ArrayList<DevelopmentCard> coveredDevCards;
-    private ArrayList<DevelopmentCard> DevCards;
-    private ArrayList<Resource> res;
+    private ArrayList<DevelopmentCard> devCards;
     private int faithMarker;
 
     public PlayerBoard() {}
@@ -22,25 +22,19 @@ public class PlayerBoard {
         this.wareHouse =  wareHouse;
         this.strongBox = strongBox;
         this.devCardSlots = new DevelopmentCard[3];
-        this.faithMarker = 1;
-        this.countDevCards = 0;
+        this.faithMarker =  1;
+        this. countDevCards = 0;
         this.coveredDevCards = new ArrayList<>();
-        this.DevCards = new ArrayList<>();
-        this.res = new ArrayList<>();
+        this.devCards = new ArrayList<>();
+        this.countDevCards = 0;
     }
 
 
     public ArrayList<Resource> getResources() {
+        ArrayList<Resource> res = new ArrayList<>();
+        res.addAll(this.wareHouse.getWarehouse());
+        res.addAll(this.strongBox.getRes());
         return res;
-    }
-
-    //metodo da togliere
-    public void removeResources(ArrayList<Resource> entryResources){
-    }
-
-    //metodo da togliere
-    public void addStrongBox(ArrayList<Resource> productResources) {
-
     }
 
 
@@ -54,16 +48,29 @@ public class PlayerBoard {
         this.faithMarker = this.faithMarker + pos;
     }
 
-    //da togliere//
-    public ArrayList<DevelopmentCard> getDevCards() {
-        return DevCards;
+
+    public ArrayList<DevelopmentCard> getDevelopmentCards() {
+        ArrayList<DevelopmentCard> developmentCards = new ArrayList<>();
+        for(int i = 0; i < 3 ; i++){
+            if(devCardSlots[i] != null){
+                developmentCards.add(devCardSlots[i]);
+            }
+        }
+        return developmentCards;
     }
 
-    public DevelopmentCard[] getDevelopmentCards() {
-        return devCardSlots;
+    /**
+     *
+     * @return all the development cards covered and not
+     */
+    public ArrayList<DevelopmentCard> getAllDevelopmentCards(){
+        ArrayList<DevelopmentCard> allDev = new ArrayList<>();
+        ArrayList<DevelopmentCard> dev = getDevelopmentCards();
+        allDev.addAll(dev);
+        allDev.addAll(coveredDevCards);
+            return allDev;
     }
 
-    public int getCountDevCards() { return countDevCards;}
 
 
     /** adds an extra depot*/
@@ -106,6 +113,25 @@ public class PlayerBoard {
                     }
                 }
             }
-            }}
+            }
+            }
+    }
+
+    public ArrayList<DevelopmentCard> getCoveredDevCards() {
+        return coveredDevCards;
+    }
+
+
+
+    public WareHouse getWareHouse() {
+        return wareHouse;
+    }
+
+    public StrongBox getStrongBox() {
+        return strongBox;
+    }
+
+    public int getCountDevCards() {
+        return countDevCards;
     }
 }

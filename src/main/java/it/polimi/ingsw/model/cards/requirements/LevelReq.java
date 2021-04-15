@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *  this class represent the requirement of a leader card that needs a certain level of development cards owned by the player who wants
@@ -26,7 +27,7 @@ public class LevelReq implements Requirement{
 
     @Override
     public boolean hasEnough(PlayerBoard b) {
-        ArrayList<DevelopmentCard> dev = b.getDevCards();
+        ArrayList<DevelopmentCard> dev = b.getAllDevelopmentCards();
         long c = dev.stream()
                     .filter(d -> ((d.getColor() == color)&&(d.getLevel() == level)))
                     .count();

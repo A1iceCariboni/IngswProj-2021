@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
-import it.polimi.ingsw.exceptions.NullCardException;
+import it.polimi.ingsw.model.cards.Deck;
 import it.polimi.ingsw.model.cards.DevelopmentCardDeck;
 import it.polimi.ingsw.model.cards.LeaderDeck;
 import it.polimi.ingsw.utility.DevelopentCardParser;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class SingleGame extends Game{
     private Player player;
     private FaithTrack faithTrack;
-    private LeaderDeck LeaderDeck;
+    private LeaderDeck leaderDeck;
     private FakePlayer fakePlayer;
     private MarketTray marketTray;
     private DevelopmentCardDeck[][] deckDevelopment;
@@ -25,22 +25,27 @@ public class SingleGame extends Game{
 
     public SingleGame() throws JsonFileNotFoundException {
         this.player = null;
-        this.LeaderDeck = new LeaderDeck(LeaderCardParser.parseLeadCards());
+        this.leaderDeck = new LeaderDeck(LeaderCardParser.parseLeadCards());
         this.fakePlayer = new FakePlayer(1);
         this.marketTray = new MarketTray();
         this.faithTrack = new FaithTrack();
         this.winner = null;
         this.deckDevelopment = new DevelopmentCardDeck[3][4];
-        for(int r = 0; r< 3; r++) {
+        for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 4; c++) {
                 this.deckDevelopment[r][c] = new DevelopmentCardDeck();
             }
         }
         DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck(DevelopentCardParser.parseDevCards());
+
         CardColor[] colors = {CardColor.GREEN, CardColor.YELLOW, CardColor.PURPLE, CardColor.BLUE};
-        for(int r = 0; r< 3; r++){
-            for(int c = 0; c< 4; c++){
-                this.deckDevelopment[r][c].addCard(developmentCardDeck.getByColorAndLevel(colors[c],r+1));
+        int cont = 0;
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 4; c++) {
+                for (int i = 0; i < 4; i++) {
+                    this.deckDevelopment[r][c].addCard(developmentCardDeck.getByColorAndLevel(colors[c], r + 1));
+
+                }
             }
         }
     }
@@ -50,16 +55,18 @@ public class SingleGame extends Game{
      */
     @Override
     public void startGame() {
-
+        for (int i = 0; i < 4; i++) {
+            this.player.addLeaderCard(this.leaderDeck.popCard());
+        }
+        this.player.setInkwell(true);
     }
-
     /**
      * it assignes player as a winner
      * @param player the player that wins
      */
     @Override
     public void endGame(Player player) {
-           this.winner = player;
+        this.winner = player;
     }
 
     /**
@@ -105,21 +112,19 @@ public class SingleGame extends Game{
      * @return colDevCards: the arraylist contains the development card in the column of the development card deck
      */
     public ArrayList<DevelopmentCardDeck> getColDevCards(int c){
-        int k=0;
         ArrayList<DevelopmentCardDeck> colDevCards = new ArrayList<>();
         for(int r=0; r<3; r++){
             colDevCards.add(deckDevelopment[r][c]);
-            }
+        }
         return colDevCards;
     }
 
     /**
      *it return the player, it is always the player's turn, but first get a tocken card of Fake Player
-     * @param player the player that ends the turn
      * @return the same single player that has to play again after the action of the fake player
      */
     @Override
-    public Player nextPlayer(Player player) {
+    public Player nextPlayer() {
         fakePlayer.getToken();
         return player;
     }
@@ -131,7 +136,7 @@ public class SingleGame extends Game{
     @Override
     public void getPopePoints(){
         if (faithTrack.isReportSection(player.getPlayerBoard().getFaithMarker())){
-                player.addVictoryPoints(faithTrack.getPointsForPope(player.getPlayerBoard().getFaithMarker()));
+            player.addVictoryPoints(faithTrack.getPointsForPope(player.getPlayerBoard().getFaithMarker()));
         }
     }
 
@@ -158,8 +163,19 @@ public class SingleGame extends Game{
     public DevelopmentCardDeck[][] getDevelopmentCardDeck(){
         return deckDevelopment;
     }
-// da modificare
-    public void discardCard(CardColor cardColor, int quantity) {
 
+
+    public void discardCard(CardColor cardColor, int quantity) {
+        int i = quantity;
+        for(int r = 0; r < 3; r++){
+            for(int c = 0; c < 4 ; c++){
+                for(int ind = 0; ind < 4; ind++) {
+                    if (!this.deckDevelopment[r][c].isEmpty() && this.deckDevelopment[r][c].getCardDeck().get(0).getColor() == cardColor && i > 0) {
+
+                        i--;
+                    }
+                }
+            }
+        }
     }
 }

@@ -2,9 +2,7 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.ResourceType;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerBoard;
-import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.effects.ProductionPower;
 import it.polimi.ingsw.utility.DevelopentCardParser;
 import org.junit.jupiter.api.AfterEach;
@@ -17,25 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 
-class TempPlayerBoard1 extends PlayerBoard{
-    private ArrayList<Resource> res;
-
-    public TempPlayerBoard1(ArrayList<Resource> res) {
-        this.res = res;
-    }
-    @Override
-    public ArrayList<Resource> getResources() {
-        return res;
-    }
-    @Override
-    public void removeResources(ArrayList<Resource> entryResources) {
-        this.res.removeAll(entryResources);
-    }
-    @Override
-    public void addStrongBox(ArrayList<Resource> productResources) {
-        this.res.addAll(productResources);
-    }
-}
 
 class DevelopmentCardTest {
     private static ArrayList<Resource> entry;
@@ -104,7 +83,7 @@ class DevelopmentCardTest {
         Resource e2 = new Resource(ResourceType.SERVANT);
         res.add(e1);
         res.add(e2);
-        b = new TempPlayerBoard1(res);
+        b = new PlayerBoard(new WareHouse(), new StrongBox());
         assertFalse(dev.isBuyable(b));
     }
 
@@ -113,7 +92,7 @@ class DevelopmentCardTest {
      */
     @Test
     void emptyRes() {
-        b = new TempPlayerBoard1(res);
+        b = new PlayerBoard(new WareHouse(), new StrongBox());
         assertFalse(dev.isBuyable(b));
     }
 
@@ -124,10 +103,12 @@ class DevelopmentCardTest {
      void canBuy(){
          Resource e1 = new Resource(ResourceType.COIN);
          Resource e2 = new Resource(ResourceType.SERVANT);
-         res.add(e1);
-         res.add(e1);
-         res.add(e2);
-         b = new TempPlayerBoard1(res);
+
+         b = new PlayerBoard(new WareHouse(), new StrongBox());
+         b.getStrongBox().addResources(e1);
+         b.getStrongBox().addResources(e1);
+         b.getStrongBox().addResources(e2);
+
          assertTrue(dev.isBuyable(b));
      }
     /**
@@ -136,10 +117,9 @@ class DevelopmentCardTest {
 
     @Test
     void addPoints(){
-        ArrayList<LeaderCard> leaderCards = new ArrayList<>();
         ArrayList<Resource> res = new ArrayList<>();
-        PlayerBoard b = new TempPlayerBoard1(res);
-        p = new Player(false,"ali",2,leaderCards,b);
+        PlayerBoard b = new PlayerBoard();
+        p = new Player(false,"ali",2,b);
         dev.addPointsTo(p);
         assertEquals(p.getVictoryPoints(),2+dev.getVictoryPoints());
     }
@@ -157,10 +137,10 @@ class DevelopmentCardTest {
         res.add(r2);
         res.add(r3);
         res.add(r4);
-        b = new TempPlayerBoard1(res);
-        Player p = new Player(false, "ali", 0, new ArrayList<>(), b);
+        b = new PlayerBoard(new WareHouse(), new StrongBox());
+        Player p = new Player(false, "ali", 0, b);
         dev.startProduction(b,p);
-        assertEquals(b.getResources().get(0).getResourceType(),ResourceType.SHIELD);
+        assertTrue(b.getResources().contains(new Resource(ResourceType.SHIELD)));
         assertEquals(b.getResources().get(1).getResourceType(),ResourceType.STONE);
     }
 
