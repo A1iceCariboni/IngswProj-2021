@@ -18,11 +18,15 @@ public class MultiGame extends Game {
     private FaithTrack faithTrack;
     private MarketTray marketTray;
     private ArrayList<Player> players;
+    private ArrayList<Player> winners;
+    private int currentPlayer;
 
-    public MultiGame(ArrayList<Player> players) throws JsonFileNotFoundException {
-        this.players = players;
+    public MultiGame() throws JsonFileNotFoundException {
+        this.players = new ArrayList<>();
         this.faithTrack = new FaithTrack();
         this.marketTray = new MarketTray();
+        this.winners = null;
+        this.currentPlayer = 0;
         deckLeader = new LeaderDeck(LeaderCardParser.parseLeadCards());
         this.deckDevelopment = new DevelopmentCardDeck[3][4];
         for(int r = 0; r< 3; r++) {
@@ -41,11 +45,11 @@ public class MultiGame extends Game {
     }
 
     /**
-     * it starts the game and creates the principal classes
+     * it assigns the cards to the players
      */
     @Override
     public void startGame() throws JsonFileNotFoundException {
-        players = new ArrayList<>();
+
     }
 
     /**
@@ -56,9 +60,11 @@ public class MultiGame extends Game {
     public void endGame(Player player){
         int i = players.indexOf(player);
         Player player1 = player;
-        if (i != players.size() - 1){
-            player1 = nextPlayer(player1);
-            i = i+1;
+        for(int j=0; j<players.size(); j++){
+            if (i != players.size() - 1){
+                player1 = nextPlayer(player1);
+                i = i+1;
+            }
         }
         addWinner();
     }
@@ -70,7 +76,7 @@ public class MultiGame extends Game {
 
     public ArrayList<Player> addWinner(){
         int winnerVictoryPoints = 0;
-        ArrayList<Player> winners = new ArrayList<>();
+        winners = new ArrayList<>();
         for (int j = 0; j<players.size(); j++){
             int victoryPoints = players.get(j).getVictoryPoints();
             if (victoryPoints>=winnerVictoryPoints){
@@ -107,15 +113,11 @@ public class MultiGame extends Game {
      */
     @Override
     public Player nextPlayer(Player player){
-        int numberPlayers = players.size();
-        int i = players.indexOf(player);
-        if (i != numberPlayers - 1){
-            i = i + 1;
-        }
-        else i = 0;
-        players.get(i).setYourTurn(true);
-        return players.get(i);
+        currentPlayer = (currentPlayer + 1) % players.size();
+        return players.get(currentPlayer);
     }
+
+
     @Override
     public MarketTray getMarketTray(){ return marketTray;}
     @Override
@@ -123,8 +125,28 @@ public class MultiGame extends Game {
 
     public ArrayList<Player> getPlayers(){ return players;}
 
-    public LeaderDeck getDeckLeader() {
-        return deckLeader;
+    public LeaderDeck getDeckLeader() { return deckLeader;}
+
+    public ArrayList<Player> getWinners() { return winners;}
+
+    /**
+     * it checks if a player has 7 development cards or has the faith marker on the last position of the faith track
+     * @return true if the required are satisfied
+     */
+    @Override
+    public boolean checkEndGame(){
+        boolean b = false;
+        for(int i=0; i<players.size(); i++){
+            if (players.get(i).getPlayerBoard().getCountDevCards() == 7){
+                b = true;
+                endGame(players.get(i));
+            }
+            if (players.get(i).getPlayerBoard().getFaithMarker() >= 24){
+                b = true;
+                endGame(players.get(i));
+            }
+        }
+        return b;
     }
 
     /**
@@ -139,6 +161,23 @@ public class MultiGame extends Game {
 
     public DevelopmentCardDeck[][] getDeckDevelopment() {
         return deckDevelopment;
+    }
+
+    /**
+     * it controls if the players are in the report section of the faith track and if true it add
+     * the points for pope to the victory points of the player
+     */
+    @Override
+    public void getPopePoints(){
+        for (Player p: players) {
+           if (faithTrack.isReportSection(p.getPlayerBoard().getFaithMarker())){
+               p.addVictoryPoints(faithTrack.getPointsForPope(p.getPlayerBoard().getFaithMarker()));
+           }
+        }
+    }
+
+    public int getCurrentPlayer(){
+        return currentPlayer;
     }
 }
 

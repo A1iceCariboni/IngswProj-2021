@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
-import it.polimi.ingsw.model.FaithTrack;
-import it.polimi.ingsw.model.MarketTray;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.cards.Deck;
 
 /**
@@ -38,6 +35,12 @@ public abstract class Game {
     public abstract void addPlayer(Player p);
 
     /**
+     * it checks if the Game has to end
+     * @return
+     */
+    public abstract boolean checkEndGame();
+
+    /**
      * it decides who is the player that has to play next
      * @param player the player that ends the turn
      * @return the player that has to play next
@@ -47,5 +50,11 @@ public abstract class Game {
     public abstract MarketTray getMarketTray();
 
     public abstract FaithTrack getFaithTrack();
+
+    /**
+     * it controls if the players are in the report section of the faith track and if true it add
+     * the points for pope to the victory points of the player
+     */
+    public abstract void getPopePoints();
 }
 

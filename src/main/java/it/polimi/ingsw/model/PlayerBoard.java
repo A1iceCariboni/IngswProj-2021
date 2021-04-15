@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class PlayerBoard {
     private WareHouse wareHouse;
     private StrongBox strongBox;
-    private DevelopmentCard devCardSlots[];
+    private DevelopmentCard[] devCardSlots;
     private int countDevCards;
     private ArrayList<DevelopmentCard> coveredDevCards;
     private ArrayList<DevelopmentCard> DevCards;
@@ -22,12 +22,11 @@ public class PlayerBoard {
         this.wareHouse =  wareHouse;
         this.strongBox = strongBox;
         this.devCardSlots = new DevelopmentCard[3];
-        this.faithMarker =  1;
-        this. countDevCards = 0;
+        this.faithMarker = 1;
+        this.countDevCards = 0;
         this.coveredDevCards = new ArrayList<>();
         this.DevCards = new ArrayList<>();
         this.res = new ArrayList<>();
-        this.countDevCards = 0;
     }
 
 
@@ -64,6 +63,8 @@ public class PlayerBoard {
         return devCardSlots;
     }
 
+    public int getCountDevCards() { return countDevCards;}
+
 
     /** adds an extra depot*/
     public void addExtraDepot(Resource resource, int dimension){
@@ -76,6 +77,7 @@ public class PlayerBoard {
             if(card.getLevel()==1) {
                 if (devCardSlots[slot] == null) {
                     this.devCardSlots[slot] = card;
+                    this.countDevCards ++;
                 }
             }else{
             if(card.getLevel()==2) {
@@ -87,6 +89,7 @@ public class PlayerBoard {
                     } else {
                         this.coveredDevCards.add(devCardSlots[slot]);
                         this.devCardSlots[slot] = card;
+                        this.countDevCards ++;
                     }
                 }
             }else{
@@ -99,6 +102,7 @@ public class PlayerBoard {
                     } else {
                         this.coveredDevCards.add(devCardSlots[slot]);
                         this.devCardSlots[slot] = card;
+                        this.countDevCards ++;
                     }
                 }
             }

@@ -52,7 +52,8 @@ public void init() throws JsonFileNotFoundException{
     public void actionTokens() throws JsonFileNotFoundException {
        ActionToken actionToken;
        Player player = new Player(false , "ali", 2, new ArrayList<>(), new PlayerBoard());
-       SingleGame singleGame= new SingleGame(player);
+       SingleGame singleGame= new SingleGame();
+       singleGame.addPlayer(player);
        FakePlayer fakePlayer = new FakePlayer(0);
        actionToken = tokenDeck.pickToken();
        actionToken.applyEffect(singleGame, fakePlayer);

@@ -23,6 +23,7 @@ public class Player {
     private ArrayList<ExtraProduction> extraProductionPowers;
     private ArrayList<Resource> possibleWhiteMarbles;
 
+
     public Player(boolean inkwell, String nickName, int victoryPoints, ArrayList<LeaderCard> leaderCards, PlayerBoard playerBoard) {
         this.inkwell = inkwell;
         this.nickName = nickName;
@@ -65,7 +66,7 @@ public class Player {
      */
     public void activateLeader(LeaderCard card) throws NullCardException{
         if (!this.leaderCards.contains(card))   throw new NullCardException();
-         this.leaderCards.get(leaderCards.lastIndexOf(card)).active();
+        this.leaderCards.get(leaderCards.lastIndexOf(card)).active();
     }
 
     /**
@@ -126,10 +127,9 @@ public class Player {
     }
 
     public void setInkwell(boolean b) {
+        this.inkwell = b;
     }
 
-    public void setYourTurn(boolean b) {
-    }
 }
 
 

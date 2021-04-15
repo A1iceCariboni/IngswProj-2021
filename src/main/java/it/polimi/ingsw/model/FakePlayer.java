@@ -26,4 +26,8 @@ public class FakePlayer {
     public void shuffleToken() {
         this.tokenDeck.shuffle();
     }
+
+    public void getToken() {
+        this.tokenDeck.pickToken();
+    }
 }
