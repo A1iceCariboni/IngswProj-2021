@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.CannotAdd;
@@ -10,7 +9,6 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.DevelopmentCardDeck;
 import it.polimi.ingsw.model.cards.LeaderDeck;
 import it.polimi.ingsw.model.cards.effects.ProductionPower;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -168,23 +166,6 @@ public class MultiGameTest {
         assertFalse(multiGame.getDeckDevelopment()[0][0].getCardDeck().contains(developmentCard));
     }
 
-    /**
-     * it controls if the method add accurately the victory points to the player when is report section is true
-     * @throws JsonFileNotFoundException
-     */
-    @Test
-    void getPopePointsTest() throws JsonFileNotFoundException {
-        MultiGame multiGame = new MultiGame();
-        multiGame.addPlayer(players1.get(0));
-        multiGame.addPlayer(players1.get(1));
-        multiGame.addPlayer(players1.get(2));
-        multiGame.addPlayer(players1.get(3));
-        players1.get(0).getPlayerBoard().moveFaithMarker(5);
-        FaithTrack faithTrack = new FaithTrack();
-        assertTrue(faithTrack.isReportSection(players1.get(0).getPlayerBoard().getFaithMarker()));
-        multiGame.getPopePoints();
-        assertEquals(players1.get(0).getVictoryPoints(), 2);
-    }
 
     /**
      * it controls if the method return true when the requests are satisfied
@@ -237,6 +218,32 @@ public class MultiGameTest {
         multiGame.addPlayer(players1.get(3));
         multiGame.endGame(players1.get(0));
         assertEquals(multiGame.getCurrentPlayer(), 3);
+    }
+
+    @Test
+    void checkPopeSpaceTest() throws JsonFileNotFoundException {
+        MultiGame multiGame = new MultiGame();
+
+        Player player1 = new Player(true, "player_1", 0, new PlayerBoard(new WareHouse(),new StrongBox()));
+        Player player2 = new Player(false, "player_2", 1, new PlayerBoard(new WareHouse(),new StrongBox()));
+        Player player3 = new Player(false, "player_3", 2, new PlayerBoard(new WareHouse(),new StrongBox()));
+        Player player4 = new Player(false, "player_4", 3, new PlayerBoard(new WareHouse(),new StrongBox()));
+        multiGame.addPlayer(player1);
+        multiGame.addPlayer(player2);
+        multiGame.addPlayer(player3);
+        multiGame.addPlayer(player4);
+        multiGame.startGame();
+        multiGame.getPlayers().get(0).getPlayerBoard().moveFaithMarker(7);
+        int points = multiGame.getPlayers().get(0).getVictoryPoints();
+        int points1 = multiGame.getPlayers().get(1).getVictoryPoints();
+        assertEquals(multiGame.getPlayers().get(0).getPlayerBoard().getFaithMarker(),8);
+        multiGame.getPlayers().get(1).getPlayerBoard().moveFaithMarker(3);
+        assertEquals(multiGame.getPlayers().get(1).getPlayerBoard().getFaithMarker(),4);
+        multiGame.getPopePoints();
+        assertTrue(multiGame.getPlayers().get(0).getVictoryPoints()>points);
+        multiGame.getPlayers().get(1).getPlayerBoard().moveFaithMarker(4);
+        assertEquals(multiGame.getPlayers().get(1).getPlayerBoard().getFaithMarker(),8);
+        assertEquals(multiGame.getPlayers().get(1).getVictoryPoints(),points1);
     }
 }
 

@@ -91,8 +91,6 @@ public class FaithTrack {
      */
     public boolean isPopeSpace (int pos) {
         if (isPopeSpace[pos]){
-            deactivatePopeSpace(pos);
-            deactivateSection(pos);
             return true;
         }
         else return false;

@@ -41,8 +41,6 @@ class FaithTrackTest {
         assertFalse(faithTrack.isPopeSpace(4));
         assertTrue(faithTrack.isPopeSpace(7));
         assertTrue(faithTrack.isPopeSpace(15));
-        assertFalse(faithTrack.isReportSection(7));
-        assertFalse(faithTrack.isPopeSpace(7));
     }
 
     /**

@@ -171,6 +171,7 @@ public class SingleGame extends Game{
             for(int c = 0; c < 4 ; c++){
                 for(int ind = 0; ind < 4; ind++) {
                     if (!this.deckDevelopment[r][c].isEmpty() && this.deckDevelopment[r][c].getCardDeck().get(0).getColor() == cardColor && i > 0) {
+                        this.deckDevelopment[r][c].popCard();
                         i--;
                     }
                 }

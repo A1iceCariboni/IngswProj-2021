@@ -152,4 +152,23 @@ class SingleGameTest {
         singleGame.getPopePoints();
         assertEquals(player1.getVictoryPoints(), 3);
     }
+
+
+    @Test
+    void discardCard() throws JsonFileNotFoundException {
+        SingleGame singleGame= new SingleGame();
+        singleGame.discardCard(CardColor.GREEN,4);
+        assertTrue(singleGame.getDevelopmentCardDeck()[0][0].isEmpty());
+        assertFalse(singleGame.getDevelopmentCardDeck()[1][0].isEmpty());
+        assertFalse(singleGame.getDevelopmentCardDeck()[2][0].isEmpty());
+        singleGame.discardCard(CardColor.GREEN,4);
+        assertTrue(singleGame.getDevelopmentCardDeck()[0][0].isEmpty());
+        assertTrue(singleGame.getDevelopmentCardDeck()[1][0].isEmpty());
+        assertFalse(singleGame.getDevelopmentCardDeck()[2][0].isEmpty());
+        singleGame.discardCard(CardColor.GREEN,4);
+        assertTrue(singleGame.getDevelopmentCardDeck()[0][0].isEmpty());
+        assertTrue(singleGame.getDevelopmentCardDeck()[1][0].isEmpty());
+        assertTrue(singleGame.getDevelopmentCardDeck()[2][0].isEmpty());
+
+    }
 }

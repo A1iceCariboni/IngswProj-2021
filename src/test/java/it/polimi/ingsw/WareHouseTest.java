@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.model.Depot;
+import it.polimi.ingsw.model.ExtraDepot;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.WareHouse;
 import org.junit.Before;
@@ -19,7 +20,7 @@ public class WareHouseTest {
     private WareHouse wareHouse;
     private static Depot depot1;
     private static Depot depot2;
-
+    private static Depot depot3;
 
 
     @Before
@@ -32,7 +33,7 @@ public class WareHouseTest {
      * checks if warehouse can get depots
      */
     @Test
-    public void getDepots() {
+    public void getDepots() throws NotPossibleToAdd {
         ArrayList<Resource> res = new ArrayList<>();
         ArrayList<Resource> res2 = new ArrayList<>();
         Resource r1 = new Resource(SHIELD);
@@ -40,8 +41,14 @@ public class WareHouseTest {
         wareHouse = new WareHouse();
         depot1 = new Depot( 2, res);
         depot2 = new Depot( 3, res2);
+        depot3 = new ExtraDepot(2,new Resource(SERVANT));
+        depot3.addResource(new Resource(SERVANT));
         assertTrue(depot1.getDepot().contains(r1));
         assertFalse(depot2.getDepot().contains(r1));
+        wareHouse.addDepot(depot1);
+        wareHouse.addDepot(depot2);
+        wareHouse.addDepot(depot3);
+        assertTrue(wareHouse.hasResource(new Resource(SERVANT)));
     }
 
 

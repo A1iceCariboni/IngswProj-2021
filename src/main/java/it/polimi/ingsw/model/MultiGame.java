@@ -200,10 +200,16 @@ public class MultiGame extends Game {
      */
     @Override
     public void getPopePoints(){
-        for (Player p: players) {
-           if (faithTrack.isReportSection(p.getPlayerBoard().getFaithMarker())){
-               p.addVictoryPoints(faithTrack.getPointsForPope(p.getPlayerBoard().getFaithMarker()));
-           }
+        for (int i = 0; i < players.get(this.currentPlayer).getPlayerBoard().getFaithMarker(); i++) {
+            if (this.faithTrack.isPopeSpace(i)) {
+                for (Player player : this.players) {
+                    if (faithTrack.isReportSection(player.getPlayerBoard().getFaithMarker()-1)) {
+                        player.addVictoryPoints(this.faithTrack.getPointsForPope(i));
+                    }
+                }
+                this.faithTrack.deactivatePopeSpace(i);
+                this.faithTrack.deactivateSection(i);
+            }
         }
     }
 
