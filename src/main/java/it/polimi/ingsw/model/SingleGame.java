@@ -112,11 +112,11 @@ public class SingleGame extends Game{
      * @return colDevCards: the arraylist contains the development card in the column of the development card deck
      */
     public ArrayList<DevelopmentCardDeck> getColDevCards(int c){
-        ArrayList<DevelopmentCardDeck> colDevCards = new ArrayList<>();
+        ArrayList<DevelopmentCardDeck> colDevCard = new ArrayList<>();
         for(int r=0; r<3; r++){
-            colDevCards.add(deckDevelopment[r][c]);
+            colDevCard.add(deckDevelopment[r][c]);
         }
-        return colDevCards;
+        return colDevCard;
     }
 
     /**
@@ -171,7 +171,6 @@ public class SingleGame extends Game{
             for(int c = 0; c < 4 ; c++){
                 for(int ind = 0; ind < 4; ind++) {
                     if (!this.deckDevelopment[r][c].isEmpty() && this.deckDevelopment[r][c].getCardDeck().get(0).getColor() == cardColor && i > 0) {
-
                         i--;
                     }
                 }

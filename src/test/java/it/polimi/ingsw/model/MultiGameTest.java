@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.enumerations.CardColor;
+import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.CannotAdd;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
@@ -94,7 +95,7 @@ public class MultiGameTest {
         multiGame.addPlayer(players1.get(2));
         multiGame.addPlayer(players1.get(3));
         multiGame.getPlayers().get(0).setInkwell(true);
-        assertEquals(multiGame.getPlayers().get(0).getInkwell(),true);
+        assertTrue(multiGame.getPlayers().get(0).getInkwell());
         assertEquals(multiGame.nextPlayer().getNickName(),players1.get(1).getNickName());
         assertEquals(multiGame.nextPlayer().getNickName(),players1.get(2).getNickName());
         assertEquals(multiGame.nextPlayer().getNickName(),players1.get(3).getNickName());
@@ -113,14 +114,15 @@ public class MultiGameTest {
         multiGame.addPlayer(players1.get(2));
         multiGame.addPlayer(players1.get(3));
         multiGame.addWinner();
+        assertEquals(multiGame.addWinner(), multiGame.getWinners());
         assertEquals(multiGame.addWinner().size(), 1);
         assertEquals(players1.get(3).getNickName(),(multiGame.addWinner().get(0).getNickName()));
 
         ArrayList<Player> players2 = new ArrayList<>();
         String player_1 = "player1";
         String player_2 = "player2";
-        PlayerBoard playerBoard1 = new PlayerBoard();
-        PlayerBoard playerBoard2 = new PlayerBoard();
+        PlayerBoard playerBoard1 = new PlayerBoard(new WareHouse(), new StrongBox());
+        PlayerBoard playerBoard2 = new PlayerBoard(new WareHouse(), new StrongBox());
         Player player1 = new Player(true, player_1, 1, playerBoard1);
         Player player2 = new Player(false, player_2, 1, playerBoard2);
         players2.add(player1);
@@ -133,6 +135,22 @@ public class MultiGameTest {
         assertEquals(multiGame2.addWinner().size(), 2);
         assertEquals(players2.get(0), multiGame2.addWinner().get(0));
         assertEquals(players2.get(1), multiGame2.addWinner().get(1));
+
+        MultiGame multiGame3 = new MultiGame();
+        Resource res = new Resource(ResourceType.COIN);
+        players2.get(1).getPlayerBoard().getStrongBox().addResources(res);
+        players2.get(1).getPlayerBoard().getStrongBox().addResources(res);
+        players2.get(1).getPlayerBoard().getStrongBox().addResources(res);
+        players2.get(1).getPlayerBoard().getStrongBox().addResources(res);
+        players2.get(1).getPlayerBoard().getStrongBox().addResources(res);
+        multiGame3.addPlayer(players2.get(0));
+        multiGame3.addPlayer(players2.get(1));
+        assertEquals(multiGame3.addWinner().size(), 1);
+        assertEquals(players2.get(1), multiGame3.addWinner().get(0));
+
+        players2.get(0).getPlayerBoard().moveFaithMarker(20);
+        assertEquals(multiGame3.addWinner().size(), 1);
+        assertEquals(players2.get(0), multiGame3.addWinner().get(0));
     }
 
     /**
@@ -201,8 +219,8 @@ public class MultiGameTest {
         assertEquals(players1.get(1).getPlayerBoard().getCountDevCards(), 7);
         assertTrue(multiGame.checkEndGame());
 
-        players1.get(1).getPlayerBoard().moveFaithMarker(23);
-        assertEquals(players1.get(1).getPlayerBoard().getFaithMarker(), 24);
+        players1.get(1).getPlayerBoard().moveFaithMarker(22);
+        assertEquals(players1.get(1).getPlayerBoard().getFaithMarker(), 23);
         assertTrue(multiGame.checkEndGame());
     }
 

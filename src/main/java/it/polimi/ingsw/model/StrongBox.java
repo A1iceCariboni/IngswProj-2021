@@ -17,6 +17,7 @@ public class StrongBox {
     /**adds product resource to strong box */
     public void addResources(Resource productResources) {
          res.add(productResources);
+
     }
 
     /**removes resource from strong box */

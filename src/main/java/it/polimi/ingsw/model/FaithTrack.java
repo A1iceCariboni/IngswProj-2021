@@ -112,7 +112,7 @@ public class FaithTrack {
         if (pos>11 && pos<17){
             isReportSection2 = false;
         }
-        if (pos>18 && pos<25){
+        if (pos>18 && pos<24){
             isReportSection3 = false;
         }
     }

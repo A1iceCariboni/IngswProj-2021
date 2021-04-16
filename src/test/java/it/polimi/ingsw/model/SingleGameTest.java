@@ -70,9 +70,14 @@ class SingleGameTest {
         singleGame.addPlayer(player);
         singleGame.getPlayer().getPlayerBoard().moveFaithMarker(23);
         assertTrue(singleGame.checkEndGame());
-        singleGame.getFakePlayer().moveBlackCross(23);
-        assertTrue(singleGame.checkEndGame());
 
+        SingleGame singleGame2 = new SingleGame();
+        singleGame2.addPlayer(player);
+        singleGame2.getFakePlayer().moveBlackCross(23);
+        assertTrue(singleGame2.checkEndGame());
+
+        SingleGame singleGame3 = new SingleGame();
+        singleGame3.addPlayer(player);
         ArrayList<Resource> cost = new ArrayList<>();
         ProductionPower productionPower = new ProductionPower();
         DevelopmentCard developmentCard1 = new DevelopmentCard(0, cost, 1, CardColor.PURPLE, productionPower, 0 );
@@ -91,10 +96,12 @@ class SingleGameTest {
         player.getPlayerBoard().addDevCard(developmentCard6, 1);
         player.getPlayerBoard().addDevCard(developmentCard7, 2);
 
-        assertTrue(singleGame.checkEndGame());
+        assertTrue(singleGame3.checkEndGame());
 
-//manca questo assert per controllare che nel caso siano finite tutte le carte di una colonna checkEndGame restituisce true
-        assertTrue(singleGame.checkEndGame());
+        SingleGame singleGame4 = new SingleGame();
+        singleGame4.addPlayer(player);
+        singleGame4.discardCard(CardColor.PURPLE, 12);
+        assertTrue(singleGame4.checkEndGame());
     }
 
     /**
@@ -108,12 +115,12 @@ class SingleGameTest {
         DevelopmentCardDeck[][] developmentCardDecksM;
         developmentCardDecksM = singleGame.getDevelopmentCardDeck();
         developmentCardDeckA.add(developmentCardDecksM[0][0]);
-        developmentCardDeckA.add(developmentCardDecksM[0][1]);
-        developmentCardDeckA.add(developmentCardDecksM[0][2]);
+        developmentCardDeckA.add(developmentCardDecksM[1][0]);
+        developmentCardDeckA.add(developmentCardDecksM[2][0]);
 
-        assertEquals(developmentCardDeckA.get(0).getCardDeck().get(0), singleGame.getColDevCards(0).get(0).getCardDeck().get(0));
-       // assertEquals(developmentCardDeckA.get(1).getCardDeck().get(0), singleGame.getColDevCards(0).get(1).getCardDeck().get(0));
-       // assertEquals(developmentCardDeckA.get(2), singleGame.getColDevCards(0).get(2));
+        assertEquals(developmentCardDeckA.get(0), singleGame.getColDevCards(0).get(0));
+        assertEquals(developmentCardDeckA.get(1), singleGame.getColDevCards(0).get(1));
+        assertEquals(developmentCardDeckA.get(2), singleGame.getColDevCards(0).get(2));
     }
 
     /**
@@ -145,5 +152,4 @@ class SingleGameTest {
         singleGame.getPopePoints();
         assertEquals(player1.getVictoryPoints(), 3);
     }
-
 }
