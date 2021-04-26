@@ -62,7 +62,6 @@ public class DevelopmentCard extends Card{
      * @param b playerboard in which che power is applied
      */
     public void startProduction(PlayerBoard b, Player p) {
-        ArrayList<Resource> entryResources = this.productionPower.getEntryResources();
         ArrayList<Resource> productResources = this.productionPower.getProductResources();
         long faithPoints= productResources.stream()
                             .filter(r -> r.equals(new Resource(ResourceType.FAITH)))

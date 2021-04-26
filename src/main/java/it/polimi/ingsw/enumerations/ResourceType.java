@@ -7,5 +7,6 @@ public enum ResourceType {
     SERVANT,
     STONE,
     COIN,
-    FAITH
+    FAITH,
+    NONE
 }

@@ -29,11 +29,4 @@ public class ResourceReq implements Requirement{
         return c >= quantity;
     }
 
-    public ResourceType getResourceType() {
-        return resourceType;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
 }

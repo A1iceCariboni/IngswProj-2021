@@ -33,4 +33,9 @@ public class ExtraProduction extends ProductionPower {
             b.getStrongBox().addResources(productResourceElem);
         }
     }
+
+    @Override
+    public ArrayList<Resource> getEntryResources() {
+        return entryResources;
+    }
 }

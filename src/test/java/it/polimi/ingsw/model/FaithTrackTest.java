@@ -9,12 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 
 class FaithTrackTest {
-    private static boolean[] isPopeSpace = new boolean[24];
-    private static int[] victoryPoints = new int[24];
-    private static int[] pointsForPopeSpace = new int[3];
-    private static boolean isReportSection1;
-    private static boolean isReportSection2;
-    private static boolean isReportSection3;
 
     /**
      * it tests if the method works accurately
@@ -22,11 +16,11 @@ class FaithTrackTest {
     @Test
     void isReportSectionTest(){
         FaithTrack faithTrack = new FaithTrack();
-        int position = 2;
+        int position = 3;
         assertFalse(faithTrack.isReportSection(position));
-        int position2 = 7;
-        int position3 = 15;
-        int position4 = 20;
+        int position2 = 8;
+        int position3 = 16;
+        int position4 = 21;
         assertTrue(faithTrack.isReportSection(position2));
         assertTrue(faithTrack.isReportSection(position3));
         assertTrue(faithTrack.isReportSection(position4));
@@ -38,9 +32,9 @@ class FaithTrackTest {
     @Test
     void IsPopeSpaceTest(){
         FaithTrack faithTrack = new FaithTrack();
-        assertFalse(faithTrack.isPopeSpace(4));
-        assertTrue(faithTrack.isPopeSpace(7));
-        assertTrue(faithTrack.isPopeSpace(15));
+        assertFalse(faithTrack.isPopeSpace(5));
+        assertTrue(faithTrack.isPopeSpace(8));
+        assertTrue(faithTrack.isPopeSpace(16));
     }
 
     /**
@@ -49,10 +43,10 @@ class FaithTrackTest {
     @Test
     void deactivateSectionTest(){
         FaithTrack faithTrack = new FaithTrack();
-        faithTrack.deactivateSection(8);
-        assertFalse(faithTrack.isReportSection(8));
-        faithTrack.deactivateSection(22);
-        assertFalse(faithTrack.isReportSection(22));
+        faithTrack.deactivateSection(10);
+        assertFalse(faithTrack.isReportSection(10));
+        faithTrack.deactivateSection(24);
+        assertFalse(faithTrack.isReportSection(24));
     }
 
     /**

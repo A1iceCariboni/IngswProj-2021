@@ -201,7 +201,7 @@ public class MultiGameTest {
         assertTrue(multiGame.checkEndGame());
 
         players1.get(1).getPlayerBoard().moveFaithMarker(22);
-        assertEquals(players1.get(1).getPlayerBoard().getFaithMarker(), 23);
+        assertEquals(players1.get(1).getPlayerBoard().getFaithMarker(), 22);
         assertTrue(multiGame.checkEndGame());
     }
 
@@ -233,11 +233,11 @@ public class MultiGameTest {
         multiGame.addPlayer(player3);
         multiGame.addPlayer(player4);
         multiGame.startGame();
-        multiGame.getPlayers().get(0).getPlayerBoard().moveFaithMarker(7);
+        multiGame.getPlayers().get(0).getPlayerBoard().moveFaithMarker(8);
         int points = multiGame.getPlayers().get(0).getVictoryPoints();
         int points1 = multiGame.getPlayers().get(1).getVictoryPoints();
         assertEquals(multiGame.getPlayers().get(0).getPlayerBoard().getFaithMarker(),8);
-        multiGame.getPlayers().get(1).getPlayerBoard().moveFaithMarker(3);
+        multiGame.getPlayers().get(1).getPlayerBoard().moveFaithMarker(4);
         assertEquals(multiGame.getPlayers().get(1).getPlayerBoard().getFaithMarker(),4);
         multiGame.getPopePoints();
         assertTrue(multiGame.getPlayers().get(0).getVictoryPoints()>points);

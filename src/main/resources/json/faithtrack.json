@@ -1,0 +1,202 @@
+[
+  {
+    "number" : 0,
+    "isPopeSpace": false,
+    "victoryPoints": 0,
+    "isReportSection": false,
+    "pointsForPopeSpace":0,
+    "reportSection": 0
+  },
+  {
+    "number" : 1,
+    "isPopeSpace": false,
+    "victoryPoints": 0,
+    "isReportSection": false,
+    "pointsForPopeSpace":0,
+    "reportSection": 0
+  },
+  {
+    "number" : 2,
+    "isPopeSpace": false,
+    "victoryPoints": 0,
+    "isReportSection": false,
+    "pointsForPopeSpace":0,
+    "reportSection": 0
+  },
+  {
+    "number" : 3,
+    "isPopeSpace": false,
+    "victoryPoints": 1,
+    "isReportSection": false,
+    "pointsForPopeSpace":0,
+    "reportSection": 0
+  },
+  {
+    "number" : 4,
+    "isPopeSpace": false,
+    "victoryPoints": 1,
+    "isReportSection": false,
+    "pointsForPopeSpace":0,
+    "reportSection": 0
+  },
+  {
+    "number" : 5,
+    "isPopeSpace": false,
+    "victoryPoints": 1,
+    "isReportSection": true,
+    "pointsForPopeSpace":2,
+    "reportSection": 1
+  },
+  {
+    "number" : 6,
+    "isPopeSpace": false,
+    "victoryPoints": 2,
+    "isReportSection": true,
+    "pointsForPopeSpace":2,
+    "reportSection": 1
+  },
+  {
+    "number" : 7,
+    "isPopeSpace": false,
+    "victoryPoints": 2,
+    "isReportSection": true,
+    "pointsForPopeSpace":2,
+    "reportSection": 1
+  },
+  {
+    "number" : 8,
+    "isPopeSpace": true,
+    "victoryPoints": 2,
+    "isReportSection": true,
+    "pointsForPopeSpace":2,
+    "reportSection": 1
+  },
+  {
+    "number" : 9,
+    "isPopeSpace": false,
+    "victoryPoints": 4,
+    "isReportSection": false,
+    "pointsForPopeSpace":0,
+    "reportSection": 0
+  },
+  {
+    "number" : 10,
+    "isPopeSpace": false,
+    "victoryPoints": 4,
+    "isReportSection": false,
+    "pointsForPopeSpace":0,
+    "reportSection": 0
+  },
+  {
+    "number" : 11,
+    "isPopeSpace": false,
+    "victoryPoints": 4,
+    "isReportSection": false,
+    "pointsForPopeSpace":0,
+    "reportSection": 0
+  },
+  {
+    "number" : 12,
+    "isPopeSpace": false,
+    "victoryPoints": 6,
+    "isReportSection": true,
+    "pointsForPopeSpace":3,
+    "reportSection": 2
+  },
+  {
+    "number" : 13,
+    "isPopeSpace": false,
+    "victoryPoints": 6,
+    "isReportSection": true,
+    "pointsForPopeSpace":3,
+    "reportSection": 2
+  },
+  {
+    "number" : 14,
+    "isPopeSpace": false,
+    "victoryPoints": 6,
+    "isReportSection": true,
+    "pointsForPopeSpace":3,
+    "reportSection": 2
+  },
+  {
+    "number" : 15,
+    "isPopeSpace": false,
+    "victoryPoints": 9,
+    "isReportSection": true,
+    "pointsForPopeSpace":3,
+    "reportSection": 2
+  },
+  {
+    "number" : 16,
+    "isPopeSpace": true,
+    "victoryPoints": 9,
+    "isReportSection": true,
+    "pointsForPopeSpace":3,
+    "reportSection": 2
+  },
+  {
+    "number" : 17,
+    "isPopeSpace": false,
+    "victoryPoints": 9,
+    "isReportSection": false,
+    "pointsForPopeSpace":0,
+    "reportSection": 0
+  },
+  {
+    "number" : 18,
+    "isPopeSpace": false,
+    "victoryPoints": 12,
+    "isReportSection": false,
+    "pointsForPopeSpace":0,
+    "reportSection": 0
+  },
+  {
+    "number" : 19,
+    "isPopeSpace": false,
+    "victoryPoints": 12,
+    "isReportSection": true,
+    "pointsForPopeSpace":4,
+    "reportSection": 3
+  },
+  {
+    "number" : 20,
+    "isPopeSpace": false,
+    "victoryPoints": 12,
+    "isReportSection": true,
+    "pointsForPopeSpace":4,
+    "reportSection": 3
+  },
+  {
+    "number" : 21,
+    "isPopeSpace": false,
+    "victoryPoints": 16,
+    "isReportSection": true,
+    "pointsForPopeSpace":4,
+    "reportSection": 3
+  },
+  {
+    "number" : 22,
+    "isPopeSpace": false,
+    "victoryPoints": 16,
+    "isReportSection": true,
+    "pointsForPopeSpace":4,
+    "reportSection": 3
+  },
+  {
+    "number" : 23,
+    "isPopeSpace": false,
+    "victoryPoints": 16,
+    "isReportSection": true,
+    "pointsForPopeSpace":4,
+    "reportSection": 3
+  },
+  {
+    "number" : 24,
+    "isPopeSpace": true,
+    "victoryPoints": 20,
+    "isReportSection": true,
+    "pointsForPopeSpace":4,
+    "reportSection": 3
+  }
+]

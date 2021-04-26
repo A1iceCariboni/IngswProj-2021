@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.enumerations.CardColor;
+import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.model.cards.Deck;
 import it.polimi.ingsw.model.cards.DevelopmentCardDeck;
@@ -31,8 +32,8 @@ public class SingleGame extends Game{
         this.faithTrack = new FaithTrack();
         this.winner = null;
         this.deckDevelopment = new DevelopmentCardDeck[3][4];
-        for (int r = 0; r < 3; r++) {
-            for (int c = 0; c < 4; c++) {
+        for (int r = 0; r < Constants.rows; r++) {
+            for (int c = 0; c < Constants.cols; c++) {
                 this.deckDevelopment[r][c] = new DevelopmentCardDeck();
             }
         }
@@ -40,9 +41,9 @@ public class SingleGame extends Game{
 
         CardColor[] colors = {CardColor.GREEN, CardColor.YELLOW, CardColor.PURPLE, CardColor.BLUE};
         int cont = 0;
-        for (int r = 0; r < 3; r++) {
-            for (int c = 0; c < 4; c++) {
-                for (int i = 0; i < 4; i++) {
+        for (int r = 0; r < Constants.rows; r++) {
+            for (int c = 0; c < Constants.cols; c++) {
+                for (int i = 0; i < Constants.smallDecks; i++) {
                     this.deckDevelopment[r][c].addCard(developmentCardDeck.getByColorAndLevel(colors[c], r + 1));
 
                 }
@@ -55,7 +56,7 @@ public class SingleGame extends Game{
      */
     @Override
     public void startGame() {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < Constants.smallDecks; i++) {
             this.player.addLeaderCard(this.leaderDeck.popCard());
         }
         this.player.setInkwell(true);
@@ -87,19 +88,19 @@ public class SingleGame extends Game{
     @Override
     public boolean checkEndGame() {
         boolean b = false;
-        if (fakePlayer.getBlackCross() == 24){
+        if (fakePlayer.getBlackCross() == Constants.winFaith){
             b = true;
         }
-        for(int c=0; c<4; c++){
+        for(int c=0; c<Constants.cols; c++){
             if(getColDevCards(c).isEmpty()){
                 b = true;
             }
         }
-        if (player.getPlayerBoard().getFaithMarker() == 24){
+        if (player.getPlayerBoard().getFaithMarker() == Constants.winFaith){
             b = true;
             endGame(player);
         }
-        if(player.getPlayerBoard().getCountDevCards() == 7){
+        if(player.getPlayerBoard().getCountDevCards() == Constants.winDev){
             b = true;
             endGame(player);
         }
@@ -113,7 +114,7 @@ public class SingleGame extends Game{
      */
     public ArrayList<DevelopmentCardDeck> getColDevCards(int c){
         ArrayList<DevelopmentCardDeck> colDevCard = new ArrayList<>();
-        for(int r=0; r<3; r++){
+        for(int r=0; r<Constants.rows; r++){
             colDevCard.add(deckDevelopment[r][c]);
         }
         return colDevCard;
@@ -167,9 +168,9 @@ public class SingleGame extends Game{
 
     public void discardCard(CardColor cardColor, int quantity) {
         int i = quantity;
-        for(int r = 0; r < 3; r++){
-            for(int c = 0; c < 4 ; c++){
-                for(int ind = 0; ind < 4; ind++) {
+        for(int r = 0; r < Constants.rows; r++){
+            for(int c = 0; c < Constants.cols ; c++){
+                for(int ind = 0; ind < Constants.smallDecks; ind++) {
                     if (!this.deckDevelopment[r][c].isEmpty() && this.deckDevelopment[r][c].getCardDeck().get(0).getColor() == cardColor && i > 0) {
                         this.deckDevelopment[r][c].popCard();
                         i--;

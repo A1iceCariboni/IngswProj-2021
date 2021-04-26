@@ -6,13 +6,16 @@ import it.polimi.ingsw.utility.DevelopentCardParser;
 import it.polimi.ingsw.utility.LeaderCardParser;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CardDeckTest {
     @Test
     public void leaderTest() throws JsonFileNotFoundException {
         LeaderDeck leaderDeck = new LeaderDeck(LeaderCardParser.parseLeadCards());
+        assertFalse(leaderDeck.isEmpty());
         int beforeSize = leaderDeck.getCardDeck().size();
+        leaderDeck.shuffle();
+        assertEquals(leaderDeck.getCardDeck().size(),beforeSize);
         LeaderCard leaderCard = leaderDeck.popCard();
         assertTrue(beforeSize > leaderDeck.getCardDeck().size());
         leaderDeck.addCard(leaderCard);

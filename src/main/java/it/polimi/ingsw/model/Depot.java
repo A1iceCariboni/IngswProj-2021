@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 
 import java.util.ArrayList;
@@ -61,6 +62,13 @@ import java.util.ArrayList;
           return  resources.isEmpty();
         }
 
+
+        public Resource getType(){
+            if(this.isEmpty()){
+                return new Resource(ResourceType.NONE);
+            }
+            return this.resources.get(0);
+        }
 
     }
 

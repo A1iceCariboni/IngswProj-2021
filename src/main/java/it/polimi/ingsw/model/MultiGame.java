@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.CardColor;
+import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.utility.DevelopentCardParser;
@@ -29,17 +30,17 @@ public class MultiGame extends Game {
         this.currentPlayer = 0;
         deckLeader = new LeaderDeck(LeaderCardParser.parseLeadCards());
         this.deckDevelopment = new DevelopmentCardDeck[3][4];
-        for(int r = 0; r< 3; r++) {
-            for (int c = 0; c < 4; c++) {
+        for(int r = 0; r< Constants.rows; r++) {
+            for (int c = 0; c < Constants.cols; c++) {
 
                     this.deckDevelopment[r][c] = new DevelopmentCardDeck();
             }
         }
         DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck(DevelopentCardParser.parseDevCards());
         CardColor[] colors = {CardColor.GREEN, CardColor.YELLOW, CardColor.PURPLE, CardColor.BLUE};
-        for(int r = 0; r< 3; r++){
-            for(int c = 0; c< 4; c++){
-                for(int i = 0; i < 4; i++) {
+        for(int r = 0; r< Constants.rows; r++){
+            for(int c = 0; c< Constants.cols; c++){
+                for(int i = 0; i < Constants.smallDecks; i++) {
                     this.deckDevelopment[r][c].addCard(developmentCardDeck.getByColorAndLevel(colors[c], r + 1));
                 }
             }
@@ -53,7 +54,7 @@ public class MultiGame extends Game {
     @Override
     public void startGame() throws JsonFileNotFoundException {
        for(Player player: this.players) {
-           for (int i = 0; i < 4; i++) {
+           for (int i = 0; i < Constants.smallDecks; i++) {
                player.addLeaderCard(this.deckLeader.popCard());
            }
           if(player.getInkwell()){
@@ -168,11 +169,11 @@ public class MultiGame extends Game {
     public boolean checkEndGame(){
         boolean b = false;
         for(int i=0; i<players.size(); i++){
-            if (players.get(i).getPlayerBoard().getCountDevCards() == 7){
+            if (players.get(i).getPlayerBoard().getCountDevCards() == Constants.winDev){
                 b = true;
                 endGame(players.get(i));
             }
-            if (players.get(i).getPlayerBoard().getFaithMarker() == 23){
+            if (players.get(i).getPlayerBoard().getFaithMarker() == Constants.winFaith){
                 b = true;
                 endGame(players.get(i));
             }
@@ -200,10 +201,10 @@ public class MultiGame extends Game {
      */
     @Override
     public void getPopePoints(){
-        for (int i = 0; i < players.get(this.currentPlayer).getPlayerBoard().getFaithMarker(); i++) {
+        for (int i = 0; i <= players.get(this.currentPlayer).getPlayerBoard().getFaithMarker(); i++) {
             if (this.faithTrack.isPopeSpace(i)) {
                 for (Player player : this.players) {
-                    if (faithTrack.isReportSection(player.getPlayerBoard().getFaithMarker()-1)) {
+                    if (faithTrack.isReportSection(player.getPlayerBoard().getFaithMarker())) {
                         player.addVictoryPoints(this.faithTrack.getPointsForPope(i));
                     }
                 }

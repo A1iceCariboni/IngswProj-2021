@@ -71,7 +71,7 @@ public class PlayerBoardTest {
         PlayerBoard p = new PlayerBoard(w,s);
         faithmaker = 1;
 
-        assertEquals(p.getFaithMarker(), 1);
+        assertEquals(p.getFaithMarker(), 0);
         assertEquals(p.getResources(), res);
 
     }
@@ -85,9 +85,9 @@ public class PlayerBoardTest {
         s = new StrongBox();
         faithmaker = 1;
         PlayerBoard p = new PlayerBoard(w,s);
-        assertEquals(p.getFaithMarker(), 1);
+        assertEquals(p.getFaithMarker(), 0);
         p.moveFaithMarker(6);
-        assertEquals(p.getFaithMarker(), 7);
+        assertEquals(p.getFaithMarker(), 6);
     }
 
 

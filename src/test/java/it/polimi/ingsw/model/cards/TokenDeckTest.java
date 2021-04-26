@@ -17,6 +17,8 @@ public void init() throws JsonFileNotFoundException{
         tokenDeck = new TokenDeck();
     }
 
+
+
     /**
      * if i pick 6 tokens the deck is empty
      */
@@ -47,11 +49,11 @@ public void init() throws JsonFileNotFoundException{
 
    @Test
     public void actionTokens() throws JsonFileNotFoundException {
-       ActionToken actionToken;
-       Player player = new Player(false , "ali", 2, new PlayerBoard());
+       ActionToken actionToken;;
        SingleGame singleGame= new SingleGame();
        Player player1 = new Player(true,"ali",3,new PlayerBoard(new WareHouse(), new StrongBox()));
        FakePlayer fakePlayer = new FakePlayer(0);
+       singleGame.addPlayer(player1);
        actionToken = tokenDeck.pickToken();
        actionToken.applyEffect(singleGame, fakePlayer);
        actionToken = tokenDeck.pickToken();

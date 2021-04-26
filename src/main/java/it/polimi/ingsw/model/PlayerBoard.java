@@ -22,7 +22,7 @@ public class PlayerBoard {
         this.wareHouse =  wareHouse;
         this.strongBox = strongBox;
         this.devCardSlots = new DevelopmentCard[3];
-        this.faithMarker =  1;
+        this.faithMarker =  0;
         this. countDevCards = 0;
         this.coveredDevCards = new ArrayList<>();
         this.devCards = new ArrayList<>();

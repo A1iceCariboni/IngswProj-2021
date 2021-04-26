@@ -71,6 +71,7 @@ class LeaderCardTest {
         req.add(new LevelReq(3, CardColor.YELLOW, 2));
         leaderCard = new LeaderCard(effect, 10, req);
         assertFalse(leaderCard.isActivableBy(b));
+        assertTrue(leaderCard.isActive() == false);
     }
 /**
  * the leadercard is not activable beacuse the player hasn't enough resources
@@ -130,6 +131,8 @@ class LeaderCardTest {
         req.add(new ResourceReq(ResourceType.SERVANT,1));
         leaderCard = new LeaderCard(effect, 10, req);
         assertTrue(leaderCard.isActivableBy(b));
+        leaderCard.active();
+        assertTrue(leaderCard.isActive());
     }
     /**
      * the requirement arraylist is empty
@@ -157,6 +160,7 @@ class LeaderCardTest {
         req.add(new LevelReq(1, CardColor.YELLOW, 1));
         req.add(new ResourceReq(ResourceType.SERVANT,1));
         leaderCard = new LeaderCard(effect, 10, req);
+        assertEquals(leaderCard.getRequirements().get(0),req.get(0));
         assertFalse(leaderCard.isActive());
         leaderCard.active();
         assertTrue(leaderCard.isActive());

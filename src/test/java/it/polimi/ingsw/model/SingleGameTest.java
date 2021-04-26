@@ -147,7 +147,7 @@ class SingleGameTest {
         singleGame.addPlayer(player1);
         player1.getPlayerBoard().moveFaithMarker(13);
         FaithTrack faithTrack = new FaithTrack();
-        assertEquals(player1.getPlayerBoard().getFaithMarker(), 14);
+        assertEquals(player1.getPlayerBoard().getFaithMarker(), 13);
         assertTrue(faithTrack.isReportSection(player1.getPlayerBoard().getFaithMarker()));
         singleGame.getPopePoints();
         assertEquals(player1.getVictoryPoints(), 3);

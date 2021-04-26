@@ -32,11 +32,4 @@ public class ColorReq implements Requirement{
         return c >= quantity;
     }
 
-    public CardColor getColor() {
-        return color;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
 }

@@ -14,7 +14,6 @@ public class Resource {
         return resourceType;
     }
 
-
     @Override
     public boolean equals(Object other){
         if (!(other instanceof Resource)) {

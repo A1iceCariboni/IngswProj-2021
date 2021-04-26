@@ -23,11 +23,4 @@ public class ActionToken {
         this.tokenEffect.applyEffect(singleGame,fakePlayer);
     }
 
-    public TokenType getTokenType() {
-        return tokenType;
-    }
-
-    public TokenEffect getTokenEffect() {
-        return tokenEffect;
-    }
 }

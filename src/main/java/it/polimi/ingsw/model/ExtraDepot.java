@@ -57,7 +57,10 @@ import java.util.ArrayList;
         }
 
 
+    public Resource getType() {
+        return type;
     }
+}
 
 
 
