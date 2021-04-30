@@ -23,14 +23,19 @@ import java.util.ArrayList;
     /**
      * This method adds resources to the depot
      * @param res represents the resource to add
+     * @throws NotPossibleToAdd if the resource can't be added
      */
         public void addResource(Resource res) throws NotPossibleToAdd {
             int countRes;
-                countRes = this.resources.size();
-                if(countRes < dimension)
-                   this.resources.add(res);
-        }
+                countRes = this.resources.size() + 1 ;
+            if(this.resources.isEmpty() || (this.resources.contains(res) && countRes <= dimension)){
+                this.resources.add(res);
+            }else
+                throw new NotPossibleToAdd();
 
+
+
+        }
 
     /**
      * This method removes resources from the depot

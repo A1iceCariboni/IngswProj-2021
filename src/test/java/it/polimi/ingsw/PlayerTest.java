@@ -1,11 +1,14 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.effects.ExtraProductionPower;
 import it.polimi.ingsw.model.cards.effects.JollyMarble;
 import it.polimi.ingsw.model.cards.effects.LeaderEffect;
+import it.polimi.ingsw.model.cards.requirements.LevelReq;
 import it.polimi.ingsw.model.cards.requirements.Requirement;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +31,23 @@ public class PlayerTest {
         ArrayList<LeaderCard> lcard = new ArrayList<>();
         player1 = new Player(true, "Ale", 10, pb);
         player2 = new Player(false, "Sofi", 5, pb);
+        ArrayList<Resource> entry = new ArrayList<>();
+        ArrayList<Resource> prod = new ArrayList<>();
+        ArrayList<Resource> res = new ArrayList<>();
+        Resource e1 = new Resource(ResourceType.COIN);
+        Resource e2 = new Resource(ResourceType.COIN);
+        Resource e3 = new Resource(ResourceType.COIN);
+        Resource e4 = new Resource(ResourceType.SERVANT);
+        Resource p1 = new Resource(ResourceType.SHIELD);
+        Resource p2 = new Resource(ResourceType.STONE);
+        entry.add(e1);
+        entry.add(e2);
+        entry.add(e3);
+        entry.add(e4);
+        prod.add(p1);
+        prod.add(p2);
+
+
     }
 
     @Test
@@ -43,11 +63,12 @@ public class PlayerTest {
     public void getterTest() {
         ArrayList<LeaderCard> l1 = new ArrayList<>();
         ArrayList<LeaderCard> l2 = new ArrayList<>();
+
+
         PlayerBoard pb1 = new PlayerBoard();
         PlayerBoard pb2 = new PlayerBoard();
         player1 = new Player(true, "Ale", 10, pb1);
         player2 = new Player(false, "Sofi", 5,  pb2);
-
 
         assertEquals(player1.getVictoryPoints(), 10);
         assertEquals(player2.getVictoryPoints(), 5);

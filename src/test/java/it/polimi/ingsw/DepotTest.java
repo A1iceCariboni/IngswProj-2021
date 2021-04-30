@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 import it.polimi.ingsw.enumerations.ResourceType;
+import it.polimi.ingsw.exceptions.CannotAdd;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.model.Depot;
 import it.polimi.ingsw.model.Resource;
@@ -76,27 +77,27 @@ public class DepotTest {
 
     /**
      * checks if resources can be added to depot
+     * @throws  NotPossibleToAdd if the resource can't be added to vthe depot
+     *
      */
     @Test
     public void addRes() throws NotPossibleToAdd {
-        int nRes;
         ArrayList<Resource> resources = new ArrayList<>();
         Resource r1 = new Resource(ResourceType.COIN);
-        Resource r2 = new Resource(ResourceType.SERVANT);
+        Resource r2 = new Resource(ResourceType.COIN);
         Resource r3 = new Resource(ResourceType.STONE);
-        Resource r4 = new Resource(ResourceType.SHIELD);
+        Resource r4 = new Resource(ResourceType.COIN);
+        Resource r5 = new Resource(ResourceType.COIN);
         depot1 = new Depot( 3, resources);
         depot1.addResource(r1);
-        depot1.addResource(r2);
-        depot1.addResource(r3);
-        nRes = resources.size();
-        assertTrue(nRes == 3);
         assertTrue(depot1.getDepot().contains(r1));
+        depot1.addResource(r2);
         assertTrue(depot1.getDepot().contains(r2));
-        assertTrue(depot1.getDepot().contains(r3));
+        assertThrows(NotPossibleToAdd.class, () -> depot1.addResource(r3));
         depot1.addResource(r4);
-        nRes = resources.size();
-        assertFalse(nRes == 4);
+        assertTrue(depot1.getDepot().contains(r4));
+        assertThrows(NotPossibleToAdd.class, () -> depot1.addResource(r5));
+
     }
 
 

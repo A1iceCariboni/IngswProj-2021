@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class WareHouse {
     private ArrayList<Depot> depots;
+    private ArrayList<Depot> extraDepots;
 
     public WareHouse() {
         this.depots = new ArrayList<>();
@@ -28,7 +29,7 @@ public class WareHouse {
     /**  adds a depot to warehouse
      */
     public void addDepot(Depot d){
-        this.depots.add(d);
+          this.depots.add(d);
     }
 
 
@@ -49,6 +50,7 @@ public class WareHouse {
         return false;
     }
 
+    /** This method gets the resources from the depot **/
     public ArrayList<Resource> getWarehouse(){
         ArrayList<Resource> res = new ArrayList<>();
         for(Depot d : this.depots){
@@ -57,11 +59,18 @@ public class WareHouse {
         return res;
     }
 
+
+    /** This method removes the resource to the depot **/
     public void remove(Resource res){
         for(Depot d : this.depots){
             if(d.getDepot().contains(res)){
                 d.removeResource(res);
             }
         }
+    }
+
+    /** This method adds the resource to the depot **/
+    public void addRestoDepot(Resource res, Depot d) throws NotPossibleToAdd {
+          d.addResource(res);
     }
 }
