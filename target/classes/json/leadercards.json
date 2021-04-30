@@ -1,5 +1,6 @@
 [
   {
+    "id" : 1,
     "isActive": false,
     "leaderEffect": {
       "name": "DISCOUNT",
@@ -21,6 +22,7 @@
     ]
   },
   {
+    "id" : 2,
     "isActive": false,
     "leaderEffect": {
       "name": "DISCOUNT",
@@ -42,6 +44,7 @@
     ]
   },
   {
+    "id" : 3,
     "isActive": false,
     "leaderEffect": {
       "name": "EXTRA_PRODUCTION_POWER",
@@ -59,6 +62,7 @@
     ]
   },
   {
+    "id" : 4,
     "isActive": false,
     "leaderEffect": {
       "name": "DISCOUNT",
@@ -80,6 +84,7 @@
     ]
   },
   {
+    "id" : 5,
     "isActive": false,
     "leaderEffect": {
       "name": "DISCOUNT",
@@ -101,6 +106,7 @@
     ]
   },
   {
+    "id" : 6,
     "isActive": false,
     "leaderEffect": {
       "name": "EXTRA_SLOT",
@@ -117,6 +123,7 @@
     ]
   },
   {
+    "id" : 7,
     "isActive": false,
     "leaderEffect": {
       "name": "EXTRA_SLOT",
@@ -133,6 +140,7 @@
     ]
   },
   {
+    "id" : 8,
     "isActive": false,
     "leaderEffect": {
       "name": "EXTRA_SLOT",
@@ -149,6 +157,7 @@
     ]
   },
   {
+    "id" : 9,
     "isActive": false,
     "leaderEffect": {
       "name": "EXTRA_SLOT",
@@ -165,6 +174,7 @@
     ]
   },
   {
+    "id" : 10,
     "isActive": false,
     "leaderEffect": {
       "name": "JOLLY_MARBLE",
@@ -185,6 +195,7 @@
     ]
   },
   {
+    "id" : 11,
     "isActive": false,
     "leaderEffect": {
       "name": "JOLLY_MARBLE",
@@ -205,6 +216,7 @@
     ]
   },
   {
+    "id" : 12,
     "isActive": false,
     "leaderEffect": {
       "name": "JOLLY_MARBLE",
@@ -225,6 +237,7 @@
     ]
   },
   {
+    "id" : 13,
     "isActive": false,
     "leaderEffect": {
       "name": "JOLLY_MARBLE",
@@ -245,6 +258,7 @@
     ]
   },
   {
+    "id" : 14,
     "isActive": false,
     "leaderEffect": {
       "name": "EXTRA_PRODUCTION_POWER",
@@ -262,6 +276,7 @@
     ]
   },
   {
+    "id" : 15,
     "isActive": false,
     "leaderEffect": {
       "name": "EXTRA_PRODUCTION_POWER",
@@ -279,6 +294,7 @@
     ]
   },
   {
+    "id" : 16,
     "isActive": false,
     "leaderEffect": {
       "name": "EXTRA_PRODUCTION_POWER",

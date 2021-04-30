@@ -4,6 +4,7 @@ import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
      * @author Alessandra Atria
@@ -59,6 +60,19 @@ import java.util.ArrayList;
 
     public Resource getType() {
         return type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ExtraDepot that = (ExtraDepot) o;
+        return dimension == that.dimension && Objects.equals(resType, that.resType) && Objects.equals(type, that.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(dimension, resType, type);
     }
 }
 

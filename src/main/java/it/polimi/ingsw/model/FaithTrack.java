@@ -21,7 +21,7 @@ public class FaithTrack {
      * @return true if the report section is active
      */
     public boolean isReportSection (int pos) {
-        return faithTrack[pos].isReportSection();
+        return faithTrack[pos].getReportSection()!=0;
     }
 
     /**
@@ -53,7 +53,7 @@ public class FaithTrack {
        for(FaithCell faithCell : this.faithTrack){
            if(faithCell.getReportSection() == sec){
                faithCell.setReportSection(0);
-               faithCell.setReportSection(false);
+               faithCell.setReportSection(0);
                faithCell.setPointsForPopeSpace(0);
            }
        }

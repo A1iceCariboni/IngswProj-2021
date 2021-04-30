@@ -46,6 +46,7 @@ public class LeaderCardParser {
                 boolean isActive = leaderCard.get("isActive").getAsBoolean();
                 int victoryPoints = leaderCard.get("victoryPoints").getAsInt();
                 JsonArray jsonRequirements = leaderCard.getAsJsonArray("requirements");
+                int id = leaderCard.get("id").getAsInt();
 
                 int quantity;
                 String resource;
@@ -83,7 +84,6 @@ public class LeaderCardParser {
                 JsonObject jsonLeaderEffect = leaderCard.getAsJsonObject("leaderEffect");
 
                 String name = jsonLeaderEffect.get("name").getAsString();
-
                 LeaderEffect leaderEffect;
 
                 switch(name){
@@ -92,7 +92,7 @@ public class LeaderCardParser {
                         resourceType = ResourceType.valueOf(resource);
                         quantity = jsonLeaderEffect.get("quantity").getAsInt();
                         leaderEffect = new Discount(new Resource(resourceType),quantity);
-                        leaderCards.add(new LeaderCard(leaderEffect,victoryPoints,requirements));
+                        leaderCards.add(new LeaderCard(id,leaderEffect,victoryPoints,requirements));
 
                         break;
                     case "EXTRA_PRODUCTION_POWER":
@@ -100,7 +100,7 @@ public class LeaderCardParser {
                         resourceType = ResourceType.valueOf(resource);
                         quantity = jsonLeaderEffect.get("quantity").getAsInt();
                         leaderEffect = new ExtraProductionPower(new Resource(resourceType),quantity);
-                        leaderCards.add(new LeaderCard(leaderEffect,victoryPoints,requirements));
+                        leaderCards.add(new LeaderCard(id,leaderEffect,victoryPoints,requirements));
 
                         break;
                     case "EXTRA_SLOT":
@@ -108,14 +108,14 @@ public class LeaderCardParser {
                         resourceType = ResourceType.valueOf(resource);
                         quantity = jsonLeaderEffect.get("quantity").getAsInt();
                         leaderEffect = new ExtraSlot(new Resource(resourceType),quantity);
-                        leaderCards.add(new LeaderCard(leaderEffect,victoryPoints,requirements));
+                        leaderCards.add(new LeaderCard(id,leaderEffect,victoryPoints,requirements));
 
                         break;
                     case "JOLLY_MARBLE":
                         resource = jsonLeaderEffect.get("resourceType").getAsString();
                         resourceType = ResourceType.valueOf(resource);
                         leaderEffect = new JollyMarble(new Resource(resourceType));
-                        leaderCards.add(new LeaderCard(leaderEffect,victoryPoints,requirements));
+                        leaderCards.add(new LeaderCard(id,leaderEffect,victoryPoints,requirements));
 
                         break;
                 }

@@ -1,14 +1,11 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.LeaderCard;
-import it.polimi.ingsw.model.cards.effects.ExtraProductionPower;
 import it.polimi.ingsw.model.cards.effects.JollyMarble;
 import it.polimi.ingsw.model.cards.effects.LeaderEffect;
-import it.polimi.ingsw.model.cards.requirements.LevelReq;
 import it.polimi.ingsw.model.cards.requirements.Requirement;
 import org.junit.Before;
 import org.junit.Test;
@@ -63,12 +60,11 @@ public class PlayerTest {
     public void getterTest() {
         ArrayList<LeaderCard> l1 = new ArrayList<>();
         ArrayList<LeaderCard> l2 = new ArrayList<>();
-
-
         PlayerBoard pb1 = new PlayerBoard();
         PlayerBoard pb2 = new PlayerBoard();
         player1 = new Player(true, "Ale", 10, pb1);
         player2 = new Player(false, "Sofi", 5,  pb2);
+
 
         assertEquals(player1.getVictoryPoints(), 10);
         assertEquals(player2.getVictoryPoints(), 5);
@@ -109,7 +105,7 @@ public class PlayerTest {
         Resource r1 = new Resource(ResourceType.SHIELD);
         LeaderEffect effect = new JollyMarble(r1);
         ArrayList<Requirement> req = new ArrayList<>();
-        LeaderCard card = new LeaderCard(effect, 10, req);
+        LeaderCard card = new LeaderCard(1,effect, 10, req);
         PlayerBoard p = new PlayerBoard(new WareHouse(), new StrongBox());
         leaderCards.add(card);
         assertTrue(leaderCards.contains(card));

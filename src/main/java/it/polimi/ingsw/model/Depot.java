@@ -3,6 +3,7 @@ import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * @author Alessandra Atria
@@ -75,6 +76,18 @@ import java.util.ArrayList;
             return this.resources.get(0);
         }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Depot depot = (Depot) o;
+        return dimension == depot.dimension && Objects.equals(resources, depot.resources);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(dimension, resources);
+    }
+}
 
 

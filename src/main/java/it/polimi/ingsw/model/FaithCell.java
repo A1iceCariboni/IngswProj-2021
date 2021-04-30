@@ -15,7 +15,6 @@ public class FaithCell {
     public FaithCell(boolean isPopeSpace, int victoryPoints, boolean isReportSection, int pointsForPopeSpace, int reportSection, int number) {
         this.isPopeSpace = isPopeSpace;
         this.victoryPoints = victoryPoints;
-        this.isReportSection = isReportSection;
         this.pointsForPopeSpace = pointsForPopeSpace;
         this.reportSection = reportSection;
         this.number = number;
@@ -30,9 +29,6 @@ public class FaithCell {
         return victoryPoints;
     }
 
-    public boolean isReportSection() {
-        return isReportSection;
-    }
 
     public int getPointsForPopeSpace() {
         return pointsForPopeSpace;
@@ -40,10 +36,6 @@ public class FaithCell {
 
     public void setPopeSpace(boolean popeSpace) {
         isPopeSpace = popeSpace;
-    }
-
-    public void setReportSection(boolean reportSection) {
-        isReportSection = reportSection;
     }
 
     public void setPointsForPopeSpace(int pointsForPopeSpace) {

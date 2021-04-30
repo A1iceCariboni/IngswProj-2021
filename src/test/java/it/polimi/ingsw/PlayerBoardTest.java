@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static it.polimi.ingsw.enumerations.ResourceType.SERVANT;
+import static it.polimi.ingsw.enumerations.ResourceType.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**author Alessandra Atria*/
@@ -95,20 +95,30 @@ public class PlayerBoardTest {
      * checks if extra depot can be added to player board
      */
     @Test
-    public void addExtraDepot()  {
+    public void addExtraDepot() throws NotPossibleToAdd {
 
         Resource r1 = new Resource(SERVANT);
         w= new WareHouse();
         s = new StrongBox();
         ExtraDepot e1 = new ExtraDepot(2, r1);
         p = new PlayerBoard(w,s);
-        p.addExtraDepot(r1,2);
-        assertEquals(w.getDepots().size(), 1);
-        p.addExtraDepot(r1,2);
-        assertEquals(w.getDepots().size(), 2);
-
-
-
+        p.addExtraDepot(e1);
+        assertEquals(p.getExtraDepots().size(),1);
+        p.addExtraDepot(e1);
+        assertEquals(p.getExtraDepots().size(), 2);
+    }
+    @Test
+    public void addResourceToExtraDepot() throws NotPossibleToAdd {
+        PlayerBoard p = new PlayerBoard(new WareHouse(),new StrongBox());
+        ExtraDepot e1 = new ExtraDepot(2, new Resource(SERVANT));
+        ExtraDepot e2 = new ExtraDepot(2, new Resource(SHIELD));
+        assertTrue(p.getExtraDepots().isEmpty());
+        p.addExtraDepot(e1);
+        p.addExtraDepot(e2);
+        assertTrue(!e1.equals(e2));
+        p.addToExtraDepot(new Resource(SERVANT),e1);
+        assertEquals(p.getExtraDepots().get(0).getDepot().size(),1);
+        assertThrows(NotPossibleToAdd.class, () -> p.addToExtraDepot(new Resource(COIN),e1));
     }
 
     /**

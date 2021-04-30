@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.CannotAdd;
+import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.StrongBox;
@@ -14,6 +15,7 @@ import it.polimi.ingsw.model.cards.requirements.ColorReq;
 import it.polimi.ingsw.model.cards.requirements.LevelReq;
 import it.polimi.ingsw.model.cards.requirements.Requirement;
 import it.polimi.ingsw.model.cards.requirements.ResourceReq;
+import it.polimi.ingsw.utility.LeaderCardParser;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -69,7 +71,7 @@ class LeaderCardTest {
         LeaderEffect effect = new JollyMarble( r1);
         ArrayList<Requirement> req = new ArrayList<>();
         req.add(new LevelReq(3, CardColor.YELLOW, 2));
-        leaderCard = new LeaderCard(effect, 10, req);
+        leaderCard = new LeaderCard(1,effect, 10, req);
         assertFalse(leaderCard.isActivableBy(b));
         assertTrue(leaderCard.isActive() == false);
     }
@@ -84,7 +86,7 @@ class LeaderCardTest {
         ArrayList<Requirement> req = new ArrayList<>();
         req.add(new ResourceReq(ResourceType.SHIELD, 2));
         req.add(new ResourceReq(ResourceType.COIN,1));
-        leaderCard = new LeaderCard(effect, 10, req);
+        leaderCard = new LeaderCard(1,effect, 10, req);
         assertFalse(leaderCard.isActivableBy(b));
     }
 
@@ -97,7 +99,7 @@ class LeaderCardTest {
         LeaderEffect effect = new JollyMarble( r1);
         ArrayList<Requirement> req = new ArrayList<>();
         req.add(new ColorReq(CardColor.BLUE,3));
-        leaderCard = new LeaderCard(effect, 10, req);
+        leaderCard = new LeaderCard(1,effect, 10, req);
         assertFalse(leaderCard.isActivableBy(b));
     }
 
@@ -113,7 +115,7 @@ class LeaderCardTest {
         req.add(new ColorReq(CardColor.GREEN,3));
         req.add(new ResourceReq(ResourceType.COIN,2));
         req.add(new LevelReq(1, CardColor.GREEN, 2));
-        leaderCard = new LeaderCard(effect, 10, req);
+        leaderCard = new LeaderCard(1,effect, 10, req);
         assertFalse(leaderCard.isActivableBy(b));
     }
 
@@ -129,7 +131,7 @@ class LeaderCardTest {
         req.add(new ResourceReq(ResourceType.COIN,2));
         req.add(new LevelReq(1, CardColor.YELLOW, 1));
         req.add(new ResourceReq(ResourceType.SERVANT,1));
-        leaderCard = new LeaderCard(effect, 10, req);
+        leaderCard = new LeaderCard(1,effect, 10, req);
         assertTrue(leaderCard.isActivableBy(b));
         leaderCard.active();
         assertTrue(leaderCard.isActive());
@@ -142,7 +144,7 @@ class LeaderCardTest {
         Resource r1 = new Resource(ResourceType.SHIELD);
         LeaderEffect effect = new JollyMarble( r1);
         ArrayList<Requirement> req = new ArrayList<>();
-        leaderCard = new LeaderCard(effect, 10, req);
+        leaderCard = new LeaderCard(1,effect, 10, req);
         assertTrue(leaderCard.isActivableBy(b));
     }
 
@@ -159,10 +161,19 @@ class LeaderCardTest {
         req.add(new ResourceReq(ResourceType.COIN,2));
         req.add(new LevelReq(1, CardColor.YELLOW, 1));
         req.add(new ResourceReq(ResourceType.SERVANT,1));
-        leaderCard = new LeaderCard(effect, 10, req);
+        leaderCard = new LeaderCard(1,effect, 10, req);
         assertEquals(leaderCard.getRequirements().get(0),req.get(0));
         assertFalse(leaderCard.isActive());
         leaderCard.active();
         assertTrue(leaderCard.isActive());
+    }
+   @Test
+    public void equalsTest() throws JsonFileNotFoundException {
+        ArrayList<LeaderCard> leaderCards = LeaderCardParser.parseLeadCards();
+        LeaderCard l1 = leaderCards.get(0);
+        LeaderCard l2 = leaderCards.get(0);
+        LeaderCard l3 = leaderCards.get(1);
+        assertEquals(l1,l2);
+        assertFalse(l1.equals(l3));
     }
 }

@@ -45,8 +45,8 @@ public class EffectsTest {
         extraSlot.applyEffect(player, player.getPlayerBoard());
         assertEquals(extraSlot.getQuantity(),2);
         assertEquals(extraSlot.getResourceType(),new Resource(ResourceType.SHIELD));
-        assertEquals(player.getPlayerBoard().getWareHouse().getDepots().get(0).getDimension(),2);
-        assertEquals(player.getPlayerBoard().getWareHouse().getDepots().get(0).getType(),new Resource(ResourceType.SHIELD));
+        assertEquals(player.getPlayerBoard().getExtraDepots().get(0).getDimension(),2);
+        assertEquals(player.getPlayerBoard().getExtraDepots().get(0).getType(),new Resource(ResourceType.SHIELD));
     }
 
     @Test

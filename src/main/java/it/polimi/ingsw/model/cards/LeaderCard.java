@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.cards.effects.LeaderEffect;
 import it.polimi.ingsw.model.cards.requirements.Requirement;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * This class represents a LeaderCard
@@ -17,9 +18,11 @@ private boolean isActive;
 private final LeaderEffect leaderEffect;
 private final int victoryPoints;
 private final ArrayList<Requirement> requirements;
+private int id;
 
-    public LeaderCard( LeaderEffect leaderEffect, int victoryPoints, ArrayList<Requirement> requirements) {
+    public LeaderCard( int id,LeaderEffect leaderEffect, int victoryPoints, ArrayList<Requirement> requirements) {
         this.isActive = false;
+        this.id = id;
         this.leaderEffect = leaderEffect;
         this.victoryPoints = victoryPoints;
         this.requirements = requirements;
@@ -56,6 +59,17 @@ private final ArrayList<Requirement> requirements;
         return true;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LeaderCard that = (LeaderCard) o;
+        return  id == that.id ;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(isActive, leaderEffect, victoryPoints, requirements, id);
+    }
 }
 

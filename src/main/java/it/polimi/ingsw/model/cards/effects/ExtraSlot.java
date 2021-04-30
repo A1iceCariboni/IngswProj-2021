@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model.cards.effects;
 
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PlayerBoard;
-import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.*;
 
 /**
  * this effect is an extra slot in the wharehouse only for resource of type resourceType
@@ -20,7 +17,8 @@ public class ExtraSlot implements LeaderEffect{
 
     @Override
     public void applyEffect(Player p, PlayerBoard b) {
-    b.addExtraDepot(resourceType,quantity);
+        ExtraDepot extraDepot = new ExtraDepot(quantity,resourceType);
+        b.addExtraDepot(extraDepot);
     }
 
     public Resource getResourceType() {

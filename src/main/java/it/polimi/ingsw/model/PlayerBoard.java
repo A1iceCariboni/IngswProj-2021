@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.CannotAdd;
+import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +16,7 @@ public class PlayerBoard {
     private ArrayList<DevelopmentCard> coveredDevCards;
     private ArrayList<DevelopmentCard> devCards;
     private int faithMarker;
+    private ArrayList <ExtraDepot> extraDepots ;
 
     public PlayerBoard() {}
 
@@ -27,6 +29,7 @@ public class PlayerBoard {
         this.coveredDevCards = new ArrayList<>();
         this.devCards = new ArrayList<>();
         this.countDevCards = 0;
+        this.extraDepots = new ArrayList<>();
     }
 
 
@@ -37,6 +40,15 @@ public class PlayerBoard {
         return res;
     }
 
+    public void addExtraDepot(ExtraDepot extraDepot){
+        this.extraDepots.add(extraDepot);
+    }
+
+    public ArrayList<ExtraDepot> getExtraDepots(){return extraDepots;}
+
+    public void addToExtraDepot(Resource resource, ExtraDepot extraDepot) throws NotPossibleToAdd {
+        extraDepot.addResource(resource);
+    }
 
     public int getFaithMarker() {
         return this.faithMarker;
@@ -72,12 +84,6 @@ public class PlayerBoard {
     }
 
 
-
-    /** adds an extra depot*/
-    public void addExtraDepot(Resource resource, int dimension){
-        ExtraDepot extraDepot = new ExtraDepot(dimension,resource);
-        this.wareHouse.addDepot(extraDepot);
-    }
 
     /** adds a card to Player Board*/
     public void addDevCard(DevelopmentCard card , int slot) throws CannotAdd{

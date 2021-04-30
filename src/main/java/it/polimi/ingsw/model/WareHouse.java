@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class WareHouse {
     private ArrayList<Depot> depots;
-    private ArrayList<Depot> extraDepots;
 
     public WareHouse() {
         this.depots = new ArrayList<>();
