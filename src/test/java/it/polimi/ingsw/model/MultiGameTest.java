@@ -55,12 +55,37 @@ public class MultiGameTest {
      * it controls if MultiGame is correctly instantiated
      */
     @Test
-    void getterTest(){
-        assertEquals(players1.get(0).getNickName(), "player1");
-        assertEquals(players1.get(1).getNickName(), "player2");
-        assertEquals(players1.get(2).getNickName(), "player3");
-        assertEquals(players1.get(3).getNickName(), "player4");
-        assertEquals(players1.get(0).getVictoryPoints(), 0);
+    void getterTest() throws JsonFileNotFoundException {
+        MultiGame multiGame = new MultiGame();
+        multiGame.addPlayer(players1.get(0));
+        multiGame.addPlayer(players1.get(1));
+        multiGame.addPlayer(players1.get(2));
+        multiGame.addPlayer(players1.get(3));
+        ArrayList<Player> players2 = new ArrayList<>();
+        players2 = multiGame.getPlayers();
+        assertEquals(players1.get(0).getNickName(), players2.get(0).getNickName());
+        assertEquals(players1.get(1).getNickName(), players2.get(1).getNickName());
+        assertEquals(players1.get(2).getNickName(), players2.get(2).getNickName());
+        assertEquals(players1.get(3).getNickName(), players2.get(3).getNickName());
+        assertEquals(players1.get(0).getVictoryPoints(), players2.get(0).getVictoryPoints());
+
+        assertEquals(0, multiGame.getCurrentPlayer());
+        multiGame.nextPlayer();
+        assertEquals(1, multiGame.getCurrentPlayer());
+    }
+
+    @Test
+    void startGameTest() throws JsonFileNotFoundException {
+        MultiGame multiGame = new MultiGame();
+        multiGame.addPlayer(players1.get(0));
+        multiGame.addPlayer(players1.get(1));
+        multiGame.addPlayer(players1.get(2));
+        multiGame.addPlayer(players1.get(3));
+        int p3 = players1.get(2).getPlayerBoard().getFaithMarker();
+        int p4 = players1.get(3).getPlayerBoard().getFaithMarker();
+        multiGame.startGame();
+        assertEquals(players1.get(2).getPlayerBoard().getFaithMarker(), p3+1 );
+        assertEquals(players1.get(3).getPlayerBoard().getFaithMarker(), p4+1);
     }
 
     /**
@@ -221,7 +246,7 @@ public class MultiGameTest {
     }
 
     @Test
-    void checkPopeSpaceTest() throws JsonFileNotFoundException {
+    void getPopePointsTest() throws JsonFileNotFoundException {
         MultiGame multiGame = new MultiGame();
 
         Player player1 = new Player(true, "player_1", 0, new PlayerBoard(new WareHouse(),new StrongBox()));

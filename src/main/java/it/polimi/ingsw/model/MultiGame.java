@@ -49,7 +49,7 @@ public class MultiGame extends Game {
     }
 
     /**
-     * it assigns the cards to the players
+     * it assigns the cards to the players and moves the faith marker of the third and fourth player
      */
     @Override
     public void startGame() throws JsonFileNotFoundException {
@@ -61,7 +61,8 @@ public class MultiGame extends Game {
               this.currentPlayer = players.indexOf(player);
           }
        }
-
+       players.get(2).getPlayerBoard().moveFaithMarker(1);
+       players.get(3).getPlayerBoard().moveFaithMarker(1);
     }
 
     /**
@@ -71,10 +72,9 @@ public class MultiGame extends Game {
     @Override
     public void endGame(Player player){
         int i = players.indexOf(player);
-        Player player1 = player;
         for(int j=0; j<players.size(); j++){
             if (i != players.size() - 1){
-                player1 = nextPlayer();
+                nextPlayer();
                 i = i+1;
             }
         }
