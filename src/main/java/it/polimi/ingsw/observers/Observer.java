@@ -1,14 +1,14 @@
 package it.polimi.ingsw.observers;
 
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.request.ConnectionMessage;
+import it.polimi.ingsw.messages.request.NumberOfPlayerReply;
+import it.polimi.ingsw.messages.request.SetupMessage;
 
 public interface Observer {
 
-  /**
-   * method called when there is a request of connection from a client
-   * @param message containing ip and port from client
-   */
-  public void onConnectionRequest(ConnectionMessage message);
+   void onConnectionRequest(String ip, int port);
+   void onUpdateNickname(SetupMessage setupMessage);
+   void onReadyReply(Message message);
+   void update(Message message);
 
 }

@@ -34,4 +34,14 @@ public abstract class Observable {
          lambda.accept(observer);
        }
    }
+
+    /**
+     * notify all the observers
+     * @param message massage to be processed
+     */
+   public void notifyObserver(Message message){
+    for(Observer observer : observers){
+        observer.update(message);
+    }
+   }
 }

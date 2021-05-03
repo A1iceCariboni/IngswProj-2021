@@ -1,36 +1,44 @@
 package it.polimi.ingsw.CLI;
 
-import it.polimi.ingsw.client.SocketClient;
-import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.messages.request.ConnectionMessage;
+import it.polimi.ingsw.enumerations.Constants;
+import it.polimi.ingsw.messages.request.NumberOfPlayerReply;
+import it.polimi.ingsw.messages.request.SetupMessage;
 import it.polimi.ingsw.observers.Observable;
-import it.polimi.ingsw.observers.Observer;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Cli extends Observable {
-    Controller controller;
+    private Scanner input;
+
 
     public Cli(){
-         controller = new Controller();
-         addObserver(controller);
-         start();
+        this.input = new Scanner(System.in);
     }
+
     public void start(){
-        Scanner input = new Scanner(System.in);
-        System.out.println(">Insert the server IP address");
+        /*System.out.println(">Insert the server IP address");
         System.out.print(">");
         String ip = input.nextLine();
         System.out.println(">Insert the server port");
         System.out.print(">");
-        int port = input.nextInt();
-        ConnectionMessage message = new ConnectionMessage(ip,port);
-        notifyObserver(obs -> obs.onConnectionRequest(message));
+        int port = input.nextInt();*/
+        int port = Constants.DEFAULT_PORT;
+        String ip = Constants.LOCAL_HOST;
+        notifyObserver(obs -> obs.onConnectionRequest(ip,port));
     }
 
     public void askNickname(){
+        System.out.println("Insert your nickname >");
+        String nickname = input.nextLine();
+        SetupMessage setupMessage = new SetupMessage(nickname);
+        notifyObserver(obs -> obs.onUpdateNickname(setupMessage));
+    }
 
+    public void askNumberOfPlayers(){
+        System.out.println("Type number of players >");
+        int number = input.nextInt();
+        NumberOfPlayerReply message = new NumberOfPlayerReply(Integer.toString(number));
+        notifyObserver(obs -> obs.onReadyReply(message));
     }
 
 }
