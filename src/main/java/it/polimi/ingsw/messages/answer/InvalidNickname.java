@@ -9,6 +9,6 @@ import it.polimi.ingsw.messages.MessageType;
 public class InvalidNickname extends Message {
 
     public InvalidNickname(String payload) {
-        super(MessageType.ERROR, payload);
+        super(MessageType.INVALID_NICKNAME, payload);
     }
 }

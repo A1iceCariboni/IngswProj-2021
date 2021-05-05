@@ -4,6 +4,7 @@ import it.polimi.ingsw.CLI.Cli;
 import it.polimi.ingsw.client.SocketClient;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.request.SetupMessage;
+import it.polimi.ingsw.observers.CliObserver;
 import it.polimi.ingsw.observers.Observer;
 
 /**
@@ -11,7 +12,7 @@ import it.polimi.ingsw.observers.Observer;
  * reads messages from server and pass them to the client
  * @author Alice Cariboni
  */
-public class ClientController implements Observer {
+public class ClientController implements CliObserver,Observer {
     private final Cli cli;
 
     private  SocketClient client;
@@ -44,8 +45,8 @@ public class ClientController implements Observer {
     @Override
     public void onUpdateNickname(SetupMessage setupMessage) {
         this.nickname = setupMessage.getPayload();
-        Message message = setupMessage;
-        client.sendMessage(message);
+        client.sendMessage(setupMessage);
+        System.out.println("Nickname request sent!..");
     }
 
 
@@ -73,11 +74,15 @@ public class ClientController implements Observer {
      */
     @Override
     public void update(Message message) {
+        printMessage(message.getPayload());
         switch (message.getCode()){
             case NUMBER_OF_PLAYERS:
-              printMessage(message.getPayload());
-              cli.askNumberOfPlayers();
+                  cli.askNumberOfPlayers();
               break;
+            case INVALID_NICKNAME:
+                cli.askNickname();
+            break;
+
 
         }
     }

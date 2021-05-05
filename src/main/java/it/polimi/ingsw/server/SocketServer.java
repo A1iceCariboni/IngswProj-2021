@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.CLI.Cli;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -36,9 +38,9 @@ public class SocketServer implements  Runnable{
         while (active){
             try {
                 Socket client = serverSocket.accept();
-                client.setSoTimeout(5000);
+
                 ClientHandler clientHandler = new ClientHandler(client, this);
-                System.out.println("Accepted new client "+ client.getInetAddress());
+                Server.LOGGER.info("Accepted new client "+ client.getInetAddress());
                 executor.submit(clientHandler); //thread.start();
             } catch (IOException e) {
                 System.err.println("Connection dropped!..");
@@ -54,6 +56,15 @@ public class SocketServer implements  Runnable{
     public void addClient(String nickname , ClientHandler clientHandler){
         server.addClient(nickname,clientHandler);
     }
+
+
+    public void createGame(int numberOfPlayers){
+        server.createGame(numberOfPlayers);
+    }
+
+    /**
+     * create a new socket listening on the port given in the constructor
+     */
 
     @Override
     public void run() {

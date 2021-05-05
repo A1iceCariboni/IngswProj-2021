@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 public abstract class Observable {
    private ArrayList<Observer> observers = new ArrayList<>();
 
+
     /**
      * add an observer
      * @param observer observer that is added
@@ -24,16 +25,6 @@ public abstract class Observable {
        observers.remove(observer);
    }
 
-
-    /**
-     * notify all the observers
-     * @param lambda to be applied on the observer
-     */
-   public void notifyObserver(Consumer<Observer> lambda){
-       for(Observer observer : observers){
-         lambda.accept(observer);
-       }
-   }
 
     /**
      * notify all the observers

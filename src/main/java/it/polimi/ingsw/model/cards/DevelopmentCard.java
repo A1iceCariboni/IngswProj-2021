@@ -3,14 +3,12 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.model.cards.effects.ProductionPower;
-import it.polimi.ingsw.model.PlayerBoard;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * @author Alice Cariboni
@@ -76,8 +74,7 @@ public class DevelopmentCard extends Card{
         }
     }
 
-    public void addPointsTo(Player player){
-        player.addVictoryPoints(victoryPoints);
+    public void addPointsTo(Player player){ player.addVictoryPoints(victoryPoints);
     }
     public CardColor getColor() {
         return color;

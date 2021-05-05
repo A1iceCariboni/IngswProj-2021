@@ -15,6 +15,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 /**
  * socket client implementation
@@ -26,6 +27,7 @@ public class SocketClient extends Observable {
     private  ExecutorService readerExecutor;
     private ScheduledExecutorService pinger;
     boolean active;
+    public static Logger LOGGER = Logger.getLogger(SocketClient.class.getName());
 
     public SocketClient(String ip, int port){
         try {
@@ -54,7 +56,7 @@ public class SocketClient extends Observable {
               while(!readerExecutor.isShutdown()) {
                   try {
                       line = in.readLine();
-                      System.out.println("Received " + line);
+                      LOGGER.info("Received " + line);
                       if(line == null){
                           break;
                       }
@@ -63,7 +65,7 @@ public class SocketClient extends Observable {
                       disconnect();
                       readerExecutor.shutdownNow();
                   }
-                  notifyObserver( gson.fromJson(line,Message.class));
+                  notifyObserver(gson.fromJson(line,Message.class));
                }
               disconnect();
               });

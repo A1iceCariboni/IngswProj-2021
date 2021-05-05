@@ -1,9 +1,10 @@
 package it.polimi.ingsw.model;
+
 import it.polimi.ingsw.exceptions.CannotAdd;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /** @author Alessandra Atria
 */
@@ -11,7 +12,7 @@ import java.util.Arrays;
 public class PlayerBoard {
     private WareHouse wareHouse;
     private StrongBox strongBox;
-    private DevelopmentCard devCardSlots[];
+    private DevelopmentCard[] devCardSlots;
     private int countDevCards;
     private ArrayList<DevelopmentCard> coveredDevCards;
     private ArrayList<DevelopmentCard> devCards;

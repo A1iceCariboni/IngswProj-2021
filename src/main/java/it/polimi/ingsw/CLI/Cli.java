@@ -3,11 +3,12 @@ package it.polimi.ingsw.CLI;
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.messages.request.NumberOfPlayerReply;
 import it.polimi.ingsw.messages.request.SetupMessage;
+import it.polimi.ingsw.observers.CliObservable;
 import it.polimi.ingsw.observers.Observable;
 
 import java.util.Scanner;
 
-public class Cli extends Observable {
+public class Cli extends CliObservable {
     private Scanner input;
 
 
@@ -35,8 +36,18 @@ public class Cli extends Observable {
     }
 
     public void askNumberOfPlayers(){
-        System.out.println("Type number of players >");
-        int number = input.nextInt();
+        boolean ok = false;
+        int number = 0;
+        while(!ok) {
+            System.out.println("Type number of players >");
+            number = input.nextInt();
+            if(number >= Constants.MIN_NUMBER_OF_PLAYERS && number <= Constants.MAX_NUMBER_OF_PLAYERS){
+                ok = true;
+            }
+            if(!ok){
+                System.out.println("The number must be between " + Constants.MIN_NUMBER_OF_PLAYERS + "and" + Constants.MAX_NUMBER_OF_PLAYERS);
+            }
+        }
         NumberOfPlayerReply message = new NumberOfPlayerReply(Integer.toString(number));
         notifyObserver(obs -> obs.onReadyReply(message));
     }
