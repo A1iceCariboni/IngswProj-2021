@@ -55,7 +55,13 @@ public abstract class GameController {
         return numberOfPlayers;
     }
 
+    public VirtualView getVirtualViewByNickname(String nickname){
+        return connectedClients.get(nickname);
+    }
+
     public void setNumberOfPlayers(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
     }
+
+    public abstract void onMessageReceived(Message message , String nickname);
 }

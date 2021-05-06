@@ -7,7 +7,9 @@ import it.polimi.ingsw.model.cards.effects.ProductionPower;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * This class represents a Player
@@ -154,6 +156,12 @@ public class Player {
         return player.getNickName().equals(nickName);
     }
 
+    public LeaderCard getLeaderCardById(int id){
+        List<LeaderCard> leaderCardList = leaderCards
+                .stream().filter(lc -> lc.getId() == id)
+                .collect(Collectors.toList());
+        return leaderCardList.get(0);
+    }
     @Override
     public int hashCode() {
         return Objects.hash(inkwell, nickName, victoryPoints, leaderCards, playerBoard, playerMove, discountedResource, extraProductionPowers, possibleWhiteMarbles);

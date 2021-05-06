@@ -15,6 +15,7 @@ import java.util.Scanner;
  * @author Alice Cariboni
  */
 public class ClientHandler implements  Runnable{
+    private Server server;
     private final Socket client;
     private final SocketServer socketServer;
 
@@ -29,8 +30,9 @@ public class ClientHandler implements  Runnable{
      * @param client the new client connected to the socket
      * @param socketServer
      */
-    public ClientHandler(Socket client, SocketServer socketServer) {
+    public ClientHandler(Socket client, SocketServer socketServer, Server server) {
         this.client = client;
+        this.server = server;
         this.socketServer = socketServer;
 
         this.connected = true;
@@ -69,10 +71,10 @@ public class ClientHandler implements  Runnable{
      * @param message that is received from the client
      */
   public void handleMessage(Message message){
-        switch (message.getCode()){
-            case SETUP:
-                socketServer.addClient(message.getPayload(),this);
-                break;
+        if (message.getCode() == MessageType.SETUP) {
+            socketServer.addClient(message.getPayload(), this);
+        }else{
+            server.onMessageReceived(message, this);
         }
   }
     /**

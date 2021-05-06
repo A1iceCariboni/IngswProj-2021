@@ -1,9 +1,11 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.CLI.Cli;
+import it.polimi.ingsw.command.Command;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.MultiGameController;
 import it.polimi.ingsw.controller.SingleGameController;
+import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.answer.ErrorMessage;
 import it.polimi.ingsw.messages.answer.InvalidNickname;
 import it.polimi.ingsw.messages.answer.NumberOfPlayerRequest;
@@ -21,7 +23,7 @@ import java.util.logging.Logger;
  * @author Alice Cariboni
  */
 public class Server {
-    private final Map<String, ClientHandler> clients;
+    private final Map<ClientHandler, String> clients;
     private final List<ClientHandler> waiting ;
     private GameController gameController;
     public static final Logger LOGGER = Logger.getLogger(Server.class.getName());
@@ -43,7 +45,7 @@ public class Server {
             VirtualView virtualView = new VirtualView(clientHandler, nickname);
             boolean ok = true;
             if (waiting.isEmpty()) {
-                clients.put(nickname, clientHandler);
+                clients.put(clientHandler, nickname);
                 LOGGER.info("Client " + nickname + " registered" + clientHandler);
                 virtualClients.put(nickname , virtualView);
             } else {
@@ -51,7 +53,7 @@ public class Server {
                     virtualView.nickNameResult(false, false, false);
                     ok = false;
                 } else {
-                    clients.put(nickname,clientHandler);
+                    clients.put(clientHandler,nickname);
                     virtualClients.put(nickname,virtualView);
                     gameController.addConnectedClient(nickname,virtualView);
 
@@ -115,7 +117,10 @@ public class Server {
       }
       LOGGER.info("Created game");
   }
-
+    public void onMessageReceived(Message message, ClientHandler clientHandler){
+      String name = clients.get(clientHandler);
+        gameController.onMessageReceived(message, name);
+    }
 }
 
 

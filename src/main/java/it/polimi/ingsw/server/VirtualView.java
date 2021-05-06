@@ -8,6 +8,8 @@ import it.polimi.ingsw.messages.answer.OkMessage;
 import it.polimi.ingsw.messages.request.NumberOfPlayerReply;
 import it.polimi.ingsw.observers.Observer;
 
+import java.util.ArrayList;
+
 /**
  * class between network and the game controller on the server side , the controller call the methods of this class and this class communicate with the client
  * @author Alice Cariboni

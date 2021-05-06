@@ -71,5 +71,9 @@ private int id;
     public int hashCode() {
         return Objects.hash(isActive, leaderEffect, victoryPoints, requirements, id);
     }
+
+    public int getId() {
+        return id;
+    }
 }
 

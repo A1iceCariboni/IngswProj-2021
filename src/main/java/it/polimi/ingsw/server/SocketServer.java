@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.CLI.Cli;
+import it.polimi.ingsw.messages.Message;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -39,7 +40,7 @@ public class SocketServer implements  Runnable{
             try {
                 Socket client = serverSocket.accept();
 
-                ClientHandler clientHandler = new ClientHandler(client, this);
+                ClientHandler clientHandler = new ClientHandler(client, this, server);
                 Server.LOGGER.info("Accepted new client "+ client.getInetAddress());
                 executor.submit(clientHandler); //thread.start();
             } catch (IOException e) {
@@ -77,5 +78,6 @@ public class SocketServer implements  Runnable{
             System.exit(0);
         }
     }
+
 }
 
