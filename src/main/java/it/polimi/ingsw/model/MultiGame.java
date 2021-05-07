@@ -182,7 +182,7 @@ public class MultiGame extends Game {
     }
 
     /**
-     *
+     * gets the card in the required position
      * @param col column in the grid of dev cards
      * @param row row in the grid of dev cards
      * @return the card i have required and remove it from the table

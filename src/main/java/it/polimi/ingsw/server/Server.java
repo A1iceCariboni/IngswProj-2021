@@ -1,10 +1,10 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.CLI.Cli;
-import it.polimi.ingsw.command.Command;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.MultiGameController;
 import it.polimi.ingsw.controller.SingleGameController;
+import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.answer.ErrorMessage;
 import it.polimi.ingsw.messages.answer.InvalidNickname;
@@ -117,7 +117,7 @@ public class Server {
       }
       LOGGER.info("Created game");
   }
-    public void onMessageReceived(Message message, ClientHandler clientHandler){
+    public void onMessageReceived(Message message, ClientHandler clientHandler) throws NullCardException {
       String name = clients.get(clientHandler);
         gameController.onMessageReceived(message, name);
     }

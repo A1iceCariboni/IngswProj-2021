@@ -3,6 +3,7 @@ import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.model.cards.Deck;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.DevelopmentCardDeck;
 import it.polimi.ingsw.model.cards.LeaderDeck;
 import it.polimi.ingsw.utility.DevelopentCardParser;
@@ -165,6 +166,15 @@ public class SingleGame extends Game{
         return deckDevelopment;
     }
 
+    /**
+     * gets the card in the required position
+     * @param col column in the grid of dev cards
+     * @param row row in the grid of dev cards
+     * @return the card i have required and remove it from the table
+     */
+    public DevelopmentCard getCardFrom(int col, int row){
+        return this.deckDevelopment[row][col].popCard();
+    }
 
     public void discardCard(CardColor cardColor, int quantity) {
         int i = quantity;

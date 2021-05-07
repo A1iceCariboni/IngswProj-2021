@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.observers.Observer;
@@ -63,5 +64,5 @@ public abstract class GameController {
         this.numberOfPlayers = numberOfPlayers;
     }
 
-    public abstract void onMessageReceived(Message message , String nickname);
+    public abstract void onMessageReceived(Message message , String nickname) throws NullCardException;
 }

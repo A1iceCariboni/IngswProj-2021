@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.answer.ErrorMessage;
@@ -47,14 +48,18 @@ public class ClientHandler implements  Runnable{
     @Override
     public void run() {
         while (connected) {
-            readFromClient();
+            try {
+                readFromClient();
+            } catch (NullCardException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     /**
      * read messages from socket client and manages them
      */
-    public synchronized void readFromClient(){
+    public synchronized void readFromClient() throws NullCardException {
             String line = in.nextLine();
             Gson gson = new Gson();
             Message message = gson.fromJson(line, Message.class);
@@ -70,7 +75,7 @@ public class ClientHandler implements  Runnable{
      * make decision based on the message code arrived from the client
      * @param message that is received from the client
      */
-  public void handleMessage(Message message){
+  public void handleMessage(Message message) throws NullCardException {
         if (message.getCode() == MessageType.SETUP) {
             socketServer.addClient(message.getPayload(), this);
         }else{
