@@ -2,16 +2,12 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.observers.Observer;
-import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.VirtualView;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class GameController {
-    private Game game;
     private Map<String, VirtualView> connectedClients;
     private boolean isStarted;
 
@@ -52,6 +48,10 @@ public abstract class GameController {
         isStarted = started;
     }
 
+    public VirtualView getVirtualView(String name){
+        return connectedClients.get(name);
+    }
+
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
@@ -64,5 +64,6 @@ public abstract class GameController {
         this.numberOfPlayers = numberOfPlayers;
     }
 
-    public abstract void onMessageReceived(Message message , String nickname) throws NullCardException;
+
+    public abstract void activateLeaderCard(String name, VirtualView virtualView,int id) throws NullCardException;
 }

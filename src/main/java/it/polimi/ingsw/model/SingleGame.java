@@ -3,7 +3,6 @@ import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.model.cards.Deck;
-import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.DevelopmentCardDeck;
 import it.polimi.ingsw.model.cards.LeaderDeck;
 import it.polimi.ingsw.utility.DevelopentCardParser;
@@ -17,39 +16,12 @@ import java.util.ArrayList;
  */
 
 public class SingleGame extends Game{
-    private Player player;
-    private FaithTrack faithTrack;
-    private LeaderDeck leaderDeck;
+
     private FakePlayer fakePlayer;
-    private MarketTray marketTray;
-    private DevelopmentCardDeck[][] deckDevelopment;
-    private Player winner;
 
     public SingleGame() throws JsonFileNotFoundException {
-        this.player = null;
-        this.leaderDeck = new LeaderDeck(LeaderCardParser.parseLeadCards());
+        super();
         this.fakePlayer = new FakePlayer(1);
-        this.marketTray = new MarketTray();
-        this.faithTrack = new FaithTrack();
-        this.winner = null;
-        this.deckDevelopment = new DevelopmentCardDeck[3][4];
-        for (int r = 0; r < Constants.rows; r++) {
-            for (int c = 0; c < Constants.cols; c++) {
-                this.deckDevelopment[r][c] = new DevelopmentCardDeck();
-            }
-        }
-        DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck(DevelopentCardParser.parseDevCards());
-
-        CardColor[] colors = {CardColor.GREEN, CardColor.YELLOW, CardColor.PURPLE, CardColor.BLUE};
-        int cont = 0;
-        for (int r = 0; r < Constants.rows; r++) {
-            for (int c = 0; c < Constants.cols; c++) {
-                for (int i = 0; i < Constants.smallDecks; i++) {
-                    this.deckDevelopment[r][c].addCard(developmentCardDeck.getByColorAndLevel(colors[c], r + 1));
-
-                }
-            }
-        }
     }
 
     /**
@@ -57,10 +29,7 @@ public class SingleGame extends Game{
      */
     @Override
     public void startGame() {
-        for (int i = 0; i < Constants.smallDecks; i++) {
-            this.player.addLeaderCard(this.leaderDeck.popCard());
-        }
-        this.player.setInkwell(true);
+        super.startGame();
     }
     /**
      * it assignes player as a winner
@@ -68,7 +37,7 @@ public class SingleGame extends Game{
      */
     @Override
     public void endGame(Player player) {
-        this.winner = player;
+        this.winners.add(player);
     }
 
     /**
@@ -77,7 +46,7 @@ public class SingleGame extends Game{
      */
     @Override
     public void addPlayer(Player p) {
-        this.player = p;
+        this.players.add(p);
         p.setInkwell(true);
     }
 
@@ -97,13 +66,13 @@ public class SingleGame extends Game{
                 b = true;
             }
         }
-        if (player.getPlayerBoard().getFaithMarker() == Constants.winFaith){
+        if (players.get(0).getPlayerBoard().getFaithMarker() == Constants.winFaith){
             b = true;
-            endGame(player);
+            endGame(players.get(0));
         }
-        if(player.getPlayerBoard().getCountDevCards() == Constants.winDev){
+        if(players.get(0).getPlayerBoard().getCountDevCards() == Constants.winDev){
             b = true;
-            endGame(player);
+            endGame(players.get(0));
         }
         return b;
     }
@@ -128,7 +97,7 @@ public class SingleGame extends Game{
     @Override
     public Player nextPlayer() {
         fakePlayer.getToken();
-        return player;
+        return players.get(0);
     }
 
     /**
@@ -137,26 +106,15 @@ public class SingleGame extends Game{
      */
     @Override
     public void getPopePoints(){
-        if (faithTrack.isReportSection(player.getPlayerBoard().getFaithMarker())){
-            player.addVictoryPoints(faithTrack.getPointsForPope(player.getPlayerBoard().getFaithMarker()));
+        if (faithTrack.isReportSection(players.get(0).getPlayerBoard().getFaithMarker())){
+            players.get(0).addVictoryPoints(faithTrack.getPointsForPope(players.get(0).getPlayerBoard().getFaithMarker()));
         }
     }
 
-    @Override
-    public MarketTray getMarketTray() {
-        return marketTray;
-    }
 
-    @Override
-    public FaithTrack getFaithTrack() {
-        return faithTrack;
-    }
 
-    public Player getWinner() { return winner;}
 
-    public Player getPlayer(){
-        return player;
-    }
+
 
     public FakePlayer getFakePlayer(){
         return fakePlayer;
@@ -166,15 +124,6 @@ public class SingleGame extends Game{
         return deckDevelopment;
     }
 
-    /**
-     * gets the card in the required position
-     * @param col column in the grid of dev cards
-     * @param row row in the grid of dev cards
-     * @return the card i have required and remove it from the table
-     */
-    public DevelopmentCard getCardFrom(int col, int row){
-        return this.deckDevelopment[row][col].popCard();
-    }
 
     public void discardCard(CardColor cardColor, int quantity) {
         int i = quantity;

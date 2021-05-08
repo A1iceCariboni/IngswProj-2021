@@ -1,17 +1,14 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.CLI.Cli;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.MultiGameController;
 import it.polimi.ingsw.controller.SingleGameController;
 import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.answer.ErrorMessage;
-import it.polimi.ingsw.messages.answer.InvalidNickname;
 import it.polimi.ingsw.messages.answer.NumberOfPlayerRequest;
 import it.polimi.ingsw.messages.answer.OkMessage;
 
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -87,6 +84,7 @@ public class Server {
         if(waiting.size() == gameController.getNumberOfPlayers()){
             gameController.sendAll(new OkMessage("Game is starting!"));
             gameController.setStarted(true);
+            gameController.startGame();
         }else{
             if(gameController.isStarted()) {
                 clientHandler.sendMessage(new ErrorMessage("The game is already started, try again later"));
@@ -117,9 +115,20 @@ public class Server {
       }
       LOGGER.info("Created game");
   }
-    public void onMessageReceived(Message message, ClientHandler clientHandler) throws NullCardException {
-      String name = clients.get(clientHandler);
-        gameController.onMessageReceived(message, name);
+
+
+    public void onMessageReceived(Message message, ClientHandler clientHandler){
+      String nickname = clients.get(clientHandler);
+      VirtualView vv = virtualClients.get(nickname);
+            switch(message.getCode()){
+                case ACTIVATE_LEADER_CARD:
+                    try {
+                        gameController.activateLeaderCard(nickname, vv, Integer.parseInt(message.getPayload()));
+                    }catch(NullCardException ex){
+                        vv.update(new ErrorMessage(ex.getMessage()));
+                    }
+
+            }
     }
 }
 

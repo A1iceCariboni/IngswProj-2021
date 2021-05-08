@@ -26,4 +26,11 @@ public class JollyMarble implements LeaderEffect{
         return resourceType;
     }
 
+
+    @Override
+    public String toString() {
+        return "JollyMarble{" +
+                "resourceType=" + resourceType +
+                '}';
+    }
 }

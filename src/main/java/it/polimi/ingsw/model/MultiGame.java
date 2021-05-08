@@ -14,55 +14,18 @@ import java.util.ArrayList;
  * the class controls the game if there are more than 1 player
  */
 public class MultiGame extends Game {
-    private LeaderDeck deckLeader;
-    private DevelopmentCardDeck[][] deckDevelopment;
-    private FaithTrack faithTrack;
-    private MarketTray marketTray;
-    private ArrayList<Player> players;
-    private ArrayList<Player> winners;
-    private int currentPlayer;
+
 
     public MultiGame() throws JsonFileNotFoundException {
-        this.players = new ArrayList<>();
-        this.faithTrack = new FaithTrack();
-        this.marketTray = new MarketTray();
-        this.winners = null;
-        this.currentPlayer = 0;
-        deckLeader = new LeaderDeck(LeaderCardParser.parseLeadCards());
-        this.deckDevelopment = new DevelopmentCardDeck[3][4];
-        for(int r = 0; r< Constants.rows; r++) {
-            for (int c = 0; c < Constants.cols; c++) {
-
-                    this.deckDevelopment[r][c] = new DevelopmentCardDeck();
-            }
-        }
-        DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck(DevelopentCardParser.parseDevCards());
-        CardColor[] colors = {CardColor.GREEN, CardColor.YELLOW, CardColor.PURPLE, CardColor.BLUE};
-        for(int r = 0; r< Constants.rows; r++){
-            for(int c = 0; c< Constants.cols; c++){
-                for(int i = 0; i < Constants.smallDecks; i++) {
-                    this.deckDevelopment[r][c].addCard(developmentCardDeck.getByColorAndLevel(colors[c], r + 1));
-                }
-            }
-        }
-
+        super();
     }
 
     /**
      * it assigns the cards to the players and moves the faith marker of the third and fourth player
      */
-    @Override
-    public void startGame() throws JsonFileNotFoundException {
-       for(Player player: this.players) {
-           for (int i = 0; i < Constants.smallDecks; i++) {
-               player.addLeaderCard(this.deckLeader.popCard());
-           }
-          if(player.getInkwell()){
-              this.currentPlayer = players.indexOf(player);
-          }
-       }
-       players.get(2).getPlayerBoard().moveFaithMarker(1);
-       players.get(3).getPlayerBoard().moveFaithMarker(1);
+
+    public void startGame() {
+       super.startGame();
     }
 
     /**
@@ -150,16 +113,6 @@ public class MultiGame extends Game {
     }
 
 
-    @Override
-    public MarketTray getMarketTray(){ return marketTray;}
-    @Override
-    public FaithTrack getFaithTrack(){ return faithTrack;}
-
-    public ArrayList<Player> getPlayers(){ return players;}
-
-    public LeaderDeck getDeckLeader() { return deckLeader;}
-
-    public ArrayList<Player> getWinners() { return winners;}
 
     /**
      * it checks if a player has 7 development cards or has the faith marker on the last position of the faith track
@@ -182,7 +135,7 @@ public class MultiGame extends Game {
     }
 
     /**
-     * gets the card in the required position
+     *
      * @param col column in the grid of dev cards
      * @param row row in the grid of dev cards
      * @return the card i have required and remove it from the table

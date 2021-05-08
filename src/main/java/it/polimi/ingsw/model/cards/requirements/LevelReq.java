@@ -34,5 +34,12 @@ public class LevelReq implements Requirement{
         return c >= quantity;
     }
 
-
+    @Override
+    public String toString() {
+        return "LevelReq{" +
+                "level=" + level +
+                ", color=" + color +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

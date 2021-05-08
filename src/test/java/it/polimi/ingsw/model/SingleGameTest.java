@@ -45,7 +45,7 @@ class SingleGameTest {
         SingleGame singleGame = new SingleGame();
         singleGame.addPlayer(player);
         singleGame.endGame(player);
-        assertEquals(singleGame.getWinner(), player);
+        assertEquals(singleGame.getWinners().get(0), player);
     }
 
     /**
@@ -56,7 +56,7 @@ class SingleGameTest {
     void addPlayerTest() throws JsonFileNotFoundException {
         SingleGame singleGame = new SingleGame();
         singleGame.addPlayer(player);
-        assertEquals(player, singleGame.getPlayer());
+        assertEquals(player, singleGame.getPlayers().get(0));
     }
 
     /**
@@ -68,7 +68,7 @@ class SingleGameTest {
     void checkEndGameTest() throws JsonFileNotFoundException, CannotAdd {
         SingleGame singleGame = new SingleGame();
         singleGame.addPlayer(player);
-        singleGame.getPlayer().getPlayerBoard().moveFaithMarker(23);
+        singleGame.getPlayers().get(0).getPlayerBoard().moveFaithMarker(23);
         assertTrue(singleGame.checkEndGame());
 
         SingleGame singleGame2 = new SingleGame();
@@ -131,7 +131,7 @@ class SingleGameTest {
     void nextPlayerTest() throws JsonFileNotFoundException {
         SingleGame singleGame = new SingleGame();
         singleGame.addPlayer(player);
-        assertEquals(singleGame.getPlayer(), player);
+        assertEquals(singleGame.getPlayers().get(0), player);
     }
 
     /**

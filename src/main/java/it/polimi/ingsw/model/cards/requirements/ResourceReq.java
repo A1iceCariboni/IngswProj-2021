@@ -29,4 +29,11 @@ public class ResourceReq implements Requirement{
         return c >= quantity;
     }
 
+    @Override
+    public String toString() {
+        return "ResourceReq{" +
+                "resourceType=" + resourceType +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

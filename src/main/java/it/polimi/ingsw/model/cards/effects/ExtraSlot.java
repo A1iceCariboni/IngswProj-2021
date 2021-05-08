@@ -28,4 +28,12 @@ public class ExtraSlot implements LeaderEffect{
     public int getQuantity() {
         return quantity;
     }
+
+    @Override
+    public String toString() {
+        return "ExtraSlot{" +
+                "resourceType=" + resourceType.toString() +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

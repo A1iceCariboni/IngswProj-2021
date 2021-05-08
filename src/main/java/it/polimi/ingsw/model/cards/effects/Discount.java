@@ -35,4 +35,12 @@ public class Discount implements LeaderEffect{
     public int getQuantity() {
         return quantity;
     }
+
+    @Override
+    public String toString() {
+        return "Discount{" +
+                "resourceType=" + resourceType.toString() +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

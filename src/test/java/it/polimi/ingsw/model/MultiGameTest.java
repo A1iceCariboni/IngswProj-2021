@@ -84,8 +84,8 @@ public class MultiGameTest {
         int p3 = players1.get(2).getPlayerBoard().getFaithMarker();
         int p4 = players1.get(3).getPlayerBoard().getFaithMarker();
         multiGame.startGame();
-        assertEquals(players1.get(2).getPlayerBoard().getFaithMarker(), p3+1 );
-        assertEquals(players1.get(3).getPlayerBoard().getFaithMarker(), p4+1);
+        assertEquals(players1.get(2).getPlayerBoard().getFaithMarker(), p3 );
+        assertEquals(players1.get(3).getPlayerBoard().getFaithMarker(), p4);
     }
 
     /**

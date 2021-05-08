@@ -34,6 +34,7 @@ public class VirtualView implements Observer {
             }
         }
     }
+
     @Override
     public void update(Message message) {
         clientHandler.sendMessage(message);

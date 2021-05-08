@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.cards;
 
-import it.polimi.ingsw.model.Player;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import it.polimi.ingsw.client.DummyModel.DummyLeaderCard;
 import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.cards.effects.LeaderEffect;
 import it.polimi.ingsw.model.cards.requirements.Requirement;
@@ -12,15 +14,15 @@ import java.util.Objects;
  * This class represents a LeaderCard
  * @author Alice Cariboni
  */
-public class LeaderCard extends Card{
+public class LeaderCard extends Card {
 
-private boolean isActive;
-private final LeaderEffect leaderEffect;
-private final int victoryPoints;
-private final ArrayList<Requirement> requirements;
-private int id;
+    private boolean isActive;
+    private final LeaderEffect leaderEffect;
+    private final int victoryPoints;
+    private final ArrayList<Requirement> requirements;
+    private int id;
 
-    public LeaderCard( int id,LeaderEffect leaderEffect, int victoryPoints, ArrayList<Requirement> requirements) {
+    public LeaderCard(int id, LeaderEffect leaderEffect, int victoryPoints, ArrayList<Requirement> requirements) {
         this.isActive = false;
         this.id = id;
         this.leaderEffect = leaderEffect;
@@ -31,14 +33,14 @@ private int id;
     /**
      * @return true if the player who owns the card has activated it false if the card is in the hand of the player or discarded
      */
-    public boolean isActive(){
+    public boolean isActive() {
         return isActive;
     }
 
     /**
      * this method make the leadercard active for the player who owns it
      */
-    public void active(){
+    public void active() {
         this.isActive = true;
     }
 
@@ -50,9 +52,9 @@ private int id;
      * @param b the playerboard of the player who wants to activate the card
      * @return true if the player has the requirements flase if he doesn't
      */
-    public boolean isActivableBy(PlayerBoard b){
-        for(Requirement r : requirements){
-            if(!r.hasEnough(b)){
+    public boolean isActivableBy(PlayerBoard b) {
+        for (Requirement r : requirements) {
+            if (!r.hasEnough(b)) {
                 return false;
             }
         }
@@ -64,7 +66,7 @@ private int id;
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LeaderCard that = (LeaderCard) o;
-        return  id == that.id ;
+        return id == that.id;
     }
 
     @Override
@@ -74,6 +76,16 @@ private int id;
 
     public int getId() {
         return id;
+    }
+
+
+    public DummyLeaderCard getDummy() {
+        ArrayList<String> req = new ArrayList<>();
+
+        for (Requirement requirement : requirements) {
+            req.add(requirement.toString());
+        }
+        return new DummyLeaderCard(id, req, isActive, leaderEffect.toString(), victoryPoints);
     }
 }
 

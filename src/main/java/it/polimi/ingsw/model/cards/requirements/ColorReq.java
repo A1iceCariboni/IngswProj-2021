@@ -32,4 +32,11 @@ public class ColorReq implements Requirement{
         return c >= quantity;
     }
 
+    @Override
+    public String toString() {
+        return "ColorReq{" +
+                "color=" + color +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

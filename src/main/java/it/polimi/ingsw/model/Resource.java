@@ -23,4 +23,10 @@ public class Resource {
         return otherResource.getResourceType().equals(getResourceType());
     }
 
+    @Override
+    public String toString() {
+        return "Resource{" +
+                "resourceType=" + resourceType +
+                '}';
+    }
 }

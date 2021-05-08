@@ -1,11 +1,9 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.SocketServer;
 
-import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -20,5 +18,6 @@ public class ServerApp {
         SocketServer socketServer = new SocketServer(server, port);
         ExecutorService executorService = Executors.newCachedThreadPool();
         executorService.submit(socketServer);
+
     }
 }

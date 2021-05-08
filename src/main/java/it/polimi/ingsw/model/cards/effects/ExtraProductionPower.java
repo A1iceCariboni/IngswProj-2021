@@ -35,4 +35,12 @@ public class ExtraProductionPower implements LeaderEffect{
     public int getQuantity() {
         return quantity;
     }
+
+    @Override
+    public String toString() {
+        return "ExtraProductionPower{" +
+                "resourceType=" + resourceType.toString() +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

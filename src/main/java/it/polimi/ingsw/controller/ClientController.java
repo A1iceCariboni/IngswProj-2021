@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.CLI.Cli;
+import it.polimi.ingsw.client.DummyModel.DummyLeaderCard;
 import it.polimi.ingsw.client.SocketClient;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.request.SetupMessage;
@@ -74,7 +76,6 @@ public class ClientController implements CliObserver,Observer {
      */
     @Override
     public void update(Message message) {
-        printMessage(message.getPayload());
         switch (message.getCode()){
             case NUMBER_OF_PLAYERS:
                   cli.askNumberOfPlayers();
@@ -82,7 +83,10 @@ public class ClientController implements CliObserver,Observer {
             case INVALID_NICKNAME:
                 cli.askNickname();
             break;
-
+            case DUMMY_LEADER_CARD:
+                Gson gson = new Gson();
+                DummyLeaderCard[] dummyLeaderCards = gson.fromJson(message.getPayload(),DummyLeaderCard[].class);
+                //qui fai operazioni tipo aggiungere alla dummyplayerboard
 
         }
     }
