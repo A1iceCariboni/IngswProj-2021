@@ -7,6 +7,11 @@ import it.polimi.ingsw.server.VirtualView;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * class game controller and subclasses handles the evolution of the game based on
+ * the messages from client
+ * @author Alice Cariboni
+ */
 public abstract class GameController {
     private Map<String, VirtualView> connectedClients;
     private boolean isStarted;
@@ -27,9 +32,12 @@ public abstract class GameController {
     }
 
     public void addConnectedClient(String nickname, VirtualView virtualView) {
-        connectedClients.put(nickname,virtualView);
+        this.connectedClients.put(nickname,virtualView);
     }
 
+    public void removeConnectedClient(String nickname){
+        this.connectedClients.remove(nickname);
+    }
     public void addAllConnectedClients(Map<String, VirtualView> clients){
         this.connectedClients.putAll(clients);
     }

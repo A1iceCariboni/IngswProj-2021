@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.client.DummyModel.DummyFaithTrack;
 import it.polimi.ingsw.utility.FaithTrackParser;
 
 import java.util.ArrayList;
@@ -67,6 +68,7 @@ public class FaithTrack {
     public int getPointsForPope(int pos){
        return faithTrack[pos].getPointsForPopeSpace();
     }
+
 
 }
 

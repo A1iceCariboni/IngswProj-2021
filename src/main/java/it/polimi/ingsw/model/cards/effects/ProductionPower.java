@@ -47,6 +47,7 @@ public class ProductionPower {
     }
 
 
+
     public ArrayList<Resource> getEntryResources() {
         return entryResources;
     }

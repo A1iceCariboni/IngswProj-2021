@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.CardColor;
+import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.exceptions.CannotAdd;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
@@ -68,7 +69,7 @@ class SingleGameTest {
     void checkEndGameTest() throws JsonFileNotFoundException, CannotAdd {
         SingleGame singleGame = new SingleGame();
         singleGame.addPlayer(player);
-        singleGame.getPlayers().get(0).getPlayerBoard().moveFaithMarker(23);
+        singleGame.getPlayers().get(0).getPlayerBoard().moveFaithMarker(Constants.winFaith);
         assertTrue(singleGame.checkEndGame());
 
         SingleGame singleGame2 = new SingleGame();
@@ -113,7 +114,7 @@ class SingleGameTest {
         SingleGame singleGame = new SingleGame();
         ArrayList<DevelopmentCardDeck> developmentCardDeckA = new ArrayList<>();
         DevelopmentCardDeck[][] developmentCardDecksM;
-        developmentCardDecksM = singleGame.getDevelopmentCardDeck();
+        developmentCardDecksM = singleGame.getDeckDevelopment();
         developmentCardDeckA.add(developmentCardDecksM[0][0]);
         developmentCardDeckA.add(developmentCardDecksM[1][0]);
         developmentCardDeckA.add(developmentCardDecksM[2][0]);
@@ -158,17 +159,17 @@ class SingleGameTest {
     void discardCard() throws JsonFileNotFoundException {
         SingleGame singleGame= new SingleGame();
         singleGame.discardCard(CardColor.GREEN,4);
-        assertTrue(singleGame.getDevelopmentCardDeck()[0][0].isEmpty());
-        assertFalse(singleGame.getDevelopmentCardDeck()[1][0].isEmpty());
-        assertFalse(singleGame.getDevelopmentCardDeck()[2][0].isEmpty());
+        assertTrue(singleGame.getDeckDevelopment()[0][0].isEmpty());
+        assertFalse(singleGame.getDeckDevelopment()[1][0].isEmpty());
+        assertFalse(singleGame.getDeckDevelopment()[2][0].isEmpty());
         singleGame.discardCard(CardColor.GREEN,4);
-        assertTrue(singleGame.getDevelopmentCardDeck()[0][0].isEmpty());
-        assertTrue(singleGame.getDevelopmentCardDeck()[1][0].isEmpty());
-        assertFalse(singleGame.getDevelopmentCardDeck()[2][0].isEmpty());
+        assertTrue(singleGame.getDeckDevelopment()[0][0].isEmpty());
+        assertTrue(singleGame.getDeckDevelopment()[1][0].isEmpty());
+        assertFalse(singleGame.getDeckDevelopment()[2][0].isEmpty());
         singleGame.discardCard(CardColor.GREEN,4);
-        assertTrue(singleGame.getDevelopmentCardDeck()[0][0].isEmpty());
-        assertTrue(singleGame.getDevelopmentCardDeck()[1][0].isEmpty());
-        assertTrue(singleGame.getDevelopmentCardDeck()[2][0].isEmpty());
+        assertTrue(singleGame.getDeckDevelopment()[0][0].isEmpty());
+        assertTrue(singleGame.getDeckDevelopment()[1][0].isEmpty());
+        assertTrue(singleGame.getDeckDevelopment()[2][0].isEmpty());
 
     }
 }

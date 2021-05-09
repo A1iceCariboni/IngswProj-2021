@@ -65,6 +65,10 @@ public class Game {
           }
       }
 
+
+    public DevelopmentCardDeck[][] getDeckDevelopment() {
+        return deckDevelopment;
+    }
     /**
      * it controls which player is the winner after the last player plays
      */

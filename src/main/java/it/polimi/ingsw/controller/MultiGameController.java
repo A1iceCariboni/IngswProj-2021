@@ -1,13 +1,14 @@
 package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.client.DummyModel.DummyDev;
 import it.polimi.ingsw.client.DummyModel.DummyLeaderCard;
+import it.polimi.ingsw.client.DummyModel.DummyMarket;
+import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.answer.ErrorMessage;
-import it.polimi.ingsw.messages.answer.LeaderCardMessage;
-import it.polimi.ingsw.messages.answer.OkMessage;
+import it.polimi.ingsw.messages.answer.*;
 import it.polimi.ingsw.messages.request.BuyDevelopmentCard;
 import it.polimi.ingsw.messages.request.ResourcesForDevCard;
 import it.polimi.ingsw.model.*;
@@ -24,7 +25,8 @@ public class MultiGameController extends GameController {
 
     /**
      * method start game create a new instance of multigame give 4 leadercard to each player and sends
-     * them as dummy leader card to the client
+     * them as dummy leader card to the client it also sends all the grid of development card,
+     * the market tray structure and the faithtrack, it also gives the initial resources to the players
      */
     @Override
     public void startGame() {
@@ -38,6 +40,22 @@ public class MultiGameController extends GameController {
 
             multiGame.startGame();
 
+            Gson gson = new Gson();
+
+            DummyDev[][] dummyDevs = new DummyDev[Constants.rows][Constants.cols];
+            for(int r = 0; r < Constants.rows; r++){
+                for(int c = 0; c < Constants.cols; c++){
+                    dummyDevs[r][c] = multiGame.getDeckDevelopment()[r][c].getCard().getDummy();
+                }
+            }
+
+            Message message2 = new DevelopmentMarketMessage(gson.toJson(dummyDevs));
+
+            DummyMarket dummyMarket = multiGame.getMarketTray().getDummy();
+
+            Message message3 = new MarketTrayMessage(gson.toJson(dummyMarket));
+
+
             ArrayList<Player> players = multiGame.getPlayers();
             for(int i = 0; i < players.size(); i++){
                 Server.LOGGER.info("giving cards to player "+players.get(i).getNickName());
@@ -46,9 +64,16 @@ public class MultiGameController extends GameController {
                 for(LeaderCard leaderCard: players.get(i).getLeadercards()){
                     dummyLeaderCards.add(leaderCard.getDummy());
                 }
-                Gson gson = new Gson();
+
                 Message message = new LeaderCardMessage(gson.toJson(dummyLeaderCards));
                 vv.update(message);
+
+                Message message1 = new FaithTrackMessage(gson.toJson(multiGame.getFaithTrack()));
+                vv.update(message1);
+
+                vv.update(message2);
+
+                vv.update(message3);
             }
         } catch (JsonFileNotFoundException ex) {
             sendAll(new ErrorMessage("I've had trouble instantiating the game, sorry..."));

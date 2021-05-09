@@ -144,9 +144,7 @@ public class MultiGame extends Game {
        return this.deckDevelopment[row][col].popCard();
     }
 
-    public DevelopmentCardDeck[][] getDeckDevelopment() {
-        return deckDevelopment;
-    }
+
 
     /**
      * it controls if the players are in the report section of the faith track and if true it add

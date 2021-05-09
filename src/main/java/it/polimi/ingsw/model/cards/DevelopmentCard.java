@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.client.DummyModel.DummyDev;
+import it.polimi.ingsw.client.DummyModel.DummyProductionPower;
 import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.model.Player;
@@ -94,6 +96,23 @@ public class DevelopmentCard extends Card{
 
     public ArrayList<Resource> getCost() {
         return cost;
+    }
+
+    public DummyDev getDummy(){
+        ArrayList<String> c = new ArrayList<>();
+        for(Resource resource: cost){
+            c.add(resource.toString());
+        }
+        ArrayList<String> e = new ArrayList<>();
+        for(Resource resource: productionPower.getEntryResources()){
+            e.add(resource.toString());
+        }
+        ArrayList<String> p = new ArrayList<>();
+        for(Resource resource: productionPower.getProductResources()){
+            p.add(resource.toString());
+        }
+
+        return new DummyDev(id, c,level, color.name(), new DummyProductionPower(e,p));
     }
 
     @Override

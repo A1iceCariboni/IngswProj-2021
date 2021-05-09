@@ -24,6 +24,13 @@ public class DevelopmentCardDeck extends Deck{
     }
 
     /**
+     *
+     * @return the first card of the deck without removing it
+     */
+    public DevelopmentCard getCard(){
+        return cardDeck.get(0);
+    }
+    /**
      * @return first card of the deck and remove the card from the deck
      */
     public DevelopmentCard popCard(){

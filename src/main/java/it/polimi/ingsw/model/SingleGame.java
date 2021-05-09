@@ -120,10 +120,6 @@ public class SingleGame extends Game{
         return fakePlayer;
     }
 
-    public DevelopmentCardDeck[][] getDevelopmentCardDeck(){
-        return deckDevelopment;
-    }
-
 
     public void discardCard(CardColor cardColor, int quantity) {
         int i = quantity;

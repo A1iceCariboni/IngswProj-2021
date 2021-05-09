@@ -6,6 +6,9 @@ import it.polimi.ingsw.messages.answer.InvalidNickname;
 import it.polimi.ingsw.messages.answer.NumberOfPlayerRequest;
 import it.polimi.ingsw.messages.answer.OkMessage;
 import it.polimi.ingsw.messages.request.NumberOfPlayerReply;
+import it.polimi.ingsw.model.Marble;
+import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.observers.Observer;
 
 import java.util.ArrayList;
@@ -17,6 +20,9 @@ import java.util.ArrayList;
 public class VirtualView implements Observer {
     private ClientHandler clientHandler;
     private String nickname ;
+    private ArrayList<Resource> freeResources;
+    private ArrayList<Marble> freeMarble;
+    private ArrayList<DevelopmentCard> freeDevelopment;
 
     public VirtualView(ClientHandler clientHandler, String nickname) {
         this.clientHandler = clientHandler;

@@ -5,17 +5,16 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.client.DummyModel.DummyMarket;
+import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.enumerations.MarbleColor;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
-import it.polimi.ingsw.model.Marble;
-import it.polimi.ingsw.model.Game;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 
 /**
  * @autor Sofia Canestraci
@@ -23,7 +22,7 @@ import java.util.HashMap;
  */
 public class MarketTray {
     private Marble slidingMarble;
-    private Marble[][] marbles = new Marble[3][4];
+    private Marble[][] marbles = new Marble[Constants.MARKET_ROWS][Constants.MARKET_COLS    ];
 
     /**
      * it puts the marbles in the matrix and it sets the sliding marble
@@ -145,5 +144,16 @@ public class MarketTray {
      */
     public Marble[][] getMarketTrayMarbles() { return marbles; }
 
+
+    public DummyMarket getDummy(){
+        String[][] dummyMarbles = new String[Constants.MARKET_ROWS][Constants.MARKET_COLS];
+
+        for(int r = 0; r < Constants.MARKET_ROWS; r++) {
+            for (int c = 0; c < Constants.MARKET_COLS; c++) {
+                dummyMarbles[r][c] = marbles[r][c].getMarbleColor().name();
+            }
+        }
+        return new DummyMarket(dummyMarbles, slidingMarble.getMarbleColor().name());
+    }
 }
 
