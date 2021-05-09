@@ -39,7 +39,6 @@ public class Cli extends CliObservable {
         boolean ok = false;
         int number = 0;
         while(!ok) {
-            System.out.println("Type number of players >");
             number = input.nextInt();
             if(number >= Constants.MIN_NUMBER_OF_PLAYERS && number <= Constants.MAX_NUMBER_OF_PLAYERS){
                 ok = true;

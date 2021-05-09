@@ -59,9 +59,7 @@ public class SocketServer implements  Runnable{
     }
 
 
-    public void createGame(int numberOfPlayers){
-        server.createGame(numberOfPlayers);
-    }
+
 
     /**
      * create a new socket listening on the port given in the constructor

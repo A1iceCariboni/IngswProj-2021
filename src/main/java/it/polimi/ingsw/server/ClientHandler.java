@@ -21,7 +21,6 @@ public class ClientHandler implements  Runnable{
     private final SocketServer socketServer;
 
     private boolean connected;
-    private Object lock;
 
    private Scanner in;
    private PrintWriter out;
@@ -106,7 +105,7 @@ public class ClientHandler implements  Runnable{
 
                 if (message1.getCode() == MessageType.NUMBER_OF_PLAYERS) {
 
-                    socketServer.createGame(Integer.parseInt(message1.getPayload()));
+                    server.createGame(Integer.parseInt(message1.getPayload()),this);
                     break;
                 }
             }

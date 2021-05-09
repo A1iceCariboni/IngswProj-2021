@@ -165,8 +165,8 @@ public class MultiGame extends Game {
         }
     }
 
-    public int getCurrentPlayer(){
-        return currentPlayer;
+    public Player getCurrentPlayer(){
+        return players.get(currentPlayer);
     }
 }
 

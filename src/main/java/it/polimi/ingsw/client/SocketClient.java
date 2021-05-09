@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.request.PingMessage;
 import it.polimi.ingsw.observers.Observable;
 
@@ -79,6 +80,9 @@ public class SocketClient extends Observable {
         Gson gson = new Gson();
         out.println(gson.toJson(message));
         out.flush();
+        if(message.getCode() != MessageType.PING) {
+            LOGGER.info("Message sent " + message.getCode());
+        }
     }
 
 

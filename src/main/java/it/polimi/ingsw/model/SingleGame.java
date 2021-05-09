@@ -112,7 +112,9 @@ public class SingleGame extends Game{
     }
 
 
-
+     public Player getCurrentPlayer(){
+        return players.get(0);
+     }
 
 
 

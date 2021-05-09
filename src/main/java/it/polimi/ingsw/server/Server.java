@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.MultiGameController;
 import it.polimi.ingsw.controller.SingleGameController;
@@ -53,6 +54,7 @@ public class Server {
                     clients.put(clientHandler,nickname);
                     virtualClients.put(nickname,virtualView);
                     gameController.addConnectedClient(nickname,virtualView);
+                    gameController.addPlayer(nickname);
 
                     virtualView.nickNameResult(true, false, false);
                     LOGGER.info("Client " + nickname + " registered" + clientHandler);
@@ -101,34 +103,53 @@ public class Server {
      * @param numberOfPlayers number of players requested by the first player
      */
 
-  public void createGame(int numberOfPlayers){
+  public void createGame(int numberOfPlayers, ClientHandler clientHandler){
       if(numberOfPlayers == 1){
           SingleGameController singleGameController = new SingleGameController();
           singleGameController.setNumberOfPlayers(numberOfPlayers);
           singleGameController.addAllConnectedClients(virtualClients);
+          singleGameController.addPlayer(clients.get(clientHandler));
           this.gameController = singleGameController;
       }else{
           MultiGameController multiGameController = new MultiGameController();
+
           multiGameController.setNumberOfPlayers(numberOfPlayers);
+
           multiGameController.addAllConnectedClients(virtualClients);
+
+          multiGameController.addPlayer(clients.get(clientHandler));
+
           this.gameController = multiGameController;
+
       }
       LOGGER.info("Created game");
   }
 
 
-    public void onMessageReceived(Message message, ClientHandler clientHandler){
-      String nickname = clients.get(clientHandler);
-      VirtualView vv = virtualClients.get(nickname);
-            switch(message.getCode()){
+    public void onMessageReceived(Message message, ClientHandler clientHandler) {
+
+        String nickname = clients.get(clientHandler);
+        VirtualView vv = virtualClients.get(nickname);
+        if (!gameController.getTurnController().getActivePlayer().equals(nickname)) {
+            vv.update(new ErrorMessage("It's not your turn"));
+        } else {
+            switch (message.getCode()) {
                 case ACTIVATE_LEADER_CARD:
                     try {
-                        gameController.activateLeaderCard(nickname, vv, Integer.parseInt(message.getPayload()));
-                    }catch(NullCardException ex){
+                        gameController.activateLeaderCard(Integer.parseInt(message.getPayload()));
+                    } catch (NullCardException ex) {
                         vv.update(new ErrorMessage(ex.getMessage()));
+                    }
+                case DISCARD_LEADER_CARD:
+                    Gson gson = new Gson();
+                    try {
+                        gameController.discardLeaderCards(gson.fromJson(message.getPayload(),int[].class));
+                    } catch (NullCardException e) {
+                        vv.update(new ErrorMessage(e.getMessage()));
                     }
 
             }
+        }
     }
 }
 

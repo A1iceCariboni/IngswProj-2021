@@ -1,9 +1,11 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.enumerations.GamePhase;
 import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.server.VirtualView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +17,10 @@ import java.util.Map;
 public abstract class GameController {
     private Map<String, VirtualView> connectedClients;
     private boolean isStarted;
+    private TurnController turnController;
+    private ArrayList<String> players;
+
+    private GamePhase gamePhase;
 
     private int numberOfPlayers;
 
@@ -22,6 +28,8 @@ public abstract class GameController {
         this.connectedClients = new HashMap<>();
         isStarted = false;
         numberOfPlayers = 0;
+        gamePhase = GamePhase.INIT;
+        players = new ArrayList<>();
     }
 
     public abstract void startGame();
@@ -73,5 +81,30 @@ public abstract class GameController {
     }
 
 
-    public abstract void activateLeaderCard(String name, VirtualView virtualView,int id) throws NullCardException;
+    public abstract void activateLeaderCard(int id) throws NullCardException;
+
+    public abstract void discardLeaderCards(int[] id) throws NullCardException;
+
+    public GamePhase getGamePhase() {
+        return gamePhase;
+    }
+
+    public void setGamePhase(GamePhase gamePhase) {
+        this.gamePhase = gamePhase;
+    }
+
+    public TurnController getTurnController() {
+        return turnController;
+    }
+
+    public String getPlayerByPosition(int pos){
+        return players.get(pos);
+    }
+
+    public ArrayList<String> getPlayers(){
+        return players;
+    }
+    public void addPlayer(String player) {
+        players.add(player);
+    }
 }

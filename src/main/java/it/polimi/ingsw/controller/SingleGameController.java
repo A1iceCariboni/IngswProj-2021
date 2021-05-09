@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.DummyModel.DummyDev;
 import it.polimi.ingsw.client.DummyModel.DummyLeaderCard;
 import it.polimi.ingsw.client.DummyModel.DummyMarket;
 import it.polimi.ingsw.enumerations.Constants;
+import it.polimi.ingsw.enumerations.GamePhase;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
@@ -19,8 +20,7 @@ import java.util.ArrayList;
 public class SingleGameController extends GameController{
         private SingleGame singleGame;
 
-    public SingleGameController() {
-    }
+
 
     /**
      * method start game create a new instance of multigame give 4 leadercard to each player and sends
@@ -47,6 +47,7 @@ public class SingleGameController extends GameController{
             DummyMarket dummyMarket = singleGame.getMarketTray().getDummy();
 
             Message message3 = new MarketTrayMessage(gson.toJson(dummyMarket));
+            ArrayList<String> nickNames = new ArrayList<>();
 
             for(String name : getConnectedClients().keySet()) {
                 singleGame.addPlayer(new Player(false, name, 0, new PlayerBoard(new WareHouse(), new StrongBox())));
@@ -55,7 +56,9 @@ public class SingleGameController extends GameController{
             singleGame.startGame();
 
             Player player = singleGame.getPlayers().get(0);
-                VirtualView vv = getVirtualView(player.getNickName());
+            nickNames.add(player.getNickName());
+
+            VirtualView vv = getVirtualView(player.getNickName());
                 ArrayList<DummyLeaderCard> dummyLeaderCards = new ArrayList<>();
                 for(LeaderCard leaderCard: player.getLeadercards()){
                     dummyLeaderCards.add(leaderCard.getDummy());
@@ -71,13 +74,18 @@ public class SingleGameController extends GameController{
 
             vv.update(message3);
 
+            TurnController turnController = new TurnController(this, nickNames, singleGame.getCurrentPlayer().getNickName());
+            setGamePhase(GamePhase.FIRST_ROUND);
+
         }catch (JsonFileNotFoundException ex){
             sendAll(new ErrorMessage("I've had trouble instantiating the game, sorry..."));
         }
     }
 
     @Override
-    public void activateLeaderCard(String name, VirtualView virtualView,int id) throws NullCardException {
+    public void activateLeaderCard(int id) throws NullCardException {
+        String name = singleGame.getCurrentPlayer().getNickName();
+        VirtualView virtualView = getConnectedClients().get(name);
         int i = singleGame.getPlayers().indexOf(name);
         Player player = singleGame.getPlayers().get(i);
         LeaderCard leaderCard = player.getLeaderCardById(id);
@@ -86,6 +94,14 @@ public class SingleGameController extends GameController{
             virtualView.update(new OkMessage("Card activated successfully!"));
         }else{
             virtualView.update(new ErrorMessage("You don't satisfy the requirements to activate this card"));
+        }
+    }
+
+    @Override
+    public void discardLeaderCards(int[] id) throws NullCardException {
+        for(int i = 0; i < id.length; i++){
+            LeaderCard toDiscard = singleGame.getCurrentPlayer().getLeaderCardById(id[i]);
+            singleGame.getCurrentPlayer().discardLeader(toDiscard);
         }
     }
 

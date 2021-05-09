@@ -9,6 +9,7 @@ import it.polimi.ingsw.client.DummyModel.DummyMarket;
 import it.polimi.ingsw.client.SocketClient;
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.request.SetupMessage;
 import it.polimi.ingsw.model.FaithTrack;
 import it.polimi.ingsw.observers.CliObserver;
@@ -90,6 +91,7 @@ public class ClientController implements CliObserver,Observer {
 
         switch (message.getCode()) {
             case NUMBER_OF_PLAYERS:
+                printMessage(message.getPayload());
                 cli.askNumberOfPlayers();
                 break;
             case INVALID_NICKNAME:
@@ -117,6 +119,23 @@ public class ClientController implements CliObserver,Observer {
             case MARKET_TRAY:
                 DummyMarket dummyMarket = gson.fromJson(message.getPayload(), DummyMarket.class);
                 //stessa storia
+                break;
+            case DISCARD_LEADER:
+                printMessage(message.getPayload());
+                //devi far scartare 2 carte leader tra quelle che ha quindi gliele stampi, gliele fai vedere
+                //gli fai scegliere per id quelle che vuole e poi mandi al server
+                //il messaggio che mandi indietro nel payload deve avere un array di id
+                //quindi tipo
+                //int[] id_da_scartare = new int[];
+                //Message = new Message(MessageType.DISCARD_LEADER,gson.toJson(id_da_scartare))
+                //e poi lo invii
+                break;
+            case CHOOSE_RESOURCES:
+                printMessage(message.getPayload());
+                //semplicememnte chiede al player di scegliere le risorse iniziali, però
+                //può essere usato anche in altre fasi del gioco tipo quando si attiva la produzione base
+                //il giocatore deve scegliere le risorse e poi me le devi mandare indietro sotto forma di array di stringhe
+                //non ti preoccupare del controllo della quantità poi lo faccio io nel server
                 break;
         }
 
