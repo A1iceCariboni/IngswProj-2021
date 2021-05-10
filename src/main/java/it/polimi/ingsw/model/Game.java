@@ -110,7 +110,15 @@ public class Game {
      */
      public  void getPopePoints(){}
 
-
+     public boolean checkPopeSpace(){
+         for(Player player: players){
+             if(faithTrack.isPopeSpace(player.getPlayerBoard().getFaithMarker())){
+                 getPopePoints();
+                 return true;
+             }
+         }
+         return false;
+     }
      public ArrayList<Player> getWinners() { return winners;}
 }
 

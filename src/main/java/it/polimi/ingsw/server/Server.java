@@ -133,52 +133,7 @@ public class Server {
 
 
     public void onMessageReceived(Message message, ClientHandler clientHandler) {
-        Gson gson = new Gson();
-
-        String nickname = clients.get(clientHandler);
-        VirtualView vv = virtualClients.get(nickname);
-        if (!gameController.getTurnController().getActivePlayer().equals(nickname)) {
-            vv.update(new ErrorMessage("It's not your turn"));
-        } else {
-            switch (message.getCode()) {
-                case ACTIVATE_LEADER_CARD:
-                    try {
-                        gameController.activateLeaderCard(Integer.parseInt(message.getPayload()));
-                    } catch (NullCardException ex) {
-                        vv.update(new ErrorMessage(ex.getMessage()));
-                    }
-                    break;
-                case DISCARD_LEADER_CARD:
-                    try {
-                        gameController.discardLeaderCards(gson.fromJson(message.getPayload(), int[].class));
-                    } catch (NullCardException e) {
-                        vv.update(new ErrorMessage(e.getMessage()));
-                    }
-                    break;
-                case CHOOSE_RESOURCES:
-                    ResourceType[] resources = gson.fromJson(message.getPayload(), ResourceType[].class);
-                    for (ResourceType resourceType : resources) {
-                        Resource resource = new Resource(resourceType);
-                        vv.addFreeReource(resource);
-                    }
-                    gameController.placeResources();
-                    break;
-                case PLACE_RESOURCE_WAREHOUSE:
-                case PLACE_RESEOURCE_WHEREVER:
-                    boolean success;
-                    int id = gson.fromJson(message.getPayload(), int.class);
-                    try {
-                        gameController.putResource(id);
-                        success = true;
-                    } catch (NotPossibleToAdd notPossibleToAdd) {
-                        vv.update(new ErrorMessage(notPossibleToAdd.getMessage()));
-                        success = false;
-                    }
-                    if (success) {
-                        vv.removeFreeResources(0);
-                    }
-            }
-        }
+      gameController.onMessageReceived(message,clients.get(clientHandler));
     }
 }
 

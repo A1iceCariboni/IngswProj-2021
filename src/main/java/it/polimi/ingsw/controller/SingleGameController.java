@@ -9,6 +9,7 @@ import it.polimi.ingsw.enumerations.GamePhase;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.answer.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.LeaderCard;
@@ -106,7 +107,7 @@ public class SingleGameController extends GameController{
     }
 
     @Override
-    public void placeResources() {
+    public void placeResources(MessageType code) {
 
     }
 

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.exceptions.NullCardException;
@@ -8,13 +7,10 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.Resource;
 import it.polimi.ingsw.server.ClientHandler;
-import it.polimi.ingsw.server.Server;
-import it.polimi.ingsw.server.SocketServer;
 import it.polimi.ingsw.server.VirtualView;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.net.Socket;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,7 +42,7 @@ class FakeVirtualView extends VirtualView{
     return freeResource;
   }
   @Override
-  public void addFreeReource(Resource resource){
+  public void addFreeResource(Resource resource){
     this.freeResource.add(resource);
   }
 
@@ -107,8 +103,8 @@ class MultiGameControllerTest {
     resources.add(new Resource(ResourceType.COIN));
 
     Player player = gameController.getGame().getCurrentPlayer();
-    gameController.getConnectedClients().get(player.getNickName()).addFreeReource(resources.get(0));
-    gameController.getConnectedClients().get(player.getNickName()).addFreeReource(resources.get(1));
+    gameController.getConnectedClients().get(player.getNickName()).addFreeResource(resources.get(0));
+    gameController.getConnectedClients().get(player.getNickName()).addFreeResource(resources.get(1));
     gameController.putResource(1);
     assertEquals(player.getPlayerBoard().getResources().size(),1);
     gameController.getConnectedClients().get(player.getNickName()).removeFreeResources(0);

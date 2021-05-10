@@ -39,11 +39,16 @@ public class DevelopmentCard extends Card{
      * @param b is the playerboard of the player who wants to buy the card
      * @return true if the player can buy the card, false if he doesn't
      */
-    public boolean isBuyable(PlayerBoard b){
+    public boolean isBuyable(Player p){
+        ArrayList<Resource> personalCost = new ArrayList<>();
+        PlayerBoard b = p.getPlayerBoard();
+        for(Resource r: p.getDiscountedResource()){
+            personalCost.remove(r);
+        }
         ArrayList<Resource> res = b.getResources();
         for(ResourceType resourceType : ResourceType.values()) {
             Resource resource = new Resource(resourceType);
-            long isRequired = cost.stream()
+            long isRequired = personalCost.stream()
                     .filter(r -> r.equals(resource))
                     .count();
             long playerHas = res.stream()
@@ -53,7 +58,9 @@ public class DevelopmentCard extends Card{
                 return false;
             }
         }
-
+        if(!b.canAddDevCard(this)) {
+            return false;
+        }
         return true;
     }
     /**

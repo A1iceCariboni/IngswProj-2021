@@ -22,7 +22,7 @@ class DevelopmentCardTest {
     private static ArrayList<Resource> res;
     private static ProductionPower pp;
     private static PlayerBoard b;
-    private static DevelopmentCard dev;
+    private static DevelopmentCard dev, dev2;
     private static Player p;
 
 
@@ -51,6 +51,8 @@ class DevelopmentCardTest {
         cost.add(r2);
         pp = new ProductionPower(entry,prod);
         dev = new DevelopmentCard(1, cost, 2, CardColor.GREEN, pp, 10 );
+        dev2 = new DevelopmentCard(1, cost, 1, CardColor.GREEN, pp, 10 );
+
     }
 
     /**
@@ -84,7 +86,9 @@ class DevelopmentCardTest {
         res.add(e1);
         res.add(e2);
         b = new PlayerBoard(new WareHouse(), new StrongBox());
-        assertFalse(dev.isBuyable(b));
+        p = new Player(false, "ali", 0,b );
+
+        assertFalse(dev.isBuyable(p));
     }
 
     /**
@@ -93,7 +97,9 @@ class DevelopmentCardTest {
     @Test
     void emptyRes() {
         b = new PlayerBoard(new WareHouse(), new StrongBox());
-        assertFalse(dev.isBuyable(b));
+        p = new Player(false, "ali", 0,b );
+
+        assertFalse(dev.isBuyable(p));
     }
 
     /**
@@ -108,8 +114,9 @@ class DevelopmentCardTest {
          b.getStrongBox().addResources(e1);
          b.getStrongBox().addResources(e1);
          b.getStrongBox().addResources(e2);
+         p = new Player(false, "ali", 0,b );
 
-         assertTrue(dev.isBuyable(b));
+         assertTrue(dev2.isBuyable(p));
      }
     /**
      * add points to player

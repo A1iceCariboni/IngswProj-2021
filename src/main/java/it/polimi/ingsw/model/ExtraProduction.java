@@ -10,6 +10,7 @@ import java.util.ArrayList;
  * the player can choose th resource he wants to produce
  */
 public class ExtraProduction extends ProductionPower {
+
     private ArrayList<Resource> entryResources;
 
 

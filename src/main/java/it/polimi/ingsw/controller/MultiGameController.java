@@ -13,10 +13,7 @@ import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.answer.*;
-import it.polimi.ingsw.messages.request.BuyDevelopmentCard;
-import it.polimi.ingsw.messages.request.ResourcesForDevCard;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.VirtualView;
@@ -89,20 +86,9 @@ public class MultiGameController extends GameController {
         }
     }
 
-
     @Override
     public void activateLeaderCard(int id) throws NullCardException {
-        String name = game.getCurrentPlayer().getNickName();
-        VirtualView virtualView = getConnectedClients().get(name);
-        int i = game.getPlayers().indexOf(name);
-        Player player = game.getPlayers().get(i);
-        LeaderCard leaderCard = player.getLeaderCardById(id);
-        if (leaderCard.isActivableBy(player.getPlayerBoard())) {
-            player.activateLeader(leaderCard);
-            virtualView.update(new OkMessage("Card activated successfully!"));
-        }else{
-            virtualView.update(new ErrorMessage("You don't satisfy the requirements to activate this card"));
-        }
+
     }
 
 
@@ -114,6 +100,7 @@ public class MultiGameController extends GameController {
      */
     @Override
     public void discardLeaderCards(int[] id) throws NullCardException {
+        Gson gson = new Gson();
         String name = game.getCurrentPlayer().getNickName();
         VirtualView virtualView = getConnectedClients().get(name);
         for (int j : id) {
@@ -121,10 +108,15 @@ public class MultiGameController extends GameController {
             game.getCurrentPlayer().discardLeader(toDiscard);
             if (getGamePhase() != GamePhase.FIRST_ROUND) {
                 game.getCurrentPlayer().getPlayerBoard().moveFaithMarker(1);
+                virtualView.update(new Message(MessageType.FAITH_MOVE, "1"));
+                if(game.checkPopeSpace()){
+                    sendAll(new Message(MessageType.FAITH_TRACK,gson.toJson(game.getFaithTrack())));
+                }
             }
         }
+        virtualView.update(new OkMessage("Cards successfully discarded!"));
+
         if(getGamePhase() == GamePhase.FIRST_ROUND){
-                virtualView.update(new OkMessage("Cards successfully discarded!"));
                 switch(getPlayers().indexOf(turnController.getActivePlayer())){
                     case 0:
                         game.nextPlayer();
@@ -144,35 +136,54 @@ public class MultiGameController extends GameController {
     /**
      * if the player has some resources that has not be placed yet , he have to choose were to put them
      * before proceeding with the turn
+     * @param code
      */
-    public void placeResources(){
+    public void placeResources(MessageType code){
         Gson gson = new Gson();
         String name = game.getCurrentPlayer().getNickName();
         VirtualView virtualView = getConnectedClients().get(name);
         while(!virtualView.getFreeResources().isEmpty()){
             Resource resource = virtualView.getFreeResources().get(0);
-            if(gamePhase == GamePhase.FIRST_ROUND || turnController.getTurnPhase() == TurnPhase.BUY_MARKET) {
+            if(gamePhase == GamePhase.FIRST_ROUND || code == MessageType.BUY_MARKET) {
                 virtualView.update(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(resource.getResourceType())));
             }else{
-                virtualView.update(new Message(MessageType.PLACE_RESEOURCE_WHEREVER, gson.toJson(resource.getResourceType())));
+                virtualView.update(new Message(MessageType.PLACE_RESOURCE_WHEREVER, gson.toJson(resource.getResourceType())));
             }
+        }
+        if(gamePhase == GamePhase.FIRST_ROUND){
+            game.nextPlayer();
+            turnController.nextTurn();
         }
     }
 
     /**
-     * tries to put the resources in the required place in the warehouse or strong box
+     * tries to put the resources in the required place in the warehouse or strong box or discard the resource
      * @param id of the depot or strongbox if it's 0
      */
     public void putResource(int id) throws NotPossibleToAdd {
+        Gson gson = new Gson();
         String name = game.getCurrentPlayer().getNickName();
         VirtualView virtualView = getConnectedClients().get(name);
         if (id == 0){
             game.getCurrentPlayer().getPlayerBoard().getStrongBox().addResources(virtualView.getFreeResources().get(0));
         }else{
-            game.getCurrentPlayer().getDepotById(id).addResource(virtualView.getFreeResources().get(0));
+            if(id == -1){
+                for(Player player: game.getPlayers()){
+                    if(!player.getNickName().equals(game.getCurrentPlayer().getNickName())){
+                        player.getPlayerBoard().moveFaithMarker(1);
+                    }
+                }
+                if(game.checkPopeSpace()){
+                    sendAll(new Message(MessageType.FAITH_TRACK,gson.toJson(game.getFaithTrack())));
+                }
+                sendAllExcept(new Message(MessageType.FAITH_MOVE, "1"),virtualView);
+            }else {
+                game.getCurrentPlayer().getDepotById(id).addResource(virtualView.getFreeResources().get(0));
+            }
         }
-
     }
+
+
 }
 
 
