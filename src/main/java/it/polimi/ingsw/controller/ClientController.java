@@ -131,11 +131,24 @@ public class ClientController implements CliObserver,Observer {
                 //e poi lo invii
                 break;
             case CHOOSE_RESOURCES:
-                printMessage(message.getPayload());
+                int quantity = gson.fromJson(message.getPayload(), int.class);
                 //semplicememnte chiede al player di scegliere le risorse iniziali, però
                 //può essere usato anche in altre fasi del gioco tipo quando si attiva la produzione base
                 //il giocatore deve scegliere le risorse e poi me le devi mandare indietro sotto forma di array di stringhe
-                //non ti preoccupare del controllo della quantità poi lo faccio io nel server
+                //nel payload c'è il numero di risorse che deve scegliere, quindi controlla che la dimensione dell'array sia giusta
+                //rispondi sempre con un messaggio del tipo CHOOSE_RESOURCES
+                break;
+            case PLACE_RESOURCE_WAREHOUSE:
+                String resource = gson.fromJson(message.getPayload(),String.class);
+                //chiede al player di scegliere un posto nel warehouse dove piazzare questa risorsa
+                //rispondi con un messaggio dello stesso tipo che ha come payload l'id dello scaffale
+                //conta anche quelli extra se ce ne sono
+                break;
+            case PLACE_RESEOURCE_WHEREVER:
+                String res = gson.fromJson(message.getPayload(),String.class);
+                //uguale a prima ma puoi aggiungere anche a strongbox, se aggiunge in strongbox
+                //rispondi con un messaggio dello stesso tipo ma con strongbox davanti tipo
+                //se mette in strongbox usa come id 0
                 break;
         }
 

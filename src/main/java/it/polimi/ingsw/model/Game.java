@@ -12,7 +12,7 @@ import it.polimi.ingsw.utility.LeaderCardParser;
 import java.util.ArrayList;
 
 /**
- * @autor Sofia Canestraci
+ * @author Sofia Canestraci
  * the class controls the game and makes possible that it starts and ends
  */
 public class Game {
@@ -49,6 +49,10 @@ public class Game {
             }
         }
 
+    }
+
+    public Player getCurrentPlayer(){
+        return players.get(currentPlayer);
     }
 
     /**

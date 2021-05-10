@@ -11,13 +11,12 @@ import java.util.Objects;
      */
 
     public class ExtraDepot extends Depot{
-            private int dimension;
-            private ArrayList<Resource> resType;
-            private Resource type  ;
 
-        public ExtraDepot(int dimension, Resource type) {
-            this.dimension = dimension;
-            this.resType = new ArrayList<>();
+        private Resource type  ;
+
+        public ExtraDepot(int dimension,int id, Resource type) {
+            super( dimension,id, new ArrayList<>());
+
             this.type = type;
         }
         /**
@@ -26,10 +25,10 @@ import java.util.Objects;
          * @throws NotPossibleToAdd if the depot is full or if the resource is not of the same type
          */
         public void addResource(Resource res) throws NotPossibleToAdd {
-            if(!res.getResourceType().equals(type.getResourceType()) || this.resType.size() >= dimension){
+            if(!res.getResourceType().equals(type.getResourceType()) || this.resources.size() >= dimension){
                 throw new NotPossibleToAdd();
             }else
-                this.resType.add(res);
+                this.resources.add(res);
         }
 
         /**
@@ -37,7 +36,7 @@ import java.util.Objects;
          * @param res represents the resource to remove
          */
         public void removeResource(Resource res){
-            this.resType.remove(res);
+            this.resources.remove(res);
 
         }
 
@@ -47,7 +46,7 @@ import java.util.Objects;
 
 
         public ArrayList<Resource> getDepot(){
-            return this.resType;
+            return this.resources;
         }
 
         /**
@@ -67,12 +66,12 @@ import java.util.Objects;
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ExtraDepot that = (ExtraDepot) o;
-        return dimension == that.dimension && Objects.equals(resType, that.resType) && Objects.equals(type, that.type);
+        return dimension == that.dimension && Objects.equals(resources, that.resources) && Objects.equals(type, that.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(dimension, resType, type);
+        return Objects.hash(dimension, resources, type);
     }
 }
 

@@ -10,11 +10,12 @@ import it.polimi.ingsw.model.FaithTrack;
 
 public class VirtualModel {
 private final Cli cli;
-private final FaithTrack faithTrack;
 
     public VirtualModel(Cli cli, FaithTrack faithTrack) {
         this.cli = cli;
-        this.faithTrack = faithTrack;
     }
+
+
+
 }
 

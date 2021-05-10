@@ -24,6 +24,8 @@ public class VirtualView implements Observer {
     private ArrayList<Marble> freeMarble;
     private ArrayList<DevelopmentCard> freeDevelopment;
 
+    public VirtualView(){}
+
     public VirtualView(ClientHandler clientHandler, String nickname) {
         this.clientHandler = clientHandler;
         this.nickname = nickname;
@@ -41,8 +43,32 @@ public class VirtualView implements Observer {
         }
     }
 
+
+    public void addFreeReource(Resource resource){
+        this.freeResources.add(resource);
+    }
     @Override
     public void update(Message message) {
         clientHandler.sendMessage(message);
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void removeFreeResources(int pos){
+        freeResources.remove(pos);
+    }
+
+    public ArrayList<Resource> getFreeResources() {
+        return freeResources;
+    }
+
+    public ArrayList<Marble> getFreeMarble() {
+        return freeMarble;
+    }
+
+    public ArrayList<DevelopmentCard> getFreeDevelopment() {
+        return freeDevelopment;
     }
 }

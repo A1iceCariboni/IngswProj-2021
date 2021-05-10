@@ -1,8 +1,10 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.enumerations.GamePhase;
+import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.server.VirtualView;
 
 import java.util.ArrayList;
@@ -15,14 +17,17 @@ import java.util.Map;
  * @author Alice Cariboni
  */
 public abstract class GameController {
-    private Map<String, VirtualView> connectedClients;
-    private boolean isStarted;
-    private TurnController turnController;
-    private ArrayList<String> players;
+    protected Game game;
 
-    private GamePhase gamePhase;
 
-    private int numberOfPlayers;
+    protected Map<String, VirtualView> connectedClients;
+    protected boolean isStarted;
+    protected TurnController turnController;
+    protected ArrayList<String> players;
+
+    protected GamePhase gamePhase;
+
+    protected int numberOfPlayers;
 
     public GameController(){
         this.connectedClients = new HashMap<>();
@@ -107,4 +112,10 @@ public abstract class GameController {
     public void addPlayer(String player) {
         players.add(player);
     }
+
+    public abstract void placeResources();
+
+    public abstract void putResource(int id) throws NotPossibleToAdd;
+
+    public Game getGame(){return  game;}
 }

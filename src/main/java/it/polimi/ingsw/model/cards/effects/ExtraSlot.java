@@ -17,7 +17,7 @@ public class ExtraSlot implements LeaderEffect{
 
     @Override
     public void applyEffect(Player p, PlayerBoard b) {
-        ExtraDepot extraDepot = new ExtraDepot(quantity,resourceType);
+        ExtraDepot extraDepot = new ExtraDepot(quantity,b.getIdForDepot(),resourceType);
         b.addExtraDepot(extraDepot);
     }
 

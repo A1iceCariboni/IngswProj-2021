@@ -99,10 +99,20 @@ public class SingleGameController extends GameController{
 
     @Override
     public void discardLeaderCards(int[] id) throws NullCardException {
-        for(int i = 0; i < id.length; i++){
-            LeaderCard toDiscard = singleGame.getCurrentPlayer().getLeaderCardById(id[i]);
+        for (int j : id) {
+            LeaderCard toDiscard = singleGame.getCurrentPlayer().getLeaderCardById(j);
             singleGame.getCurrentPlayer().discardLeader(toDiscard);
         }
+    }
+
+    @Override
+    public void placeResources() {
+
+    }
+
+    @Override
+    public void putResource(int id) {
+
     }
 
 

@@ -39,9 +39,9 @@ public class WareHouseTest {
         Resource r1 = new Resource(SHIELD);
         res.add(r1);
         wareHouse = new WareHouse();
-        depot1 = new Depot( 2, res);
-        depot2 = new Depot( 3, res2);
-        depot3 = new ExtraDepot(2,new Resource(SERVANT));
+        depot1 = new Depot( 2,1, res);
+        depot2 = new Depot( 3, 1,res2);
+        depot3 = new ExtraDepot(2,1,new Resource(SERVANT));
         depot3.addResource(new Resource(SERVANT));
         assertTrue(depot1.getDepot().contains(r1));
         assertFalse(depot2.getDepot().contains(r1));
@@ -63,8 +63,8 @@ public class WareHouseTest {
         Resource r1 = new Resource(COIN);
         res.add(r1);
         wareHouse = new WareHouse();
-        depot1 = new Depot( 2, res);
-        depot2 = new Depot( 3, res2);
+        depot1 = new Depot( 2, 1,res);
+        depot2 = new Depot( 3,1, res2);
         assertTrue(depot1.getDepot().contains(r1));
         assertFalse(depot2.getDepot().contains(r1));
         wareHouse.moveResouces(depot1, depot2, r1);
@@ -81,7 +81,7 @@ public class WareHouseTest {
         Resource r1 = new Resource(SERVANT);
         res.add(r1);
         wareHouse = new WareHouse();
-        depot1 = new Depot( 2, res);
+        depot1 = new Depot( 2,1, res);
         wareHouse.addDepot(depot1);
         assertTrue(wareHouse.getDepots().contains(depot1));
         assertTrue(wareHouse.hasResource(r1));
@@ -100,7 +100,7 @@ public class WareHouseTest {
         Resource r1 = new Resource(SERVANT);
         res.add(r1);
         wareHouse = new WareHouse();
-        depot1 = new Depot( 2, res);
+        depot1 = new Depot( 2, 1,res);
         wareHouse.addDepot(depot1);
         assertTrue(wareHouse.getDepots().contains(depot1));
         assertTrue(wareHouse.hasResource(r1));

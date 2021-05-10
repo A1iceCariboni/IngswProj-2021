@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.PlayerMove;
+import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.effects.ProductionPower;
@@ -60,7 +61,13 @@ public class Player {
     }
 
     public ArrayList<LeaderCard> getActiveLeaderCards() {
-        return leaderCards;
+        ArrayList<LeaderCard> leaderCards1 = new ArrayList<>();
+        for(LeaderCard leaderCard: leaderCards){
+            if(leaderCard.isActive()){
+                leaderCards1.add(leaderCard);
+            }
+        }
+        return leaderCards1;
     }
 
     /**
@@ -165,6 +172,19 @@ public class Player {
     @Override
     public int hashCode() {
         return Objects.hash(inkwell, nickName, victoryPoints, leaderCards, playerBoard, playerMove, discountedResource, extraProductionPowers, possibleWhiteMarbles);
+    }
+    public Depot getDepotById(int id) throws NotPossibleToAdd {
+        for(Depot depot: playerBoard.getWareHouse().getDepots()){
+            if(depot.getId() == id){
+                return depot;
+            }
+        }
+        for(Depot depot: playerBoard.getExtraDepots()){
+            if(depot.getId() == id){
+                return depot;
+            }
+        }
+       throw new NotPossibleToAdd();
     }
 }
 

@@ -61,7 +61,7 @@ public class MultiGameTest {
         multiGame.addPlayer(players1.get(1));
         multiGame.addPlayer(players1.get(2));
         multiGame.addPlayer(players1.get(3));
-        ArrayList<Player> players2 = new ArrayList<>();
+        ArrayList<Player> players2;
         players2 = multiGame.getPlayers();
         assertEquals(players1.get(0).getNickName(), players2.get(0).getNickName());
         assertEquals(players1.get(1).getNickName(), players2.get(1).getNickName());
@@ -69,9 +69,9 @@ public class MultiGameTest {
         assertEquals(players1.get(3).getNickName(), players2.get(3).getNickName());
         assertEquals(players1.get(0).getVictoryPoints(), players2.get(0).getVictoryPoints());
 
-        assertEquals(0, multiGame.getCurrentPlayer());
+        assertEquals(players1.get(0), multiGame.getCurrentPlayer());
         multiGame.nextPlayer();
-        assertEquals(1, multiGame.getCurrentPlayer());
+        assertEquals(players1.get(1), multiGame.getCurrentPlayer());
     }
 
     @Test
@@ -242,7 +242,7 @@ public class MultiGameTest {
         multiGame.addPlayer(players1.get(2));
         multiGame.addPlayer(players1.get(3));
         multiGame.endGame(players1.get(0));
-        assertEquals(multiGame.getCurrentPlayer(), 3);
+        assertEquals(multiGame.getCurrentPlayer(), players1.get(3));
     }
 
     @Test

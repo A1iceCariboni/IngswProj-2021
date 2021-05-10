@@ -18,6 +18,7 @@ public class PlayerBoard {
     private ArrayList<DevelopmentCard> devCards;
     private int faithMarker;
     private ArrayList <ExtraDepot> extraDepots ;
+    private int depotId = 3;
 
     public PlayerBoard() {}
 
@@ -128,6 +129,11 @@ public class PlayerBoard {
         return coveredDevCards;
     }
 
+
+   public int getIdForDepot(){
+        depotId ++;
+        return depotId;
+   }
 
 
     public WareHouse getWareHouse() {

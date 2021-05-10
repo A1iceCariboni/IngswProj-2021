@@ -25,8 +25,8 @@ public class DepotTest {
         ArrayList<Resource> r1 = new ArrayList<>();
         Resource r2 = new Resource(ResourceType.COIN);
         Resource r3 = new Resource(ResourceType.SERVANT);
-        depot1 = new Depot( 3, r1);
-        depot2 = new Depot(2, r1);
+        depot1 = new Depot( 3,1, r1);
+        depot2 = new Depot(2,1, r1);
     }
 
     /**
@@ -41,8 +41,8 @@ public class DepotTest {
         resources.add(r1);
         resources.add(r2);
         resources.add(r3);
-        depot1 = new Depot( 1, resources);
-        depot2 = new Depot(2, resources);
+        depot1 = new Depot(1,1, resources);
+        depot2 = new Depot(2, 2,resources);
 
 
         assertEquals(depot2.getDepot(), resources);
@@ -62,17 +62,17 @@ public class DepotTest {
         ArrayList<Resource> resources = new ArrayList<>();
         Resource r1 = new Resource(ResourceType.COIN);
         Resource r2 = new Resource(ResourceType.SERVANT);
-        depot1 = new Depot( 3, resources);
+        depot1 = new Depot( 3,1, resources);
         resources.add(r1);
         resources.add(r2);
         nRes = resources.size();
-        assertTrue(nRes == 2);
+        assertEquals(2, nRes);
         assertTrue(depot1.getDepot().contains(r1));
         depot1.removeResource(r1);
         assertFalse(depot1.getDepot().contains(r1));
         nRes = resources.size();
-        assertTrue(nRes == 1);
-        assertFalse(nRes == 2);
+        assertEquals(1, nRes);
+        assertNotEquals(2, nRes);
     }
 
     /**
@@ -88,7 +88,7 @@ public class DepotTest {
         Resource r3 = new Resource(ResourceType.STONE);
         Resource r4 = new Resource(ResourceType.COIN);
         Resource r5 = new Resource(ResourceType.COIN);
-        depot1 = new Depot( 3, resources);
+        depot1 = new Depot( 3, 1,resources);
         depot1.addResource(r1);
         assertTrue(depot1.getDepot().contains(r1));
         depot1.addResource(r2);
@@ -109,7 +109,7 @@ public class DepotTest {
     public void isEmpty() throws NotPossibleToAdd {
         ArrayList<Resource> resources = new ArrayList<>();
         Resource r1 = new Resource(ResourceType.COIN);
-        depot1 = new Depot( 3, resources);
+        depot1 = new Depot( 3, 1,resources);
         depot1.addResource(r1);
         assertFalse(depot1.isEmpty());
         depot1.removeResource(r1);

@@ -52,34 +52,34 @@ public class MultiGame extends Game {
      */
 
     public ArrayList<Player> addWinner(){
-        for (int i=0; i<players.size(); i++){
-             int pointsFaithTrack = getFaithTrack().getLastVictoryPoint(players.get(i).getPlayerBoard().getFaithMarker());
-             int pointsResources = players.get(i).getPlayerBoard().getResources().size() / 5;
-             players.get(i).addVictoryPoints(pointsResources+pointsFaithTrack);
+        for (Player player : players) {
+            int pointsFaithTrack = getFaithTrack().getLastVictoryPoint(player.getPlayerBoard().getFaithMarker());
+            int pointsResources = player.getPlayerBoard().getResources().size() / 5;
+            player.addVictoryPoints(pointsResources + pointsFaithTrack);
         }
 
         int winnerVictoryPoints = 0;
         winners = new ArrayList<>();
         Player tempWinner = null;
-        for (int j = 0; j<players.size(); j++){
-            int victoryPoints = players.get(j).getVictoryPoints();
-            if (victoryPoints>winnerVictoryPoints){
+        for (Player player : players) {
+            int victoryPoints = player.getVictoryPoints();
+            if (victoryPoints > winnerVictoryPoints) {
                 winners.clear();
-                winners.add(players.get(j));
+                winners.add(player);
                 tempWinner = winners.get(0);
                 winnerVictoryPoints = victoryPoints;
             }
-            if (victoryPoints == winnerVictoryPoints && tempWinner != null && tempWinner != players.get(j)){
-                int jResources = players.get(j).getPlayerBoard().getResources().size();
+            if (victoryPoints == winnerVictoryPoints && tempWinner != null && tempWinner != player) {
+                int jResources = player.getPlayerBoard().getResources().size();
                 int tempResources = tempWinner.getPlayerBoard().getResources().size();
-                if (jResources > tempResources){
+                if (jResources > tempResources) {
                     winners.clear();
-                    winners.add(players.get(j));
+                    winners.add(player);
                     tempWinner = winners.get(0);
                     winnerVictoryPoints = victoryPoints;
                 }
-                if (jResources == tempResources){
-                    winners.add(players.get(j));
+                if (jResources == tempResources) {
+                    winners.add(player);
                 }
             }
         }
@@ -95,10 +95,7 @@ public class MultiGame extends Game {
     @Override
     public void addPlayer(Player p){
         this.players.add(p);
-        if (this.players.indexOf(p) == 0){
-            p.setInkwell(true);
-        }
-        else p.setInkwell(false);
+        p.setInkwell(this.players.indexOf(p) == 0);
     }
 
 
@@ -121,14 +118,14 @@ public class MultiGame extends Game {
     @Override
     public boolean checkEndGame(){
         boolean b = false;
-        for(int i=0; i<players.size(); i++){
-            if (players.get(i).getPlayerBoard().getCountDevCards() == Constants.winDev){
+        for (Player player : players) {
+            if (player.getPlayerBoard().getCountDevCards() == Constants.winDev) {
                 b = true;
-                endGame(players.get(i));
+                endGame(player);
             }
-            if (players.get(i).getPlayerBoard().getFaithMarker() == Constants.winFaith){
+            if (player.getPlayerBoard().getFaithMarker() == Constants.winFaith) {
                 b = true;
-                endGame(players.get(i));
+                endGame(player);
             }
         }
         return b;
@@ -165,9 +162,7 @@ public class MultiGame extends Game {
         }
     }
 
-    public Player getCurrentPlayer(){
-        return players.get(currentPlayer);
-    }
+
 }
 
 

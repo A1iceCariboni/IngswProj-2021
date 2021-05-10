@@ -17,8 +17,8 @@ import java.util.Scanner;
  */
 public class ClientHandler implements  Runnable{
     private Server server;
-    private final Socket client;
-    private final SocketServer socketServer;
+    private  Socket client;
+    private  SocketServer socketServer;
 
     private boolean connected;
 
@@ -44,6 +44,9 @@ public class ClientHandler implements  Runnable{
         }
     }
 
+    public ClientHandler(){
+
+    }
     @Override
     public void run() {
         while (connected) {
@@ -74,7 +77,7 @@ public class ClientHandler implements  Runnable{
      * make decision based on the message code arrived from the client
      * @param message that is received from the client
      */
-  public void handleMessage(Message message) throws NullCardException {
+  public void handleMessage(Message message) {
         if (message.getCode() == MessageType.SETUP) {
             socketServer.addClient(message.getPayload(), this);
         }else{

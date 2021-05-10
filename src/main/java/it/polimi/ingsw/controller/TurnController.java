@@ -1,9 +1,12 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.enumerations.TurnPhase;
+
 import java.util.List;
 
 public class TurnController {
     private GameController gameController;
+    private TurnPhase turnPhase;
 
     private final List<String> nickNamesQueue;
 
@@ -31,5 +34,9 @@ public class TurnController {
 
     public void changeGamePhase(){
 
+    }
+
+    public TurnPhase getTurnPhase() {
+        return turnPhase;
     }
 }

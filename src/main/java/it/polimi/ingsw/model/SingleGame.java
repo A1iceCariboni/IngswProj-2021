@@ -57,10 +57,7 @@ public class SingleGame extends Game{
      */
     @Override
     public boolean checkEndGame() {
-        boolean b = false;
-        if (fakePlayer.getBlackCross() == Constants.winFaith){
-            b = true;
-        }
+        boolean b = fakePlayer.getBlackCross() == Constants.winFaith;
         for(int c=0; c<Constants.cols; c++){
             if(getColDevCards(c).isEmpty()){
                 b = true;
@@ -111,7 +108,7 @@ public class SingleGame extends Game{
         }
     }
 
-
+@Override
      public Player getCurrentPlayer(){
         return players.get(0);
      }

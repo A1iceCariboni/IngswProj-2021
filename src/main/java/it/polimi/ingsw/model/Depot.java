@@ -10,16 +10,16 @@ import java.util.Objects;
  */
 
     public class Depot {
-        private int dimension;
-        private ArrayList<Resource> resources;
+        private int id;
+        protected int dimension;
+        protected ArrayList<Resource> resources;
 
-        public Depot(int dimension, ArrayList<Resource> resources) {
+        public Depot(int dimension, int id, ArrayList<Resource> resources) {
+            this.id = id;
             this.dimension = dimension;
             this.resources = resources;
         }
 
-    public Depot() {
-    }
 
     /**
      * This method adds resources to the depot
@@ -87,6 +87,10 @@ import java.util.Objects;
     @Override
     public int hashCode() {
         return Objects.hash(dimension, resources);
+    }
+
+    public int getId() {
+        return id;
     }
 }
 

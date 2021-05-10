@@ -12,6 +12,9 @@ public class WareHouse {
 
     public WareHouse() {
         this.depots = new ArrayList<>();
+        this.depots.add(new Depot(1,1, new ArrayList<>()));
+        this.depots.add(new Depot(2,2, new ArrayList<>()));
+        this.depots.add(new Depot(3,3, new ArrayList<>()));
     }
 
     /**

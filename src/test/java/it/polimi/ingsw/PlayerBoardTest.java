@@ -95,12 +95,12 @@ public class PlayerBoardTest {
      * checks if extra depot can be added to player board
      */
     @Test
-    public void addExtraDepot() throws NotPossibleToAdd {
+    public void addExtraDepot()  {
 
         Resource r1 = new Resource(SERVANT);
         w= new WareHouse();
         s = new StrongBox();
-        ExtraDepot e1 = new ExtraDepot(2, r1);
+        ExtraDepot e1 = new ExtraDepot(2,1, r1);
         p = new PlayerBoard(w,s);
         p.addExtraDepot(e1);
         assertEquals(p.getExtraDepots().size(),1);
@@ -110,12 +110,12 @@ public class PlayerBoardTest {
     @Test
     public void addResourceToExtraDepot() throws NotPossibleToAdd {
         PlayerBoard p = new PlayerBoard(new WareHouse(),new StrongBox());
-        ExtraDepot e1 = new ExtraDepot(2, new Resource(SERVANT));
-        ExtraDepot e2 = new ExtraDepot(2, new Resource(SHIELD));
+        ExtraDepot e1 = new ExtraDepot(2, 1,new Resource(SERVANT));
+        ExtraDepot e2 = new ExtraDepot(2,1, new Resource(SHIELD));
         assertTrue(p.getExtraDepots().isEmpty());
         p.addExtraDepot(e1);
         p.addExtraDepot(e2);
-        assertTrue(!e1.equals(e2));
+        assertFalse(e1.equals(e2));
         p.addToExtraDepot(new Resource(SERVANT),e1);
         assertEquals(p.getExtraDepots().get(0).getDepot().size(),1);
         assertThrows(NotPossibleToAdd.class, () -> p.addToExtraDepot(new Resource(COIN),e1));
@@ -127,7 +127,7 @@ public class PlayerBoardTest {
      */
 
     @Test
-    public void addDevCard() throws NotPossibleToAdd, CannotAdd {
+    public void addDevCard() throws CannotAdd {
         ArrayList<Resource> cost = new ArrayList<>();
         d1 = new DevelopmentCard(3, cost, 1, CardColor.PURPLE, pp, 5 );
         d2 = new DevelopmentCard(1, cost, 3, CardColor.GREEN, pp, 10 );
