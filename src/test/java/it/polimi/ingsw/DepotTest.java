@@ -68,7 +68,7 @@ public class DepotTest {
         nRes = resources.size();
         assertEquals(2, nRes);
         assertTrue(depot1.getDepot().contains(r1));
-        depot1.removeResource(r1);
+        depot1.removeResource();
         assertFalse(depot1.getDepot().contains(r1));
         nRes = resources.size();
         assertEquals(1, nRes);
@@ -112,7 +112,7 @@ public class DepotTest {
         depot1 = new Depot( 3, 1,resources);
         depot1.addResource(r1);
         assertFalse(depot1.isEmpty());
-        depot1.removeResource(r1);
+        depot1.removeResource();
         assertTrue(depot1.isEmpty());
     }
 

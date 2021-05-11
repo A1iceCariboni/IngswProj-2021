@@ -85,7 +85,7 @@ public class WareHouseTest {
         wareHouse.addDepot(depot1);
         assertTrue(wareHouse.getDepots().contains(depot1));
         assertTrue(wareHouse.hasResource(r1));
-        depot1.removeResource(r1);
+        depot1.removeResource();
         assertFalse(depot1.getDepot().contains(r1));
         assertFalse(wareHouse.hasResource(r1));
     }
@@ -104,7 +104,7 @@ public class WareHouseTest {
         wareHouse.addDepot(depot1);
         assertTrue(wareHouse.getDepots().contains(depot1));
         assertTrue(wareHouse.hasResource(r1));
-        depot1.removeResource(r1);
+        depot1.removeResource();
         assertFalse(depot1.getDepot().contains(r1));
         assertFalse(wareHouse.hasResource(r1));
     }

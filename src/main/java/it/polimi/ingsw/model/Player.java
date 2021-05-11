@@ -173,7 +173,7 @@ public class Player {
     public int hashCode() {
         return Objects.hash(inkwell, nickName, victoryPoints, leaderCards, playerBoard, playerMove, discountedResource, extraProductionPowers, possibleWhiteMarbles);
     }
-    public Depot getDepotById(int id) throws NotPossibleToAdd {
+    public Depot getDepotById(int id) {
         for(Depot depot: playerBoard.getWareHouse().getDepots()){
             if(depot.getId() == id){
                 return depot;
@@ -184,7 +184,7 @@ public class Player {
                 return depot;
             }
         }
-       throw new NotPossibleToAdd();
+        return null;
     }
 }
 

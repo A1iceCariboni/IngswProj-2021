@@ -24,7 +24,7 @@ public class WareHouse {
      * @param res is the resource moved
      */
     public void moveResouces(Depot from, Depot to, Resource res) throws NotPossibleToAdd {
-        from.removeResource(res);
+        from.removeResource();
         to.addResource(res);
     }
 
@@ -66,7 +66,7 @@ public class WareHouse {
     public void remove(Resource res){
         for(Depot d : this.depots){
             if(d.getDepot().contains(res)){
-                d.removeResource(res);
+                d.removeResource();
             }
         }
     }

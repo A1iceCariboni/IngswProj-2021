@@ -33,6 +33,7 @@ public class SingleGameController extends GameController{
         try{
             Server.LOGGER.info("instantiating game");
             this.singleGame = new SingleGame();
+            this.inputChecker = new InputChecker(this, connectedClients, game);
 
             Gson gson = new Gson();
 
@@ -106,15 +107,9 @@ public class SingleGameController extends GameController{
         }
     }
 
-    @Override
-    public void placeResources(MessageType code) {
 
-    }
 
-    @Override
-    public void putResource(int id) {
 
-    }
 
 
 }

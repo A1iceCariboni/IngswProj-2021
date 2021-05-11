@@ -40,10 +40,9 @@ import java.util.Objects;
 
     /**
      * This method removes resources from the depot
-     * @param res represents the resource to remove
      */
-        public void removeResource(Resource res){
-               this.resources.remove(res);
+        public void removeResource(){
+               if(!this.resources.isEmpty()){this.resources.remove(0);}
         }
 
     /**

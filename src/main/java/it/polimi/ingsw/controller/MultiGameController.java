@@ -33,6 +33,7 @@ public class MultiGameController extends GameController {
         try {
             Server.LOGGER.info("instantiating game");
             this.game = new MultiGame();
+            this.inputChecker = new InputChecker(this, connectedClients, game);
 
             for(String name : players) {
                 game.addPlayer(new Player(false, name, 0, new PlayerBoard(new WareHouse(), new StrongBox())));
@@ -133,55 +134,9 @@ public class MultiGameController extends GameController {
         }
 
 
-    /**
-     * if the player has some resources that has not be placed yet , he have to choose were to put them
-     * before proceeding with the turn
-     * @param code
-     */
-    public void placeResources(MessageType code){
-        Gson gson = new Gson();
-        String name = game.getCurrentPlayer().getNickName();
-        VirtualView virtualView = getConnectedClients().get(name);
-        while(!virtualView.getFreeResources().isEmpty()){
-            Resource resource = virtualView.getFreeResources().get(0);
-            if(gamePhase == GamePhase.FIRST_ROUND || code == MessageType.BUY_MARKET) {
-                virtualView.update(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(resource.getResourceType())));
-            }else{
-                virtualView.update(new Message(MessageType.PLACE_RESOURCE_WHEREVER, gson.toJson(resource.getResourceType())));
-            }
-        }
-        if(gamePhase == GamePhase.FIRST_ROUND){
-            game.nextPlayer();
-            turnController.nextTurn();
-        }
-    }
 
-    /**
-     * tries to put the resources in the required place in the warehouse or strong box or discard the resource
-     * @param id of the depot or strongbox if it's 0
-     */
-    public void putResource(int id) throws NotPossibleToAdd {
-        Gson gson = new Gson();
-        String name = game.getCurrentPlayer().getNickName();
-        VirtualView virtualView = getConnectedClients().get(name);
-        if (id == 0){
-            game.getCurrentPlayer().getPlayerBoard().getStrongBox().addResources(virtualView.getFreeResources().get(0));
-        }else{
-            if(id == -1){
-                for(Player player: game.getPlayers()){
-                    if(!player.getNickName().equals(game.getCurrentPlayer().getNickName())){
-                        player.getPlayerBoard().moveFaithMarker(1);
-                    }
-                }
-                if(game.checkPopeSpace()){
-                    sendAll(new Message(MessageType.FAITH_TRACK,gson.toJson(game.getFaithTrack())));
-                }
-                sendAllExcept(new Message(MessageType.FAITH_MOVE, "1"),virtualView);
-            }else {
-                game.getCurrentPlayer().getDepotById(id).addResource(virtualView.getFreeResources().get(0));
-            }
-        }
-    }
+
+
 
 
 }

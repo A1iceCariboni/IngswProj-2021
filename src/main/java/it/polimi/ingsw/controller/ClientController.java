@@ -138,14 +138,14 @@ public class ClientController implements CliObserver,Observer {
             case PLACE_RESOURCE_WAREHOUSE:
                 String resource = gson.fromJson(message.getPayload(),String.class);
                 //chiede al player di scegliere un posto nel warehouse dove piazzare questa risorsa
-                //rispondi con un messaggio dello stesso tipo che ha come payload l'id dello scaffale
+                //rispondi con un messaggio dello stesso tipo che ha come payload un'array degli id dello scaffale per ogni risorsa in ordine
                 //conta anche quelli extra se ce ne sono
                 //inserire -1 per scartare
                 break;
             case PLACE_RESOURCE_WHEREVER:
                 String res = gson.fromJson(message.getPayload(),String.class);
                 //uguale a prima ma puoi aggiungere anche a strongbox, se aggiunge in strongbox
-                //rispondi con un messaggio dello stesso tipo ma con strongbox davanti tipo
+                //rispondi con un messaggio dello stesso tipo ma
                 //se mette in strongbox usa come id 0
                 //inserire -1 per scartare
                 break;
@@ -157,17 +157,10 @@ public class ClientController implements CliObserver,Observer {
                 //ti dice che è il tuo turno
                 //devi far scegliere l'azione da fare tra le 3 possibili e poi mi mandi un messaggio tra
                 //1. codice BUY_DEV e nel payload la riga e la colonna nella matrice di carte come array
+                // subito dopo mi mandi un messaggio RESOURCE_PAYMENT con gli id degli scaffali o -1 per strongbox dove devo andare a prendere le risorse per pagare
+                // e poi un messaggio di tipo SLOT_CHOICE con il numero( da 0 a 2) dello slot in cui lo vuole mettere
                 //2. codice BUY_MARKET e nel payload riga e colonna del market
                 //3. codice ACTIVATE_PRODUCTION e nel payload gli id delle dev card che vuole attivare
-                break;
-            case SLOT_CHOICE:
-                //devi scegliere un numero da 1 a 3 che è lo slot in cui mettere la carta appena pescata
-                break;
-            case NEW_TURN_PHASE:
-                //dice che stai passando alla seconda parte del turno quindi puoi
-                //ACTIVATE_LEADERCARD con id nel payload
-                //DISCARD_LEADERCARD con id nel payload
-                //END_TURN per finire il turno
                 break;
 
         }

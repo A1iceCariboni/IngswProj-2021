@@ -1,5 +1,5 @@
 package it.polimi.ingsw.enumerations;
 
 public enum TurnPhase {
-    GAME_ACTION, LEADER_ACTION
+    BUY_MARKET, BUY_DEV, ACTIVATE_PRODUCTION, ACTIVATE_LEADER, DISCARD_LEADER
 }

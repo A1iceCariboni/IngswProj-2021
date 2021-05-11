@@ -76,7 +76,9 @@ public class VirtualView implements Observer {
     }
 
 
-
+    public void sendInvalidActionMessage(){
+        clientHandler.sendMessage(new ErrorMessage("Not a valid action"));
+    }
     public void addFreeMarble(ArrayList<Marble> freeMarble) {
         this.freeMarble = freeMarble;
     }

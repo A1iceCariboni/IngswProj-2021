@@ -105,13 +105,15 @@ class MultiGameControllerTest {
     Player player = gameController.getGame().getCurrentPlayer();
     gameController.getConnectedClients().get(player.getNickName()).addFreeResource(resources.get(0));
     gameController.getConnectedClients().get(player.getNickName()).addFreeResource(resources.get(1));
-    gameController.putResource(1);
-    assertEquals(player.getPlayerBoard().getResources().size(),1);
+    gameController.putResource(new int []{1,2});
+    gameController.getConnectedClients().get(player.getNickName()).removeFreeResources(1);
     gameController.getConnectedClients().get(player.getNickName()).removeFreeResources(0);
-    gameController.putResource(2);
     assertEquals(player.getPlayerBoard().getResources().size(),2);
 
-   assertThrows(NotPossibleToAdd.class, () -> gameController.putResource(1));
+    gameController.getConnectedClients().get(player.getNickName()).addFreeResource(resources.get(0));
+    gameController.getConnectedClients().get(player.getNickName()).addFreeResource(resources.get(1));
+
+   assertThrows(NotPossibleToAdd.class, () -> gameController.putResource(new int[]{1,1}));
 
     }
 }
