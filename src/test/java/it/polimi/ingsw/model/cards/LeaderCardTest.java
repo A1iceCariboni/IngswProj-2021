@@ -4,10 +4,7 @@ import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.CannotAdd;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
-import it.polimi.ingsw.model.PlayerBoard;
-import it.polimi.ingsw.model.Resource;
-import it.polimi.ingsw.model.StrongBox;
-import it.polimi.ingsw.model.WareHouse;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.effects.JollyMarble;
 import it.polimi.ingsw.model.cards.effects.LeaderEffect;
 import it.polimi.ingsw.model.cards.effects.ProductionPower;
@@ -124,6 +121,7 @@ class LeaderCardTest {
      */
     @Test
     public void isActivable(){
+        Player p = new Player(false, "ali", 0 , new PlayerBoard(new WareHouse(), new StrongBox()));
         Resource r1 = new Resource(ResourceType.SHIELD);
         LeaderEffect effect = new JollyMarble( r1 );
         ArrayList<Requirement> req = new ArrayList<>();
@@ -133,7 +131,7 @@ class LeaderCardTest {
         req.add(new ResourceReq(ResourceType.SERVANT,1));
         leaderCard = new LeaderCard(1,effect, 10, req);
         assertTrue(leaderCard.isActivableBy(b));
-        leaderCard.active();
+        leaderCard.active(p, b);
         assertTrue(leaderCard.isActive());
     }
     /**
@@ -154,6 +152,8 @@ class LeaderCardTest {
      */
     @Test
     public void activeTest(){
+        Player p = new Player(false, "ali", 0 , new PlayerBoard(new WareHouse(), new StrongBox()));
+
         Resource r1 = new Resource(ResourceType.SHIELD);
         LeaderEffect effect = new JollyMarble( r1 );
         ArrayList<Requirement> req = new ArrayList<>();
@@ -164,7 +164,7 @@ class LeaderCardTest {
         leaderCard = new LeaderCard(1,effect, 10, req);
         assertEquals(leaderCard.getRequirements().get(0),req.get(0));
         assertFalse(leaderCard.isActive());
-        leaderCard.active();
+        leaderCard.active(p, p.getPlayerBoard());
         assertTrue(leaderCard.isActive());
     }
    @Test

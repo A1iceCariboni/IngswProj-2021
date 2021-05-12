@@ -24,7 +24,7 @@ public class ExtraProductionPower implements LeaderEffect{
         for(int i = 0; i<quantity; i++){
             entryResources.add(resourceType);
         }
-        ExtraProduction extraProduction = new ExtraProduction(entryResources);
+        ExtraProduction extraProduction = new ExtraProduction(entryResources,b.getIdForExtraProduction());
         p.addExtraProductionPowers(extraProduction);
     }
 

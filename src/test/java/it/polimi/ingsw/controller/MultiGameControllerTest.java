@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import com.google.gson.Gson;
 import it.polimi.ingsw.enumerations.MarbleColor;
 import it.polimi.ingsw.enumerations.ResourceType;
+import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
@@ -39,7 +40,6 @@ class FakeVirtualView extends VirtualView{
   private ArrayList<DevelopmentCard> freeDevelopment = new ArrayList<>();
   @Override
   public void update(Message message){
-
   }
   @Override
   public void removeFreeResources(int pos){
@@ -101,6 +101,7 @@ class MultiGameControllerTest {
   @BeforeEach
   void start(){
       gameController.startGame();
+      gameController.getTurnController().changeGamePhase();
 
   }
     @Test
@@ -155,6 +156,7 @@ class MultiGameControllerTest {
     }
     @Test
     void buyCard(){
+      gameController.turnPhase = TurnPhase.BUY_DEV;
       ArrayList<Resource> res = gameController.getGame().getDeckDevelopment()[0][0].getCard().getCost();
       for(Resource resource: res) {
           gameController.getGame().getCurrentPlayer().getPlayerBoard().getStrongBox().addResources(resource);
@@ -167,7 +169,7 @@ class MultiGameControllerTest {
       for(int j = 0; j< res.size(); j++){
           id[j] = -1;
       }
-      gameController.payCard(id);
+      gameController.pay(id);
       assertEquals(gameController.getConnectedClients().get(gameController.getGame().getCurrentPlayer().getNickName()).getFreeDevelopment().size(),1);
       assertTrue(gameController.getGame().getCurrentPlayer().getPlayerBoard().getStrongBox().getRes().isEmpty());
       gameController.placeCard(0);

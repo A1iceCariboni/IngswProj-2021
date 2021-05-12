@@ -74,9 +74,9 @@ public class Player {
      * This method activates a leader card
      * @param card is the card that is going to be activated
      */
-    public void activateLeader(LeaderCard card) throws NullCardException{
+    public void activateLeader(LeaderCard card, PlayerBoard b, Player p) throws NullCardException{
         if (!this.leaderCards.contains(card))   throw new NullCardException();
-         this.leaderCards.get(leaderCards.lastIndexOf(card)).active();
+         this.leaderCards.get(leaderCards.lastIndexOf(card)).active(p,b);
     }
 
     /**

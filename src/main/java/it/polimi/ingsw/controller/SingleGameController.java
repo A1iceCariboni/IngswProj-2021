@@ -72,20 +72,7 @@ public class SingleGameController extends GameController{
         }
     }
 
-    @Override
-    public void activateLeaderCard(int id) throws NullCardException {
-        String name = singleGame.getCurrentPlayer().getNickName();
-        VirtualView virtualView = getConnectedClients().get(name);
-        int i = singleGame.getPlayers().indexOf(name);
-        Player player = singleGame.getPlayers().get(i);
-        LeaderCard leaderCard = player.getLeaderCardById(id);
-        if (leaderCard.isActivableBy(player.getPlayerBoard())) {
-            player.activateLeader(leaderCard);
-            virtualView.update(new OkMessage("Card activated successfully!"));
-        }else{
-            virtualView.update(new ErrorMessage("You don't satisfy the requirements to activate this card"));
-        }
-    }
+
 
     @Override
     public void discardLeaderCards(int[] id) throws NullCardException {

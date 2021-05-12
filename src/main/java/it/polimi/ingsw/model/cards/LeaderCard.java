@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.cards;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import it.polimi.ingsw.client.DummyModel.DummyLeaderCard;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.cards.effects.LeaderEffect;
 import it.polimi.ingsw.model.cards.requirements.Requirement;
@@ -40,8 +41,9 @@ public class LeaderCard extends Card {
     /**
      * this method make the leadercard active for the player who owns it
      */
-    public void active() {
+    public void active(Player p, PlayerBoard b) {
         this.isActive = true;
+        leaderEffect.applyEffect(p,b);
     }
 
     public ArrayList<Requirement> getRequirements() {

@@ -9,13 +9,14 @@ import java.util.ArrayList;
  * an extra production power is a special production power given by a leadercard effect
  * the player can choose th resource he wants to produce
  */
-public class ExtraProduction extends ProductionPower {
-
+public class ExtraProduction {
+    private int id;
     private ArrayList<Resource> entryResources;
 
 
-    public ExtraProduction(ArrayList<Resource> entryResources) {
+    public ExtraProduction(ArrayList<Resource> entryResources, int id) {
         this.entryResources = entryResources;
+        this.id = id;
     }
 
 
@@ -35,8 +36,11 @@ public class ExtraProduction extends ProductionPower {
         }
     }
 
-    @Override
     public ArrayList<Resource> getEntryResources() {
         return entryResources;
+    }
+
+    public int getId() {
+        return id;
     }
 }

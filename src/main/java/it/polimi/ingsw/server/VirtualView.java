@@ -23,14 +23,20 @@ import java.util.Map;
  */
 public class VirtualView implements Observer {
     private ClientHandler clientHandler;
-    private String nickname ;
+    private String nickname;
     private ArrayList<Resource> freeResources;
     private ArrayList<Marble> freeMarble;
     private ArrayList<DevelopmentCard> freeDevelopment;
     private ArrayList<Depot> tempDepots = new ArrayList<>();
     private StrongBox tempStrongBox = new StrongBox();
+    private ArrayList<Resource> resourcesToPay;
+    private ArrayList<Integer> cardsToActivate;
+    private ArrayList<Integer> extraProductionToActivate;
+    private ArrayList<Resource> resourcesToProduce;
+    private Resource basicProd;
 
-    public VirtualView(){}
+    public VirtualView() {
+    }
 
     public VirtualView(ClientHandler clientHandler, String nickname) {
         this.clientHandler = clientHandler;
@@ -38,24 +44,29 @@ public class VirtualView implements Observer {
         freeResources = new ArrayList<>();
         freeDevelopment = new ArrayList<>();
         freeMarble = new ArrayList<>();
+        this.resourcesToPay = new ArrayList<>();
+        this.cardsToActivate = new ArrayList<>();
+        this.extraProductionToActivate = new ArrayList<>();
+        this.resourcesToProduce = new ArrayList<>();
     }
 
-    public void nickNameResult(boolean accepted, boolean first, boolean fullServer){
-        if(accepted){
-                clientHandler.sendMessage(new OkMessage("You're logged in"));
-        }else{
-            if(fullServer){
+    public void nickNameResult(boolean accepted, boolean first, boolean fullServer) {
+        if (accepted) {
+            clientHandler.sendMessage(new OkMessage("You're logged in"));
+        } else {
+            if (fullServer) {
                 clientHandler.sendMessage(new ErrorMessage("The game is already started, try again later"));
-            }else {
+            } else {
                 clientHandler.sendMessage(new InvalidNickname("This nickname is already in use, try another one"));
             }
         }
     }
 
 
-    public void addFreeResource(Resource resource){
+    public void addFreeResource(Resource resource) {
         this.freeResources.add(resource);
     }
+
     @Override
     public void update(Message message) {
         clientHandler.sendMessage(message);
@@ -65,7 +76,7 @@ public class VirtualView implements Observer {
         return nickname;
     }
 
-    public void removeFreeResources(int pos){
+    public void removeFreeResources(int pos) {
         freeResources.remove(pos);
     }
 
@@ -82,9 +93,10 @@ public class VirtualView implements Observer {
     }
 
 
-    public void sendInvalidActionMessage(){
+    public void sendInvalidActionMessage() {
         clientHandler.sendMessage(new ErrorMessage("Not a valid action"));
     }
+
     public void addFreeMarble(ArrayList<Marble> freeMarble) {
         this.freeMarble = freeMarble;
     }
@@ -93,13 +105,14 @@ public class VirtualView implements Observer {
         this.freeDevelopment.add(freeDevelopment);
     }
 
-    public void addAllFreeMarbles(ArrayList<Marble> marbles){
+    public void addAllFreeMarbles(ArrayList<Marble> marbles) {
         this.freeMarble.addAll(marbles);
     }
 
-    public void removeAllFreeMarbles(){
+    public void removeAllFreeMarbles() {
         this.freeMarble.removeAll(this.freeMarble);
     }
+
     public void removeFreeDevelopment(int pos) {
         this.freeDevelopment.remove(pos);
     }
@@ -112,18 +125,78 @@ public class VirtualView implements Observer {
         this.tempDepots = tempDepots;
     }
 
-    public void freeTempDepots(){
+    public void freeTempDepots() {
         this.tempDepots.removeAll(this.tempDepots);
     }
+
     public StrongBox getTempStrongBox() {
         return tempStrongBox;
     }
 
-    public void freeStrongBox(){
+    public void freeStrongBox() {
         this.tempStrongBox.removeAllResources();
     }
 
     public void setTempStrongBox(StrongBox tempStrongBox) {
         this.tempStrongBox = tempStrongBox;
+    }
+
+    public void addCardToActivate(int id){
+        this.cardsToActivate.add(id);
+    }
+
+    public void addAllResourcesToPay(ArrayList<Resource> resources){
+        this.resourcesToPay.addAll(resources);
+    }
+
+    public void removeCardsToActivate() {
+        this.cardsToActivate.removeAll(this.cardsToActivate);
+    }
+
+    public void removeResourcesToPay() {
+        this.resourcesToPay.removeAll(this.resourcesToPay);
+    }
+
+    public ArrayList<Resource> getResourcesToPay() {
+        return resourcesToPay;
+    }
+
+    public ArrayList<Integer> getCardsToActivate() {
+        return cardsToActivate;
+    }
+
+    public void addExtraProductionToActivate(int id){
+        this.extraProductionToActivate.add(id);
+    }
+
+    public void removeAllExtraProduction(){
+        this.extraProductionToActivate.removeAll(this.extraProductionToActivate);
+    }
+
+    public void addResourceToProduce(Resource resource){
+        this.resourcesToProduce.add(resource);
+    }
+
+    public void removeAllResourcesToProduce(){
+        this.resourcesToProduce.removeAll(this.resourcesToProduce);
+    }
+
+    public Resource getBasicProd() {
+        return basicProd;
+    }
+
+    public void setBasicProd(Resource basicProd) {
+        this.basicProd = basicProd;
+    }
+
+    public ArrayList<Integer> getExtraProductionToActivate() {
+        return extraProductionToActivate;
+    }
+
+    public ArrayList<Resource> getResourcesToProduce() {
+        return resourcesToProduce;
+    }
+    public void removeResourceToProduce(int pos){
+        this.resourcesToProduce.remove(pos);
     }
 }

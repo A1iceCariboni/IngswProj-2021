@@ -69,10 +69,7 @@ public class MultiGameController extends GameController {
         }
     }
 
-    @Override
-    public void activateLeaderCard(int id) throws NullCardException {
 
-    }
 
 
     /**

@@ -161,6 +161,13 @@ public class ClientController implements CliObserver,Observer {
                 // e poi un messaggio di tipo SLOT_CHOICE con il numero( da 0 a 2) dello slot in cui lo vuole mettere
                 //2. codice BUY_MARKET e nel payload riga e colonna del market
                 //3. codice ACTIVATE_PRODUCTION e nel payload gli id delle dev card che vuole attivare
+                //poi se vuole attivare extraProduction un messaggio per ogni extra production con id e risporsa che vuole produrre
+                //come array di stringhe
+                //se vuole attivare la produzione base BASE_PRODUCTION e dentro il messaggio un'array di 3 stringhe le prime due di entrata e l'ultima di uscita
+                //poi messaggio RESOURCE_PAYMENT per pagare se non paga la produzione non si attiva
+                //4. ACTIVATE_LEADERCARD con id della leader card oppure
+                //5.DISCARD_LEADER con id della leadercard
+                //7. END_TURN se vuole terminare il turno
                 break;
             case WHITE_MARBLES:
                 int numWhite = gson.fromJson(message.getPayload(), int.class);
@@ -179,7 +186,20 @@ public class ClientController implements CliObserver,Observer {
                 // manda un messaggio di tipo depot con tutti i depot che vuole modificare e come li vuole modificare
                 // poi un messaggio di tipo DUMMY_STRONGBOX se vuole modificare anche strongbox e quando è pronto
                 //inivia un messaggio di tipo MOVE_RESOURCES vuoto, tutti i controlli li faccio io ner server
+            case WHITE_MARBLES_POWERS:
+                // è UN ARRAY di stringhe che ti dice quali white marbles hai per quando poi devi inviare il messaggio WHITE_MARBLES
+                //potrebbe essere vuoto se non ne hai
 
+            case EXTRA_PRODUCTION:
+                // è un array di dummy extra production
+                //potrebbe essere vuoto se non ne hai
+
+
+            case DISCOUNTED_RESOURCES:
+                //array di stringhe che dice quali risorse hai scontate
+                //potrebbe essere vuoto se non ne hai
+            case DUMMY_DEVS:
+                //è un array delle tue 3 development card sulla playerboard
         }
 
 

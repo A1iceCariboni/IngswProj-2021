@@ -19,6 +19,7 @@ public class PlayerBoard {
     private int faithMarker;
     private ArrayList <ExtraDepot> extraDepots ;
     private int depotId = 3;
+    private int extraProductionId = 0;
     private ArrayList<Resource> unplacedResources;
 
     public PlayerBoard() {}
@@ -127,6 +128,11 @@ public class PlayerBoard {
             }
     }
 
+    /**
+     * checks if there is place for this card to be added
+     * @param card the card to be added
+     * @return true if it is possible false otherwise
+     */
     public boolean canAddDevCard(DevelopmentCard card) {
         for (int slot = 0; slot < 3; slot++) {
             if (card.getLevel() == 1) {
@@ -177,11 +183,24 @@ public class PlayerBoard {
         return depotId;
    }
 
+   public int getIdForExtraProduction(){
+        extraProductionId ++;
+        return extraProductionId;
+   }
+
    public void addUnplacedResource(Resource resource){
         this.unplacedResources.add(resource);
    }
    public void removeUnplacedResource(int pos){
         this.unplacedResources.remove(pos);
+   }
+
+    /**
+     * activate the basic production power 2x entry resources 1x product resources on players choice
+     * @param prodRes the product resource chosen by the player
+     */
+   public void activateBasicProduction(Resource prodRes){
+        strongBox.addResources(prodRes);
    }
    public ArrayList<Resource> getUnplacedResources(){return unplacedResources;}
 

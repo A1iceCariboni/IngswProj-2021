@@ -36,7 +36,7 @@ public class DevelopmentCard extends Card{
 
     /**
      * Checks ia a player have enough resources to buy the card
-     * @param b is the playerboard of the player who wants to buy the card
+     * @param p is the player who wants to buy the card
      * @return true if the player can buy the card, false if he doesn't
      */
     public boolean isBuyable(Player p){
@@ -122,6 +122,9 @@ public class DevelopmentCard extends Card{
         return new DummyDev(id, c,level, color.name(), new DummyProductionPower(e,p));
     }
 
+    public int getId(){
+        return id;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

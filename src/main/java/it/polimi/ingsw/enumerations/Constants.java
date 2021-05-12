@@ -13,4 +13,5 @@ public class Constants {
     public static int MIN_NUMBER_OF_PLAYERS = 1;
     public static int MARKET_ROWS = 3;
     public static int MARKET_COLS = 4;
+    public static int DEV_SLOTS = 3;
 }

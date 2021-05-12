@@ -5,8 +5,11 @@ import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.Depot;
+import it.polimi.ingsw.model.ExtraProduction;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.server.VirtualView;
 
 import java.util.ArrayList;
@@ -79,6 +82,19 @@ public class InputChecker {
                     return false;
                 }
                 return  true;
+            case ACTIVATE_PRODUCTION:
+                int[] cards = gson.fromJson(message.getPayload(), int[].class);
+                if(checkIdDev(cards)) return true;
+                return false;
+            case EXTRA_PRODUCTION:
+                int[] powers = gson.fromJson(message.getPayload(), int[].class);
+                if(checkIdExtraProduction(powers)) return true;
+                return false;
+            case ACTIVATE_LEADER_CARD:
+                int l = gson.fromJson(message.getPayload(),int.class);
+                if(checkLeaderCard(l)) return true;
+                return false;
+
             default:
                 return true;
         }
@@ -93,7 +109,12 @@ public class InputChecker {
      */
     public boolean checkPayment(Integer[] ids, String nickname){
         List<Integer> depotIds =Arrays.asList(ids);
-        ArrayList<Resource> cost = connectedClients.get(nickname).getFreeDevelopment().get(0).getCost();
+        ArrayList<Resource> cost = new ArrayList<>();
+        if(gameController.getTurnPhase() == TurnPhase.BUY_DEV) {
+            cost = connectedClients.get(nickname).getFreeDevelopment().get(0).getCost();
+        }else{
+            cost = connectedClients.get(nickname).getResourcesToPay();
+        }
         ArrayList<Resource> payment = cost;
         Map<Integer, Long> couterMap = depotIds.stream().collect(Collectors.groupingBy(p-> p.intValue(),Collectors.counting()));
         for (int j : couterMap.keySet()) {
@@ -183,5 +204,54 @@ public class InputChecker {
     public void emptyStorage(String nickname){
         gameController.getVirtualView(nickname).freeTempDepots();
         gameController.getVirtualView(nickname).freeStrongBox();
+    }
+
+    /**
+     * checks if the card is owned by the player
+     * @param cards ids of the required cards
+     * @return true if he owns them
+     */
+    public boolean checkIdDev(int[] cards){
+        ArrayList<Integer> owned = new ArrayList<>();
+            for (DevelopmentCard developmentCard : game.getCurrentPlayer().getPlayerBoard().getDevelopmentCards()) {
+                owned.add(developmentCard.getId());
+            }
+            for(int j : cards){
+                if(!owned.contains(j)){
+                    return false;
+                }
+            }
+            return true;
+    }
+
+    /**
+     * checks if the extra production power is owned by the player
+     * @param powers ids of the production powers
+     * @return true if he owns them
+     */
+    public boolean checkIdExtraProduction(int[] powers){
+        ArrayList<Integer> owned = new ArrayList<>();
+        for (ExtraProduction extraProduction : game.getCurrentPlayer().getExtraProductionPowers()) {
+            owned.add(extraProduction.getId());
+        }
+        for(int j : powers){
+            if(!owned.contains(j)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * checks if the leadercard is owned by the player and if it's not active
+     * @param id of the leader card
+     * @return true if it is owned
+     */
+    public boolean checkLeaderCard(int id){
+        LeaderCard leaderCard = game.getCurrentPlayer().getLeaderCardById(id);
+        if(leaderCard != null && !leaderCard.isActive()){
+            return true;
+        }
+        return false;
     }
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.DummyModel.DummyDev;
+import it.polimi.ingsw.client.DummyModel.DummyLeaderCard;
 import it.polimi.ingsw.client.DummyModel.DummyMarket;
 import it.polimi.ingsw.client.DummyModel.DummyStrongbox;
 import it.polimi.ingsw.enumerations.*;
@@ -13,6 +14,8 @@ import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.answer.ErrorMessage;
 import it.polimi.ingsw.messages.answer.OkMessage;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.server.VirtualView;
 
 import java.util.ArrayList;
@@ -83,13 +86,57 @@ public abstract class GameController {
     }
 
     /**
+     * sends to the player the leader card effect that he owns
+     */
+    public void sendWhiteMarbles(){
+        ArrayList<String> marbles = new ArrayList<>();
+        Gson gson = new Gson();
+        String name = game.getCurrentPlayer().getNickName();
+        VirtualView virtualView = getConnectedClients().get(name);
+
+        ArrayList<Resource> resources = game.getCurrentPlayer().getPossibleWhiteMarbles();
+            for(Resource resource: resources) {
+                marbles.add(resource.getResourceType().name());
+            }
+            virtualView.update(new Message(MessageType.WHITE_MARBLES_POWERS,gson.toJson(marbles)));
+    }
+
+    /**
+     * sends the player his extraproduction powers given by a leader effect
+     */
+    public void sendExtraProduction(){
+        Gson gson = new Gson();
+        String name = game.getCurrentPlayer().getNickName();
+        VirtualView virtualView = getConnectedClients().get(name);
+        ArrayList<ExtraProduction> extraProductions = game.getCurrentPlayer().getExtraProductionPowers();
+        virtualView.update(new Message(MessageType.EXTRA_PRODUCTION,gson.toJson(extraProductions)));
+    }
+    /**
+     * sends the player his discounted resource powers given by a leader effect
+     */
+    /**
+     * sends to the player the leader card effect that he owns
+     */
+    public void sendDiscountedRes(){
+        ArrayList<String> res = new ArrayList<>();
+        Gson gson = new Gson();
+        String name = game.getCurrentPlayer().getNickName();
+        VirtualView virtualView = getConnectedClients().get(name);
+
+        ArrayList<Resource> resources = game.getCurrentPlayer().getDiscountedResource();
+        for(Resource resource: resources) {
+            res.add(resource.getResourceType().name());
+        }
+        virtualView.update(new Message(MessageType.DISCOUNTED_RESOURCES,gson.toJson(res)));
+    }
+    /**
      *sends the new strongbox to the current player
      */
     public void sendStrongBox(){
         Gson gson = new Gson();
 
         DummyStrongbox dummyStrongbox = game.getCurrentPlayer().getPlayerBoard().getStrongBox().getDummy();
-        connectedClients.get(game.getCurrentPlayer()).update(new Message(MessageType.DUMMY_STRONGBOX, gson.toJson(dummyStrongbox)));
+        connectedClients.get(turnController.getActivePlayer()).update(new Message(MessageType.DUMMY_STRONGBOX, gson.toJson(dummyStrongbox)));
     }
 
     public void removeConnectedClient(String nickname){
@@ -108,6 +155,39 @@ public abstract class GameController {
             vv.update(message);
         }
     }
+
+    /**
+     * sends the new dummy devs to the player
+     */
+    public void sendDummyDevs(){
+        Gson gson = new Gson();
+        String name = game.getCurrentPlayer().getNickName();
+        VirtualView virtualView = getConnectedClients().get(name);
+
+        DummyDev[] dummyDevs = new DummyDev[3];
+        ArrayList<DevelopmentCard> developmentCards = game.getCurrentPlayer().getPlayerBoard().getDevelopmentCards();
+        for(int i = 0; i < Constants.DEV_SLOTS; i++){
+            dummyDevs[i] = developmentCards.get(i).getDummy();
+        }
+        virtualView.update(new Message(MessageType.DUMMY_DEVS,gson.toJson(dummyDevs)));
+    }
+
+    /**
+     * sends the updated dummy leadercards to the player
+     */
+    public void sendDummyLead(){
+        Gson gson = new Gson();
+        String name = game.getCurrentPlayer().getNickName();
+        VirtualView virtualView = getConnectedClients().get(name);
+
+        ArrayList<DummyLeaderCard> dummyLeaderCards = new ArrayList<>();
+        ArrayList<LeaderCard> leaderCards = game.getCurrentPlayer().getLeadercards();
+        for(LeaderCard lc: leaderCards){
+            dummyLeaderCards.add(lc.getDummy());
+        }
+        virtualView.update(new Message(MessageType.DUMMY_LEADER_CARD,gson.toJson(dummyLeaderCards)));
+    }
+
 
     public boolean isStarted() {
         return isStarted;
@@ -169,7 +249,6 @@ public abstract class GameController {
 
    }
 
-    public abstract void activateLeaderCard(int id) throws NullCardException;
 
     public abstract void discardLeaderCards(int[] id) throws NullCardException;
 
@@ -237,7 +316,6 @@ public abstract class GameController {
         if(inputChecker.checkReceivedMessage(message, turnController.getActivePlayer())) {
             switch (message.getCode()) {
                 case BUY_DEV:
-                    turnPhase = TurnPhase.BUY_DEV;
                     int[] dim = gson.fromJson(message.getPayload(), int[].class);
                     buyDevelopment(dim[0], dim[1]);
                     break;
@@ -247,7 +325,7 @@ public abstract class GameController {
                     break;
                 case RESOURCE_PAYMENT:
                     int[] ids = gson.fromJson(message.getPayload(), int[].class);
-                    payCard(ids);
+                        pay(ids);
                     break;
                 case BUY_MARKET:
                     turnPhase = TurnPhase.BUY_MARKET;
@@ -267,12 +345,38 @@ public abstract class GameController {
                 case MOVE_RESOURCES:
                     moveResourcesHandler(message,virtualView);
                     break;
+                case ACTIVATE_PRODUCTION:
+                    turnPhase = TurnPhase.ACTIVATE_PRODUCTION;
+                    addProductionPower(gson.fromJson(message.getPayload(),int[].class));
+                    break;
+                case EXTRA_PRODUCTION:
+                    String[] command = gson.fromJson(message.getPayload(),String[].class);
+                    int id = Integer.parseInt(command[0]);
+                    Resource resource = new Resource(ResourceType.valueOf(command[1]));
+                    addExtraProductionPower(id, resource);
+                    break;
+                case BASE_PRODUCTION:
+                  command = gson.fromJson(message.getPayload(),String[].class);
+                  Resource res1 = new Resource(ResourceType.valueOf(command[0]));
+                  Resource res2 = new Resource(ResourceType.valueOf(command[1]));
+                  Resource res3 = new Resource(ResourceType.valueOf(command[2]));
+                  addBasicProduction(res1,res2,res3);
+                  break;
+
+                case ACTIVATE_LEADER_CARD:
+                    id = gson.fromJson(message.getPayload(),int.class);
+                    activateLeaderCard(id);
             }
         }else{
             virtualView.sendInvalidActionMessage();
         }
     }
 
+    /**
+     * handles the messages for reorganizing depots and strongbox
+     * @param message
+     * @param virtualView
+     */
     public void moveResourcesHandler(Message message, VirtualView virtualView){
         Gson gson = new Gson();
         switch(message.getCode()){
@@ -289,6 +393,7 @@ public abstract class GameController {
                  break;
         }
     }
+
     /**
      * handles the first round of the game where the players can only discard 2 leadercards and choose initial the resources
      * @param message
@@ -347,6 +452,8 @@ public abstract class GameController {
        VirtualView virtualView = getConnectedClients().get(name);
         if(game.getDeckDevelopment()[rig][col].getCard().isBuyable(game.getCurrentPlayer())){
             virtualView.addFreeDevelopment(game.getDeckDevelopment()[rig][col].popCard());
+            turnController.doneGameAction();
+            turnPhase = TurnPhase.BUY_DEV;
         }else{
             virtualView.update(new ErrorMessage("You don't have enough resources to buy this card, choose another one"));
         }
@@ -364,6 +471,7 @@ public abstract class GameController {
        try{
            game.getCurrentPlayer().getPlayerBoard().addDevCard(virtualView.getFreeDevelopment().get(0),slot);
            sendUpdateMarketDev();
+           sendDummyDevs();
            success = true;
        } catch (CannotAdd cannotAdd) {
            virtualView.update(new ErrorMessage(cannotAdd.getMessage()));
@@ -380,11 +488,15 @@ public abstract class GameController {
      * removes from warehouse and strongbox all the resources used to pay a development card
      * @param ids ids of the depot where he need to take the resources, -1 if it's the strongbox
      */
-   public void payCard(int[] ids){
+   public void pay(int[] ids){
        String name = game.getCurrentPlayer().getNickName();
        VirtualView virtualView = getConnectedClients().get(name);
-       ArrayList<Resource> cost = virtualView.getFreeDevelopment().get(0).getCost();
-
+       ArrayList<Resource> cost ;
+       if(turnPhase == TurnPhase.BUY_DEV) {
+           cost = virtualView.getFreeDevelopment().get(0).getCost();
+       }else{
+           cost = virtualView.getResourcesToPay();
+       }
        for(int j: ids){
            if(j != -1) {
                cost.remove(game.getCurrentPlayer().getDepotById(j).getDepot().get(0));
@@ -395,9 +507,13 @@ public abstract class GameController {
        for(Resource resource: cost){
            game.getCurrentPlayer().getPlayerBoard().getStrongBox().removeResources(resource);
        }
+       if(turnPhase == TurnPhase.ACTIVATE_PRODUCTION){
+           startProduction();
+           virtualView.removeAllResourcesToProduce();
+       }
        sendDepots();
        sendStrongBox();
-       virtualView.update(new OkMessage("Card payed successfully!"));
+       virtualView.update(new OkMessage("Payed successfully!"));
    }
 
     /**
@@ -547,6 +663,102 @@ public abstract class GameController {
         virtualView.freeStrongBox();
         virtualView.freeTempDepots();
     }
+
+    /**
+     * add a production power to the production powers that has to be activated in the virtual view
+     * @param ids ids of the development cards
+     */
+    public void addProductionPower(int [] ids ){
+        String name = game.getCurrentPlayer().getNickName();
+        VirtualView virtualView = getConnectedClients().get(name);
+    for(int j : ids){
+        for(DevelopmentCard developmentCard: game.getCurrentPlayer().getPlayerBoard().getDevelopmentCards()){
+            if(developmentCard.getId() == j){
+                virtualView.addAllResourcesToPay(developmentCard.getProductionPower().getEntryResources());
+            }
+        }
+        virtualView.addCardToActivate(j);
+    }
+    }
+
+    /**
+     * add an extraproduction power to the production powers that has to be activated in the virtual view
+     * @param id id of the production power
+     */
+    public void addExtraProductionPower(int id, Resource resource){
+        String name = game.getCurrentPlayer().getNickName();
+        VirtualView virtualView = getConnectedClients().get(name);
+            for(ExtraProduction extraProduction : game.getCurrentPlayer().getExtraProductionPowers()){
+                if(extraProduction.getId() == id){
+                    virtualView.addAllResourcesToPay(extraProduction.getEntryResources());
+                }
+            }
+            virtualView.addExtraProductionToActivate(id);
+            virtualView.addResourceToProduce(resource);
+    }
+
+    /**
+     * adds to the virtual model of the player the resources he has to pay and to produce
+     * @param res1 first resource to pay
+     * @param res2 second resource to pay
+     * @param res3 resource to produce
+     */
+    public void addBasicProduction(Resource res1, Resource res2, Resource res3){
+        String name = game.getCurrentPlayer().getNickName();
+        VirtualView virtualView = getConnectedClients().get(name);
+        ArrayList<Resource> toPay = new ArrayList<>();
+        toPay.add(res1);
+        toPay.add(res2);
+        virtualView.addAllResourcesToPay(toPay);
+        virtualView.setBasicProd(res3);
+    }
+
+    /**
+     * after the player pay , the production start and all the resources are added to strongbox
+     * and the faithPoint are added to the fait marker
+     */
+    public void startProduction(){
+        String name = game.getCurrentPlayer().getNickName();
+        VirtualView virtualView = getConnectedClients().get(name);
+        for(int j : virtualView.getCardsToActivate()){
+            for(DevelopmentCard dc: game.getCurrentPlayer().getPlayerBoard().getDevelopmentCards()){
+                if(dc.getId() == j){
+                    dc.startProduction(game.getCurrentPlayer().getPlayerBoard(), game.getCurrentPlayer());
+                }
+            }
+        }
+        virtualView.removeCardsToActivate();
+        game.getCurrentPlayer().getPlayerBoard().getStrongBox().addResources(virtualView.getBasicProd());
+
+        for(int j : virtualView.getExtraProductionToActivate()){
+            for(ExtraProduction ep: game.getCurrentPlayer().getExtraProductionPowers()){
+                if(ep.getId() == j){
+                    ep.startProduction(game.getCurrentPlayer().getPlayerBoard(), game.getCurrentPlayer(), virtualView.getResourcesToProduce().get(0));
+                    virtualView.removeResourceToProduce(0);
+                }
+            }
+        }
+        virtualView.removeAllExtraProduction();
+        sendDepots();
+        sendStrongBox();
+        updateFaith();
+    }
+
+    /**
+     * activate the required leader card
+     * @param id id of the leader card
+     */
+    public  void activateLeaderCard(int id) {
+        game.getCurrentPlayer().getLeaderCardById(id).active(game.getCurrentPlayer(), game.getCurrentPlayer().getPlayerBoard());
+        sendDummyLead();
+        sendExtraProduction();
+        sendWhiteMarbles();
+        sendDepots();
+        sendDiscountedRes();
+    }
+
 }
+
+
 
 
