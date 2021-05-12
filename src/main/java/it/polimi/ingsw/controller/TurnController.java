@@ -56,11 +56,7 @@ public class TurnController {
           }
     }
 
-    public TurnPhase getTurnPhase() {
-        return turnPhase;
 
-
-    }
 
     public void doneGameAction(){
         gameActionPerTurn = 1;

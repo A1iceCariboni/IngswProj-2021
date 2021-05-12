@@ -58,20 +58,20 @@ public class MarketTray {
                     break;
                 case BLUE:
                     marbleEffect = playerBoard -> {
-                        playerBoard.getStrongBox().addResources(new Resource(ResourceType.SHIELD));};
+                        playerBoard.addUnplacedResource(new Resource(ResourceType.SHIELD));};
                     marbles1 .add(new Marble(marbleColor,marbleEffect));
                     break;
                 case GREY:
                     marbleEffect = playerBoard -> {
-                        playerBoard.getStrongBox().addResources(new Resource(ResourceType.STONE));};
+                        playerBoard.addUnplacedResource(new Resource(ResourceType.STONE));};
                     marbles1 .add(new Marble(marbleColor,marbleEffect));
                     break;
                 case YELLOW:
-                    marbleEffect = playerBoard -> {playerBoard.getStrongBox().addResources(new Resource(ResourceType.COIN));};
+                    marbleEffect = playerBoard -> {playerBoard.addUnplacedResource(new Resource(ResourceType.COIN));};
                     marbles1 .add(new Marble(marbleColor,marbleEffect));
                     break;
                 case PURPLE:
-                    marbleEffect = playerBoard -> {playerBoard.getStrongBox().addResources(new Resource(ResourceType.SERVANT));};
+                    marbleEffect = playerBoard -> {playerBoard.addUnplacedResource(new Resource(ResourceType.SERVANT));};
                     marbles1 .add(new Marble(marbleColor,marbleEffect));
                     break;
                 case RED:

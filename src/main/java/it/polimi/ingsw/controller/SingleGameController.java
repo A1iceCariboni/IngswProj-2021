@@ -37,18 +37,6 @@ public class SingleGameController extends GameController{
 
             Gson gson = new Gson();
 
-            DummyDev[][] dummyDevs = new DummyDev[Constants.rows][Constants.cols];
-            for(int r = 0; r < Constants.rows; r++){
-                for(int c = 0; c < Constants.cols; c++){
-                    dummyDevs[r][c] = singleGame.getDeckDevelopment()[r][c].getCard().getDummy();
-                }
-            }
-
-            Message message2 = new DevelopmentMarketMessage(gson.toJson(dummyDevs));
-
-            DummyMarket dummyMarket = singleGame.getMarketTray().getDummy();
-
-            Message message3 = new MarketTrayMessage(gson.toJson(dummyMarket));
             ArrayList<String> nickNames = new ArrayList<>();
 
             for(String name : getConnectedClients().keySet()) {
@@ -56,6 +44,7 @@ public class SingleGameController extends GameController{
             }
 
             singleGame.startGame();
+
 
             Player player = singleGame.getPlayers().get(0);
             nickNames.add(player.getNickName());
@@ -66,15 +55,14 @@ public class SingleGameController extends GameController{
                     dummyLeaderCards.add(leaderCard.getDummy());
                 }
 
-            Message message = new LeaderCardMessage(gson.toJson(dummyLeaderCards));
+            sendUpdateMarketDev();
+            sendUpdateMarketTray();
+            sendUpdateFaithTrack();
+
+            Message message = new Message(MessageType.DUMMY_LEADER_CARD,gson.toJson(dummyLeaderCards));
             vv.update(message);
 
-            Message message1 = new FaithTrackMessage(gson.toJson(singleGame.getFaithTrack()));
-            vv.update(message1);
 
-            vv.update(message2);
-
-            vv.update(message3);
 
             TurnController turnController = new TurnController(this, nickNames, singleGame.getCurrentPlayer().getNickName());
             setGamePhase(GamePhase.FIRST_ROUND);

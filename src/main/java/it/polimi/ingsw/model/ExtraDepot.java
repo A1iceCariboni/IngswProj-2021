@@ -25,12 +25,21 @@ import java.util.Objects;
          * @throws NotPossibleToAdd if the depot is full or if the resource is not of the same type
          */
         public void addResource(Resource res) throws NotPossibleToAdd {
-            if(!res.getResourceType().equals(type.getResourceType()) || this.resources.size() >= dimension){
+            if(!possibleToAdd(res) || this.resources.size() >= dimension){
                 throw new NotPossibleToAdd();
-            }else
+            }else{
                 this.resources.add(res);
+            }
         }
 
+
+        @Override
+        public boolean possibleToAdd(Resource res){
+            if(super.possibleToAdd(res) && res.getResourceType() == type.getResourceType()){
+                return true;
+            }
+            return false;
+        }
         /**
          * This method removes resources from the depot
          * @param res represents the resource to remove
@@ -72,6 +81,14 @@ import java.util.Objects;
     @Override
     public int hashCode() {
         return Objects.hash(dimension, resources, type);
+    }
+
+    @Override
+    public boolean possibleResource(Resource res){
+        if(res.getResourceType() == type.getResourceType()){
+            return true;
+        }
+        return false;
     }
 }
 

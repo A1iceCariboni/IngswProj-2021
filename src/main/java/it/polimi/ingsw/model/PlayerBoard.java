@@ -19,6 +19,7 @@ public class PlayerBoard {
     private int faithMarker;
     private ArrayList <ExtraDepot> extraDepots ;
     private int depotId = 3;
+    private ArrayList<Resource> unplacedResources;
 
     public PlayerBoard() {}
 
@@ -32,6 +33,7 @@ public class PlayerBoard {
         this.devCards = new ArrayList<>();
         this.countDevCards = 0;
         this.extraDepots = new ArrayList<>();
+        this.unplacedResources = new ArrayList<>();
     }
 
 
@@ -175,6 +177,13 @@ public class PlayerBoard {
         return depotId;
    }
 
+   public void addUnplacedResource(Resource resource){
+        this.unplacedResources.add(resource);
+   }
+   public void removeUnplacedResource(int pos){
+        this.unplacedResources.remove(pos);
+   }
+   public ArrayList<Resource> getUnplacedResources(){return unplacedResources;}
 
     public WareHouse getWareHouse() {
         return wareHouse;

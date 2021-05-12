@@ -162,6 +162,23 @@ public class ClientController implements CliObserver,Observer {
                 //2. codice BUY_MARKET e nel payload riga e colonna del market
                 //3. codice ACTIVATE_PRODUCTION e nel payload gli id delle dev card che vuole attivare
                 break;
+            case WHITE_MARBLES:
+                int numWhite = gson.fromJson(message.getPayload(), int.class);
+                //chiede al player di dire quali poteri white marble vuole usare per ogni white marble, deve dare un array di numeri
+                //e i numeri devono essere lo stesso numero delle white marble pescate che sono nel payload del messaggio
+                //se vuole usare un potere più volte lo deve scrivere più volte
+                //la risposta deve avere lo stesso codice WHITE_MARBLE
+                break;
+            case DEPOTS:
+                //contiene un arraylist di tutti i depot, sia extra che non
+                break;
+            case DUMMY_STRONGBOX:
+                //contiene un dummy strongbox
+                break;
+                //se il player vuole muovere le risorse (e lo puo fare in qualsiasi momento)
+                // manda un messaggio di tipo depot con tutti i depot che vuole modificare e come li vuole modificare
+                // poi un messaggio di tipo DUMMY_STRONGBOX se vuole modificare anche strongbox e quando è pronto
+                //inivia un messaggio di tipo MOVE_RESOURCES vuoto, tutti i controlli li faccio io ner server
 
         }
 

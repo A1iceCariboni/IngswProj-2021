@@ -1,17 +1,21 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.enumerations.MarbleColor;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.answer.ErrorMessage;
 import it.polimi.ingsw.messages.answer.InvalidNickname;
 import it.polimi.ingsw.messages.answer.NumberOfPlayerRequest;
 import it.polimi.ingsw.messages.answer.OkMessage;
 import it.polimi.ingsw.messages.request.NumberOfPlayerReply;
+import it.polimi.ingsw.model.Depot;
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.StrongBox;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.observers.Observer;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * class between network and the game controller on the server side , the controller call the methods of this class and this class communicate with the client
@@ -23,6 +27,8 @@ public class VirtualView implements Observer {
     private ArrayList<Resource> freeResources;
     private ArrayList<Marble> freeMarble;
     private ArrayList<DevelopmentCard> freeDevelopment;
+    private ArrayList<Depot> tempDepots = new ArrayList<>();
+    private StrongBox tempStrongBox = new StrongBox();
 
     public VirtualView(){}
 
@@ -86,8 +92,38 @@ public class VirtualView implements Observer {
     public void addFreeDevelopment(DevelopmentCard freeDevelopment) {
         this.freeDevelopment.add(freeDevelopment);
     }
+
+    public void addAllFreeMarbles(ArrayList<Marble> marbles){
+        this.freeMarble.addAll(marbles);
+    }
+
+    public void removeAllFreeMarbles(){
+        this.freeMarble.removeAll(this.freeMarble);
+    }
     public void removeFreeDevelopment(int pos) {
         this.freeDevelopment.remove(pos);
     }
 
+    public ArrayList<Depot> getTempDepots() {
+        return tempDepots;
+    }
+
+    public void setTempDepots(ArrayList<Depot> tempDepots) {
+        this.tempDepots = tempDepots;
+    }
+
+    public void freeTempDepots(){
+        this.tempDepots.removeAll(this.tempDepots);
+    }
+    public StrongBox getTempStrongBox() {
+        return tempStrongBox;
+    }
+
+    public void freeStrongBox(){
+        this.tempStrongBox.removeAllResources();
+    }
+
+    public void setTempStrongBox(StrongBox tempStrongBox) {
+        this.tempStrongBox = tempStrongBox;
+    }
 }

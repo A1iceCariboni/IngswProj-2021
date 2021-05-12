@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.client.DummyModel.DummyDepot;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 
@@ -29,13 +30,17 @@ import java.util.Objects;
         public void addResource(Resource res) throws NotPossibleToAdd {
             int countRes;
                 countRes = this.resources.size() + 1 ;
-            if(this.resources.isEmpty() || (this.resources.contains(res) && countRes <= dimension)){
+            if(possibleToAdd(res) && countRes <= dimension){
                 this.resources.add(res);
-            }else
+            }else{
                 throw new NotPossibleToAdd();
+            }
+        }
 
-
-
+        public boolean possibleToAdd(Resource res){
+            if(!resources.isEmpty() && res.getResourceType()!=resources.get(0).getResourceType()){
+                return false;
+            }return true;
         }
 
     /**
@@ -53,6 +58,9 @@ import java.util.Objects;
             return this.resources;
         }
 
+    public void setDepot(ArrayList<Resource> res){
+        this.resources = res;
+    }
     /**
      * This method gets the maximum number of resources that the depot can contain
      */
@@ -91,6 +99,16 @@ import java.util.Objects;
     public int getId() {
         return id;
     }
+
+    /**
+     * tells if this resource is ok for this depot , this is always true for generic depot
+     * @return
+     */
+    public boolean possibleResource(Resource res){
+            return true;
+    }
+
+
 }
 
 
