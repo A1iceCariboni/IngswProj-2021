@@ -82,9 +82,15 @@ public class SingleGameController extends GameController{
         }
     }
 
-
-
-
+    @Override
+    public void endGame() {
+        ArrayList<Player> winner = game.getWinners();
+        if(winner.isEmpty()){
+            getVirtualViewByNickname(turnController.getActivePlayer()).update(new Message(MessageType.LOSER, ""));
+        }else{
+            getVirtualViewByNickname(turnController.getActivePlayer()).update(new Message(MessageType.WINNER, ""));
+        }
+    }
 
 
 }

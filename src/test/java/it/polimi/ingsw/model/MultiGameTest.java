@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.DevelopmentCardDeck;
 import it.polimi.ingsw.model.cards.LeaderDeck;
 import it.polimi.ingsw.model.cards.effects.ProductionPower;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +31,7 @@ public class MultiGameTest {
     private static int currentPlayer;
 
     @BeforeEach
-    public void init()   {
+    public  void init()   {
         players1 = new ArrayList<>();
 
         String player_1 = "player1";
@@ -230,20 +231,7 @@ public class MultiGameTest {
         assertTrue(multiGame.checkEndGame());
     }
 
-    /**
-     * it controls the last player to play the game is the last player for players
-     * @throws JsonFileNotFoundException
-     */
-    @Test
-    void endGameTest() throws JsonFileNotFoundException {
-        MultiGame multiGame = new MultiGame();
-        multiGame.addPlayer(players1.get(0));
-        multiGame.addPlayer(players1.get(1));
-        multiGame.addPlayer(players1.get(2));
-        multiGame.addPlayer(players1.get(3));
-        multiGame.endGame(players1.get(0));
-        assertEquals(multiGame.getCurrentPlayer(), players1.get(3));
-    }
+
 
     @Test
     void getPopePointsTest() throws JsonFileNotFoundException {

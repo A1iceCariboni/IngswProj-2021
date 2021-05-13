@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
+import it.polimi.ingsw.model.cards.ActionToken;
 import it.polimi.ingsw.model.cards.TokenDeck;
 /**
  * @author Alessandra Atria
@@ -29,7 +30,7 @@ public class FakePlayer {
         this.tokenDeck.shuffle();
     }
 
-    public void getToken() {
-        this.tokenDeck.pickToken();
+    public ActionToken getToken() {
+        return this.tokenDeck.pickToken();
     }
 }

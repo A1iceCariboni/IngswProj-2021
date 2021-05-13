@@ -64,6 +64,7 @@ public class MultiGameController extends GameController {
             setGamePhase(GamePhase.FIRST_ROUND);
 
             getVirtualViewByNickname(turnController.getActivePlayer()).update(new Message(MessageType.DISCARD_LEADER,"You are the first player, discard 2 leader cards from your hand"));
+            sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's " + turnController.getActivePlayer() + "'s turn, wait for your turn!"), getVirtualViewByNickname(turnController.getActivePlayer()));
         } catch (JsonFileNotFoundException ex) {
             sendAll(new ErrorMessage("I've had trouble instantiating the game, sorry..."));
         }
@@ -112,10 +113,22 @@ public class MultiGameController extends GameController {
             }
         }
 
-
-
-
-
+    @Override
+    public void endGame() {
+        ArrayList<Player> winners = game.getWinners();
+        if(winners.size() > 1){
+            for(Player p: winners){
+                getVirtualViewByNickname(p.getNickName()).update(new Message(MessageType.WINNER,""));
+                players.remove(p.getNickName());
+            }
+            for(String name: players){
+                getVirtualViewByNickname(name).update(new Message(MessageType.LOSER, ""));
+            }
+        }else{
+            getVirtualViewByNickname(winners.get(0).getNickName()).update(new Message(MessageType.WINNER,""));
+            sendAllExcept(new Message(MessageType.LOSER, ""), getVirtualViewByNickname(winners.get(0).getNickName()));
+        }
+    }
 
 
 }

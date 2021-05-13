@@ -45,7 +45,6 @@ class SingleGameTest {
     void endGameTest() throws JsonFileNotFoundException {
         SingleGame singleGame = new SingleGame();
         singleGame.addPlayer(player);
-        singleGame.endGame(player);
         assertEquals(singleGame.getWinners().get(0), player);
     }
 

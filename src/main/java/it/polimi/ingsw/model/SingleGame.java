@@ -21,7 +21,7 @@ public class SingleGame extends Game{
 
     public SingleGame() throws JsonFileNotFoundException {
         super();
-        this.fakePlayer = new FakePlayer(1);
+        this.fakePlayer = new FakePlayer(0);
     }
 
     /**
@@ -30,14 +30,6 @@ public class SingleGame extends Game{
     @Override
     public void startGame() {
         super.startGame();
-    }
-    /**
-     * it assignes player as a winner
-     * @param player the player that wins
-     */
-    @Override
-    public void endGame(Player player) {
-        this.winners.add(player);
     }
 
     /**
@@ -65,11 +57,9 @@ public class SingleGame extends Game{
         }
         if (players.get(0).getPlayerBoard().getFaithMarker() == Constants.winFaith){
             b = true;
-            endGame(players.get(0));
         }
         if(players.get(0).getPlayerBoard().getCountDevCards() == Constants.winDev){
             b = true;
-            endGame(players.get(0));
         }
         return b;
     }
@@ -93,7 +83,7 @@ public class SingleGame extends Game{
      */
     @Override
     public Player nextPlayer() {
-        fakePlayer.getToken();
+        fakePlayer.getToken().applyEffect(this, fakePlayer);
         return players.get(0);
     }
 
@@ -113,8 +103,23 @@ public class SingleGame extends Game{
         return players.get(0);
      }
 
-
-
+    /**
+     * return an arraylist of winners that can be empty if the winner is the fake player
+     * @return the arraylist of winners
+     */
+    @Override
+public ArrayList<Player> getWinners(){
+    boolean b = fakePlayer.getBlackCross() == Constants.winFaith;
+    for(int c=0; c<Constants.cols; c++){
+        if(getColDevCards(c).isEmpty()){
+            b = true;
+        }
+    }
+    if(!b){
+        this.winners.add(players.get(0));
+    }
+    return winners;
+}
     public FakePlayer getFakePlayer(){
         return fakePlayer;
     }

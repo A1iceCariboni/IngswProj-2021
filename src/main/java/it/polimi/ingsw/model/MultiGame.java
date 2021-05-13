@@ -28,21 +28,7 @@ public class MultiGame extends Game {
        super.startGame();
     }
 
-    /**
-     * @param player the player that ends the game
-     * it lets that each player ends the round to end the game and launch the method to find the winners
-     */
-    @Override
-    public void endGame(Player player){
-        int i = players.indexOf(player);
-        for(int j=0; j<players.size(); j++){
-            if (i != players.size() - 1){
-                nextPlayer();
-                i = i+1;
-            }
-        }
-        addWinner();
-    }
+
 
     /**
      *  it adds the victory points of the number of the resources and of the faith track
@@ -121,11 +107,9 @@ public class MultiGame extends Game {
         for (Player player : players) {
             if (player.getPlayerBoard().getCountDevCards() == Constants.winDev) {
                 b = true;
-                endGame(player);
             }
             if (player.getPlayerBoard().getFaithMarker() == Constants.winFaith) {
                 b = true;
-                endGame(player);
             }
         }
         return b;

@@ -4,14 +4,11 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.enumerations.MarbleColor;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.enumerations.TurnPhase;
+import it.polimi.ingsw.exceptions.CannotAdd;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
-import it.polimi.ingsw.model.Marble;
-import it.polimi.ingsw.model.MarbleEffect;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.VirtualView;
@@ -34,55 +31,7 @@ class FakeClientHandler extends ClientHandler{
 
 }
 
-class FakeVirtualView extends VirtualView{
-  private ArrayList<Resource> freeResource = new ArrayList<>();
-  private ArrayList<Marble> freeMarble = new ArrayList<>();
-  private ArrayList<DevelopmentCard> freeDevelopment = new ArrayList<>();
-  @Override
-  public void update(Message message){
-  }
-  @Override
-  public void removeFreeResources(int pos){
-    freeResource.remove(pos);
-  }
 
-  @Override
-  public ArrayList<Resource> getFreeResources() {
-    return freeResource;
-  }
-  @Override
-  public void addFreeResource(Resource resource){
-    this.freeResource.add(resource);
-  }
-
-  @Override
-  public ArrayList<DevelopmentCard> getFreeDevelopment() {
-      return freeDevelopment;
-  }
-@Override
-public void addFreeDevelopment(DevelopmentCard freeDevelopment) {
-    this.freeDevelopment.add(freeDevelopment);
-}
-@Override
-public void removeFreeDevelopment(int pos) {
-    this.freeDevelopment.remove(pos);
-}
-@Override
-public ArrayList<Marble> getFreeMarble() {
-    return freeMarble;
-}
-@Override
-public void addAllFreeMarbles(ArrayList<Marble> marbles){
-    this.freeMarble.addAll(marbles);
-}
-@Override
-public void removeAllFreeMarbles(){
-    this.freeMarble.removeAll(this.freeMarble);
-}
-
-
-
-}
 class MultiGameControllerTest {
   static GameController gameController = new MultiGameController();
   static ClientHandler clientHandler;
@@ -178,6 +127,7 @@ class MultiGameControllerTest {
 
   @Test
     void getFromMarket(){
+      gameController.turnPhase = TurnPhase.BUY_MARKET;
       gameController.getFromMarketRow(2);
       assertFalse(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedResources().isEmpty());
       assertTrue(gameController.getConnectedClients().get(gameController.getGame().getCurrentPlayer().getNickName()).getFreeMarble().isEmpty());
@@ -199,4 +149,173 @@ class MultiGameControllerTest {
       assertEquals(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedResources().get(1),new Resource(ResourceType.SERVANT));
 
   }
+
+  @Test
+    void activateProdRegular() throws CannotAdd {
+      gameController.getGame().getCurrentPlayer().getPlayerBoard().addDevCard(gameController.getGame().getDeckDevelopment()[0][0].getCard(),0);
+      int[] id = new int[]{gameController.getGame().getCurrentPlayer().getPlayerBoard().getDevelopmentCards().get(0).getId()};
+      gameController.addProductionPower(id);
+      assertFalse(gameController.getConnectedClients().get(gameController.getGame().getCurrentPlayer().getNickName()).getCardsToActivate().isEmpty());
+  }
+}
+
+class FakeVirtualView extends VirtualView {
+    private final ArrayList<Resource> freeResources;
+    private ArrayList<Marble> freeMarble;
+    private final ArrayList<DevelopmentCard> freeDevelopment;
+    private ArrayList<Depot> tempDepots = new ArrayList<>();
+    private StrongBox tempStrongBox = new StrongBox();
+    private final ArrayList<Resource> resourcesToPay;
+    private final ArrayList<Integer> cardsToActivate;
+    private final ArrayList<Integer> extraProductionToActivate;
+    private final ArrayList<Resource> resourcesToProduce;
+    private Resource basicProd;
+
+
+    public FakeVirtualView() {
+        freeResources = new ArrayList<>();
+        freeDevelopment = new ArrayList<>();
+        freeMarble = new ArrayList<>();
+        this.resourcesToPay = new ArrayList<>();
+        this.cardsToActivate = new ArrayList<>();
+        this.extraProductionToActivate = new ArrayList<>();
+        this.resourcesToProduce = new ArrayList<>();
+    }
+
+
+    public void addFreeResource(Resource resource) {
+        this.freeResources.add(resource);
+    }
+
+    @Override
+    public void update(Message message) {
+
+    }
+
+    public void removeFreeResources(int pos) {
+        freeResources.remove(pos);
+    }
+
+    public ArrayList<Resource> getFreeResources() {
+        return freeResources;
+    }
+
+    public ArrayList<Marble> getFreeMarble() {
+        return freeMarble;
+    }
+
+    public ArrayList<DevelopmentCard> getFreeDevelopment() {
+        return freeDevelopment;
+    }
+
+    public String getNickname(){
+        return "Ciao";
+    }
+    public void sendInvalidActionMessage() {
+
+    }
+
+    public void addFreeMarble(ArrayList<Marble> freeMarble) {
+        this.freeMarble = freeMarble;
+    }
+
+    public void addFreeDevelopment(DevelopmentCard freeDevelopment) {
+        this.freeDevelopment.add(freeDevelopment);
+    }
+
+    public void addAllFreeMarbles(ArrayList<Marble> marbles) {
+        this.freeMarble.addAll(marbles);
+    }
+
+    public void removeAllFreeMarbles() {
+        this.freeMarble.clear();
+    }
+
+    public void removeFreeDevelopment(int pos) {
+        this.freeDevelopment.remove(pos);
+    }
+
+    public ArrayList<Depot> getTempDepots() {
+        return tempDepots;
+    }
+
+    public void setTempDepots(ArrayList<Depot> tempDepots) {
+        this.tempDepots = tempDepots;
+    }
+
+    public void freeTempDepots() {
+        this.tempDepots.clear();
+    }
+
+    public StrongBox getTempStrongBox() {
+        return tempStrongBox;
+    }
+
+    public void freeStrongBox() {
+        this.tempStrongBox.removeAllResources();
+    }
+
+    public void setTempStrongBox(StrongBox tempStrongBox) {
+        this.tempStrongBox = tempStrongBox;
+    }
+
+    public void addCardToActivate(int id) {
+        this.cardsToActivate.add(id);
+    }
+
+    public void addAllResourcesToPay(ArrayList<Resource> resources) {
+        this.resourcesToPay.addAll(resources);
+    }
+
+    public void removeCardsToActivate() {
+        this.cardsToActivate.clear();
+    }
+
+    public void removeResourcesToPay() {
+        this.resourcesToPay.clear();
+    }
+
+    public ArrayList<Resource> getResourcesToPay() {
+        return resourcesToPay;
+    }
+
+    public ArrayList<Integer> getCardsToActivate() {
+        return cardsToActivate;
+    }
+
+    public void addExtraProductionToActivate(int id) {
+        this.extraProductionToActivate.add(id);
+    }
+
+    public void removeAllExtraProduction() {
+        this.extraProductionToActivate.clear();
+    }
+
+    public void addResourceToProduce(Resource resource) {
+        this.resourcesToProduce.add(resource);
+    }
+
+    public void removeAllResourcesToProduce() {
+        this.resourcesToProduce.clear();
+    }
+
+    public Resource getBasicProd() {
+        return basicProd;
+    }
+
+    public void setBasicProd(Resource basicProd) {
+        this.basicProd = basicProd;
+    }
+
+    public ArrayList<Integer> getExtraProductionToActivate() {
+        return extraProductionToActivate;
+    }
+
+    public ArrayList<Resource> getResourcesToProduce() {
+        return resourcesToProduce;
+    }
+
+    public void removeResourceToProduce(int pos) {
+        this.resourcesToProduce.remove(pos);
+    }
 }

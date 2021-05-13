@@ -287,7 +287,7 @@ public abstract class GameController {
      */
     public void sendAllExcept(Message message, VirtualView virtualView){
         for(VirtualView vv: connectedClients.values()){
-            if(vv.getNickname().equals(virtualView.getNickname())) {
+            if(!(vv.getNickname().equals(virtualView.getNickname()))) {
                 vv.update(message);
             }
         }
@@ -366,6 +366,9 @@ public abstract class GameController {
                 case ACTIVATE_LEADER_CARD:
                     id = gson.fromJson(message.getPayload(),int.class);
                     activateLeaderCard(id);
+                break;
+                case END_TURN:
+
             }
         }else{
             virtualView.sendInvalidActionMessage();
@@ -391,6 +394,7 @@ public abstract class GameController {
                  sendDepots();
                  sendStrongBox();
                  break;
+
         }
     }
 
@@ -432,6 +436,9 @@ public abstract class GameController {
                     if (success) {
                         virtualView.removeFreeResources(0);
                     }
+                    break;
+                case END_TURN:
+                    turnController.nextTurn();
                     break;
                 default:
                     virtualView.update(new ErrorMessage("Invalid message for this state"));
@@ -757,6 +764,10 @@ public abstract class GameController {
         sendDiscountedRes();
     }
 
+    /**
+     * tells the players if they're winners or losers
+     */
+    public abstract void endGame();
 }
 
 

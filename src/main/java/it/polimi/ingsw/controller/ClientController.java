@@ -200,6 +200,8 @@ public class ClientController implements CliObserver,Observer {
                 //potrebbe essere vuoto se non ne hai
             case DUMMY_DEVS:
                 //è un array delle tue 3 development card sulla playerboard
+            case GENERIC_MESSAGE:
+                printMessage(message.getPayload());
         }
 
 
