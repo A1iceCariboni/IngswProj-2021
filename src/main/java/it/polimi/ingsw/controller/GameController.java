@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+//TODO bloccare azioni finché il giocatore non ha pagato e posizionato carta e risorse
+//TODO scegliere cosa fare dei client quando finisce la partita
 /**
  * class game controller and subclasses handles the evolution of the game based on
  * the messages from client
@@ -63,7 +65,9 @@ public abstract class GameController {
                     firstRoundHandler(message, virtualView);
                     break;
                 case IN_GAME:
+                case LAST_ROUND:
                     inGameHandler(message, virtualView);
+                break;
             }
         }
     }
@@ -250,7 +254,6 @@ public abstract class GameController {
    }
 
 
-    public abstract void discardLeaderCards(int[] id) throws NullCardException;
 
     public GamePhase getGamePhase() {
         return gamePhase;
@@ -337,7 +340,7 @@ public abstract class GameController {
                     }
                     break;
                 case WHITE_MARBLES:
-                    int[] marb = gson.fromJson(message.getPayload(), int[].class);
+                    String[] marb = gson.fromJson(message.getPayload(), String[].class);
                     chooseWhiteMarbleEffect(marb);
                     break;
                 case DEPOTS:
@@ -632,11 +635,11 @@ public abstract class GameController {
      * if the playes has some white marbles and has some white marble effect, the effect is applied
      * @param marb array of marble effect the player wants to apply
      */
-    public void chooseWhiteMarbleEffect(int[ ] marb){
+    public void chooseWhiteMarbleEffect(String[ ] marb){
         String name = game.getCurrentPlayer().getNickName();
         VirtualView virtualView = getConnectedClients().get(name);
         for(int i = 0; i < marb.length; i++){
-            Resource resource = game.getCurrentPlayer().getPossibleWhiteMarbles().get(marb[i]);
+            Resource resource = new Resource(ResourceType.valueOf(marb[i]));
             virtualView.getFreeMarble().get(i).setMarbleEffect(playerBoard -> {
                 playerBoard.addUnplacedResource(resource);
             });
@@ -768,6 +771,43 @@ public abstract class GameController {
      * tells the players if they're winners or losers
      */
     public abstract void endGame();
+
+
+    /**
+     * discard the selected leader card, if it's the first round proceed to add resources to
+     * the players as in the rules, if it's not the turn of the player continues
+     * @param id array of ids of the leadercard to discard form the hand of the player
+     * @throws NullCardException if the player has not the card but this really shouldn't happen
+     */
+    public  void discardLeaderCards(int[] id) throws NullCardException {
+        String name = game.getCurrentPlayer().getNickName();
+        VirtualView virtualView = getConnectedClients().get(name);
+        for (int j : id) {
+            LeaderCard toDiscard = game.getCurrentPlayer().getLeaderCardById(j);
+            game.getCurrentPlayer().discardLeader(toDiscard);
+            if (gamePhase != GamePhase.FIRST_ROUND) {
+                game.getCurrentPlayer().getPlayerBoard().moveFaithMarker(1);
+            }
+        }
+        virtualView.update(new OkMessage("Cards successfully discarded!"));
+
+        if(gamePhase == GamePhase.FIRST_ROUND){
+            switch(players.indexOf(turnController.getActivePlayer())){
+                case 0:
+                    game.nextPlayer();
+                    turnController.nextTurn();
+                case 1:
+                case 2:
+                    virtualView.update(new Message(MessageType.CHOOSE_RESOURCES, "1"));
+                    break;
+                case 3:
+                    virtualView.update(new Message(MessageType.CHOOSE_RESOURCES, "2"));
+                    break;
+            }
+        }else {
+            updateFaith();
+        }
+    }
 }
 
 

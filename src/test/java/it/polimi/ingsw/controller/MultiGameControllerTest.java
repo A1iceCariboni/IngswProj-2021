@@ -144,7 +144,7 @@ class MultiGameControllerTest {
       gameController.getGame().getCurrentPlayer().addPossibleWhiteMarbles(new Resource(ResourceType.SERVANT));
 
       gameController.getConnectedClients().get(gameController.getGame().getCurrentPlayer().getNickName()).addAllFreeMarbles(marbles);
-      gameController.chooseWhiteMarbleEffect(new int[]{0,1});
+      gameController.chooseWhiteMarbleEffect(new String[]{"SHIELD","SERVANT"});
       assertEquals(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedResources().get(0),new Resource(ResourceType.SHIELD));
       assertEquals(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedResources().get(1),new Resource(ResourceType.SERVANT));
 

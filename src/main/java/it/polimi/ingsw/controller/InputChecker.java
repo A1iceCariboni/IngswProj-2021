@@ -30,9 +30,9 @@ public class InputChecker {
         this.game = game;
     }
 
-    public boolean checkReceivedMessage(Message message, String nickname){
+    public boolean checkReceivedMessage(Message message, String nickname) {
         Gson gson = new Gson();
-        switch(message.getCode()) {
+        switch (message.getCode()) {
             case BUY_DEV:
                 if (gameController.getTurnController().isGameActionDone()) {
                     connectedClients.get(nickname).sendInvalidActionMessage();
@@ -42,7 +42,7 @@ public class InputChecker {
             case RESOURCE_PAYMENT:
                 Integer[] ids = gson.fromJson(message.getPayload(), Integer[].class);
 
-                if ((checkPayment(ids, nickname))&&((gameController.getTurnPhase() == TurnPhase.BUY_DEV)||(gameController.getTurnPhase() == TurnPhase.ACTIVATE_PRODUCTION) )) {
+                if ((checkPayment(ids, nickname)) && ((gameController.getTurnPhase() == TurnPhase.BUY_DEV) || (gameController.getTurnPhase() == TurnPhase.ACTIVATE_PRODUCTION))) {
                     return true;
                 }
                 return false;
@@ -59,42 +59,47 @@ public class InputChecker {
                     return false;
                 }
                 String[] dim = gson.fromJson(message.getPayload(), String[].class);
-                if((dim.length != 2)||((!dim[0].equalsIgnoreCase("row"))&&(!dim[0].equalsIgnoreCase("col")))){
+                if ((dim.length != 2) || ((!dim[0].equalsIgnoreCase("row")) && (!dim[0].equalsIgnoreCase("col")))) {
                     return false;
                 }
                 return true;
             case WHITE_MARBLES:
-                int[] marb = gson.fromJson(message.getPayload(), int[].class);
-                if((connectedClients.get(nickname).getFreeMarble().isEmpty())||(marb.length < connectedClients.get(nickname).getFreeMarble().size())||(gameController.getTurnPhase() != TurnPhase.BUY_MARKET)) {
+                String[] marb = gson.fromJson(message.getPayload(), String[].class);
+                if ((connectedClients.get(nickname).getFreeMarble().isEmpty()) || (marb.length < connectedClients.get(nickname).getFreeMarble().size()) || (gameController.getTurnPhase() != TurnPhase.BUY_MARKET) && (!checkWhiteMarble(marb))) {
                     return false;
                 }
                 return true;
             case SLOT_CHOICE:
-                if(gameController.getTurnPhase() == TurnPhase.BUY_DEV){
+                if (gameController.getTurnPhase() == TurnPhase.BUY_DEV) {
                     return true;
-                } return false;
+                }
+                return false;
             case DUMMY_STRONGBOX:
-                if(gameController.getConnectedClients().get(nickname).getTempDepots().isEmpty()){
-                    return false;
-                }return true;
-            case MOVE_RESOURCES:
-                if((gameController.getConnectedClients().get(nickname).getTempDepots().isEmpty())||(!checkDepotsState(nickname))){
+                if (gameController.getConnectedClients().get(nickname).getTempDepots().isEmpty()) {
                     return false;
                 }
-                return  true;
+                return true;
+            case MOVE_RESOURCES:
+                if ((gameController.getConnectedClients().get(nickname).getTempDepots().isEmpty()) || (!checkDepotsState(nickname))) {
+                    return false;
+                }
+                return true;
             case ACTIVATE_PRODUCTION:
                 int[] cards = gson.fromJson(message.getPayload(), int[].class);
-                if(checkIdDev(cards)) return true;
+                if (checkIdDev(cards)) return true;
                 return false;
             case EXTRA_PRODUCTION:
                 int[] powers = gson.fromJson(message.getPayload(), int[].class);
-                if(checkIdExtraProduction(powers)) return true;
+                if (checkIdExtraProduction(powers)) return true;
                 return false;
             case ACTIVATE_LEADER_CARD:
-                int l = gson.fromJson(message.getPayload(),int.class);
-                if(checkLeaderCard(l)) return true;
+                int l = gson.fromJson(message.getPayload(), int.class);
+                if (checkLeaderCard(l)) return true;
                 return false;
-
+            case DISCARD_LEADER:
+                int[] ca = gson.fromJson(message.getPayload(), int[].class);
+                if (checkOwnedLeaderCard(ca)) return true;
+                return false;
             default:
                 return true;
         }
@@ -103,35 +108,36 @@ public class InputChecker {
     /**
      * checks if the player has the resources he wants to pay with and if they are the same quantity
      * required by the cost of the card
-     * @param ids id of the depot he wants to take the resources, -1 if it's the strongbox
+     *
+     * @param ids      id of the depot he wants to take the resources, -1 if it's the strongbox
      * @param nickname nickname of the player
      * @return true if the payment can be done, false otherwise
      */
-    public boolean checkPayment(Integer[] ids, String nickname){
-        List<Integer> depotIds =Arrays.asList(ids);
+    public boolean checkPayment(Integer[] ids, String nickname) {
+        List<Integer> depotIds = Arrays.asList(ids);
         ArrayList<Resource> cost = new ArrayList<>();
-        if(gameController.getTurnPhase() == TurnPhase.BUY_DEV) {
+        if (gameController.getTurnPhase() == TurnPhase.BUY_DEV) {
             cost = connectedClients.get(nickname).getFreeDevelopment().get(0).getCost();
-        }else{
+        } else {
             cost = connectedClients.get(nickname).getResourcesToPay();
         }
         ArrayList<Resource> payment = cost;
-        Map<Integer, Long> couterMap = depotIds.stream().collect(Collectors.groupingBy(p-> p.intValue(),Collectors.counting()));
+        Map<Integer, Long> couterMap = depotIds.stream().collect(Collectors.groupingBy(p -> p.intValue(), Collectors.counting()));
         for (int j : couterMap.keySet()) {
-            if(j != - 1){
-                if(game.getCurrentPlayer().getDepotById(j).getDepot().size() < couterMap.get(j)){
+            if (j != -1) {
+                if (game.getCurrentPlayer().getDepotById(j).getDepot().size() < couterMap.get(j)) {
                     return false;
-                }else{
-                    for(int i = 0; i < couterMap.get(j); i++){
+                } else {
+                    for (int i = 0; i < couterMap.get(j); i++) {
                         payment.remove(game.getCurrentPlayer().getDepotById(j).getDepot().get(0));
                     }
                 }
             }
         }
         ArrayList<Resource> strongBox = game.getCurrentPlayer().getPlayerBoard().getStrongBox().getRes();
-        Map<ResourceType, Long> paymentMap = payment.stream().collect(Collectors.groupingBy(p -> p.getResourceType(),Collectors.counting()));
-        Map<ResourceType, Long> strongBoxMap = strongBox.stream().collect(Collectors.groupingBy(p -> p.getResourceType(),Collectors.counting()));
-        for(ResourceType resourceType : paymentMap.keySet()){
+        Map<ResourceType, Long> paymentMap = payment.stream().collect(Collectors.groupingBy(p -> p.getResourceType(), Collectors.counting()));
+        Map<ResourceType, Long> strongBoxMap = strongBox.stream().collect(Collectors.groupingBy(p -> p.getResourceType(), Collectors.counting()));
+        for (ResourceType resourceType : paymentMap.keySet()) {
             if ((strongBoxMap.get(resourceType) == null) || (strongBoxMap.get(resourceType) < paymentMap.get(resourceType))) {
                 return false;
             }
@@ -141,58 +147,60 @@ public class InputChecker {
 
     /**
      * checks if the new configuration of the depots is a valid one
+     *
      * @return true if it is valid false otherwise
      */
-    public boolean checkDepotsState(String nickname){
-        if(!gameController.getVirtualView(nickname).getTempStrongBox().getRes().isEmpty() && gameController.getVirtualView(nickname).getTempStrongBox().getRes().size() < game.getCurrentPlayer().getPlayerBoard().getStrongBox().getRes().size()){
+    public boolean checkDepotsState(String nickname) {
+        if (!gameController.getVirtualView(nickname).getTempStrongBox().getRes().isEmpty() && gameController.getVirtualView(nickname).getTempStrongBox().getRes().size() < game.getCurrentPlayer().getPlayerBoard().getStrongBox().getRes().size()) {
             emptyStorage(nickname);
             return false;
         }
-          ArrayList<Resource> newPlacement = new ArrayList<>();
-          for(Depot depot : gameController.getVirtualView(nickname).getTempDepots()){
-              newPlacement.addAll(depot.getDepot());
-          }
-          newPlacement.addAll(gameController.getVirtualView(nickname).getTempStrongBox().getRes());
-          ArrayList<Resource> intersection;
-          intersection = newPlacement;
-          intersection.removeAll(game.getCurrentPlayer().getPlayerBoard().getResources());
-          if(intersection.isEmpty()){
-              intersection = game.getCurrentPlayer().getPlayerBoard().getResources();
-              intersection.removeAll(newPlacement);
-              if(intersection.isEmpty()){
-                  for(Depot depot : gameController.getVirtualView(nickname).getTempDepots()){
-                      if(!validDepot(depot)){
-                          emptyStorage(nickname);
+        ArrayList<Resource> newPlacement = new ArrayList<>();
+        for (Depot depot : gameController.getVirtualView(nickname).getTempDepots()) {
+            newPlacement.addAll(depot.getDepot());
+        }
+        newPlacement.addAll(gameController.getVirtualView(nickname).getTempStrongBox().getRes());
+        ArrayList<Resource> intersection;
+        intersection = newPlacement;
+        intersection.removeAll(game.getCurrentPlayer().getPlayerBoard().getResources());
+        if (intersection.isEmpty()) {
+            intersection = game.getCurrentPlayer().getPlayerBoard().getResources();
+            intersection.removeAll(newPlacement);
+            if (intersection.isEmpty()) {
+                for (Depot depot : gameController.getVirtualView(nickname).getTempDepots()) {
+                    if (!validDepot(depot)) {
+                        emptyStorage(nickname);
 
-                          return false;
-                      }
-                  }
-              }else{
-                  emptyStorage(nickname);
+                        return false;
+                    }
+                }
+            } else {
+                emptyStorage(nickname);
 
-                  return false;
-              }
-          }else{
-              emptyStorage(nickname);
+                return false;
+            }
+        } else {
+            emptyStorage(nickname);
 
-              return false;
-          }
-          return true;
+            return false;
+        }
+        return true;
     }
 
     /**
      * checks if the given depot is a valid depot in terms of dimension and resource type
+     *
      * @param depot
      * @return
      */
-    public boolean validDepot(Depot depot){
+    public boolean validDepot(Depot depot) {
         Depot d = game.getCurrentPlayer().getDepotById(depot.getId());
-        for(Resource r: depot.getDepot()){
-            if(!d.possibleToAdd(r)){
+        for (Resource r : depot.getDepot()) {
+            if (!d.possibleToAdd(r)) {
                 return false;
             }
         }
-        if(depot.getDepot().size() > d.getDimension()){
+        if (depot.getDepot().size() > d.getDimension()) {
             return false;
         }
         return true;
@@ -201,41 +209,43 @@ public class InputChecker {
     /**
      * empty the storage in case of invalid move_resources request
      */
-    public void emptyStorage(String nickname){
+    public void emptyStorage(String nickname) {
         gameController.getVirtualView(nickname).freeTempDepots();
         gameController.getVirtualView(nickname).freeStrongBox();
     }
 
     /**
      * checks if the card is owned by the player
+     *
      * @param cards ids of the required cards
      * @return true if he owns them
      */
-    public boolean checkIdDev(int[] cards){
+    public boolean checkIdDev(int[] cards) {
         ArrayList<Integer> owned = new ArrayList<>();
-            for (DevelopmentCard developmentCard : game.getCurrentPlayer().getPlayerBoard().getDevelopmentCards()) {
-                owned.add(developmentCard.getId());
+        for (DevelopmentCard developmentCard : game.getCurrentPlayer().getPlayerBoard().getDevelopmentCards()) {
+            owned.add(developmentCard.getId());
+        }
+        for (int j : cards) {
+            if (!owned.contains(j)) {
+                return false;
             }
-            for(int j : cards){
-                if(!owned.contains(j)){
-                    return false;
-                }
-            }
-            return true;
+        }
+        return true;
     }
 
     /**
      * checks if the extra production power is owned by the player
+     *
      * @param powers ids of the production powers
      * @return true if he owns them
      */
-    public boolean checkIdExtraProduction(int[] powers){
+    public boolean checkIdExtraProduction(int[] powers) {
         ArrayList<Integer> owned = new ArrayList<>();
         for (ExtraProduction extraProduction : game.getCurrentPlayer().getExtraProductionPowers()) {
             owned.add(extraProduction.getId());
         }
-        for(int j : powers){
-            if(!owned.contains(j)){
+        for (int j : powers) {
+            if (!owned.contains(j)) {
                 return false;
             }
         }
@@ -244,14 +254,45 @@ public class InputChecker {
 
     /**
      * checks if the leadercard is owned by the player and if it's not active
+     *
      * @param id of the leader card
      * @return true if it is owned
      */
-    public boolean checkLeaderCard(int id){
+    public boolean checkLeaderCard(int id) {
         LeaderCard leaderCard = game.getCurrentPlayer().getLeaderCardById(id);
-        if(leaderCard != null && !leaderCard.isActive()){
-            return true;
+        if (leaderCard == null || leaderCard.isActive()) {
+            return false;
         }
-        return false;
+        return true;
+    }
+
+    /**
+     * checks if the player really owns the white marbles
+     * powers he wants to activate
+     *
+     * @param marb the powers the player wants to use
+     * @return true id he owns them
+     */
+    public boolean checkWhiteMarble(String[] marb) {
+        for (String m : marb) {
+            if (!game.getCurrentPlayer().getPossibleWhiteMarbles().contains(new Resource(ResourceType.valueOf(m))))
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * checks if the player owns the leadercads with the given ids
+     * @param ca the ids of the card
+     * @return true if he owns the cards false otherwise
+     */
+    public boolean checkOwnedLeaderCard(int[] ca) {
+        for (int j : ca) {
+            LeaderCard leaderCard = game.getCurrentPlayer().getLeaderCardById(j);
+            if (leaderCard == null) {
+                return false;
+            }
+        }
+        return true;
     }
 }

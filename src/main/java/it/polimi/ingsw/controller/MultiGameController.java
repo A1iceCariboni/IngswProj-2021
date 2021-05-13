@@ -73,45 +73,8 @@ public class MultiGameController extends GameController {
 
 
 
-    /**
-     * discard the selected leader card, if it's the first round proceed to add resources to
-     * the players as in the rules, if it's not the turn of the player continues
-     * @param id array of ids of the leadercard to discard form the hand of the player
-     * @throws NullCardException if the player has not the card but this really shouldn't happen
-     */
-    @Override
-    public void discardLeaderCards(int[] id) throws NullCardException {
-        Gson gson = new Gson();
-        String name = game.getCurrentPlayer().getNickName();
-        VirtualView virtualView = getConnectedClients().get(name);
-        for (int j : id) {
-            LeaderCard toDiscard = game.getCurrentPlayer().getLeaderCardById(j);
-            game.getCurrentPlayer().discardLeader(toDiscard);
-            if (getGamePhase() != GamePhase.FIRST_ROUND) {
-                game.getCurrentPlayer().getPlayerBoard().moveFaithMarker(1);
-                virtualView.update(new Message(MessageType.FAITH_MOVE, "1"));
-                if(game.checkPopeSpace()){
-                    sendAll(new Message(MessageType.FAITH_TRACK,gson.toJson(game.getFaithTrack())));
-                }
-            }
-        }
-        virtualView.update(new OkMessage("Cards successfully discarded!"));
 
-        if(getGamePhase() == GamePhase.FIRST_ROUND){
-                switch(getPlayers().indexOf(turnController.getActivePlayer())){
-                    case 0:
-                        game.nextPlayer();
-                        turnController.nextTurn();
-                    case 1:
-                    case 2:
-                        virtualView.update(new Message(MessageType.CHOOSE_RESOURCES, "1"));
-                        break;
-                    case 3:
-                        virtualView.update(new Message(MessageType.CHOOSE_RESOURCES, "2"));
-                        break;
-                }
-            }
-        }
+
 
     @Override
     public void endGame() {

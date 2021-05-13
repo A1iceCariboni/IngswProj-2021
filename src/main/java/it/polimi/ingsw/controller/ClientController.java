@@ -12,6 +12,9 @@ import it.polimi.ingsw.messages.request.SetupMessage;
 import it.polimi.ingsw.observers.CliObserver;
 import it.polimi.ingsw.observers.Observer;
 
+//TODO  thread per leggere int e stringhe + metodo per aspettare OK O ERROR
+
+
 /**
  * on the clients side controls input of the client and send them to the server
  * reads messages from server and pass them to the client
