@@ -58,7 +58,7 @@ public class PlayerBoardTest {
         cost.add(r2);
         pp = new ProductionPower(entry,prod);
         d1 = new DevelopmentCard(1, cost, 1, CardColor.GREEN, pp, 10 );
-        p = new PlayerBoard();
+        p = new PlayerBoard(new WareHouse(), new StrongBox());
     }
 
     /** gets resources, development cards and faith maker position */

@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.Resource;
 import static org.junit.jupiter.api.Assertions.*;
 
+import it.polimi.ingsw.model.StrongBox;
+import it.polimi.ingsw.model.WareHouse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 class TempPlayerBoard extends PlayerBoard {
     private ArrayList<Resource> res;
     public TempPlayerBoard(ArrayList<Resource> res){
+        super(new WareHouse(), new StrongBox());
         this.res = res;
     }
     @Override

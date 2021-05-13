@@ -60,8 +60,8 @@ public class PlayerTest {
     public void getterTest() {
         ArrayList<LeaderCard> l1 = new ArrayList<>();
         ArrayList<LeaderCard> l2 = new ArrayList<>();
-        PlayerBoard pb1 = new PlayerBoard();
-        PlayerBoard pb2 = new PlayerBoard();
+        PlayerBoard pb1 = new PlayerBoard(new WareHouse(), new StrongBox());
+        PlayerBoard pb2 = new PlayerBoard(new WareHouse(), new StrongBox());
         player1 = new Player(true, "Ale", 10, pb1);
         player2 = new Player(false, "Sofi", 5,  pb2);
 
@@ -87,7 +87,7 @@ public class PlayerTest {
     public void addVpoints() {
         int oldPoints;
         ArrayList<LeaderCard> leaderCards = new ArrayList<>();
-        PlayerBoard p = new PlayerBoard();
+        PlayerBoard p = new PlayerBoard(new WareHouse(), new StrongBox());
         player1 = new Player(false, "Ali", 2, p);
         oldPoints = player1.getVictoryPoints();
         player1.addVictoryPoints(10);

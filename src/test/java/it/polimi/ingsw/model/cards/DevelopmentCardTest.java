@@ -125,7 +125,7 @@ class DevelopmentCardTest {
     @Test
     void addPoints(){
         ArrayList<Resource> res = new ArrayList<>();
-        PlayerBoard b = new PlayerBoard();
+        PlayerBoard b = new PlayerBoard(new WareHouse(), new StrongBox());
         p = new Player(false,"ali",2,b);
         dev.addPointsTo(p);
         assertEquals(p.getVictoryPoints(),2+dev.getVictoryPoints());

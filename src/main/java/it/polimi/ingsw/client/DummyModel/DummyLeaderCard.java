@@ -29,6 +29,10 @@ public class DummyLeaderCard {
         return isActive;
     }
 
+    public void setIsActive(boolean set) {
+        this.isActive = set;
+    }
+
     public String getEffect() {
         return effect;
     }

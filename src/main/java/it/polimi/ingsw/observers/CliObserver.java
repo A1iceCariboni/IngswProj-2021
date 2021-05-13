@@ -9,5 +9,4 @@ public interface CliObserver{
    public abstract void onConnectionRequest(String ip, int port);
    public abstract void onUpdateNickname(SetupMessage setupMessage);
    public abstract void onReadyReply(Message message);
-
 }

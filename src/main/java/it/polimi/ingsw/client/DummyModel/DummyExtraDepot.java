@@ -6,9 +6,11 @@ import it.polimi.ingsw.model.Resource;
 import java.util.ArrayList;
 
 public class DummyExtraDepot extends DummyDepot{
-    private Resource resourceType;
-    public DummyExtraDepot(int id, int dimension, ArrayList<Resource> resources, Resource resourceType) {
+    private ResourceType resourceType;
+
+    public DummyExtraDepot(int id, int dimension, ArrayList<String> resources, ResourceType resourceType) {
         super(id, dimension, resources);
         this.resourceType = resourceType;
     }
+
 }

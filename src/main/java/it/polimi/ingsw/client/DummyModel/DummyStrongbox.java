@@ -14,7 +14,7 @@ public class DummyStrongbox {
         return resources;
     }
 
-    public void setResources(ArrayList<String> resources) {
-        this.resources = resources;
+    public void addResource(String resource) {
+        resources.add(resource);
     }
 }
