@@ -201,12 +201,10 @@ public class ClientController implements CliObserver,Observer {
                 String[] whiteMarbles = gson.fromJson(message.getPayload(), String[].class);// è UN ARRAY di stringhe che ti dice quali white marbles
                 cli.addWhiteMarblesPower(whiteMarbles);// hai per quando poi devi inviare il messaggio WHITE_MARBLES
                 break;//potrebbe essere vuoto se non ne hai
-
             case EXTRA_PRODUCTION:
                 DummyExtraProduction[] extraProd= gson.fromJson(message.getPayload(), DummyExtraProduction[].class);
                 cli.addExtraProduction(extraProd);// è un array di dummy extra production
                 break;//potrebbe essere vuoto se non ne hai
-
             case DISCOUNTED_RESOURCES:
                 String[] discounts = gson.fromJson(message.getPayload(), String[].class);
                 cli.addDiscountedResources(discounts);//array di stringhe che dice quali risorse hai scontate
@@ -218,6 +216,8 @@ public class ClientController implements CliObserver,Observer {
             case MOVE_RESOURCES:
                 //non so se serva anche questo per far muovere le risorse dove vuole
                 break;
+            case REMOVE_RESOURCES:
+                cli.removeResources();
             case GENERIC_MESSAGE:
                 printMessage(message.getPayload());
                 break;

@@ -325,8 +325,12 @@ public class Cli extends CliObservable {
      * asks to the player which operations wants to do during the turn and to end the turn
      */
     public void yourTurn(){
+        System.out.println("it's your turn.\n");
+        askActivateLeaderCard();
+        askRemoveLeaderCard();
+        removeResources();
         boolean validInput = true;
-        System.out.println("It's your turn.\nWhich action do you want to do(1/2/3)?\n(1)Buy a development card\n(2)Take resources from the market\n(3)Activate a production");
+        System.out.println("Which action do you want to do(1/2/3)?\n(1)Buy a development card\n(2)Take resources from the market\n(3)Activate a production");
         do {
             switch(input.nextInt()) {
                 case 1:
@@ -470,6 +474,7 @@ public class Cli extends CliObservable {
             }
         } while (!validInput);
 
+        removeResources();
         askActivateLeaderCard();
         askRemoveLeaderCard();
 
@@ -720,6 +725,61 @@ public class Cli extends CliObservable {
     public void addWhiteMarblesPower(String[] powers){
         ArrayList<String> whiteMarblePower = new ArrayList<>(Arrays.asList(powers));
         virtualModel.getPlayerBoard().setWhiteMarblePower(whiteMarblePower);
+    }
+
+    public void removeResources(){
+        boolean validInput = true;
+        boolean validInput1 = true;
+        ArrayList<String> remove = new ArrayList<>();
+        String idDepot;
+        System.out.println("Do you want to discard some resources? (y/n)");
+        String answer = input.nextLine();
+        do{
+            if(answer == "y"){
+                System.out.println("Which depot?\n(1)depot1, (2)depot2, (3)depot3, (4)extradepot1, (5)extradepot2");
+                do{
+                    switch (input.nextInt()){
+                        case 1:
+                            idDepot = Integer.toString(virtualModel.getPlayerBoard().getWareHouse().getDepot1().getId());
+                            remove.add(virtualModel.getPlayerBoard().getWareHouse().getDepot1().getResources().get(0));
+                            remove.add(idDepot);
+                            Message message = new Message(MessageType.REMOVE_RESOURCES, gson.toJson(remove));
+                            notifyObserver(obs -> obs.onReadyReply(message));
+                        case 2:
+                            idDepot = Integer.toString(virtualModel.getPlayerBoard().getWareHouse().getDepot2().getId());
+                            remove.add(virtualModel.getPlayerBoard().getWareHouse().getDepot2().getResources().get(0));
+                            remove.add(idDepot);
+                            Message message2 = new Message(MessageType.REMOVE_RESOURCES, gson.toJson(remove));
+                            notifyObserver(obs -> obs.onReadyReply(message2));
+                        case 3:
+                            idDepot = Integer.toString(virtualModel.getPlayerBoard().getWareHouse().getDepot3().getId());
+                            remove.add(virtualModel.getPlayerBoard().getWareHouse().getDepot3().getResources().get(0));
+                            remove.add(idDepot);
+                            Message message3 = new Message(MessageType.REMOVE_RESOURCES, gson.toJson(remove));
+                            notifyObserver(obs -> obs.onReadyReply(message3));
+                        case 4:
+                            idDepot = Integer.toString(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId());
+                            remove.add(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().get(0));
+                            remove.add(idDepot);
+                            Message messageE1 = new Message(MessageType.REMOVE_RESOURCES, gson.toJson(remove));
+                            notifyObserver(obs -> obs.onReadyReply(messageE1));
+                        case 5:
+                            idDepot = Integer.toString(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId());
+                            remove.add(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getResources().get(0));
+                            remove.add(idDepot);
+                            Message messageE2 = new Message(MessageType.REMOVE_RESOURCES, gson.toJson(remove));
+                            notifyObserver(obs -> obs.onReadyReply(messageE2));
+                        default:
+                            validInput1 = false;
+                            System.out.println("Number doesn't accepted.\n");
+                    }
+                } while(!validInput1);
+            }
+            else if(answer != "y" && answer != "n"){
+                validInput = false;
+                System.out.println("Answer doesn't accepted.\n");
+            }
+        } while (!validInput);
     }
 
     public boolean checkResponse(){
