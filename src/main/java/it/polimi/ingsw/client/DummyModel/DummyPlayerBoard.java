@@ -18,11 +18,19 @@ public class DummyPlayerBoard {
     private ArrayList<String> whiteMarblePower;
     private ArrayList<String> discountedResources;
 
+    public DummyExtraProduction[] getExtraProduction() {
+        return extraProduction;
+    }
+
+    public ArrayList<String> getDiscountedResources() {
+        return discountedResources;
+    }
+
     /**
      * simplified playerboard for the client
      */
     public DummyPlayerBoard(){
-        wareHouse = new DummyWareHouse(new DummyDepot(1,1,new ArrayList<>()), new DummyDepot(2,2,new ArrayList<>()), new DummyDepot(3,3,new ArrayList<>()) );
+        wareHouse = new DummyWareHouse(new DummyDepot(1,1,new ArrayList<>()), new DummyDepot(2,2,new ArrayList<>()), new DummyDepot(3,3,new ArrayList<>()));
         strongBox = new DummyStrongbox(new ArrayList<>());
         faithMarker = 0;
         devSections = new DummyDev[Constants.DEV_SLOTS];
@@ -43,6 +51,8 @@ public class DummyPlayerBoard {
     public DummyWareHouse getWareHouse(){
         return this.wareHouse;
     }
+
+
 
     public DummyFaithTrack getFaithTrack(){
         return this.faithTrack;
@@ -82,5 +92,13 @@ public class DummyPlayerBoard {
 
     public void setDiscountedResources(ArrayList<String> discounts){
         this.discountedResources = discounts;
+    }
+
+    public void setWareHouse(DummyWareHouse wareHouse) {
+        this.wareHouse = wareHouse;
+    }
+
+    public void setFaithMarker(int faithMarker) {
+        this.faithMarker = faithMarker;
     }
 }

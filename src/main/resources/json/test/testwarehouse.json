@@ -1,0 +1,3 @@
+{"depot1":{"id":1,"dimension":1,"resources":["COIN"]},
+  "depot2":{"id":2,"dimension":2,"resources":["SHIELD", "SHIELD"]},
+  "depot3":{"id":3,"dimension":3,"resources":["SERVANT", "SERVANT", "SERVANT"]}}

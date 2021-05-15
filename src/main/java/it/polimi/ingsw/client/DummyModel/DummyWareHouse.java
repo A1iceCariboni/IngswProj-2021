@@ -8,21 +8,17 @@ public class DummyWareHouse {
     private DummyDepot depot1;
     private DummyDepot depot2;
     private DummyDepot depot3;
-    private DummyExtraDepot extraDepot1 = null;
-    private DummyExtraDepot extraDepot2 = null;
+    private DummyExtraDepot extraDepot1;
+    private DummyExtraDepot extraDepot2;
+
+
 
     public DummyWareHouse(DummyDepot depot1, DummyDepot depot2, DummyDepot depot3){
         this.depot1 = depot1;
         this.depot2 = depot2;
         this.depot3 = depot3;
-    }
-
-    public DummyWareHouse(DummyDepot depot1, DummyDepot depot2, DummyDepot depot3, DummyExtraDepot extraDepot1, DummyExtraDepot extraDepot2){
-        this.depot1 = depot1;
-        this.depot2 = depot2;
-        this.depot3 = depot3;
-        this.extraDepot1 = extraDepot1;
-        this.extraDepot2 = extraDepot2;
+        this.extraDepot1 = new DummyExtraDepot(-1,0, new ArrayList<>(),"");
+        this.extraDepot1 = new DummyExtraDepot(-1,0, new ArrayList<>(),"");
     }
 
     public DummyDepot getDepot1(){

@@ -85,7 +85,32 @@ public class VirtualModel {
         this.dummyMarket =  marketTray.getDummy();
 
 
+        //dummy depots warehouse (tutti depot pieni + 1 extradepot di tipo coin vuoto)
+        path = "/json/test/testwarehouse.json";
+        reader = new BufferedReader(new InputStreamReader(
+                JsonObject.class.getResourceAsStream(path)));
+        this.playerBoard.setWareHouse(gson.fromJson(reader, DummyWareHouse.class));
+        DummyExtraDepot dummyExtraDepot = new DummyExtraDepot(4, 2, new ArrayList<>(),"COIN");
+        this.playerBoard.getWareHouse().setExtraDepot1(dummyExtraDepot);
+        System.out.println(gson.toJson(this.playerBoard.getWareHouse()));
+
+        //white marble power, extra production power e discount power e strongbox
+        ArrayList<String> resources = new ArrayList<>();
+        resources.add("COIN");
+        resources.add("SERVANT");
+        DummyExtraProduction[] dummyExtraProduction = new DummyExtraProduction[]{new DummyExtraProduction(resources,1)};
+        this.playerBoard.setExtraProduction(dummyExtraProduction);
+        this.playerBoard.setWhiteMarblePower(resources);
+        resources.add("SHIELD");
+        this.playerBoard.setDiscountedResources(resources);
+        resources.add("SHIELD");
+        resources.add("SHIELD");
+        this.playerBoard.setStrongBox(new DummyStrongbox(resources));
+        System.out.println(gson.toJson(this.playerBoard));
+
     }
+
+
     public DummyPlayerBoard getPlayerBoard(){
         return this.playerBoard;
     }
@@ -131,6 +156,8 @@ public class VirtualModel {
     public static void main(String[] args) throws JsonFileNotFoundException {
         VirtualModel virtualModel = new VirtualModel();
         virtualModel.initialize();
+
     }
+
 }
 

@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 public class DummyExtraProduction {
     private int id;
-    private ArrayList<Resource> entryResources;
+    private ArrayList<String> entryResources;
 
 
-    public DummyExtraProduction(ArrayList<Resource> entryResources, int id) {
+    public DummyExtraProduction(ArrayList<String> entryResources, int id) {
         this.entryResources = entryResources;
         this.id = id;
     }
@@ -18,7 +18,7 @@ public class DummyExtraProduction {
         return id;
     }
 
-    public ArrayList<Resource> getEntryResources() {
+    public ArrayList<String> getEntryResources() {
         return entryResources;
     }
 }
