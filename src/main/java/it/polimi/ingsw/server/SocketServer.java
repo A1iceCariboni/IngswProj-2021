@@ -39,10 +39,11 @@ public class SocketServer implements  Runnable{
         while (active){
             try {
                 Socket client = serverSocket.accept();
+                //client.setSoTimeout(5000);
 
                 ClientHandler clientHandler = new ClientHandler(client, this, server);
                 Server.LOGGER.info("Accepted new client "+ client.getInetAddress());
-                executor.submit(clientHandler); //thread.start();
+                executor.submit(clientHandler);
             } catch (IOException e) {
                 System.err.println("Connection dropped!..");
             }

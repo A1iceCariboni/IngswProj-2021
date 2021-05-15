@@ -14,4 +14,6 @@ public class Constants {
     public static int MARKET_ROWS = 3;
     public static int MARKET_COLS = 4;
     public static int DEV_SLOTS = 3;
+    public static int DEV_ROWS = 4;
+    public static int DEV_COLS = 3;
 }

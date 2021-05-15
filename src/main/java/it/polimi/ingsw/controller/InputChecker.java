@@ -74,16 +74,6 @@ public class InputChecker {
                     return true;
                 }
                 return false;
-            case DUMMY_STRONGBOX:
-                if (gameController.getConnectedClients().get(nickname).getTempDepots().isEmpty()) {
-                    return false;
-                }
-                return true;
-            case MOVE_RESOURCES:
-                if ((gameController.getConnectedClients().get(nickname).getTempDepots().isEmpty()) || (!checkDepotsState(nickname))) {
-                    return false;
-                }
-                return true;
             case ACTIVATE_PRODUCTION:
                 int[] cards = gson.fromJson(message.getPayload(), int[].class);
                 if (checkIdDev(cards)) return true;
@@ -100,6 +90,11 @@ public class InputChecker {
                 int[] ca = gson.fromJson(message.getPayload(), int[].class);
                 if (checkOwnedLeaderCard(ca)) return true;
                 return false;
+            case DEPOTS:
+                return checkDepotsState(nickname);
+            case REMOVE_RESOURCES:
+                l = gson.fromJson(message.getPayload(), int.class);
+                return checkIdDepot(l);
             default:
                 return true;
         }
@@ -151,37 +146,30 @@ public class InputChecker {
      * @return true if it is valid false otherwise
      */
     public boolean checkDepotsState(String nickname) {
-        if (!gameController.getVirtualView(nickname).getTempStrongBox().getRes().isEmpty() && gameController.getVirtualView(nickname).getTempStrongBox().getRes().size() < game.getCurrentPlayer().getPlayerBoard().getStrongBox().getRes().size()) {
-            emptyStorage(nickname);
-            return false;
-        }
         ArrayList<Resource> newPlacement = new ArrayList<>();
         for (Depot depot : gameController.getVirtualView(nickname).getTempDepots()) {
+            if(!checkIdDepot(depot.getId()))return false;
             newPlacement.addAll(depot.getDepot());
         }
-        newPlacement.addAll(gameController.getVirtualView(nickname).getTempStrongBox().getRes());
         ArrayList<Resource> intersection;
         intersection = newPlacement;
-        intersection.removeAll(game.getCurrentPlayer().getPlayerBoard().getResources());
+        intersection.removeAll(game.getCurrentPlayer().getPlayerBoard().getWareHouse().getWarehouse());
         if (intersection.isEmpty()) {
-            intersection = game.getCurrentPlayer().getPlayerBoard().getResources();
+            intersection = game.getCurrentPlayer().getPlayerBoard().getWareHouse().getWarehouse();
             intersection.removeAll(newPlacement);
             if (intersection.isEmpty()) {
                 for (Depot depot : gameController.getVirtualView(nickname).getTempDepots()) {
                     if (!validDepot(depot)) {
                         emptyStorage(nickname);
-
                         return false;
                     }
                 }
             } else {
                 emptyStorage(nickname);
-
                 return false;
             }
         } else {
             emptyStorage(nickname);
-
             return false;
         }
         return true;
@@ -211,12 +199,11 @@ public class InputChecker {
      */
     public void emptyStorage(String nickname) {
         gameController.getVirtualView(nickname).freeTempDepots();
-        gameController.getVirtualView(nickname).freeStrongBox();
     }
 
     /**
      * checks if the card is owned by the player
-     *
+     * and if he has already choosen this power
      * @param cards ids of the required cards
      * @return true if he owns them
      */
@@ -229,13 +216,32 @@ public class InputChecker {
             if (!owned.contains(j)) {
                 return false;
             }
+            if(gameController.getVirtualView(game.getCurrentPlayer().getNickName()).getCardsToActivate().contains(j)){
+                return false;
+            }
         }
         return true;
     }
 
     /**
+     * checks if the player owns the given depot
+     * @param id id of the depot
+     * @return true if he owns it
+     */
+    public boolean checkIdDepot(int id){
+        if((id == 1)||(id == 2)||(id == 3)) return true;
+        for(int j = 0 ; j < game.getCurrentPlayer().getPlayerBoard().getExtraDepots().size(); j ++){
+            if(game.getCurrentPlayer().getPlayerBoard().getExtraDepots().get(j).getId() == id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /**
      * checks if the extra production power is owned by the player
-     *
+     * and if he hasn't already choosen this power
      * @param powers ids of the production powers
      * @return true if he owns them
      */
@@ -246,6 +252,9 @@ public class InputChecker {
         }
         for (int j : powers) {
             if (!owned.contains(j)) {
+                return false;
+            }
+            if(gameController.getVirtualView(game.getCurrentPlayer().getNickName()).getExtraProductionToActivate().contains(j)){
                 return false;
             }
         }

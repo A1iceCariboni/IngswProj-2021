@@ -1,14 +1,24 @@
 package it.polimi.ingsw.client;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import it.polimi.ingsw.CLI.Cli;
-import it.polimi.ingsw.client.DummyModel.DummyDev;
-import it.polimi.ingsw.client.DummyModel.DummyLeaderCard;
-import it.polimi.ingsw.client.DummyModel.DummyMarket;
-import it.polimi.ingsw.client.DummyModel.DummyPlayerBoard;
+import it.polimi.ingsw.client.DummyModel.*;
 import it.polimi.ingsw.enumerations.Constants;
+import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
+import it.polimi.ingsw.model.FaithCell;
 import it.polimi.ingsw.model.FaithTrack;
+import it.polimi.ingsw.model.MarketTray;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.server.VirtualView;
+import it.polimi.ingsw.utility.LeaderCardParser;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * simplified version of the player model in the client
@@ -16,26 +26,66 @@ import java.util.ArrayList;
  */
 
 public class VirtualModel {
-    private final Cli cli;
     private String nickname;
     private DummyPlayerBoard playerBoard;
     private ArrayList<DummyLeaderCard> leaderCards;
     private DummyDev[][] boardDevCard;
     private DummyMarket dummyMarket;
 
-    public VirtualModel(Cli cli, FaithTrack faithTrack) {
-        this.cli = cli;
-    }
 
-    public VirtualModel(Cli cli){
-        this.cli = cli;
+
+    public VirtualModel(){
         nickname = null;
         playerBoard = new DummyPlayerBoard();
         leaderCards = new ArrayList<>();
-        boardDevCard = new DummyDev[3][4];
-        dummyMarket = new DummyMarket(null, null);
+        boardDevCard = new DummyDev[Constants.DEV_ROWS][Constants.DEV_COLS];
     }
+   //TODO DA CANCELLARE, SOLO PER TESTARE CLI
+    public  void initialize() throws JsonFileNotFoundException {
+        //faith track
+        String path = "/json/faithtrack.json";
+        Gson gson = new Gson();
+        Reader reader = new BufferedReader(new InputStreamReader(
+                JsonObject.class.getResourceAsStream(path)));
+        this.playerBoard.setFaithTrack(new DummyFaithTrack(gson.fromJson(reader, DummyCell[].class)));
+        String path1 = "/json/test/testdevelopment.json";
 
+        //development card market
+        Reader reader1 = new BufferedReader(new InputStreamReader(
+                JsonObject.class.getResourceAsStream(path1)));
+        DevelopmentCard[] developmentCard = gson.fromJson(reader1,DevelopmentCard[].class);
+        DummyDev[][] dummyDevs = new DummyDev[Constants.DEV_ROWS][Constants.DEV_COLS];
+        int ind = 0;
+        for(int i = 0; i < Constants.DEV_ROWS; i++){
+            for(int j = 0; j < Constants.DEV_COLS; j++){
+                dummyDevs[i][j] = developmentCard[ind].getDummy();
+                ind ++;
+            }
+        }
+        this.boardDevCard = dummyDevs;
+        //development card slots
+        path = "/json/test/testslots.json";
+        reader = new BufferedReader(new InputStreamReader(
+                JsonObject.class.getResourceAsStream(path)));
+
+        developmentCard = gson.fromJson(reader,DevelopmentCard[].class);
+        DummyDev[] dummyDevs1 = new DummyDev[Constants.DEV_SLOTS];
+        for(int i = 0; i< Constants.DEV_SLOTS; i++){
+            dummyDevs1[i] = developmentCard[i].getDummy();
+        }
+        this.playerBoard.setDevSections(dummyDevs1);
+       //leader cards
+        ArrayList<LeaderCard> leaderCards = LeaderCardParser.parseLeadCards();
+        for(int i = 0; i < 2; i++){
+            this.leaderCards.add(leaderCards.get(i).getDummy());
+        }
+
+        //market
+        MarketTray marketTray = new MarketTray();
+        this.dummyMarket =  marketTray.getDummy();
+
+
+    }
     public DummyPlayerBoard getPlayerBoard(){
         return this.playerBoard;
     }
@@ -76,6 +126,11 @@ public class VirtualModel {
 
     public void setDummyMarket(DummyMarket market){
         this.dummyMarket = market;
+    }
+
+    public static void main(String[] args) throws JsonFileNotFoundException {
+        VirtualModel virtualModel = new VirtualModel();
+        virtualModel.initialize();
     }
 }
 

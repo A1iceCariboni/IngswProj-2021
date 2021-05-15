@@ -1,0 +1,80 @@
+[
+  {
+    "id": 1,
+    "cost": [
+      {
+        "resourceType": "SHIELD"
+      },
+      {
+        "resourceType": "SHIELD"
+      }
+    ],
+    "level": 1,
+    "color": "GREEN",
+    "productionPower": {
+      "entryResources": [
+        {
+          "resourceType": "COIN"
+        }
+      ],
+      "productResources": [
+        {
+          "resourceType": "FAITH"
+        }
+      ]
+    },
+    "victoryPoints": 1
+  },
+  {
+    "id": 2,
+    "cost": [
+      {
+        "resourceType": "SERVANT"
+      },
+      {
+        "resourceType": "SERVANT"
+      }
+    ],
+    "level": 1,
+    "color": "PURPLE",
+    "productionPower": {
+      "entryResources": [
+        {
+          "resourceType": "STONE"
+        }
+      ],
+      "productResources": [
+        {
+          "resourceType": "FAITH"
+        }
+      ]
+    },
+    "victoryPoints": 1
+  },
+  {
+    "id": 3,
+    "cost": [
+      {
+        "resourceType": "COIN"
+      },
+      {
+        "resourceType": "COIN"
+      }
+    ],
+    "level": 1,
+    "color": "BLUE",
+    "productionPower": {
+      "entryResources": [
+        {
+          "resourceType": "SHIELD"
+        }
+      ],
+      "productResources": [
+        {
+          "resourceType": "FAITH"
+        }
+      ]
+    },
+    "victoryPoints": 1
+  }
+]

@@ -75,7 +75,7 @@ class MultiGameControllerTest {
     void discardLeaderCards() throws NullCardException {
     Player player = gameController.getGame().getCurrentPlayer();
     int id = gameController.getGame().getCurrentPlayer().getLeadercards().get(0).getId();
-    gameController.discardLeaderCards(new int[] {id});
+    gameController.discardLeaderCards(1);
     assertEquals(player.getLeadercards().size(),3);
     }
 

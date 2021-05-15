@@ -213,9 +213,6 @@ public class ClientController implements CliObserver,Observer {
                 DummyDev[] devCards = gson.fromJson(message.getPayload(), DummyDev[].class);
                 cli.addDevCards(devCards);
                 break;//è un array delle tue 3 development card sulla playerboard
-            case MOVE_RESOURCES:
-                //non so se serva anche questo per far muovere le risorse dove vuole
-                break;
             case REMOVE_RESOURCES:
                 cli.removeResources();
             case GENERIC_MESSAGE:

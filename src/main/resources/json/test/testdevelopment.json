@@ -1,0 +1,374 @@
+[
+  {
+    "id": 1,
+    "cost": [
+      {
+        "resourceType": "SHIELD"
+      },
+      {
+        "resourceType": "SHIELD"
+      }
+    ],
+    "level": 1,
+    "color": "GREEN",
+    "productionPower": {
+      "entryResources": [
+        {
+          "resourceType": "COIN"
+        }
+      ],
+      "productResources": [
+        {
+          "resourceType": "FAITH"
+        }
+      ]
+    },
+    "victoryPoints": 1
+  },
+  {
+    "id": 2,
+    "cost": [
+      {
+        "resourceType": "SERVANT"
+      },
+      {
+        "resourceType": "SERVANT"
+      }
+    ],
+    "level": 1,
+    "color": "PURPLE",
+    "productionPower": {
+      "entryResources": [
+        {
+          "resourceType": "STONE"
+        }
+      ],
+      "productResources": [
+        {
+          "resourceType": "FAITH"
+        }
+      ]
+    },
+    "victoryPoints": 1
+  },
+  {
+    "id": 3,
+    "cost": [
+      {
+        "resourceType": "COIN"
+      },
+      {
+        "resourceType": "COIN"
+      }
+    ],
+    "level": 1,
+    "color": "BLUE",
+    "productionPower": {
+      "entryResources": [
+        {
+          "resourceType": "SHIELD"
+        }
+      ],
+      "productResources": [
+        {
+          "resourceType": "FAITH"
+        }
+      ]
+    },
+    "victoryPoints": 1
+  },
+  {
+    "id": 4,
+    "cost": [
+      {
+        "resourceType": "STONE"
+      },
+      {
+        "resourceType": "STONE"
+      }
+    ],
+    "level": 1,
+    "color": "YELLOW",
+    "productionPower": {
+      "entryResources": [
+        {
+          "resourceType": "SERVANT"
+        }
+      ],
+      "productResources": [
+        {
+          "resourceType": "FAITH"
+        }
+      ]
+    },
+    "victoryPoints": 1
+  },
+  {
+    "id": 5,
+    "cost": [
+      {
+        "resourceType": "SHIELD"
+      },
+      {
+        "resourceType": "STONE"
+      },
+      {
+        "resourceType": "SERVANT"
+      }
+    ],
+    "level": 1,
+    "color": "GREEN",
+    "productionPower": {
+      "entryResources": [
+        {
+          "resourceType": "STONE"
+        }
+      ],
+      "productResources": [
+        {
+          "resourceType": "SERVANT"
+        }
+      ]
+    },
+    "victoryPoints": 2
+  },
+  {
+    "id": 6,
+    "cost": [
+      {
+        "resourceType": "SHIELD"
+      },
+      {
+        "resourceType": "COIN"
+      },
+      {
+        "resourceType": "SERVANT"
+      }
+    ],
+    "level": 1,
+    "color": "PURPLE",
+    "productionPower": {
+      "entryResources": [
+        {
+          "resourceType": "COIN"
+        }
+      ],
+      "productResources": [
+        {
+          "resourceType": "SHIELD"
+        }
+      ]
+    },
+    "victoryPoints": 2
+  },
+  {
+    "id": 7,
+    "cost": [
+      {
+        "resourceType": "COIN"
+      },
+      {
+        "resourceType": "STONE"
+      },
+      {
+        "resourceType": "SERVANT"
+      }
+    ],
+    "level": 1,
+    "color": "PURPLE",
+    "productionPower": {
+      "entryResources": [
+        {
+          "resourceType": "SERVANT"
+        }
+      ],
+      "productResources": [
+        {
+          "resourceType": "STONE"
+        }
+      ]
+    },
+    "victoryPoints": 2
+  },
+  {
+    "id": 8,
+    "cost": [
+      {
+        "resourceType": "SHIELD"
+      },
+      {
+        "resourceType": "STONE"
+      },
+      {
+        "resourceType": "COIN"
+      }
+    ],
+    "level": 1,
+    "color": "YELLOW",
+    "productionPower": {
+      "entryResources": [
+        {
+          "resourceType": "SHIELD"
+        }
+      ],
+      "productResources": [
+        {
+          "resourceType": "COIN"
+        }
+      ]
+    },
+    "victoryPoints": 2
+  },
+  {
+    "id": 9,
+    "cost": [
+      {
+        "resourceType": "SHIELD"
+      },
+      {
+        "resourceType": "SHIELD"
+      },
+      {
+        "resourceType": "SHIELD"
+      }
+    ],
+    "level": 1,
+    "color": "GREEN",
+    "productionPower": {
+      "entryResources": [
+        {
+          "resourceType": "SERVANT"
+        },
+        {
+          "resourceType": "SERVANT"
+        }
+      ],
+      "productResources": [
+        {
+          "resourceType": "COIN"
+        },
+        {
+          "resourceType": "SHIELD"
+        },
+        {
+          "resourceType": "STONE"
+        }
+      ]
+    },
+    "victoryPoints": 3
+  },
+  {
+    "id": 10,
+    "cost": [
+      {
+        "resourceType": "SERVANT"
+      },
+      {
+        "resourceType": "SERVANT"
+      },
+      {
+        "resourceType": "SERVANT"
+      }
+    ],
+    "level": 1,
+    "color": "PURPLE",
+    "productionPower": {
+      "entryResources": [
+        {
+          "resourceType": "COIN"
+        },
+        {
+          "resourceType": "COIN"
+        }
+      ],
+      "productResources": [
+        {
+          "resourceType": "SERVANT"
+        },
+        {
+          "resourceType": "SHIELD"
+        },
+        {
+          "resourceType": "STONE"
+        }
+      ]
+    },
+    "victoryPoints": 3
+  },
+  {
+    "id": 11,
+    "cost": [
+      {
+        "resourceType": "COIN"
+      },
+      {
+        "resourceType": "COIN"
+      },
+      {
+        "resourceType": "COIN"
+      }
+    ],
+    "level": 1,
+    "color": "BLUE",
+    "productionPower": {
+      "entryResources": [
+        {
+          "resourceType": "STONE"
+        },
+        {
+          "resourceType": "STONE"
+        }
+      ],
+      "productResources": [
+        {
+          "resourceType": "SERVANT"
+        },
+        {
+          "resourceType": "SHIELD"
+        },
+        {
+          "resourceType": "COIN"
+        }
+      ]
+    },
+    "victoryPoints": 3
+  },
+  {
+    "id": 12,
+    "cost": [
+      {
+        "resourceType": "STONE"
+      },
+      {
+        "resourceType": "STONE"
+      },
+      {
+        "resourceType": "STONE"
+      }
+    ],
+    "level": 1,
+    "color": "YELLOW",
+    "productionPower": {
+      "entryResources": [
+        {
+          "resourceType": "SHIELD"
+        },
+        {
+          "resourceType": "SHIELD"
+        }
+      ],
+      "productResources": [
+        {
+          "resourceType": "SERVANT"
+        },
+        {
+          "resourceType": "STONE"
+        },
+        {
+          "resourceType": "COIN"
+        }
+      ]
+    },
+    "victoryPoints": 3
+  }
+]

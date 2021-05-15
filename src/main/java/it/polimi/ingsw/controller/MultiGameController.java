@@ -60,7 +60,7 @@ public class MultiGameController extends GameController {
                 Message message = new Message(MessageType.DUMMY_LEADER_CARD,gson.toJson(dummyLeaderCards));
                 vv.update(message);
             }
-            turnController = new TurnController(this, nickNames, game.getCurrentPlayer().getNickName());
+            turnController = new TurnController(this, nickNames, game.getCurrentPlayer().getNickName(), this.game);
             setGamePhase(GamePhase.FIRST_ROUND);
 
             getVirtualViewByNickname(turnController.getActivePlayer()).update(new Message(MessageType.DISCARD_LEADER,"You are the first player, discard 2 leader cards from your hand"));

@@ -28,13 +28,14 @@ public class Server {
     private final List<ClientHandler> waiting;
     private GameController gameController;
     public static final Logger LOGGER = Logger.getLogger(Server.class.getName());
-    private Map<String, VirtualView> virtualClients;
+    private final Map<String, VirtualView> virtualClients;
 
 
     public Server() {
         this.clients = new HashMap<>();
         this.waiting = new ArrayList<>();
         this.virtualClients = new HashMap<>();
+        this.gameController = new GameController();
     }
 
     /**
@@ -47,27 +48,19 @@ public class Server {
         VirtualView virtualView = new VirtualView(clientHandler, nickname);
         boolean ok = true;
         if (waiting.isEmpty()) {
-            clients.put(clientHandler, nickname);
             LOGGER.info("Client " + nickname + " registered" + clientHandler);
-            virtualClients.put(nickname, virtualView);
         } else {
             if (clients.get(nickname) != null) {
                 virtualView.nickNameResult(false, false, false);
                 ok = false;
             } else {
-                clients.put(clientHandler, nickname);
-                virtualClients.put(nickname, virtualView);
-                gameController.addConnectedClient(nickname, virtualView);
-                gameController.addPlayer(nickname);
-
                 virtualView.nickNameResult(true, false, false);
                 LOGGER.info("Client " + nickname + " registered" + clientHandler);
-
             }
         }
         if (ok) {
             LOGGER.info("Client " + nickname + " entered the lobby");
-            lobby(clientHandler);
+            lobby(clientHandler, virtualView);
         }
 
     }
@@ -80,27 +73,33 @@ public class Server {
      *
      * @param clientHandler of the client who has entered the lobby
      */
-    public synchronized void lobby(ClientHandler clientHandler) {
+    public synchronized void lobby(ClientHandler clientHandler, VirtualView virtualView) {
 
         waiting.add(clientHandler);
         LOGGER.info("Size of lobby " + waiting.size());
+        clients.put(clientHandler, virtualView.getNickname());
+        virtualClients.put(virtualView.getNickname(), virtualView);
 
         if (waiting.size() == 1) {
             clientHandler.askPlayersNumber(new NumberOfPlayerRequest("You're logged in and you're the first one, choose the number of player from 1 [for the solo game] to 4 "));
         }
         if (waiting.size() == gameController.getNumberOfPlayers()) {
+            gameController.addConnectedClient(virtualView.getNickname(), virtualView);
+            gameController.addPlayer(virtualView.getNickname());
             gameController.sendAll(new OkMessage("Game is starting!"));
             gameController.setStarted(true);
             gameController.startGame();
         } else {
             if (gameController.isStarted()) {
                 clientHandler.sendMessage(new ErrorMessage("The game is already started, try again later"));
+                return;
             } else {
                 int missingPlayers = gameController.getNumberOfPlayers() - waiting.size();
+                gameController.addConnectedClient(virtualView.getNickname(), virtualView);
+                gameController.addPlayer(virtualView.getNickname());
                 gameController.sendAll(new OkMessage("Waiting for other " + missingPlayers + " players"));
             }
         }
-
     }
 
     /**
@@ -133,6 +132,10 @@ public class Server {
 
 
     public void onMessageReceived(Message message, ClientHandler clientHandler) {
+        if(clients.get(clientHandler) == null){
+            System.out.println("who are you?");
+            return;
+        }
       gameController.onMessageReceived(message,clients.get(clientHandler));
     }
 }

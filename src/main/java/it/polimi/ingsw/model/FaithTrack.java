@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.client.DummyModel.DummyCell;
 import it.polimi.ingsw.client.DummyModel.DummyFaithTrack;
 import it.polimi.ingsw.utility.FaithTrackParser;
 
@@ -15,6 +16,7 @@ public class FaithTrack {
     public FaithTrack(){
         this.faithTrack = FaithTrackParser.parseFaithTrack();
     }
+
 
     /**
      * it controls if the position pos is contained in a report section

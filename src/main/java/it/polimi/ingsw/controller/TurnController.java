@@ -5,6 +5,7 @@ import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.answer.ErrorMessage;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.server.VirtualView;
 
 import java.util.List;
@@ -13,23 +14,31 @@ public class TurnController {
     private GameController gameController;
     private TurnPhase turnPhase;
     private int gameActionPerTurn;
+    private Game game;
+
+
+
 
     private final List<String> nickNamesQueue;
 
     private String activePlayer;
 
-    public TurnController(GameController gameController, List<String> nickNamesQueue, String activePlayer){
+    public TurnController(GameController gameController, List<String> nickNamesQueue, String activePlayer, Game game){
         this.gameController = gameController;
         this.nickNamesQueue = nickNamesQueue;
         this.nickNamesQueue.remove(0);
         this.activePlayer = activePlayer;
         this.gameActionPerTurn = 0;
+        this.game = game;
     }
 
     public String getActivePlayer() {
         return activePlayer;
     }
 
+    /**
+     * checks if the turn is completed and if the game has changed phase before proceeding to the next player
+     */
     public void nextTurn(){
         VirtualView vv = gameController.getVirtualView(activePlayer);
         switch(gameController.getGamePhase()){
@@ -43,7 +52,6 @@ public class TurnController {
                         (vv.getResourcesToPay().isEmpty())&&
                         (vv.getFreeDevelopment().isEmpty())&&
                         (vv.getResourcesToProduce().isEmpty())&&
-                        (vv.getTempStrongBox().getRes().isEmpty())&&
                         (gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedResources().isEmpty()))){
                     vv.update(new ErrorMessage("You have some things to do first!"));
                 }else{
@@ -62,7 +70,9 @@ public class TurnController {
 
     }
 
-
+    /**
+     * check if the players have completed a round
+     */
     public void nextPlayer(){
         nickNamesQueue.add(activePlayer);
         activePlayer = nickNamesQueue.get(0);
@@ -73,16 +83,20 @@ public class TurnController {
         }
         switch(gameController.getGamePhase()){
             case FIRST_ROUND:
-                gameController.getVirtualViewByNickname(activePlayer).update(new Message(MessageType.DISCARD_LEADER, "Choose 2 leader to discard"));
+                game.nextPlayer();
+                gameController.getVirtualViewByNickname(activePlayer).update(new Message(MessageType.DISCARD_LEADER, ""));
                 gameController.sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's "+activePlayer+" turn, wait!"), gameController.getVirtualView(activePlayer));
                 break;
             case IN_GAME:
             case LAST_ROUND:
+                game.nextPlayer();
                 gameController.getVirtualView(activePlayer).update(new Message(MessageType.NOTIFY_TURN, "It's your turn!"));
                 gameController.sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's "+activePlayer+" turn, wait!"), gameController.getVirtualView(activePlayer));
                 break;
         }
     }
+
+
     public void changeGamePhase(){
           switch(gameController.getGamePhase()){
               case FIRST_ROUND:

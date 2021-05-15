@@ -28,7 +28,6 @@ public class VirtualView implements Observer {
     private ArrayList<Marble> freeMarble;
     private ArrayList<DevelopmentCard> freeDevelopment;
     private ArrayList<Depot> tempDepots = new ArrayList<>();
-    private StrongBox tempStrongBox = new StrongBox();
     private ArrayList<Resource> resourcesToPay;
     private ArrayList<Integer> cardsToActivate;
     private ArrayList<Integer> extraProductionToActivate;
@@ -127,18 +126,6 @@ public class VirtualView implements Observer {
 
     public void freeTempDepots() {
         this.tempDepots.removeAll(this.tempDepots);
-    }
-
-    public StrongBox getTempStrongBox() {
-        return tempStrongBox;
-    }
-
-    public void freeStrongBox() {
-        this.tempStrongBox.removeAllResources();
-    }
-
-    public void setTempStrongBox(StrongBox tempStrongBox) {
-        this.tempStrongBox = tempStrongBox;
     }
 
     public void addCardToActivate(int id){

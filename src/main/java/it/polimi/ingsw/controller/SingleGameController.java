@@ -64,7 +64,7 @@ public class SingleGameController extends GameController{
 
 
 
-            TurnController turnController = new TurnController(this, nickNames, singleGame.getCurrentPlayer().getNickName());
+            TurnController turnController = new TurnController(this, nickNames, singleGame.getCurrentPlayer().getNickName(), this.game);
             setGamePhase(GamePhase.FIRST_ROUND);
 
         }catch (JsonFileNotFoundException ex){

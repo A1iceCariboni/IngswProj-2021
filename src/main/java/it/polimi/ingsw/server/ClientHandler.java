@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
@@ -63,14 +64,19 @@ public class ClientHandler implements  Runnable{
      */
     public synchronized void readFromClient() throws NullCardException {
             String line = in.nextLine();
-            Gson gson = new Gson();
-            Message message = gson.fromJson(line, Message.class);
-
-            if (message != null && message.getCode() != MessageType.PING) {
-                Server.LOGGER.info("Message received! " + line);
-                handleMessage(message);
+             Server.LOGGER.info("Message received! " + line);
+          Gson gson = new Gson();
+            try {
+                Message message = gson.fromJson(line, Message.class);
+                if (message != null && message.getCode() != MessageType.PING) {
+                    handleMessage(message);
+                    return;
+                }
+                System.out.println(message);
+            }catch(JsonParseException ex){
+                System.out.println("what?");
+                return;
             }
-
     }
 
     /**

@@ -22,7 +22,7 @@ import java.util.Scanner;
  */
 public class Cli extends CliObservable {
     private Scanner input;
-    private VirtualModel virtualModel = new VirtualModel(this);
+    private VirtualModel virtualModel = new VirtualModel();
     Gson gson = new Gson();
 
     public Cli(){
@@ -452,15 +452,15 @@ public class Cli extends CliObservable {
                         System.out.println("Which card do you want to use to activate the production?\n(1)card of slot 1, (2)card of slot 2, (3)card of slot 3");
                         switch (input.nextInt()){
                             case 1:
-                                String devId1 = gson.toJson(virtualModel.getPlayerBoard().getDevSection1().getId());
+                                String devId1 = gson.toJson(virtualModel.getPlayerBoard().getDevSections());
                                 Message messageDev1 = new Message(MessageType.ACTIVATE_PRODUCTION, devId1);
                                 notifyObserver(obs -> obs.onReadyReply(messageDev1));
                             case 2:
-                                String devId2 = gson.toJson(virtualModel.getPlayerBoard().getDevSection2().getId());
+                                String devId2 = gson.toJson(virtualModel.getPlayerBoard().getDevSections());
                                 Message messageDev2 = new Message(MessageType.ACTIVATE_PRODUCTION, devId2);
                                 notifyObserver(obs -> obs.onReadyReply(messageDev2));
                             case 3:
-                                String devId3 = gson.toJson(virtualModel.getPlayerBoard().getDevSection3().getId());
+                                String devId3 = gson.toJson(virtualModel.getPlayerBoard().getDevSections());
                                 Message messageDev3 = new Message(MessageType.ACTIVATE_PRODUCTION, devId3);
                                 notifyObserver(obs -> obs.onReadyReply(messageDev3));
                             default:
@@ -713,9 +713,7 @@ public class Cli extends CliObservable {
      * @param cards
      */
     public void addDevCards(DummyDev[] cards){
-        virtualModel.getPlayerBoard().setDevSection1(cards[0]);
-        virtualModel.getPlayerBoard().setDevSection2(cards[1]);
-        virtualModel.getPlayerBoard().setDevSection3(cards[2]);
+        virtualModel.getPlayerBoard().setDevSections(cards);
     }
 
     /**

@@ -15,6 +15,7 @@ public class DummyDepot {
         this.resources = resources;
     }
 
+
     public void addResource(String resource){
         resources.add(resource);
     }
