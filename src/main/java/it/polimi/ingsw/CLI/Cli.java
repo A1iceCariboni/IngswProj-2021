@@ -78,19 +78,23 @@ public class Cli extends CliObservable {
 
     /**
      * modifies the dummy faith track
-     * @param faithTrack
+     * @param faithTrack new faith track
      */
     public void faithTrackNew(DummyFaithTrack faithTrack){
         virtualModel.getPlayerBoard().setFaithTrack(faithTrack);
     }
 
+    /**
+     * modifies the dummy market of the development cards
+     * @param devMarket new development cards market
+     */
     public void devMarketNew(DummyDev[][] devMarket){
         virtualModel.setBoardDevCard(devMarket);
     }
 
     /**
      * modifies the dummy market tray
-     * @param market
+     * @param market new market
      */
     public void marketTrayNew(DummyMarket market){
         virtualModel.setDummyMarket(market);
@@ -109,82 +113,45 @@ public class Cli extends CliObservable {
     }
 
     /**
-     * asks which leader cards remove from the initially assigned,
-     * notifies the server to eliminated them
-     * and eliminates them from the virtual model
+     * asks which leader cards the player want to remove from the initially assigned,
+     * it notifies the server to eliminated them
+     * and it eliminates them from the virtual model
      */
     public void askTwoLeaderCard(){
-        ArrayList<DummyLeaderCard> leaderCards = virtualModel.getLeaderCards();
+        //ArrayList<DummyLeaderCard> leaderCards = virtualModel.getLeaderCards();
         //System.out.println(leaderCards);
-        boolean validInput = false;
+        boolean validInput = true;
         System.out.println("First card you want to discard(1/2/3/4)?");
         int posCard = input.nextInt();
         do {
-            if (posCard == 1){
-                validInput = true;
-                String IdCard = Integer.toString(virtualModel.getLeaderCards().get(posCard-1).getId());
-                Message message = new Message(MessageType.DISCARD_LEADER, IdCard);
-                notifyObserver(obs -> obs.onReadyReply(message));
-            }
-            else if(posCard == 2){
-                validInput = true;
-                String IdCard = Integer.toString(virtualModel.getLeaderCards().get(posCard-1).getId());
-                Message message = new Message(MessageType.DISCARD_LEADER, IdCard);
-                notifyObserver(obs -> obs.onReadyReply(message));
-            }
-            else if(posCard == 3){
-                validInput = true;
-                String IdCard = Integer.toString(virtualModel.getLeaderCards().get(posCard-1).getId());
-                Message message = new Message(MessageType.DISCARD_LEADER, IdCard);
-                notifyObserver(obs -> obs.onReadyReply(message));
-            }
-            else if(posCard == 4){
-                validInput = true;
-                String IdCard = Integer.toString(virtualModel.getLeaderCards().get(posCard-1).getId());
-                Message message = new Message(MessageType.DISCARD_LEADER, IdCard);
-                notifyObserver(obs -> obs.onReadyReply(message));
-            }
-            else if(posCard != 1 && posCard != 2 && posCard != 3 && posCard != 4){
+            if(posCard != 1 && posCard != 2 && posCard != 3 && posCard != 4){
                 validInput = false;
                 System.out.println("Answer doesn't accepted.\n First card you want to discard(1/2/3/4)?");
-                posCard = input.nextInt();
-            }
+                posCard = input.nextInt();}
+            else{
+                String IdCard = gson.toJson(virtualModel.getLeaderCards().get(posCard-1).getId());
+                Message message = new Message(MessageType.DISCARD_LEADER, IdCard);
+                notifyObserver(obs -> obs.onReadyReply(message));
+                }
         } while(!validInput);
 
-        boolean validInput1 = false;
+        boolean validInput1 = true;
         System.out.println("Second card you want to discard(1/2/3/4)?");
         int posCard1 = input.nextInt();
         do {
-            if (posCard1 == 1 && posCard1 != posCard){
-                validInput1 = true;
-                String IdCard = Integer.toString(virtualModel.getLeaderCards().get(posCard1-1).getId());
-                Message message = new Message(MessageType.DISCARD_LEADER, IdCard);
-                notifyObserver(obs -> obs.onReadyReply(message));
-            }
-            else if(posCard1 == 2 && posCard1 != posCard){
-                validInput1 = true;
-                String IdCard = Integer.toString(virtualModel.getLeaderCards().get(posCard1-1).getId());
-                Message message = new Message(MessageType.DISCARD_LEADER, IdCard);
-                notifyObserver(obs -> obs.onReadyReply(message));
-            }
-            else if(posCard1 == 3 && posCard1 != posCard){
-                validInput1 = true;
-                String IdCard = Integer.toString(virtualModel.getLeaderCards().get(posCard1-1).getId());
-                Message message = new Message(MessageType.DISCARD_LEADER, IdCard);
-                notifyObserver(obs -> obs.onReadyReply(message));
-            }
-            else if(posCard1 == 4 && posCard1 != posCard){
-                validInput1 = true;
-                String IdCard = Integer.toString(virtualModel.getLeaderCards().get(posCard1-1).getId());
-                Message message = new Message(MessageType.DISCARD_LEADER, IdCard);
-                notifyObserver(obs -> obs.onReadyReply(message));
-            }
-            else if(posCard1 != 1 && posCard1 != 2 && posCard1 != 3 && posCard1 != 4 || posCard1 == posCard){
+            if(posCard1 != 1 && posCard1 != 2 && posCard1 != 3 && posCard1 != 4 || posCard1 == posCard){
                 validInput1 = false;
                 System.out.println("Answer doesn't accepted.\n Second card you want to discard(1/2/3/4)?");
                 posCard1 = input.nextInt();
             }
+            else{
+                String IdCard = gson.toJson(virtualModel.getLeaderCards().get(posCard1-1).getId());
+                Message message = new Message(MessageType.DISCARD_LEADER, IdCard);
+                notifyObserver(obs -> obs.onReadyReply(message));
+            }
         } while(!validInput1);
+
+        //manca il messaggio di ok che permetta questo
         virtualModel.removeLeaderCard(posCard-1);
         virtualModel.removeLeaderCard(posCard1-1);
     }
@@ -193,31 +160,28 @@ public class Cli extends CliObservable {
      * asks the resources and notifies the server
      */
     public void chooseResources(int quantity){
-        int n = quantity;
-        String[] chosenResources = new String[n];
-        for(int i=0; i<n;){
-            System.out.println("Choose a resource\n(shield, servant, stone, coin)");
-            String resource = input.nextLine();
-            if(resource == "shield" || resource == "servant" || resource == "stone" || resource == "shield"){
-                chosenResources[i] = resource;
-                i++;
-            }
-            else{
-                System.out.println("Answer doesn't accepted\n");
-            }
+        boolean validInput = true;
+        String[] chosenResources = new String[quantity];
+        for(int i=0; i<quantity; i++){
+            do{
+                System.out.println("Choose a resource\n(shield, servant, stone, coin)");
+                String resource = input.nextLine();
+                if(resource == "shield" || resource == "servant" || resource == "stone" || resource == "coin"){
+                    chosenResources[i] = resource.toUpperCase();
+                }
+                else{
+                    validInput = false;
+                    System.out.println("Answer doesn't accepted\n");
+                }
+            } while(!validInput);
         }
-        if(chosenResources[n-1]!=null){
-            for(int i=0; i<n; i++){
-                chosenResources[i].toUpperCase();
-            }
             Message message = new Message(MessageType.CHOOSE_RESOURCES, gson.toJson(chosenResources));
             notifyObserver(obs -> obs.onReadyReply(message));
-        }
     }
 
     /*
      * adds a resource where the player wants to add it
-     * adds the resources to the dummy ware house
+     * adds the resources to the dummy warehouse
      * notifies the server about the choice and sends -1 if the resource must be discard
      */
     public void addResourceToWareHouse(String resource){
@@ -227,30 +191,36 @@ public class Cli extends CliObservable {
             String answer = input.nextLine();
             switch(answer){
                 case "1":
+                    //ci vorrebbe il messaggio di ok prima di aggiungere le risorse
                     virtualModel.getPlayerBoard().getWareHouse().getDepot1().addResource(resource);
                     String id1 = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getDepot1().getId());
                     Message message1 = new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, id1);
                     notifyObserver(obs -> obs.onReadyReply(message1));
+                    break;
                 case "2":
                     virtualModel.getPlayerBoard().getWareHouse().getDepot2().addResource(resource);
                     String id2 = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getDepot2().getId());
                     Message message2 = new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, id2);
                     notifyObserver(obs -> obs.onReadyReply(message2));
+                    break;
                 case "3":
                     virtualModel.getPlayerBoard().getWareHouse().getDepot3().addResource(resource);
                     String id3 = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getDepot3().getId());
                     Message message3 = new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, id3);
                     notifyObserver(obs -> obs.onReadyReply(message3));
+                    break;
                 case "4":
                     virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().addResource(resource);
                     String idE1 = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId());
                     Message messageE1 = new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, idE1);
                     notifyObserver(obs -> obs.onReadyReply(messageE1));
+                    break;
                 case "5":
                     virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().addResource(resource);
                     String idE2 = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getDepot3().getId());
                     Message messageE2 = new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, idE2);
                     notifyObserver(obs -> obs.onReadyReply(messageE2));
+                    break;
                 case "6":
                     Message discard = new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(-1));
                     notifyObserver(obs -> obs.onReadyReply(discard));
@@ -270,7 +240,7 @@ public class Cli extends CliObservable {
     public void addResourceWherever(String resource){
         boolean validInput = true;
         do{
-            System.out.println("In which depot do you want to put the resource" + resource + "?\n(1)depot1, (2)depot2, (3)depot3, (4)extradepot1, (5)extradepot2, (6)discard), (7)strongbox");
+            System.out.println("Where do you want to put the resource" + resource + "?\n(1)depot1, (2)depot2, (3)depot3, (4)extradepot1, (5)extradepot2, (6)discard), (7)strongbox");
             String answer = input.nextLine();
             switch(answer){
                 case "1":
@@ -278,38 +248,45 @@ public class Cli extends CliObservable {
                     String id1 = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getDepot1().getId());
                     Message message1 = new Message(MessageType.PLACE_RESOURCE_WHEREVER, id1);
                     notifyObserver(obs -> obs.onReadyReply(message1));
+                    break;
                 case "2":
                     virtualModel.getPlayerBoard().getWareHouse().getDepot2().addResource(resource);
                     String id2 = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getDepot2().getId());
                     Message message2 = new Message(MessageType.PLACE_RESOURCE_WHEREVER, id2);
                     notifyObserver(obs -> obs.onReadyReply(message2));
+                    break;
                 case "3":
                     virtualModel.getPlayerBoard().getWareHouse().getDepot3().addResource(resource);
                     String id3 = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getDepot3().getId());
                     Message message3 = new Message(MessageType.PLACE_RESOURCE_WHEREVER, id3);
                     notifyObserver(obs -> obs.onReadyReply(message3));
+                    break;
                 case "4":
                     virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().addResource(resource);
                     String idE1 = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId());
                     Message messageE1 = new Message(MessageType.PLACE_RESOURCE_WHEREVER, idE1);
                     notifyObserver(obs -> obs.onReadyReply(messageE1));
+                    break;
                 case "5":
                     virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().addResource(resource);
                     String idE2 = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getDepot3().getId());
                     Message messageE2 = new Message(MessageType.PLACE_RESOURCE_WHEREVER, idE2);
                     notifyObserver(obs -> obs.onReadyReply(messageE2));
+                    break;
                 case "6":
                     Message discard = new Message(MessageType.PLACE_RESOURCE_WHEREVER, gson.toJson(-1));
                     notifyObserver(obs -> obs.onReadyReply(discard));
+                    break;
                 case "7":
                     virtualModel.getPlayerBoard().getStrongBox().addResource(resource);
                     Message strong = new Message(MessageType.PLACE_RESOURCE_WHEREVER, gson.toJson(0));
                     notifyObserver(obs -> obs.onReadyReply(strong));
+                    break;
                 default:
                     validInput = false;
                     System.out.println("Answer doesn't valid.\n");
+                    break;
             }
-
         } while(!validInput);
     }
 
@@ -330,163 +307,202 @@ public class Cli extends CliObservable {
         askRemoveLeaderCard();
         removeResources();
         boolean validInput = true;
+        boolean validInput1 = true;
         System.out.println("Which action do you want to do(1/2/3)?\n(1)Buy a development card\n(2)Take resources from the market\n(3)Activate a production");
         do {
             switch(input.nextInt()) {
                 case 1:
-                    boolean validInput0 = true;
-                    int r;
-                    do {
-                        System.out.println("Which is the row of the card you want to buy? (1/2/3/4)");
-                        r = input.nextInt();
-                        if (r != 1 && r != 2 && r != 3 && r != 4) {
-                            validInput0 = false;
-                            System.out.println("Number of the row doesn't accepted.\n");
-                        }
-                    } while(!validInput0);
-                    boolean validInput01 = true;
-                    int c;
-                    do{
-                        System.out.println("Which is the column of the card you want to buy? (1/2/3)");
-                        c = input.nextInt();
-                        if (c != 1 && c != 2 && c != 3 && c != 4) {
-                            validInput01 = false;
-                            System.out.println("Number of the column doesn't accepted.\n");
-                        }
-                    } while (!validInput01);
-                    ArrayList<Integer> payloadDev = new ArrayList<>();
-                    payloadDev.add(r);
-                    payloadDev.add(c);
-                    Message messageDev = new Message(MessageType.BUY_DEV, gson.toJson(payloadDev));
-                    notifyObserver(obs -> obs.onReadyReply(messageDev));
-                    boolean validInput2 = true;
-                    do {
-                        System.out.println("From where do you want to take the resources?\n(1)depot1 (2)depot2 (3)depot3 (4)extradepot1 (5)extradepot2 (6)strongbox");
-                        switch (input.nextInt()) {
-                            case 1:
-                                String depotId1 = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getDepot1().getId());
-                                Message message1 = new Message(MessageType.RESOURCE_PAYMENT, depotId1);
-                                notifyObserver(obs -> obs.onReadyReply(message1));
-                                break;
-                            case 2:
-                                String depotId2 = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getDepot2().getId());
-                                Message message2 = new Message(MessageType.RESOURCE_PAYMENT, depotId2);
-                                notifyObserver(obs -> obs.onReadyReply(message2));
-                                break;
-                            case 3:
-                                String depotId3 = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getDepot3().getId());
-                                Message message3 = new Message(MessageType.RESOURCE_PAYMENT, depotId3);
-                                notifyObserver(obs -> obs.onReadyReply(message3));
-                                break;
-                            case 4:
-                                String extraDepotId1 = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId());
-                                Message messageE1 = new Message(MessageType.RESOURCE_PAYMENT, extraDepotId1);
-                                notifyObserver(obs -> obs.onReadyReply(messageE1));
-                                break;
-                            case 5:
-                                String extraDepotId2 = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId());//id del depot
-                                Message messageE2 = new Message(MessageType.RESOURCE_PAYMENT, extraDepotId2);
-                                notifyObserver(obs -> obs.onReadyReply(messageE2));
-                                break;
-                            case 6:
-                                Message messageS = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(-1));
-                                notifyObserver(obs -> obs.onReadyReply(messageS));
-                                break;
-                            default:
-                                System.out.println("Number doesn't accepted.\n");
-                                validInput2 = false;
-                        }
-                    } while (!validInput2);
-
-                    boolean validInput3 = true;
-                    do {
-                        System.out.println("In which slot do you want to put the card? (1/2/3)");
-                        if (input.nextInt() != 1 && input.nextInt() != 2 && input.nextInt() != 3) {
-                            System.out.println("Number doesn't accepted.\n");
-                            validInput3 = false;
-                        } else {
-                            Message messageSlot = new Message(MessageType.SLOT_CHOICE, gson.toJson(input.nextInt() - 1));
-                            notifyObserver(obs -> obs.onReadyReply(messageSlot));
-                        }
-                    } while (!validInput3);
+                    buyDevelopmentCard();
+                    break;
 
                 case 2:
-                    String rOc;
-                    int n;
-                    boolean validInput1 = true;
-                    do {
-                        System.out.println("Do you want to buy a row(r) or a column(c)?");
-                        rOc = input.nextLine();
-                        n = 0;
-                        if (rOc == "r") {
-                            rOc = "row";
-                            System.out.println("Which row? (1/2/3)");
-                            n = input.nextInt();
-                            if (n != 1 && n != 2 && n != 3){
-                                validInput1 = false;
-                                System.out.println("Number of the row doesn't accepted.\n");
-                            }
-                        } else if (rOc == "c") {
-                            rOc = "col";
-                            System.out.println("Which column? (1/2/3/4)");
-                            n = input.nextInt();
-                            if (n != 1 && n != 2 && n != 3 && n != 4){
-                                validInput1 = false;
-                                System.out.println("Number of the column doesn't accepted.\n");
-                            }
-                        }
-                        if(rOc != "r" && rOc != "c"){
-                            System.out.println("Answer doesn't accepted.\n");
-                            validInput1 = false;
-                        }
-                    } while (!validInput1);
-                    ArrayList<String> payload = new ArrayList<>();
-                    payload.add(rOc);
-                    payload.add(Integer.toString(n));
-                    Message message = new Message(MessageType.BUY_MARKET, gson.toJson(payload));
-                    notifyObserver(obs -> obs.onReadyReply(message));
-
+                    takeResourcesFromMarket();
+                    break;
                 case 3:
-                    boolean validInput4 = true;
-                    do{
-                        System.out.println("Which card do you want to use to activate the production?\n(1)card of slot 1, (2)card of slot 2, (3)card of slot 3");
-                        switch (input.nextInt()){
-                            case 1:
-                                String devId1 = gson.toJson(virtualModel.getPlayerBoard().getDevSections());
-                                Message messageDev1 = new Message(MessageType.ACTIVATE_PRODUCTION, devId1);
-                                notifyObserver(obs -> obs.onReadyReply(messageDev1));
-                            case 2:
-                                String devId2 = gson.toJson(virtualModel.getPlayerBoard().getDevSections());
-                                Message messageDev2 = new Message(MessageType.ACTIVATE_PRODUCTION, devId2);
-                                notifyObserver(obs -> obs.onReadyReply(messageDev2));
-                            case 3:
-                                String devId3 = gson.toJson(virtualModel.getPlayerBoard().getDevSections());
-                                Message messageDev3 = new Message(MessageType.ACTIVATE_PRODUCTION, devId3);
-                                notifyObserver(obs -> obs.onReadyReply(messageDev3));
-                            default:
-                                validInput4 = false;
-                                System.out.println("Number doesn't accepted.\n");
+                    activateProduction();
+                    do {
+                        System.out.println("Do you want to activate the production of another card? (y/n)");
+                        if(input.nextLine() != "y" && input.nextLine() != "n"){
+                            validInput1 = false;
+                            System.out.println("Answer doesn't accepted.\n");
                         }
-                    } while (!validInput4);
+                        else activateProduction();
+                    } while (!validInput1);
+                    break;
                 default:
                     validInput = false;
                     System.out.println("Number doesn't accepted.\n");
+                    break;
             }
         } while (!validInput);
-
+        endTurn();
         removeResources();
         askActivateLeaderCard();
         askRemoveLeaderCard();
+        endTurn();
+    }
 
+    /**
+     * asks if the player wants to end the turn
+     */
+    public void endTurn(){
         System.out.println("Do you want to end the turn? (y/n)");
         String answer = input.nextLine();
         boolean yes = true;
         do{
-            if(answer == "y"){
+            if(answer != "y" && answer != "n"){
+                yes = false;
+                System.out.println("Answer doesn't accepted.\nDo you want to end the turn? (y/n)");
+                answer = input.nextLine();
+            }
+            else if(answer == "y"){
                 Message message = new Message(MessageType.END_TURN, "");
                 notifyObserver(obs -> obs.onReadyReply(message));
             }
         } while(!yes);
+    }
+
+    /**
+     * method for buy a development card
+     * asks to the player which card wants, from where he wants to take the resources
+     * and in which slot he wants to put the card
+     */
+    public void buyDevelopmentCard(){
+        boolean validInput0 = true;
+        int r;
+        do {
+            System.out.println("Which is the row of the card you want to buy? (1/2/3/4)");
+            r = input.nextInt();
+            if (r != 1 && r != 2 && r != 3 && r != 4) {
+                validInput0 = false;
+                System.out.println("Number of the row doesn't accepted.\n");
+            }
+        } while(!validInput0);
+        boolean validInput01 = true;
+        int c;
+        do{
+            System.out.println("Which is the column of the card you want to buy? (1/2/3)");
+            c = input.nextInt();
+            if (c != 1 && c != 2 && c != 3 && c != 4) {
+                validInput01 = false;
+                System.out.println("Number of the column doesn't accepted.\n");
+            }
+        } while (!validInput01);
+        ArrayList<Integer> payloadDev = new ArrayList<>();
+        payloadDev.add(r);
+        payloadDev.add(c);
+        Message messageDev = new Message(MessageType.BUY_DEV, gson.toJson(payloadDev));
+        notifyObserver(obs -> obs.onReadyReply(messageDev));
+        boolean validInput2 = true;
+        String depotId = null;
+        do { //qui ci vorrebbe un messaggio dal server che dice di quante risorse c'è bisogno così il messaggio
+            // viene ripetuto tante volte quante sono le risorse necessarie
+            System.out.println("From where do you want to take the resources?\n(1)depot1 (2)depot2 (3)depot3 (4)extradepot1 (5)extradepot2 (6)strongbox");
+            switch (input.nextInt()) {
+                case 1:
+                    depotId = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getDepot1().getId());
+                    break;
+                case 2:
+                    depotId = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getDepot2().getId());
+                    break;
+                case 3:
+                    depotId = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getDepot3().getId());
+                    break;
+                case 4:
+                    depotId = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId());
+                    break;
+                case 5:
+                    depotId = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId());
+                    break;
+                case 6:
+                    Message messageS = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(-1));
+                    notifyObserver(obs -> obs.onReadyReply(messageS));
+                    break;
+                default:
+                    System.out.println("Number doesn't accepted.\n");
+                    validInput2 = false;
+            }
+            if(depotId != null){
+                Message message = new Message(MessageType.RESOURCE_PAYMENT, depotId);
+                notifyObserver(obs -> obs.onReadyReply(message));
+            }
+        } while (!validInput2);
+
+        boolean validInput3 = true;
+        int answer;
+        do {
+            System.out.println("In which slot do you want to put the card? (1/2/3)");
+            answer = input.nextInt();
+            if (answer != 1 && answer != 2 && answer != 3) {
+                System.out.println("Number doesn't accepted.\n");
+                validInput3 = false;
+            } else {
+                Message messageSlot = new Message(MessageType.SLOT_CHOICE, gson.toJson(answer - 1));
+                notifyObserver(obs -> obs.onReadyReply(messageSlot));
+            }
+        } while (!validInput3);
+    }
+
+    /**
+     * method to choose a row or a column of the market
+     */
+    public void takeResourcesFromMarket(){
+        String rOc;
+        int n;
+        boolean validInput1 = true;
+        do {
+            System.out.println("Do you want to buy a row(r) or a column(c)?");
+            rOc = input.nextLine();
+            n = 0;
+            switch(rOc){
+                case "r":
+                    rOc = "row";
+                    System.out.println("Which row? (1/2/3)");
+                    n = input.nextInt();
+                    if (n != 1 && n != 2 && n != 3){
+                        validInput1 = false;
+                        System.out.println("Number of the row doesn't accepted.\n");
+                    }
+                    break;
+                case "c":
+                    rOc = "col";
+                    System.out.println("Which column? (1/2/3/4)");
+                    n = input.nextInt();
+                    if (n != 1 && n != 2 && n != 3 && n != 4){
+                        validInput1 = false;
+                        System.out.println("Number of the column doesn't accepted.\n");
+                    }
+                    break;
+                default:
+                    System.out.println("Answer doesn't accepted.\n");
+                    validInput1 = false;
+                    break;
+            }
+        } while (!validInput1);
+        ArrayList<String> payload = new ArrayList<>();
+        payload.add(rOc);
+        payload.add(Integer.toString(n));
+        Message message = new Message(MessageType.BUY_MARKET, gson.toJson(payload));
+        notifyObserver(obs -> obs.onReadyReply(message));
+    }
+
+    public void activateProduction(){
+        boolean validInput4 = true;
+        DummyDev[] devs = virtualModel.getPlayerBoard().getDevSections();
+        int card;
+        do{
+            System.out.println("Which card do you want to use to activate the production?\n(1)card of slot 1, (2)card of slot 2, (3)card of slot 3");
+            card = input.nextInt();
+            if(card != 1 && card != 2 && card != 3){
+                validInput4 = false;
+                System.out.println("Number doesn't accepted.\n");
+            }
+            else {
+                String devId = gson.toJson(devs[card-1].getId());
+                Message messageDev = new Message(MessageType.ACTIVATE_PRODUCTION, devId);
+                notifyObserver(obs -> obs.onReadyReply(messageDev));
+            }
+            } while (!validInput4);
     }
 
     /**
@@ -495,8 +511,8 @@ public class Cli extends CliObservable {
     public void askActivateLeaderCard(){
         ArrayList<DummyLeaderCard> cards;
         cards = virtualModel.getLeaderCards();
-        String firstCard = Integer.toString(cards.get(0).getId());
-        String secondCard = Integer.toString(cards.get(1).getId());
+        String firstCard = gson.toJson(cards.get(0).getId());
+        String secondCard = gson.toJson(cards.get(1).getId());
         boolean yes = true;
         do {
             System.out.println("Do you want to activate a leader card? (y/n)");
@@ -562,8 +578,8 @@ public class Cli extends CliObservable {
         //System.out.println(virtualModel.getLeaderCards());
         ArrayList<DummyLeaderCard> cards;
         cards = virtualModel.getLeaderCards();
-        String firstCard = Integer.toString(cards.get(0).getId());
-        String secondCard = Integer.toString(cards.get(1).getId());
+        String firstCard = gson.toJson(cards.get(0).getId());
+        String secondCard = gson.toJson(cards.get(1).getId());
         boolean yes = true;
         do {
             System.out.println("Do you want to discard a leader card? (y/n)");
@@ -641,20 +657,13 @@ public class Cli extends CliObservable {
         String[] powers = new String[num];
         for(int i=0; i<num; i++){
             do{
-                System.out.println("Which color do you want to transform this white marble between these " + virtualModel.getPlayerBoard().getWhiteMarblePower() + " ? (1/2/3/4)");
-                switch(input.nextInt()) {
-                    case 1:
-                        powers[i] = virtualModel.getPlayerBoard().getWhiteMarblePower().get(0);
-                    case 2:
-                        powers[i] = virtualModel.getPlayerBoard().getWhiteMarblePower().get(1);
-                    case 3:
-                        powers[i] = virtualModel.getPlayerBoard().getWhiteMarblePower().get(2);
-                    case 4:
-                        powers[i] = virtualModel.getPlayerBoard().getWhiteMarblePower().get(3);
-                    default:
-                        validInput = false;
-                        System.out.println("Number doesn't accepted.\n");
+                System.out.println("Which color do you want to transform this white marble? (1/2/3/4)");
+                int color = input.nextInt();
+                if(color != 1 && color != 2 && color !=3 && color != 4){
+                    validInput = false;
+                    System.out.println("Number doesn't accepted.\n");
                 }
+                else powers[i] = virtualModel.getPlayerBoard().getWhiteMarblePower().get(color-1);
             } while (!validInput);
         }
         Message message = new Message(MessageType.WHITE_MARBLES, gson.toJson(powers));
@@ -728,56 +737,49 @@ public class Cli extends CliObservable {
     public void removeResources(){
         boolean validInput = true;
         boolean validInput1 = true;
-        ArrayList<String> remove = new ArrayList<>();
-        String idDepot;
-        System.out.println("Do you want to discard some resources? (y/n)");
+        String idDepot = null;
+        int number;
+        System.out.println("Do you want to discard a resource? (y/n)");
         String answer = input.nextLine();
         do{
             if(answer == "y"){
-                System.out.println("Which depot?\n(1)depot1, (2)depot2, (3)depot3, (4)extradepot1, (5)extradepot2");
                 do{
-                    switch (input.nextInt()){
+                    System.out.println("Which depot?\n(1)depot1, (2)depot2, (3)depot3, (4)extradepot1, (5)extradepot2");
+                    number = input.nextInt();
+                    switch (number){
                         case 1:
-                            idDepot = Integer.toString(virtualModel.getPlayerBoard().getWareHouse().getDepot1().getId());
-                            remove.add(virtualModel.getPlayerBoard().getWareHouse().getDepot1().getResources().get(0));
-                            remove.add(idDepot);
-                            Message message = new Message(MessageType.REMOVE_RESOURCES, gson.toJson(remove));
-                            notifyObserver(obs -> obs.onReadyReply(message));
+                            idDepot = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getDepot1().getId());
+                            break;
                         case 2:
-                            idDepot = Integer.toString(virtualModel.getPlayerBoard().getWareHouse().getDepot2().getId());
-                            remove.add(virtualModel.getPlayerBoard().getWareHouse().getDepot2().getResources().get(0));
-                            remove.add(idDepot);
-                            Message message2 = new Message(MessageType.REMOVE_RESOURCES, gson.toJson(remove));
-                            notifyObserver(obs -> obs.onReadyReply(message2));
+                            idDepot = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getDepot2().getId());
+                            break;
                         case 3:
-                            idDepot = Integer.toString(virtualModel.getPlayerBoard().getWareHouse().getDepot3().getId());
-                            remove.add(virtualModel.getPlayerBoard().getWareHouse().getDepot3().getResources().get(0));
-                            remove.add(idDepot);
-                            Message message3 = new Message(MessageType.REMOVE_RESOURCES, gson.toJson(remove));
-                            notifyObserver(obs -> obs.onReadyReply(message3));
+                            idDepot = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getDepot3().getId());
+                            break;
                         case 4:
-                            idDepot = Integer.toString(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId());
-                            remove.add(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().get(0));
-                            remove.add(idDepot);
-                            Message messageE1 = new Message(MessageType.REMOVE_RESOURCES, gson.toJson(remove));
-                            notifyObserver(obs -> obs.onReadyReply(messageE1));
+                            idDepot = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId());
+                            break;
                         case 5:
-                            idDepot = Integer.toString(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId());
-                            remove.add(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getResources().get(0));
-                            remove.add(idDepot);
-                            Message messageE2 = new Message(MessageType.REMOVE_RESOURCES, gson.toJson(remove));
-                            notifyObserver(obs -> obs.onReadyReply(messageE2));
+                            idDepot = gson.toJson(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId());
+                            break;
                         default:
                             validInput1 = false;
                             System.out.println("Number doesn't accepted.\n");
+                            break;
                     }
                 } while(!validInput1);
+                Message message = new Message(MessageType.REMOVE_RESOURCES, idDepot);
+                notifyObserver(obs -> obs.onReadyReply(message));
+                System.out.println("Do you want to discard another resource? (y/n)");
+                answer = input.nextLine();
             }
             else if(answer != "y" && answer != "n"){
                 validInput = false;
                 System.out.println("Answer doesn't accepted.\n");
+                System.out.println("Do you want to discard a resource? (y/n)");
+                answer = input.nextLine();
             }
-        } while (!validInput);
+        } while (!validInput || answer == "y");
     }
 
     public boolean checkResponse(){

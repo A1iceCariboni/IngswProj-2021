@@ -6,6 +6,7 @@ import java.util.Arrays;
 public class DummyFaithTrack {
     private DummyCell[] faithTrack;
 
+    public DummyFaithTrack(){}
     public DummyFaithTrack(DummyCell[] faithTrack){
         this.faithTrack = faithTrack;
     }
