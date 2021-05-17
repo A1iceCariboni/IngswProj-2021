@@ -511,53 +511,24 @@ public class Cli extends CliObservable {
     public void askActivateLeaderCard(){
         ArrayList<DummyLeaderCard> cards;
         cards = virtualModel.getLeaderCards();
-        String firstCard = gson.toJson(cards.get(0).getId());
-        String secondCard = gson.toJson(cards.get(1).getId());
         boolean yes = true;
         do {
             System.out.println("Do you want to activate a leader card? (y/n)");
             String answer = input.nextLine();
             if(answer == "y"){
-                System.out.println("Which card do you want to activate? (1/2)");
-                int card = input.nextInt();
-                boolean validInput = false;
+                boolean validInput = true;
                 do {
-                    if (card == 1) {
-                        System.out.println("Do you want to activate also the other card (y/n?");
-                        String choice = input.nextLine();
-                        if (choice == "y") {
-                            validInput = true;
-                            Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, firstCard);
-                            Message message1 = new Message(MessageType.ACTIVATE_LEADER_CARD, secondCard);
-                            notifyObserver(obs -> obs.onReadyReply(message));
-                            notifyObserver(obs -> obs.onReadyReply(message1));
-                        } else {
-                            if (choice == "n") {
-                                validInput = true;
-                                Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, firstCard);
-                                notifyObserver(obs -> obs.onReadyReply(message));
-                            }
-                        }
-                    } else if (card == 2) {
-                        System.out.println("Do you want to discard also the other card (y/n?");
-                        String choice = input.nextLine();
-                        if (choice == "y") {
-                            validInput = true;
-                            Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, firstCard);
-                            Message message1 = new Message(MessageType.ACTIVATE_LEADER_CARD, secondCard);
-                            notifyObserver(obs -> obs.onReadyReply(message));
-                            notifyObserver(obs -> obs.onReadyReply(message1));
-                        } else {
-                            if (choice == "n") {
-                                validInput = true;
-                                Message message1 = new Message(MessageType.ACTIVATE_LEADER_CARD, secondCard);
-                                notifyObserver(obs -> obs.onReadyReply(message1));
-                            }
-                        }
-                    }
+                    System.out.println("Which card do you want to activate? (1/2)");
+                    int card = input.nextInt();
                     if (card != 1 && card != 2) {
+                        validInput = false;
                         System.out.println("Number doesn't accepted.\n");
-                        card = input.nextInt();
+                    }
+                    else {
+                        //se il server risponde ok:
+                        //virtualModel.getLeaderCards().get(card-1).setIsActive(true);
+                        Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(cards.get(card-1).getId()));
+                        notifyObserver(obs -> obs.onReadyReply(message));
                     }
                 } while (!validInput);
             }
@@ -578,67 +549,25 @@ public class Cli extends CliObservable {
         //System.out.println(virtualModel.getLeaderCards());
         ArrayList<DummyLeaderCard> cards;
         cards = virtualModel.getLeaderCards();
-        String firstCard = gson.toJson(cards.get(0).getId());
-        String secondCard = gson.toJson(cards.get(1).getId());
         boolean yes = true;
         do {
             System.out.println("Do you want to discard a leader card? (y/n)");
             String answer = input.nextLine();
             if(answer == "y"){
-            System.out.println("Which card do you want to discard (1/2)?");
-            int card = input.nextInt();
-            boolean validInput = false;
-            do {
-                if (card == 1) {
-                    System.out.println("Do you want to discard also the other card (y/n?");
-                    String choice = input.nextLine();
-                    if (choice == "y") {
-                        validInput = true;
-                        int pos = 0;
-                        virtualModel.removeLeaderCard(pos);
-                        pos = 1;
-                        virtualModel.removeLeaderCard(pos);
-                        Message message = new Message(MessageType.DISCARD_LEADER, firstCard);
-                        Message message1 = new Message(MessageType.DISCARD_LEADER, secondCard);
-                        notifyObserver(obs -> obs.onReadyReply(message));
-                        notifyObserver(obs -> obs.onReadyReply(message1));
-                    } else {
-                        if (choice == "n") {
-                            validInput = true;
-                            int pos = 0;
-                            virtualModel.removeLeaderCard(pos);
-                            Message message = new Message(MessageType.DISCARD_LEADER, firstCard);
-                            notifyObserver(obs -> obs.onReadyReply(message));
-                        }
+                boolean validInput = true;
+                do {
+                    System.out.println("Which card do you want to discard (1/2)?");
+                    int card = input.nextInt();
+                    if (card != 1 && card != 2) {
+                        validInput = false;
+                        System.out.println("Number doesn't accepted.\n");
                     }
-                } else if (card == 2) {
-                    System.out.println("Do you want to discard also the other card (y/n?");
-                    String choice = input.nextLine();
-                    if (choice == "y") {
-                        validInput = true;
-                        int pos = 0;
-                        virtualModel.removeLeaderCard(pos);
-                        pos = 1;
-                        virtualModel.removeLeaderCard(pos);
-                        Message message = new Message(MessageType.DISCARD_LEADER, firstCard);
-                        Message message1 = new Message(MessageType.DISCARD_LEADER, secondCard);
+                    else{
+                        virtualModel.removeLeaderCard(card-1);
+                        Message message = new Message(MessageType.DISCARD_LEADER, gson.toJson(cards.get(card-1).getId()));
                         notifyObserver(obs -> obs.onReadyReply(message));
-                        notifyObserver(obs -> obs.onReadyReply(message1));
-                    } else {
-                        if (choice == "n") {
-                            validInput = true;
-                            int pos = 1;
-                            virtualModel.removeLeaderCard(pos);
-                            Message message1 = new Message(MessageType.DISCARD_LEADER, secondCard);
-                            notifyObserver(obs -> obs.onReadyReply(message1));
-                        }
                     }
-                }
-                if (card != 1 && card != 2) {
-                    System.out.println("Number doesn't accepted.\n");
-                    card = input.nextInt();
-                }
-            } while (!validInput);
+                } while (!validInput);
             }
             else if(answer != "y" && answer != "n"){
                 yes = false;
