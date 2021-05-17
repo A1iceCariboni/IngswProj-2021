@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.Resource;
 
 import java.util.ArrayList;
 
+import static it.polimi.ingsw.enumerations.Constants.*;
+import static it.polimi.ingsw.enumerations.Constants.ANSI_RESET;
+
 public class DummyDepot {
     protected int id;
     protected int dimension;
@@ -27,4 +30,7 @@ public class DummyDepot {
     public int getId(){
         return this.id;
     }
+
+
+
 }

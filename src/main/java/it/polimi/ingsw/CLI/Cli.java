@@ -40,6 +40,8 @@ public class Cli extends CliObservable {
         System.out.println(">Insert the server port");
         System.out.print(">");
         int port = input.nextInt();*/
+        System.out.println(Constants.MAESTRIDELRINASCIMENTO);
+        System.out.println(Constants.AUTHORS);
         int port = Constants.DEFAULT_PORT;
         String ip = Constants.LOCAL_HOST;
         notifyObserver(obs -> obs.onConnectionRequest(ip,port));

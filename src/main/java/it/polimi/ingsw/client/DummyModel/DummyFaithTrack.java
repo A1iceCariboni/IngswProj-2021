@@ -11,6 +11,14 @@ public class DummyFaithTrack {
         this.faithTrack = faithTrack;
     }
 
+    public boolean isPopeSpace(int pos){
+        return faithTrack[pos].isPopeSpace();
+    }
+
+    public int getReportSection(int pos){
+        return faithTrack[pos].getReportSection();
+    }
+
     @Override
     public String toString() {
         return "DummyFaithTrack{" +

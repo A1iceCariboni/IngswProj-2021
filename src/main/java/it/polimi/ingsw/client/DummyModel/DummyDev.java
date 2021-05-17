@@ -9,6 +9,22 @@ private int level;
 private String color;
 private DummyProductionPower productionPower;
 
+    public ArrayList<String> getCost() {
+        return cost;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public DummyProductionPower getProductionPower() {
+        return productionPower;
+    }
+
     public DummyDev(int id, ArrayList<String> cost, int level, String color, DummyProductionPower productionPower) {
         this.id = id;
         this.cost = cost;

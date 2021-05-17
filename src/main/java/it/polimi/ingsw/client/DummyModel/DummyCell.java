@@ -24,5 +24,28 @@ public class DummyCell {
                 ", reportSection=" + reportSection +
                 ", number=" + number +
                 '}';
+
+
+    }
+
+    public boolean isPopeSpace() {
+        return isPopeSpace;
+    }
+
+    public int getVictoryPoints() {
+        return victoryPoints;
+    }
+
+
+    public int getPointsForPopeSpace() {
+        return pointsForPopeSpace;
+    }
+
+    public int getReportSection() {
+        return reportSection;
+    }
+
+    public int getNumber() {
+        return number;
     }
 }

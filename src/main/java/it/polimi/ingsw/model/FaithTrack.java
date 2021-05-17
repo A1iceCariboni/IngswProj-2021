@@ -1,10 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.client.DummyModel.DummyCell;
-import it.polimi.ingsw.client.DummyModel.DummyFaithTrack;
 import it.polimi.ingsw.utility.FaithTrackParser;
-
-import java.util.ArrayList;
 
 /**
  * @author Sofia Canestraci
