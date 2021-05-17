@@ -54,6 +54,7 @@ public class TurnController {
                         (vv.getResourcesToProduce().isEmpty())&&
                         (gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedResources().isEmpty()))){
                     vv.update(new ErrorMessage("You have some things to do first!"));
+                    vv.update(new Message(MessageType.NOTIFY_TURN,""));
                 }else{
                     nextPlayer();
                 }
@@ -64,6 +65,7 @@ public class TurnController {
                     nextPlayer();
                 }else{
                     vv.update(new ErrorMessage("You have some things to do first!"));
+                    vv.update(new Message(MessageType.NOTIFY_TURN, ""));
                 }
                 break;
         }
@@ -84,7 +86,7 @@ public class TurnController {
         switch(gameController.getGamePhase()){
             case FIRST_ROUND:
                 game.nextPlayer();
-                gameController.getVirtualViewByNickname(activePlayer).update(new Message(MessageType.DISCARD_LEADER, ""));
+                gameController.getVirtualViewByNickname(activePlayer).update(new Message(MessageType.NOTIFY_TURN, ""));
                 gameController.sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's "+activePlayer+" turn, wait!"), gameController.getVirtualView(activePlayer));
                 break;
             case IN_GAME:

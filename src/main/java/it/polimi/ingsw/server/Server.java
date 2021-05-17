@@ -8,11 +8,13 @@ import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.answer.ErrorMessage;
 import it.polimi.ingsw.messages.answer.NumberOfPlayerRequest;
 import it.polimi.ingsw.messages.answer.OkMessage;
 import it.polimi.ingsw.model.Resource;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,13 +46,13 @@ public class Server {
      * @param nickname      the nickname the player want to use
      * @param clientHandler the client handler of thr client
      */
-    public synchronized void addClient(String nickname, ClientHandler clientHandler) {
+    public synchronized void addClient(String nickname, ClientHandler clientHandler) throws IOException {
         VirtualView virtualView = new VirtualView(clientHandler, nickname);
         boolean ok = true;
         if (waiting.isEmpty()) {
             LOGGER.info("Client " + nickname + " registered" + clientHandler);
         } else {
-            if (clients.get(nickname) != null) {
+            if (virtualClients.get(nickname) != null) {
                 virtualView.nickNameResult(false, false, false);
                 ok = false;
             } else {
@@ -73,7 +75,7 @@ public class Server {
      *
      * @param clientHandler of the client who has entered the lobby
      */
-    public synchronized void lobby(ClientHandler clientHandler, VirtualView virtualView) {
+    public synchronized void lobby(ClientHandler clientHandler, VirtualView virtualView) throws IOException {
 
         waiting.add(clientHandler);
         LOGGER.info("Size of lobby " + waiting.size());
@@ -86,18 +88,18 @@ public class Server {
         if (waiting.size() == gameController.getNumberOfPlayers()) {
             gameController.addConnectedClient(virtualView.getNickname(), virtualView);
             gameController.addPlayer(virtualView.getNickname());
-            gameController.sendAll(new OkMessage("Game is starting!"));
+            gameController.sendAll(new Message(MessageType.GENERIC_MESSAGE,"Game is starting!"));
             gameController.setStarted(true);
             gameController.startGame();
         } else {
             if (gameController.isStarted()) {
                 clientHandler.sendMessage(new ErrorMessage("The game is already started, try again later"));
-                return;
+                clientHandler.disconnect();
             } else {
                 int missingPlayers = gameController.getNumberOfPlayers() - waiting.size();
                 gameController.addConnectedClient(virtualView.getNickname(), virtualView);
                 gameController.addPlayer(virtualView.getNickname());
-                gameController.sendAll(new OkMessage("Waiting for other " + missingPlayers + " players"));
+                gameController.sendAll(new Message(MessageType.GENERIC_MESSAGE,"Waiting for other " + missingPlayers + " players"));
             }
         }
     }
@@ -108,22 +110,14 @@ public class Server {
      * @param numberOfPlayers number of players requested by the first player
      */
 
-    public void createGame(int numberOfPlayers, ClientHandler clientHandler) {
+    public void createGame(int numberOfPlayers) {
         if (numberOfPlayers == 1) {
             SingleGameController singleGameController = new SingleGameController();
             singleGameController.setNumberOfPlayers(numberOfPlayers);
-            singleGameController.addAllConnectedClients(virtualClients);
-            singleGameController.addPlayer(clients.get(clientHandler));
             this.gameController = singleGameController;
         } else {
             MultiGameController multiGameController = new MultiGameController();
-
             multiGameController.setNumberOfPlayers(numberOfPlayers);
-
-            multiGameController.addAllConnectedClients(virtualClients);
-
-            multiGameController.addPlayer(clients.get(clientHandler));
-
             this.gameController = multiGameController;
 
         }
@@ -133,11 +127,17 @@ public class Server {
 
     public void onMessageReceived(Message message, ClientHandler clientHandler) {
         if(clients.get(clientHandler) == null){
-            System.out.println("who are you?");
+            System.out.println("Register first, please");
+            clientHandler.disconnect();
             return;
         }
       gameController.onMessageReceived(message,clients.get(clientHandler));
     }
+
+    public GameController getGameController() {
+        return gameController;
+    }
+
 }
 
 

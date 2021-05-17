@@ -7,12 +7,11 @@ package it.polimi.ingsw.model;
 public class FaithCell {
     private  boolean isPopeSpace;
     private final int victoryPoints;
-    private  boolean isReportSection;
     private int pointsForPopeSpace;
     private int reportSection;
     private int number;
 
-    public FaithCell(boolean isPopeSpace, int victoryPoints, boolean isReportSection, int pointsForPopeSpace, int reportSection, int number) {
+    public FaithCell(boolean isPopeSpace, int victoryPoints, int pointsForPopeSpace, int reportSection, int number) {
         this.isPopeSpace = isPopeSpace;
         this.victoryPoints = victoryPoints;
         this.pointsForPopeSpace = pointsForPopeSpace;

@@ -23,13 +23,16 @@ public static void main(String[] args){
         System.exit(-1);
     }
     switch (input) {
-        case 0 -> ServerApp.main(null);
-        case 1 -> ClientApp.main(null);
-        case 2 -> {
+        case 0: ServerApp.main(null);
+        break;
+        case 1 : ClientApp.main(null);
+        break;
+        case 2 :
             System.out.println("You selected the GUI interface, have fun!\nStarting...");
             GUI.main(null);
-        }
-        default -> System.err.println("Invalid argument, please run the executable again with one of these options:\n1.server\n2.client");
+        break;
+        default: System.err.println("Invalid argument, please run the executable again with one of these options:\n1.server\n2.client");
+        break;
     }
 }
 }

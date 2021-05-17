@@ -11,16 +11,21 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.ClientHandler;
+import it.polimi.ingsw.server.Server;
+import it.polimi.ingsw.server.SocketServer;
 import it.polimi.ingsw.server.VirtualView;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.net.Socket;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 class FakeClientHandler extends ClientHandler{
-  @Override
+
+
+    @Override
   public void sendMessage(Message message){
 
   }
@@ -72,10 +77,10 @@ class MultiGameControllerTest {
     }
 
     @Test
-    void discardLeaderCards() throws NullCardException {
+    void discardLeaderCards() {
     Player player = gameController.getGame().getCurrentPlayer();
     int id = gameController.getGame().getCurrentPlayer().getLeadercards().get(0).getId();
-    gameController.discardLeaderCards(1);
+    gameController.discardLeaderCard(1);
     assertEquals(player.getLeadercards().size(),3);
     }
 

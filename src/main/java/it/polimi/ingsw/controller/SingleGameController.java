@@ -63,6 +63,8 @@ public class SingleGameController extends GameController{
             vv.update(message);
 
 
+            getVirtualViewByNickname(turnController.getActivePlayer()).update(new Message(MessageType.GENERIC_MESSAGE,"You are the first player, discard 2 leader cards from your hand"));
+            getVirtualViewByNickname(turnController.getActivePlayer()).update(new Message(MessageType.NOTIFY_TURN,""));
 
             TurnController turnController = new TurnController(this, nickNames, singleGame.getCurrentPlayer().getNickName(), this.game);
             setGamePhase(GamePhase.FIRST_ROUND);

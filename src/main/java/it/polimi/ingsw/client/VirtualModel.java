@@ -1,12 +1,17 @@
 package it.polimi.ingsw.client;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.CLI.Cli;
 import it.polimi.ingsw.client.DummyModel.*;
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
+import it.polimi.ingsw.model.FaithCell;
+import it.polimi.ingsw.model.FaithTrack;
 import it.polimi.ingsw.model.MarketTray;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.utility.LeaderCardParser;
 import static it.polimi.ingsw.enumerations.Constants.*;
 import static it.polimi.ingsw.enumerations.Constants.ANSI_RESET;
@@ -14,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * simplified version of the player model in the client
@@ -158,8 +164,8 @@ public class VirtualModel {
 
     /**displays development Cards on the board */
     public void showDevCards() {
-        for (int i = 0; i < boardDevCard.length-1; i++) {
-            for (int j = 0; j < boardDevCard.length-1; j++) {
+        for (int i = 0; i < MARKET_ROWS; i++) {
+            for (int j = 0; j < MARKET_COLS ; j++) {
                 DummyDev card = boardDevCard[i][j];
                 String cards =  showDevColor(i,j) 
                                 + "┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐\n"
@@ -446,10 +452,9 @@ public class VirtualModel {
         this.nickname = nickname;
     }
 
-    public void addLeaderCard(DummyLeaderCard[] card) {
-        for (int i = 0; i < card.length; i++) {
-            this.leaderCards.add(card[i]);
-        }
+    public void setLeaderCard(DummyLeaderCard[] card) {
+        ArrayList<DummyLeaderCard> dummyLeaderCards = new ArrayList<>(Arrays.asList(card));
+        this.leaderCards = dummyLeaderCards;
     }
 
     public ArrayList<DummyLeaderCard> getLeaderCards() {

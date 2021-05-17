@@ -25,6 +25,6 @@ public class Resource {
 
     @Override
     public String toString() {
-        return "Resource= " + resourceType.name();
+        return  resourceType.name();
     }
 }

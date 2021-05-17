@@ -13,7 +13,7 @@ public class DummyProductionPower {
 
     @Override
     public String toString() {
-        return "ProductionPower{" +
+        return
                 "entry=" + entry +
                 ", prod=" + prod +
                 '}';

@@ -87,7 +87,7 @@ public class InputChecker {
                 if (checkLeaderCard(l)) return true;
                 return false;
             case DISCARD_LEADER:
-                int[] ca = gson.fromJson(message.getPayload(), int[].class);
+                int ca = gson.fromJson(message.getPayload(), int.class);
                 if (checkOwnedLeaderCard(ca)) return true;
                 return false;
             case DEPOTS:
@@ -295,13 +295,11 @@ public class InputChecker {
      * @param ca the ids of the card
      * @return true if he owns the cards false otherwise
      */
-    public boolean checkOwnedLeaderCard(int[] ca) {
-        for (int j : ca) {
-            LeaderCard leaderCard = game.getCurrentPlayer().getLeaderCardById(j);
+    public boolean checkOwnedLeaderCard(int ca) {
+            LeaderCard leaderCard = game.getCurrentPlayer().getLeaderCardById(ca);
             if (leaderCard == null) {
                 return false;
             }
-        }
         return true;
     }
 }

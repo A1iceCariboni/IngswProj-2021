@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.DummyModel;
 
+import it.polimi.ingsw.model.Resource;
+
 import java.util.ArrayList;
 
 public class DummyWareHouse {
@@ -16,7 +18,7 @@ public class DummyWareHouse {
         this.depot2 = depot2;
         this.depot3 = depot3;
         this.extraDepot1 = new DummyExtraDepot(-1,0, new ArrayList<>(),"");
-        this.extraDepot2 = new DummyExtraDepot(-1,0, new ArrayList<>(),"");
+        this.extraDepot2 = new DummyExtraDepot(-1, 0, new ArrayList<>(), "");
     }
 
     public DummyDepot getDepot1(){

@@ -164,10 +164,12 @@ public class Player {
     }
 
     public LeaderCard getLeaderCardById(int id){
-        List<LeaderCard> leaderCardList = leaderCards
-                .stream().filter(lc -> lc.getId() == id)
-                .collect(Collectors.toList());
-        return leaderCardList.get(0);
+        for(LeaderCard leaderCard: leaderCards){
+            if(leaderCard.getId() == id){
+                return leaderCard;
+            }
+        }
+        return null;
     }
     @Override
     public int hashCode() {

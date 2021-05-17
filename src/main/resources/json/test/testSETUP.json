@@ -1,0 +1,8 @@
+[{"code":"SETUP","payload":"Alice"},
+{"code":"SETUP","payload":"Vins"},
+{"code":"SETUP","payload":"Bubi"},
+  {"code":"NUMBER_OF_PLAYERS","payload":"2"},
+  {"code":"DISCARD_LEADER","payload":"1"},
+  {"code":"CHOOSE_RESOURCES","payload":["COIN","SHIELD"]},
+  {"code":"PLACE_RESOURCE_WAREHOUSE","payload":[1,1]}
+]

@@ -33,6 +33,8 @@ public class SocketClient extends Observable {
     public SocketClient(String ip, int port){
         try {
             this.socket = new Socket(ip,port);
+           // this.socket.setSoTimeout(5000);
+
             this.out = new PrintWriter(socket.getOutputStream(), true);
             this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.readerExecutor = Executors.newSingleThreadExecutor();
@@ -50,26 +52,25 @@ public class SocketClient extends Observable {
     /**
      * thread that reads messages from server
      */
-    public void readMessage(){
+    public void readMessage() throws IOException {
       readerExecutor.execute(() -> {
           Gson gson = new Gson();
-          String line = null;
-              while(!readerExecutor.isShutdown()) {
-                  try {
-                      line = in.readLine();
-                      LOGGER.info("Received " + line);
-                      if(line == null){
-                          break;
-                      }
+                try {
+                  do{
+                      String line = in.readLine();
+                      if(line == null )break;
+                      notifyObserver(gson.fromJson(line,Message.class));
+
+                  }while(active) ;
+
+
                   } catch (IOException e) {
                       System.out.println("Error reading from server");
-                      disconnect();
-                      readerExecutor.shutdownNow();
                   }
-                  notifyObserver(gson.fromJson(line,Message.class));
-               }
-              disconnect();
-              });
+              readerExecutor.shutdownNow();
+                disconnect();
+
+      });
     }
 
     /**
@@ -78,8 +79,10 @@ public class SocketClient extends Observable {
      */
     public void sendMessage(Message message){
         Gson gson = new Gson();
+        System.out.println(message);
         out.println(gson.toJson(message));
         out.flush();
+
         if(message.getCode() != MessageType.PING) {
             LOGGER.info("Message sent " + message.getCode());
         }
@@ -95,6 +98,7 @@ public class SocketClient extends Observable {
                 this.active = false;
                 enablePing(false);
                 readerExecutor.shutdownNow();
+
                 System.out.println("Closing socket...");
                 socket.close();
                 System.exit(1);
@@ -112,7 +116,7 @@ public class SocketClient extends Observable {
     public void enablePing(boolean enable){
         if(enable){
             Message message = new PingMessage();
-            this.pinger.scheduleAtFixedRate(()->sendMessage(message),0,1000, TimeUnit.MICROSECONDS);
+            this.pinger.scheduleAtFixedRate(()->sendMessage(message),0,2000, TimeUnit.MILLISECONDS);
         }else{
             this.pinger.shutdownNow();
         }

@@ -36,6 +36,6 @@ public enum MessageType {
     WHITE_MARBLES,
     WHITE_MARBLES_POWERS,
     WINNER,
-    CIAO
+    PONG
 
 }

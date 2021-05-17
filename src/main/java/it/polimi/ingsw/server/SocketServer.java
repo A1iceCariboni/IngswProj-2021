@@ -6,6 +6,8 @@ import it.polimi.ingsw.messages.Message;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -36,16 +38,17 @@ public class SocketServer implements  Runnable{
      * @param serverSocket
      */
     public void acceptConnections(ServerSocket serverSocket){
-        while (active){
+        while (!Thread.currentThread().isInterrupted()){
             try {
                 Socket client = serverSocket.accept();
-                //client.setSoTimeout(5000);
 
                 ClientHandler clientHandler = new ClientHandler(client, this, server);
+                //clientHandler.enablePong(true);
                 Server.LOGGER.info("Accepted new client "+ client.getInetAddress());
                 executor.submit(clientHandler);
-            } catch (IOException e) {
+            } catch (IOException ex){
                 System.err.println("Connection dropped!..");
+
             }
         }
     }
@@ -55,7 +58,7 @@ public class SocketServer implements  Runnable{
      * @param nickname nickname the player want to use
      * @param clientHandler client handler of this specific client
      */
-    public void addClient(String nickname , ClientHandler clientHandler){
+    public void addClient(String nickname , ClientHandler clientHandler) throws IOException {
         server.addClient(nickname,clientHandler);
     }
 
