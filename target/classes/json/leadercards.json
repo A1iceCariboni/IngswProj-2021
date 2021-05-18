@@ -48,6 +48,7 @@
     "isActive": false,
     "leaderEffect": {
       "name": "EXTRA_PRODUCTION_POWER",
+      "id": 1,
       "resourceType": "COIN",
       "quantity": 1
     },
@@ -262,6 +263,7 @@
     "isActive": false,
     "leaderEffect": {
       "name": "EXTRA_PRODUCTION_POWER",
+      "id": 2,
       "resourceType": "SHIELD",
       "quantity": 1
     },
@@ -280,6 +282,7 @@
     "isActive": false,
     "leaderEffect": {
       "name": "EXTRA_PRODUCTION_POWER",
+      "id": 3,
       "resourceType": "SERVANT",
       "quantity": 1
     },
@@ -298,6 +301,8 @@
     "isActive": false,
     "leaderEffect": {
       "name": "EXTRA_PRODUCTION_POWER",
+      "id": 4,
+
       "resourceType": "STONE",
       "quantity": 1
     },

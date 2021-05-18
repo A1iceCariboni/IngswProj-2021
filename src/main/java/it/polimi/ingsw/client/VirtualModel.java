@@ -40,13 +40,13 @@ public class VirtualModel {
         faithTrack = new DummyFaithTrack();
         playerBoard = new DummyPlayerBoard();
         leaderCards = new ArrayList<>();
-        boardDevCard = new DummyDev[Constants.DEV_ROWS][Constants.DEV_COLS];
+        boardDevCard = new DummyDev[Constants.rows][Constants.cols];
     }
 
     public static void main(String[] args) throws JsonFileNotFoundException {
         VirtualModel virtualModel = new VirtualModel();
         virtualModel.initialize();
-        virtualModel.showPlayerDevCards();
+        virtualModel.showDevCards();
 
 
     }
@@ -65,10 +65,10 @@ public class VirtualModel {
         Reader reader1 = new BufferedReader(new InputStreamReader(
                 JsonObject.class.getResourceAsStream(path1)));
         DevelopmentCard[] developmentCard = gson.fromJson(reader1, DevelopmentCard[].class);
-        DummyDev[][] dummyDevs = new DummyDev[Constants.DEV_ROWS][Constants.DEV_COLS];
+        DummyDev[][] dummyDevs = new DummyDev[Constants.rows][Constants.cols];
         int ind = 0;
-        for (int i = 0; i < Constants.DEV_ROWS; i++) {
-            for (int j = 0; j < Constants.DEV_COLS; j++) {
+        for (int i = 0; i < Constants.rows; i++) {
+            for (int j = 0; j < Constants.cols; j++) {
                 dummyDevs[i][j] = developmentCard[ind].getDummy();
                 ind++;
             }
@@ -155,15 +155,14 @@ public class VirtualModel {
 
     /**displays development Cards on the board */
     public void showDevCards() {
-        for (int i = 0; i < DEV_ROWS; i++) {
+        for (int i = 0; i < rows; i++) {
                 String cards = showDevColor(i,0) +
-                                "┌─────────────────────────────────────────────────────────────────────┐ " + showDevColor(i,1) +"┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐  "+ showDevColor(i,2)+"┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ \n" + ANSI_RESET
-                                + " CardID: "+  boardDevCard[i][0].getId() + "                                                                    CardID: "+ boardDevCard[i][1].getId() +"                                                                                                 CardID: "+ boardDevCard[i][2].getId()
-                                + "\n Color:"+  boardDevCard[i][0].getColor() + "                                                                 Color:" + boardDevCard[i][1].getColor()+ "                                                                                               Color:" + boardDevCard[i][2].getColor()
-                                + "\n Level:"+ boardDevCard[i][0].getLevel() +"\n Level:"+ boardDevCard[i][1].getLevel()+ boardDevCard[i][1].getLevel()
-
-                                + "\n Production Power: "  + boardDevCard[i][0].getProductionPower()+ "                           Production Power: "  + boardDevCard[i][1].getProductionPower() + "                                                                Production Power: " + boardDevCard[i][2].getProductionPower() + "\n"
-                +showDevColor(i,0)  + "└─────────────────────────────────────────────────────────────────────┘"+ showDevColor(i,1) + "└──────────────────────────────────────────────────────────────────────────────────────────────────────────┘  "+ showDevColor(i,2) + "└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘";
+                                " ┌─────────────────────────────────────────────────────────────────────────────┐ " + showDevColor(i,1) +"┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐  "+ showDevColor(i,2)+"┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ "+ showDevColor(i,3)+ " ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐\n" +ANSI_RESET
+                                + " CardID: "+  boardDevCard[i][0].getId() + "                                                                         CardID: "+ boardDevCard[i][1].getId() +"                                                                                                    CardID: "+ boardDevCard[i][2].getId() +"                                                                                                                                 CardID: "+ boardDevCard[i][3].getId()
+                                + "\n Color:"+  boardDevCard[i][0].getColor() + "                                                                       Color:" + boardDevCard[i][1].getColor()+ "                                                                                                 Color:" + boardDevCard[i][2].getColor()+ "                                                                                                                                Color:" + boardDevCard[i][3].getColor()
+                                + "\n Level:"+ boardDevCard[i][0].getLevel() +"                                                                           Level:"+ boardDevCard[i][1].getLevel()+ boardDevCard[i][1].getLevel()+ "                                                                                                     Level:"+ boardDevCard[i][2].getLevel() + "                                                                                                                                   Level:"+ boardDevCard[i][3].getLevel()
+                                + "\n Production Power: "  + boardDevCard[i][0].getProductionPower()+ "                                    Production Power: "  + boardDevCard[i][1].getProductionPower() + "                                                                   Production Power: " + boardDevCard[i][2].getProductionPower() +  "                                                                                        Production Power: " + boardDevCard[i][3].getProductionPower() + "\n"
+                +showDevColor(i,0)  + " └─────────────────────────────────────────────────────────────────────────────┘ "+ showDevColor(i,1) + "└──────────────────────────────────────────────────────────────────────────────────────────────────────────┘  "+ showDevColor(i,2) + "└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ "+ showDevColor(i,3) + "└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘";
 
                 System.out.println(cards + "\n");
 
