@@ -99,7 +99,8 @@ public class LeaderCardParser {
                         resource = jsonLeaderEffect.get("resourceType").getAsString();
                         resourceType = ResourceType.valueOf(resource);
                         quantity = jsonLeaderEffect.get("quantity").getAsInt();
-                        leaderEffect = new ExtraProductionPower(new Resource(resourceType),quantity);
+                        id = jsonLeaderEffect.get("id").getAsInt();
+                        leaderEffect = new ExtraProductionPower(new Resource(resourceType),quantity,id);
                         leaderCards.add(new LeaderCard(id,leaderEffect,victoryPoints,requirements));
 
                         break;

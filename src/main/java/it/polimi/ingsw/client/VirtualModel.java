@@ -29,18 +29,15 @@ import java.util.Arrays;
 
 
 public class VirtualModel {
-    private String nickname;
     private DummyPlayerBoard playerBoard;
     private DummyDepot depot;
     private ArrayList<DummyLeaderCard> leaderCards;
     private DummyDev[][] boardDevCard;
     private DummyMarket dummyMarket;
     private DummyFaithTrack faithTrack;
-    private int faithMarker;
 
     public VirtualModel() {
         faithTrack = new DummyFaithTrack();
-        nickname = null;
         playerBoard = new DummyPlayerBoard();
         leaderCards = new ArrayList<>();
         boardDevCard = new DummyDev[Constants.DEV_ROWS][Constants.DEV_COLS];
@@ -442,14 +439,6 @@ public class VirtualModel {
 
     public DummyPlayerBoard getPlayerBoard() {
         return this.playerBoard;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
 
     public void setLeaderCard(DummyLeaderCard[] card) {

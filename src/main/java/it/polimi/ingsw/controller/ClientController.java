@@ -5,6 +5,7 @@ import it.polimi.ingsw.CLI.Cli;
 import it.polimi.ingsw.client.DummyModel.*;
 import it.polimi.ingsw.client.SocketClient;
 import it.polimi.ingsw.enumerations.GamePhase;
+import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.request.SetupMessage;
 import it.polimi.ingsw.observers.CliObserver;
@@ -153,7 +154,25 @@ public class ClientController implements CliObserver,Observer {
 
             case PLACE_RESOURCE_WAREHOUSE:
                 String[] resource = gson.fromJson(message.getPayload(),String[].class);
-                cli.addResourceToWareHouse(resource);
+                executionQueue.execute(() -> cli.addResourceToWareHouse(resource));
+                break;
+
+            case FAITH_MOVE:
+                int pos = gson.fromJson(message.getPayload(), int.class);
+                executionQueue.execute(() -> cli.modifyFaithMarker(pos));
+                break;
+
+            case RESOURCE_PAYMENT:
+                resource  = gson.fromJson(message.getPayload(), String[].class);
+                if(cli.getTurnPhase() == TurnPhase.BUY_DEV) {
+                    executionQueue.execute(() -> cli.payResources(resource));
+                }else{
+                    executionQueue.execute(() -> cli.activateProduction(resource));
+                }
+                break;
+
+            case SLOT_CHOICE:
+                executionQueue.execute(cli::slotChoice);
                 break;
 
             /*
@@ -168,13 +187,7 @@ public class ClientController implements CliObserver,Observer {
                 break;
 
 
-            case PLACE_RESOURCE_WHEREVER:
-                String res = gson.fromJson(message.getPayload(),String.class);
-                cli.addResourceWherever(res);//uguale a prima ma puoi aggiungere anche a strongbox, se aggiunge in strongbox
-                //rispondi con un messaggio dello stesso tipo ma
-                //se mette in strongbox usa come id 0
-                //inserire -1 per scartare
-                break;
+
             case FAITH_MOVE:
                 int pos = gson.fromJson(message.getPayload(), int.class);
                 cli.faithMove(pos);//ti dice di quante posizioni ha spostato la pedina

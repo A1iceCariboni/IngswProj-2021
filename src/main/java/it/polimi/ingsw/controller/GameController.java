@@ -32,6 +32,7 @@ import java.util.Map;
  */
 public class GameController {
     protected Game game;
+    Gson gson = new Gson();
 
 
     protected Map<String, VirtualView> connectedClients;
@@ -346,7 +347,6 @@ public class GameController {
                     removeResource(id);
                     break;
                 case PLACE_RESOURCE_WAREHOUSE:
-                case PLACE_RESOURCE_WHEREVER:
                     int[] ids = gson.fromJson(message.getPayload(), int[].class);
                     try {
                         putResource(ids);
@@ -376,37 +376,61 @@ public class GameController {
                     int[] ids = gson.fromJson(message.getPayload(), int[].class);
                     pay(ids);
                     break;
-                case DEPOTS:
-                    Depot[] depots = gson.fromJson(message.getPayload(), Depot[].class);
-                    virtualView.setTempDepots(new ArrayList<>(Arrays.asList(depots)));
-                    changeDepotsState();
-                    break;
-                case REMOVE_RESOURCES:
-                    int id = gson.fromJson(message.getPayload(), int.class);
-                    removeResource(id);
-                    break;
                 case ACTIVATE_PRODUCTION:
-                    addProductionPower(gson.fromJson(message.getPayload(),int[].class));
+                    if(inputChecker.checkReceivedMessage(message, turnController.getActivePlayer())) {
+                        addProductionPower(gson.fromJson(message.getPayload(), int[].class));
+                        sendResourcesToPay();
+                    }else{
+                        turnPhase = TurnPhase.FREE;
+                        virtualView.removeAllExtraProduction();
+                        virtualView.removeAllResourcesToProduce();
+                        virtualView.removeCardsToActivate();
+                        virtualView.removeResourcesToPay();
+                        virtualView.update(new ErrorMessage(""));
+                        virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
+                    }
                     break;
                 case EXTRA_PRODUCTION:
-                    String[] command = gson.fromJson(message.getPayload(),String[].class);
-                    id = Integer.parseInt(command[0]);
-                    Resource resource = new Resource(ResourceType.valueOf(command[1]));
-                    addExtraProductionPower(id, resource);
+                    if(inputChecker.checkReceivedMessage(message, turnController.getActivePlayer())) {
+                        String[] command = gson.fromJson(message.getPayload(),String[].class);
+                        int id = Integer.parseInt(command[0]);
+                        Resource resource = new Resource(ResourceType.valueOf(command[1]));
+                        addExtraProductionPower(id, resource);
+                        sendResourcesToPay();
+                    }else{
+                        turnPhase = TurnPhase.FREE;
+                        virtualView.removeAllExtraProduction();
+                        virtualView.removeAllResourcesToProduce();
+                        virtualView.removeCardsToActivate();
+                        virtualView.removeResourcesToPay();
+                        virtualView.update(new ErrorMessage(""));
+                        virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
+                    }
                     break;
                 case BASE_PRODUCTION:
-                    command = gson.fromJson(message.getPayload(),String[].class);
+                if(inputChecker.checkReceivedMessage(message, turnController.getActivePlayer())) {
+                    String[] command = gson.fromJson(message.getPayload(),String[].class);
                     Resource res1 = new Resource(ResourceType.valueOf(command[0]));
                     Resource res2 = new Resource(ResourceType.valueOf(command[1]));
                     Resource res3 = new Resource(ResourceType.valueOf(command[2]));
                     addBasicProduction(res1,res2,res3);
+                    sendResourcesToPay();
+                }else{
+                    turnPhase = TurnPhase.FREE;
+                    virtualView.removeAllExtraProduction();
+                    virtualView.removeAllResourcesToProduce();
+                    virtualView.removeCardsToActivate();
+                    virtualView.removeResourcesToPay();
+                    virtualView.update(new ErrorMessage(""));
+                    virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
+                }
                     break;
                 default:
                     virtualView.update(new ErrorMessage("Invalid message for this state"));
                     virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
-
                     break;
             }
+
         }else{
             virtualView.sendInvalidActionMessage();
             virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
@@ -414,13 +438,32 @@ public class GameController {
         }
     }
 
+    private void sendResourcesToPay() {
+        String name = game.getCurrentPlayer().getNickName();
+        VirtualView virtualView = getConnectedClients().get(name);
+        ArrayList<String> names = new ArrayList<>();
+        for (Resource res : virtualView.getFreeDevelopment().get(0).getCost()) {
+            names.add(res.getResourceType().name());
+        }
+        virtualView.update(new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(names)));
+
+    }
+
     public  void buyDevHandler(Message message, VirtualView virtualView){
         Gson gson = new Gson();
-        if(inputChecker.checkReceivedMessage(message, turnController.getActivePlayer())) {
             switch (message.getCode()) {
                 case RESOURCE_PAYMENT:
-                    int[] ids = gson.fromJson(message.getPayload(), int[].class);
-                    pay(ids);
+                    if(inputChecker.checkReceivedMessage(message, turnController.getActivePlayer())) {
+                        int[] ids = gson.fromJson(message.getPayload(), int[].class);
+                        pay(ids);
+                    }else {
+                        virtualView.update(new ErrorMessage("Invalid message for this state"));
+                        ArrayList<String> names = new ArrayList<>();
+                        for (Resource res : virtualView.getFreeDevelopment().get(0).getCost()) {
+                            names.add(res.getResourceType().name());
+                        }
+                        virtualView.update(new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(names)));
+                    }
                     break;
                 case DEPOTS:
                     Depot[] depots = gson.fromJson(message.getPayload(), Depot[].class);
@@ -432,8 +475,13 @@ public class GameController {
                     removeResource(id);
                     break;
                 case SLOT_CHOICE:
-                    int slot = gson.fromJson(message.getPayload(), int.class);
-                    placeCard(slot);
+                    if(inputChecker.checkReceivedMessage(message, turnController.getActivePlayer())) {
+                        int slot = gson.fromJson(message.getPayload(), int.class);
+                        placeCard(slot);
+                    }else{
+                        virtualView.update(new ErrorMessage("Invalid message for this state"));
+                        virtualView.update(new Message(MessageType.SLOT_CHOICE, ""));
+                    }
                     break;
                 default:
                     virtualView.update(new ErrorMessage("Invalid message for this state"));
@@ -441,13 +489,9 @@ public class GameController {
 
                     break;
             }
-        }else{
-            virtualView.sendInvalidActionMessage();
-            virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
-
         }
 
-    }
+
 
     /**
      * handels the actions in the game
@@ -457,20 +501,18 @@ public class GameController {
 
     public void inGameHandler(Message message, VirtualView virtualView){
         Gson gson = new Gson();
+        if(inputChecker.checkReceivedMessage(message, turnController.getActivePlayer())) {
             switch (message.getCode()) {
                 case BUY_DEV:
-                    if(inputChecker.checkReceivedMessage(message, turnController.getActivePlayer())) {
-
-                        int[] dim = gson.fromJson(message.getPayload(), int[].class);
-                        buyDevelopment(dim[0], dim[1]);
-                    }
+                    int[] dim = gson.fromJson(message.getPayload(), int[].class);
+                    buyDevelopment(dim[0], dim[1]);
                     break;
                 case BUY_MARKET:
                     turnPhase = TurnPhase.BUY_MARKET;
                     String[] choice = gson.fromJson(message.getPayload(), String[].class);
-                    if(choice[0].equalsIgnoreCase("row")){
+                    if (choice[0].equalsIgnoreCase("row")) {
                         getFromMarketRow(Integer.parseInt(choice[1]));
-                    }else{
+                    } else {
                         getFromMarketCol(Integer.parseInt(choice[1]));
                     }
                     break;
@@ -480,35 +522,30 @@ public class GameController {
                     changeDepotsState();
                     break;
                 case ACTIVATE_PRODUCTION:
-                    turnPhase = TurnPhase.ACTIVATE_PRODUCTION;
-                    addProductionPower(gson.fromJson(message.getPayload(),int[].class));
-                    break;
                 case EXTRA_PRODUCTION:
-                    turnPhase = TurnPhase.ACTIVATE_PRODUCTION;
-                    String[] command = gson.fromJson(message.getPayload(),String[].class);
-                    int id = Integer.parseInt(command[0]);
-                    Resource resource = new Resource(ResourceType.valueOf(command[1]));
-                    addExtraProductionPower(id, resource);
-                    break;
                 case BASE_PRODUCTION:
-                  command = gson.fromJson(message.getPayload(),String[].class);
-                  Resource res1 = new Resource(ResourceType.valueOf(command[0]));
-                  Resource res2 = new Resource(ResourceType.valueOf(command[1]));
-                  Resource res3 = new Resource(ResourceType.valueOf(command[2]));
-                  addBasicProduction(res1,res2,res3);
-                  break;
+                    turnPhase = TurnPhase.ACTIVATE_PRODUCTION;
+                    productionHandler(message, virtualView);
+                    break;
                 case ACTIVATE_LEADER_CARD:
-                    id = gson.fromJson(message.getPayload(),int.class);
+                    int id = gson.fromJson(message.getPayload(), int.class);
                     activateLeaderCard(id);
                     break;
                 case END_TURN:
-                     turnController.nextTurn();
-                     break;
+                    turnController.nextTurn();
+                    break;
                 case REMOVE_RESOURCES:
                     id = gson.fromJson(message.getPayload(), int.class);
                     removeResource(id);
                     break;
+                default:
+                    virtualView.update(new ErrorMessage("Invalid message for this state"));
+                    virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
             }
+        }else{
+            virtualView.sendInvalidActionMessage();
+            virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
+        }
 
     }
 
@@ -524,7 +561,6 @@ public class GameController {
             switch (message.getCode()) {
                 case DISCARD_LEADER:
                     if(inputChecker.checkReceivedMessage(message, turnController.getActivePlayer())) {
-
                         discardLeaderCard(Integer.parseInt(message.getPayload()));
                     }else{
                         virtualView.sendInvalidActionMessage();
@@ -545,8 +581,11 @@ public class GameController {
                         int[] id = gson.fromJson(message.getPayload(), int[].class);
                         try {
                             putResource(id);
+                            virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
+
                         } catch (NotPossibleToAdd notPossibleToAdd) {
                             virtualView.update(new ErrorMessage(notPossibleToAdd.getMessage()));
+                            placeResources();
                         }
                     }else{
                         virtualView.sendInvalidActionMessage();
@@ -558,6 +597,8 @@ public class GameController {
                         break;
                 default:
                     virtualView.update(new ErrorMessage("Invalid message for this state"));
+                    virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
+
                     break;
             }
         }
@@ -569,15 +610,17 @@ public class GameController {
      * @param col column in the matrix of developments
      */
    public void buyDevelopment(int rig, int col){
-       turnController.doneGameAction();
        String name = game.getCurrentPlayer().getNickName();
        VirtualView virtualView = getConnectedClients().get(name);
         if(game.getDeckDevelopment()[rig][col].getCard().isBuyable(game.getCurrentPlayer())){
+            turnController.doneGameAction();
             virtualView.addFreeDevelopment(game.getDeckDevelopment()[rig][col].popCard());
             turnController.doneGameAction();
             turnPhase = TurnPhase.BUY_DEV;
+            sendResourcesToPay();
         }else{
             virtualView.update(new ErrorMessage("You don't have enough resources to buy this card, choose another one"));
+            virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
         }
    }
 
@@ -600,7 +643,9 @@ public class GameController {
            success = false;
        }
        if(success){
+           turnPhase = TurnPhase.FREE;
            virtualView.update(new OkMessage("Card has been placed successfully"));
+           virtualView.update(new Message(MessageType.NOTIFY_TURN, " "));
            virtualView.removeFreeDevelopment(0);
        }
 
@@ -637,25 +682,21 @@ public class GameController {
        sendDepots();
        sendStrongBox();
        virtualView.update(new OkMessage("Payed successfully!"));
+       virtualView.update(new Message(MessageType.SLOT_CHOICE, ""));
    }
 
     /**
      * if the player has some resources that has not be placed yet , he have to choose were to put them
      * before proceeding with the turn
      */
-    public void placeResources(){
-        Gson gson = new Gson();
+    public void placeResources() {
         String name = game.getCurrentPlayer().getNickName();
         VirtualView virtualView = getConnectedClients().get(name);
         ArrayList<String> names = new ArrayList<>();
-        for(Resource res: game.getCurrentPlayer().getPlayerBoard().getUnplacedResources()){
+        for (Resource res : game.getCurrentPlayer().getPlayerBoard().getUnplacedResources()) {
             names.add(res.getResourceType().name());
         }
-            if (gamePhase == GamePhase.FIRST_ROUND || turnPhase == TurnPhase.BUY_MARKET) {
-                virtualView.update(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(names)));
-            } else {
-                virtualView.update(new Message(MessageType.PLACE_RESOURCE_WHEREVER, gson.toJson(names)));
-            }
+        virtualView.update(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(names)));
     }
 
 
@@ -667,9 +708,6 @@ public class GameController {
         String name = game.getCurrentPlayer().getNickName();
         VirtualView virtualView = getConnectedClients().get(name);
         for (int j : id) {
-            if (j == 0) {
-                game.getCurrentPlayer().getPlayerBoard().getStrongBox().addResources(game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().get(0));
-            } else {
                 if (j == -1) {
                     for (Player player : game.getPlayers()) {
                         if (!player.getNickName().equals(game.getCurrentPlayer().getNickName())) {
@@ -683,7 +721,6 @@ public class GameController {
                 } else {
                     game.getCurrentPlayer().getDepotById(j).addResource(game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().get(0));
                 }
-            }
             game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().remove(0);
         }
         sendDepots();
@@ -919,6 +956,8 @@ public class GameController {
                 case 1:
                 case 2:
                     if(game.getCurrentPlayer().getLeadercards().size() == 2) {
+                        game.getCurrentPlayer().getPlayerBoard().moveFaithMarker(1);
+                        updateFaith();
                         virtualView.update(new Message(MessageType.CHOOSE_RESOURCES, "1"));
                     }else{
                         virtualView.update(new Message(MessageType.NOTIFY_TURN,""));
@@ -926,6 +965,8 @@ public class GameController {
                     break;
                 case 3:
                     if(game.getCurrentPlayer().getLeadercards().size() == 2) {
+                        game.getCurrentPlayer().getPlayerBoard().moveFaithMarker(1);
+                        updateFaith();
                         virtualView.update(new Message(MessageType.CHOOSE_RESOURCES, "2"));
                     }else{
                         virtualView.update(new Message(MessageType.NOTIFY_TURN,""));

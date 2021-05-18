@@ -183,11 +183,6 @@ public class PlayerBoard {
         return depotId;
    }
 
-   public int getIdForExtraProduction(){
-        extraProductionId ++;
-        return extraProductionId;
-   }
-
    public void addUnplacedResource(Resource resource){
         this.unplacedResources.add(resource);
    }

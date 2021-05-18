@@ -79,7 +79,7 @@ public class SocketClient extends Observable {
      */
     public void sendMessage(Message message){
         Gson gson = new Gson();
-        System.out.println(message);
+        System.out.println(gson.toJson(message));
         out.println(gson.toJson(message));
         out.flush();
 

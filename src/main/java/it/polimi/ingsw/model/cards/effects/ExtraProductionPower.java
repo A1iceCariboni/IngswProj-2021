@@ -9,13 +9,15 @@ import java.util.ArrayList;
  * @author Alice Cariboni
  */
 public class ExtraProductionPower implements LeaderEffect{
+    private int id;
     private final Resource resourceType;
     private final int quantity;
 
 
-    public ExtraProductionPower(Resource resourceType, int quantity) {
+    public ExtraProductionPower(Resource resourceType, int quantity, int id) {
         this.resourceType = resourceType;
         this.quantity = quantity;
+        this.id = id;
     }
 
     @Override
@@ -24,7 +26,7 @@ public class ExtraProductionPower implements LeaderEffect{
         for(int i = 0; i<quantity; i++){
             entryResources.add(resourceType);
         }
-        ExtraProduction extraProduction = new ExtraProduction(entryResources,b.getIdForExtraProduction());
+        ExtraProduction extraProduction = new ExtraProduction(entryResources,id);
         p.addExtraProductionPowers(extraProduction);
     }
 
@@ -38,8 +40,8 @@ public class ExtraProductionPower implements LeaderEffect{
 
     @Override
     public String toString() {
-        return "ExtraProductionPower{" +
-                "resourceType=" + resourceType.toString() +
+        return "ExtraProductionPower{" + "id: " + id +
+                "productResources=" + resourceType.toString() + " + 1 faith point " +
                 ", quantity=" + quantity +
                 '}';
     }

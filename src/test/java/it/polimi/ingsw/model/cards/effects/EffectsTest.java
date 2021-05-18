@@ -32,7 +32,7 @@ public class EffectsTest {
 
     @Test
     void extraProductionTest(){
-        ExtraProductionPower extraProductionPower = new ExtraProductionPower(new Resource(ResourceType.SERVANT),1);
+        ExtraProductionPower extraProductionPower = new ExtraProductionPower(new Resource(ResourceType.SERVANT),1, 1);
         extraProductionPower.applyEffect(player, player.getPlayerBoard());
         assertEquals(extraProductionPower.getQuantity(),1);
         assertEquals(extraProductionPower.getResourceType(),new Resource(ResourceType.SERVANT));

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.model.Depot;
 import it.polimi.ingsw.model.ExtraProduction;
 import it.polimi.ingsw.model.Game;
@@ -35,7 +36,6 @@ public class InputChecker {
         switch (message.getCode()) {
             case BUY_DEV:
                 if (gameController.getTurnController().isGameActionDone()) {
-                    connectedClients.get(nickname).sendInvalidActionMessage();
                     return false;
                 }
                 return true;
@@ -47,7 +47,6 @@ public class InputChecker {
                 }
                 return false;
             case PLACE_RESOURCE_WAREHOUSE:
-            case PLACE_RESOURCE_WHEREVER:
                 int[] id = gson.fromJson(message.getPayload(), int[].class);
                 if (id.length == gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedResources().size()) {
                     return true;
@@ -76,12 +75,26 @@ public class InputChecker {
                 return false;
             case ACTIVATE_PRODUCTION:
                 int[] cards = gson.fromJson(message.getPayload(), int[].class);
-                if (checkIdDev(cards)) return true;
+                if (checkIdDev(cards)&&(checkResources(cards))) return true;
                 return false;
             case EXTRA_PRODUCTION:
-                int[] powers = gson.fromJson(message.getPayload(), int[].class);
-                if (checkIdExtraProduction(powers)) return true;
+                String[] command = gson.fromJson(message.getPayload(),String[].class);
+                int id1 = Integer.parseInt(command[0]);
+                Resource resource = new Resource(ResourceType.valueOf(command[1]));
+                ArrayList<Resource> resources = new ArrayList<>();
+                resources.add(resource);
+                if (checkIdExtraProduction(new int []{id1}) && (checkResources(resources))) return true;
                 return false;
+            case BASE_PRODUCTION:
+                command = gson.fromJson(message.getPayload(),String[].class);
+                Resource res1 = new Resource(ResourceType.valueOf(command[0]));
+                Resource res2 = new Resource(ResourceType.valueOf(command[1]));
+                ArrayList<Resource> resources1 = new ArrayList<>();
+                resources1.add(res1);
+                resources1.add(res2);
+                if(checkResources(resources1)) return true;
+                return false;
+
             case ACTIVATE_LEADER_CARD:
                 int l = gson.fromJson(message.getPayload(), int.class);
                 if (checkLeaderCard(l)) return true;
@@ -98,6 +111,20 @@ public class InputChecker {
             default:
                 return true;
         }
+    }
+
+    private boolean checkResources(ArrayList<Resource> resource) {
+        ArrayList<Resource> price = gameController.getVirtualView(game.getCurrentPlayer().getNickName()).getResourcesToPay();
+        price.addAll(resource);
+        if(game.getCurrentPlayer().getPlayerBoard().getResources().isEmpty())return false;
+        ArrayList<Resource> wallet = game.getCurrentPlayer().getPlayerBoard().getResources();
+
+        while(!wallet.isEmpty() && wallet.contains(price.get(0))){
+            wallet.remove(price.get(0));
+            price.remove(0);
+        }
+        if(!price.isEmpty()) return false;
+        return true;
     }
 
     /**
@@ -120,6 +147,7 @@ public class InputChecker {
         Map<Integer, Long> couterMap = depotIds.stream().collect(Collectors.groupingBy(p -> p.intValue(), Collectors.counting()));
         for (int j : couterMap.keySet()) {
             if (j != -1) {
+                if(!checkIdDepot(j))return false;
                 if (game.getCurrentPlayer().getDepotById(j).getDepot().size() < couterMap.get(j)) {
                     return false;
                 } else {
@@ -229,7 +257,7 @@ public class InputChecker {
      * @return true if he owns it
      */
     public boolean checkIdDepot(int id){
-        if((id == 1)||(id == 2)||(id == 3)) return true;
+        if((id == 1)||(id == 2)||(id == 3)||(id == -1)) return true;
         for(int j = 0 ; j < game.getCurrentPlayer().getPlayerBoard().getExtraDepots().size(); j ++){
             if(game.getCurrentPlayer().getPlayerBoard().getExtraDepots().get(j).getId() == id){
                 return true;
@@ -301,5 +329,26 @@ public class InputChecker {
                 return false;
             }
         return true;
+    }
+
+    public boolean checkResources(int[] cards){
+        ArrayList<Resource> price = gameController.getVirtualView(game.getCurrentPlayer().getNickName()).getResourcesToPay();
+        for(int id: cards){
+            for(DevelopmentCard developmentCard: game.getCurrentPlayer().getPlayerBoard().getDevelopmentCards()){
+                if(developmentCard.getId() == id){
+                    price.addAll(developmentCard.getProductionPower().getEntryResources());
+                }
+            }
+        }
+        if(game.getCurrentPlayer().getPlayerBoard().getResources().isEmpty())return false;
+        ArrayList<Resource> wallet = game.getCurrentPlayer().getPlayerBoard().getResources();
+
+        while(!wallet.isEmpty() && wallet.contains(price.get(0))){
+            wallet.remove(price.get(0));
+            price.remove(0);
+        }
+        if(!price.isEmpty()) return false;
+        return true;
+
     }
 }
