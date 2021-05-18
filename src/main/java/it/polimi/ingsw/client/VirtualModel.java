@@ -46,12 +46,7 @@ public class VirtualModel {
     public static void main(String[] args) throws JsonFileNotFoundException {
         VirtualModel virtualModel = new VirtualModel();
         virtualModel.initialize();
-        virtualModel.showFaithTrack();
-        virtualModel.showWarewouse();
-        virtualModel.showStrongbox();
-        virtualModel.showPlayerDevCards();
         virtualModel.showDevCards();
-        virtualModel.showLeaderCards();
 
 
     }
@@ -161,25 +156,20 @@ public class VirtualModel {
 
     /**displays development Cards on the board */
     public void showDevCards() {
-        for (int i = 0; i < MARKET_ROWS; i++) {
-            for (int j = 0; j < MARKET_COLS ; j++) {
-                DummyDev card = boardDevCard[i][j];
-                String cards =  showDevColor(i,j) 
-                                + "┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐\n"
-                                + " CardID: "
-                                + card.getId()
-                                + "\n Color:"
-                                + card.getColor()
-                                + "\n Level:"
-                                + card.getLevel()
-                                + "\n Production Power: "
-                                + card.getProductionPower() + "\n"
-                                + "└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘"
-                                + ANSI_RESET;
+        for (int i = 0; i < DEV_ROWS; i++) {
+                String cards = showDevColor(i,0) +
+                                "┌─────────────────────────────────────────────────────────────────────┐ " + showDevColor(i,1) +"┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐  "+ showDevColor(i,2)+"┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ \n" + ANSI_RESET
+                                + " CardID: "+  boardDevCard[i][0].getId() + "                                                                    CardID: "+ boardDevCard[i][1].getId() +"                                                                                                 CardID: "+ boardDevCard[i][2].getId()
+                                + "\n Color:"+  boardDevCard[i][0].getColor() + "                                                                 Color:" + boardDevCard[i][1].getColor()+ "                                                                                               Color:" + boardDevCard[i][2].getColor()
+                                + "\n Level:"+ boardDevCard[i][0].getLevel() +"\n Level:"+ boardDevCard[i][1].getLevel()+ boardDevCard[i][1].getLevel()
+
+                                + "\n Production Power: "  + boardDevCard[i][0].getProductionPower()+ "                           Production Power: "  + boardDevCard[i][1].getProductionPower() + "                                                                Production Power: " + boardDevCard[i][2].getProductionPower() + "\n"
+                +showDevColor(i,0)  + "└─────────────────────────────────────────────────────────────────────┘"+ showDevColor(i,1) + "└──────────────────────────────────────────────────────────────────────────────────────────────────────────┘  "+ showDevColor(i,2) + "└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘";
+
                 System.out.println(cards + "\n");
 
             }
-        }
+
     }
 
        /** This method colors the background based on the development card color*/
@@ -187,16 +177,16 @@ public class VirtualModel {
         String card = new String();
         switch (boardDevCard[i][j].getColor()) {
             case ("YELLOW"):
-                 card = ANSI_BG_YELLOW;
+                 card = ANSI_YELLOW;
                 break;
             case ("PURPLE"):
-                card = ANSI_BG_PURPLE;
+                card = ANSI_PURPLE;
                 break;
             case ("BLUE"):
-                card = ANSI_BG_BLUE;
+                card = ANSI_BLUE;
                 break;
             case ("GREEN"):
-                card = ANSI_BG_GREEN;
+                card = ANSI_GREEN;
                 break;
         }
         return card;
