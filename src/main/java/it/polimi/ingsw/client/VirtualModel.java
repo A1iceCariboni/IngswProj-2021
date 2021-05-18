@@ -46,11 +46,10 @@ public class VirtualModel {
     public static void main(String[] args) throws JsonFileNotFoundException {
         VirtualModel virtualModel = new VirtualModel();
         virtualModel.initialize();
-        virtualModel.showDevCards();
+        virtualModel.showPlayerDevCards();
 
 
     }
-
 
     //TODO DA CANCELLARE, SOLO PER TESTARE CLI
     public void initialize() throws JsonFileNotFoundException {
@@ -194,20 +193,22 @@ public class VirtualModel {
 
 
     public void showPlayerDevCards(){
-         for (int i = 0; i < playerBoard.getDevSections().length; i++) {
-             DummyDev devCards= playerBoard.getDevSections()[i];
-              String cards =   showDevColor(i,0)
-                     + "┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐\n"
-                     + " CardID: "
-                     + devCards.getId()
-                     + "\n Color:"
-                     + devCards.getColor()
-                     + "\n Level:"
-                     + devCards.getLevel()
-                     + "\n Production Power: "
-                     + devCards.getProductionPower() + "\n"
-                     + "└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘"
-                     + ANSI_RESET;
+        String cards = new String();
+         for (int j = 0; j < 3; j++) {
+             if(playerBoard.getDevSections()!= null){
+                 cards = showDevColor(0, j)
+                         + "┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐\n"
+                         + " CardID: "
+                         + playerBoard.getDevSections()[j].getId()
+                         + "\n Color:"
+                         + playerBoard.getDevSections()[j].getColor()
+                         + "\n Level:"
+                         + playerBoard.getDevSections()[j].getLevel()
+                         + "\n Production Power: "
+                         + playerBoard.getDevSections()[j].getProductionPower() + "\n"
+                         + "└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘"
+                         + ANSI_RESET;
+             }
              System.out.println(cards + "\n");
          }
 
