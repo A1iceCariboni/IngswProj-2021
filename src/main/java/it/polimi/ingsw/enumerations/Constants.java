@@ -43,8 +43,6 @@ public class Constants {
     public static final String ANSI_BG_YELLOW = "\u001B[43m";
 
     public static int DEV_SLOTS = 3;
-    public static int DEV_ROWS = 4;
-    public static int DEV_COLS = 3;
     public static final String RES = 	"█";
     public static final String COIN = 	ANSI_YELLOW + "█" + ANSI_RESET;
     public static final String MARBLE = "●";

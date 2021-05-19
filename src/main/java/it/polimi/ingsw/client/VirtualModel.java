@@ -46,10 +46,13 @@ public class VirtualModel {
     public static void main(String[] args) throws JsonFileNotFoundException {
         VirtualModel virtualModel = new VirtualModel();
         virtualModel.initialize();
-        virtualModel.showDevCards();
+        virtualModel.showWarewouse();
+        virtualModel.showBoard();
 
 
     }
+
+    public void showDevCards(){}
 
     //TODO DA CANCELLARE, SOLO PER TESTARE CLI
     public void initialize() throws JsonFileNotFoundException {
@@ -153,22 +156,6 @@ public class VirtualModel {
         }
     }
 
-    /**displays development Cards on the board */
-    public void showDevCards() {
-        for (int i = 0; i < rows; i++) {
-                String cards = showDevColor(i,0) +
-                                " ┌─────────────────────────────────────────────────────────────────────────────┐ " + showDevColor(i,1) +"┌─────────────────────────────────────────────────────────────────────────────────────────────────────────┐  "+ showDevColor(i,2)+"┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐ "+ showDevColor(i,3)+ " ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐\n" +ANSI_RESET
-                                + " CardID: "+  boardDevCard[i][0].getId() + "                                                                         CardID: "+ boardDevCard[i][1].getId() +"                                                                                                    CardID: "+ boardDevCard[i][2].getId() +"                                                                                                                                 CardID: "+ boardDevCard[i][3].getId()
-                                + "\n Color:"+  boardDevCard[i][0].getColor() + "                                                                       Color:" + boardDevCard[i][1].getColor()+ "                                                                                                 Color:" + boardDevCard[i][2].getColor()+ "                                                                                                                                Color:" + boardDevCard[i][3].getColor()
-                                + "\n Level:"+ boardDevCard[i][0].getLevel() +"                                                                           Level:"+ boardDevCard[i][1].getLevel()+ boardDevCard[i][1].getLevel()+ "                                                                                                     Level:"+ boardDevCard[i][2].getLevel() + "                                                                                                                                   Level:"+ boardDevCard[i][3].getLevel()
-                                + "\n Production Power: "  + boardDevCard[i][0].getProductionPower()+ "                                    Production Power: "  + boardDevCard[i][1].getProductionPower() + "                                                                   Production Power: " + boardDevCard[i][2].getProductionPower() +  "                                                                                        Production Power: " + boardDevCard[i][3].getProductionPower() + "\n"
-                +showDevColor(i,0)  + " └─────────────────────────────────────────────────────────────────────────────┘ "+ showDevColor(i,1) + "└──────────────────────────────────────────────────────────────────────────────────────────────────────────┘  "+ showDevColor(i,2) + "└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘ "+ showDevColor(i,3) + "└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘";
-
-                System.out.println(cards + "\n");
-
-            }
-
-    }
 
        /** This method colors the background based on the development card color*/
     public String showDevColor(int i, int j){
@@ -191,10 +178,12 @@ public class VirtualModel {
     }
 
 
+
+
     public void showPlayerDevCards(){
         String cards = new String();
          for (int j = 0; j < 3; j++) {
-             if(playerBoard.getDevSections()!= null){
+             if(playerBoard.getDevSections()[j]!= null){
                  cards = showDevColor(0, j)
                          + "┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐\n"
                          + " CardID: "
@@ -299,10 +288,13 @@ public class VirtualModel {
 
         String track2 = "    │└─────┘  └─────┘│\n" +
                 "     └────────────────┘\n";
-        if (playerBoard.getWareHouse().getExtraDepot1().getId() != -1)
+        if (playerBoard.getWareHouse().getExtraDepot1().getId() != -1){
             System.out.println(track1 + E1 + track2);
-        if (playerBoard.getWareHouse().getExtraDepot2().getId() != -1)
+            System.out.println("This extra Depot can only contain "+ playerBoard.getWareHouse().getExtraDepot1().getResourceType() + " resources ");}
+        if (playerBoard.getWareHouse().getExtraDepot2().getId() != -1){
             System.out.println(track1 + E2 + track2);
+            System.out.println("This extra Depot can only contain "+ playerBoard.getWareHouse().getExtraDepot2().getResourceType() + " resources ");}
+
     }
 
 
@@ -557,6 +549,98 @@ public class VirtualModel {
         }
         System.out.println("\n");
     }
+
+
+    public void showBoard() {
+        StringBuilder r1 = new StringBuilder();
+        StringBuilder r2 = new StringBuilder();
+        StringBuilder r3 = new StringBuilder();
+        r1.append(" ");
+        r1.append("││  " + ANSI_BG_GREEN + 1 + ANSI_RESET + "  ││  " + ANSI_BG_BLUE+ 2 +ANSI_RESET + "  ││  " +ANSI_BG_YELLOW + 3 + ANSI_RESET +  "  ││  " + ANSI_BG_PURPLE+  4 + ANSI_RESET+ "  ││\n ");
+
+        r2.append(" ");
+        r2.append("││  " + ANSI_BG_GREEN + 5 + ANSI_RESET+ "  ││  " + ANSI_BG_BLUE+ 6 +ANSI_RESET + "  ││  " + ANSI_BG_YELLOW + 7 + ANSI_RESET + "  ││  " + ANSI_BG_PURPLE + 8 + ANSI_RESET + "  ││\n ");
+        r3.append(" ");
+        r3.append("││  " + ANSI_BG_GREEN + 9 + ANSI_RESET+ "  ││  " + ANSI_BG_BLUE+ 10 +ANSI_RESET + " ││  " + ANSI_BG_YELLOW + 11 + ANSI_RESET + " ││ " + ANSI_BG_PURPLE+  12 + ANSI_RESET + "  ││ \n ");
+        r1.toString();
+        r2.toString();
+        r3.toString();
+
+
+        String x = " ┌────────────────────────────┐\n" +
+                " │┌─────┐┌─────┐┌─────┐┌─────┐│\n";
+
+        String y = "│└─────┘└─────┘└─────┘└─────┘│\n";
+
+        String z = " │┌─────┐┌─────┐┌─────┐┌─────┐│\n";
+
+        String w = "│└─────┘└─────┘└─────┘└─────┘│\n" +
+                " │┌─────┐┌─────┐┌─────┐┌─────┐│\n";
+
+        String h = "│└─────┘└─────┘└─────┘└─────┘│\n" +
+                " └────────────────────────────┘\n";
+        System.out.println(x + r1 + y + z + r2 + w + r3 + h);
+
+    }
+
+
+
+
+    /**This method prints a dummy dev from the board based on the number chosen*/
+    public void  showDev(int num) {
+       DummyDev card = null;
+        switch (num) {
+            case (1):
+                card = boardDevCard[0][0];
+                break;
+            case (2):
+                card = boardDevCard[0][1];
+                break;
+            case (3):
+                card = boardDevCard[0][2];
+                break;
+            case (4):
+                card = boardDevCard[0][3];
+                break;
+            case (5):
+                card = boardDevCard[1][0];
+                break;
+            case (6):
+                card = boardDevCard[1][1];
+                break;
+            case (7):
+                card = boardDevCard[1][2];
+                break;
+            case (8):
+                card = boardDevCard[1][3];
+                break;
+            case (9):
+                card = boardDevCard[2][0];
+                break;
+            case (10):
+                card = boardDevCard[2][1];
+                break;
+            case (11):
+                card = boardDevCard[2][2];
+                break;
+            case (12):
+                card = boardDevCard[2][3];
+                break;
+
+
+        }
+        String cards = " CardID: " + card.getId()
+                + "\n Color:" + card.getColor()
+                + "\n Level:" + card.getLevel()
+                + "\n Production Power:" + card.getProductionPower();
+
+        System.out.println(cards + "\n");
+    }
+
+
+
+
+
 
 
 }

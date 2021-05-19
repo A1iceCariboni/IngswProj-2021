@@ -268,14 +268,14 @@ public class Cli extends CliObservable {
         virtualModel.showDevCards();
         int r = 0;
         try {
-            r = readInt(Constants.DEV_ROWS, 0, "Which is the row of the card you want to buy? [1/2/3/4]");
+            r = readInt(Constants.rows, 0, "Which is the row of the card you want to buy? [1/2/3/4]");
         } catch (ExecutionException e) {
             System.out.println(STR_INPUT_CANCELED);
         }
 
         int c = 0;
         try {
-            c = readInt(Constants.DEV_COLS, 0, "Which is the column of the card you want to buy? [1/2/3]");
+            c = readInt(Constants.cols, 0, "Which is the column of the card you want to buy? [1/2/3]");
         } catch (ExecutionException e) {
             System.out.println(STR_INPUT_CANCELED);
         }
