@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 
     public class Depot {
-        private int id;
+        protected int id;
         protected int dimension;
         protected ArrayList<Resource> resources;
 
@@ -76,11 +76,11 @@ import java.util.Objects;
         }
 
 
-        public Resource getType(){
+        public ResourceType getType(){
             if(this.isEmpty()){
-                return new Resource(ResourceType.NONE);
+                return ResourceType.NONE;
             }
-            return this.resources.get(0);
+            return this.resources.get(0).getResourceType();
         }
 
     @Override
@@ -98,6 +98,14 @@ import java.util.Objects;
 
     public int getId() {
         return id;
+    }
+
+    public DummyDepot getDummy(){
+            ArrayList<String> res = new ArrayList<>();
+            for(Resource r: resources){
+                res.add(r.getResourceType().name());
+            }
+            return new DummyDepot(id, dimension, res);
     }
 
     /**

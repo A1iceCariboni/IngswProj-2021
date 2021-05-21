@@ -30,14 +30,11 @@ import java.util.Arrays;
 
 public class VirtualModel {
     private DummyPlayerBoard playerBoard;
-    private DummyDepot depot;
     private ArrayList<DummyLeaderCard> leaderCards;
     private DummyDev[][] boardDevCard;
     private DummyMarket dummyMarket;
-    private DummyFaithTrack faithTrack;
 
     public VirtualModel() {
-        faithTrack = new DummyFaithTrack();
         playerBoard = new DummyPlayerBoard();
         leaderCards = new ArrayList<>();
         boardDevCard = new DummyDev[Constants.rows][Constants.cols];
@@ -46,13 +43,10 @@ public class VirtualModel {
     public static void main(String[] args) throws JsonFileNotFoundException {
         VirtualModel virtualModel = new VirtualModel();
         virtualModel.initialize();
-        virtualModel.showWarewouse();
         virtualModel.showBoard();
 
 
     }
-
-    public void showDevCards(){}
 
     //TODO DA CANCELLARE, SOLO PER TESTARE CLI
     public void initialize() throws JsonFileNotFoundException {
@@ -111,11 +105,6 @@ public class VirtualModel {
         ArrayList<String> resources = new ArrayList<>();
         resources.add("COIN");
         resources.add("SERVANT");
-        DummyExtraProduction[] dummyExtraProduction = new DummyExtraProduction[]{new DummyExtraProduction(resources, 1)};
-        this.playerBoard.setExtraProduction(dummyExtraProduction);
-        this.playerBoard.setWhiteMarblePower(resources);
-        resources.add("SHIELD");
-        this.playerBoard.setDiscountedResources(resources);
         resources.add("SHIELD");
         resources.add("SHIELD");
         this.playerBoard.setStrongBox(new DummyStrongbox(resources));

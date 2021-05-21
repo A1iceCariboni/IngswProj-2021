@@ -91,34 +91,18 @@ public class PlayerBoardTest {
     }
 
 
-    /**
-     * checks if extra depot can be added to player board
-     */
-    @Test
-    public void addExtraDepot()  {
 
-        Resource r1 = new Resource(SERVANT);
-        w= new WareHouse();
-        s = new StrongBox();
-        ExtraDepot e1 = new ExtraDepot(2,1, r1);
-        p = new PlayerBoard(w,s);
-        p.addExtraDepot(e1);
-        assertEquals(p.getExtraDepots().size(),1);
-        p.addExtraDepot(e1);
-        assertEquals(p.getExtraDepots().size(), 2);
-    }
     @Test
     public void addResourceToExtraDepot() throws NotPossibleToAdd {
         PlayerBoard p = new PlayerBoard(new WareHouse(),new StrongBox());
-        ExtraDepot e1 = new ExtraDepot(2, 1,new Resource(SERVANT));
-        ExtraDepot e2 = new ExtraDepot(2,1, new Resource(SHIELD));
-        assertTrue(p.getExtraDepots().isEmpty());
-        p.addExtraDepot(e1);
-        p.addExtraDepot(e2);
+        ExtraDepot e1 = new ExtraDepot(2, 3,(SERVANT));
+        ExtraDepot e2 = new ExtraDepot(2,4, (SHIELD));
+        p.getWareHouse().setExtraDepot(e1);
+        p.getWareHouse().setExtraDepot(e2);
         assertFalse(e1.equals(e2));
-        p.addToExtraDepot(new Resource(SERVANT),e1);
-        assertEquals(p.getExtraDepots().get(0).getDepot().size(),1);
-        assertThrows(NotPossibleToAdd.class, () -> p.addToExtraDepot(new Resource(COIN),e1));
+        p.getWareHouse().addRestoDepot(new Resource(SERVANT),e1);
+        assertEquals(p.getWareHouse().getDepots().get(3).getDepot().size(),1);
+        assertThrows(NotPossibleToAdd.class, () -> p.getWareHouse().addRestoDepot(new Resource(COIN),e1));
     }
 
     /**

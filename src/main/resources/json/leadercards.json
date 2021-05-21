@@ -302,7 +302,6 @@
     "leaderEffect": {
       "name": "EXTRA_PRODUCTION_POWER",
       "id": 4,
-
       "resourceType": "STONE",
       "quantity": 1
     },

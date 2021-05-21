@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.MultiGameController;
@@ -125,7 +126,7 @@ public class Server {
     }
 
 
-    public void onMessageReceived(Message message, ClientHandler clientHandler) {
+    public void onMessageReceived(Message message, ClientHandler clientHandler) throws JsonProcessingException {
         if(clients.get(clientHandler) == null){
             System.out.println("Register first, please");
             clientHandler.disconnect();

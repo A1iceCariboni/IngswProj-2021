@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.DummyModel;
 
 import it.polimi.ingsw.enumerations.Constants;
+import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
+import it.polimi.ingsw.utility.DummyWarehouseConstructor;
 
 import java.util.ArrayList;
 
@@ -14,29 +16,20 @@ public class DummyPlayerBoard {
     private DummyFaithTrack faithTrack;
     private int faithMarker;
     private DummyDev[] devSections;
-    private DummyExtraProduction[] extraProduction;
-    private ArrayList<String> whiteMarblePower;
-    private ArrayList<String> discountedResources;
 
-    public DummyExtraProduction[] getExtraProduction() {
-        return extraProduction;
-    }
-
-    public ArrayList<String> getDiscountedResources() {
-        return discountedResources;
-    }
 
     /**
      * simplified playerboard for the client
      */
     public DummyPlayerBoard(){
-        wareHouse = new DummyWareHouse(new DummyDepot(1,1,new ArrayList<>()), new DummyDepot(2,2,new ArrayList<>()), new DummyDepot(3,3,new ArrayList<>()));
+        try {
+            wareHouse = DummyWarehouseConstructor.parseVoid();
+        } catch (JsonFileNotFoundException e) {
+            e.printStackTrace();
+        }
         strongBox = new DummyStrongbox(new ArrayList<>());
         faithMarker = 0;
         devSections = new DummyDev[Constants.DEV_SLOTS];
-        extraProduction = new DummyExtraProduction[2];
-        whiteMarblePower = new ArrayList<>();
-        discountedResources = new ArrayList<>();
 
     }
 
@@ -78,24 +71,12 @@ public class DummyPlayerBoard {
         this.devSections = cards;
     }
 
-    public void setExtraProduction(DummyExtraProduction[] extra){
-        this.extraProduction = extra;
-    }
-
-    public void setWhiteMarblePower(ArrayList<String> whitePowers){
-        this.whiteMarblePower = whitePowers;
-    }
-
-    public ArrayList<String> getWhiteMarblePower(){
-        return this.whiteMarblePower;
-    }
-
-    public void setDiscountedResources(ArrayList<String> discounts){
-        this.discountedResources = discounts;
-    }
-
     public void setWareHouse(DummyWareHouse wareHouse) {
-        this.wareHouse = wareHouse;
+        this.wareHouse.setDepot1(wareHouse.getDepot1());
+        this.wareHouse.setDepot2(wareHouse.getDepot2());
+        this.wareHouse.setDepot3(wareHouse.getDepot3());
+        this.wareHouse.setExtraDepot1(wareHouse.getExtraDepot1());
+        this.wareHouse.setExtraDepot2(wareHouse.getExtraDepot2());
     }
 
     public void setFaithMarker(int faithMarker) {

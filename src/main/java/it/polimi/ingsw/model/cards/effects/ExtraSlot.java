@@ -1,16 +1,17 @@
 package it.polimi.ingsw.model.cards.effects;
 
+import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.model.*;
 
 /**
  * this effect is an extra slot in the wharehouse only for resource of type resourceType
  */
 public class ExtraSlot implements LeaderEffect{
-    private final Resource resourceType;
+    private final ResourceType resourceType;
     private final int quantity;
 
 
-    public ExtraSlot(Resource resourceType, int quantity) {
+    public ExtraSlot(ResourceType resourceType, int quantity) {
         this.resourceType = resourceType;
         this.quantity = quantity;
     }
@@ -18,10 +19,10 @@ public class ExtraSlot implements LeaderEffect{
     @Override
     public void applyEffect(Player p, PlayerBoard b) {
         ExtraDepot extraDepot = new ExtraDepot(quantity,b.getIdForDepot(),resourceType);
-        b.addExtraDepot(extraDepot);
+        b.getWareHouse().setExtraDepot(extraDepot);
     }
 
-    public Resource getResourceType() {
+    public ResourceType getResourceType() {
         return resourceType;
     }
 

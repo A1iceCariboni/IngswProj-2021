@@ -41,7 +41,7 @@ public class WareHouseTest {
         wareHouse = new WareHouse();
         depot1 = new Depot( 2,1, res);
         depot2 = new Depot( 3, 1,res2);
-        depot3 = new ExtraDepot(2,1,new Resource(SERVANT));
+        depot3 = new ExtraDepot(2,1,(SERVANT));
         depot3.addResource(new Resource(SERVANT));
         assertTrue(depot1.getDepot().contains(r1));
         assertFalse(depot2.getDepot().contains(r1));

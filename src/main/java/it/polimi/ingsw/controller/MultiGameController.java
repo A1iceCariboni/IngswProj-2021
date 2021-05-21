@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.DummyModel.DummyDev;
 import it.polimi.ingsw.client.DummyModel.DummyLeaderCard;
@@ -46,7 +47,6 @@ public class MultiGameController extends GameController {
             sendUpdateMarketDev();
             sendUpdateFaithTrack();
             sendUpdateMarketTray();
-
             ArrayList<String> nickNames = new ArrayList<>();
             ArrayList<Player> players = game.getPlayers();
             for (Player player : players) {
@@ -67,7 +67,7 @@ public class MultiGameController extends GameController {
             getVirtualViewByNickname(turnController.getActivePlayer()).update(new Message(MessageType.NOTIFY_TURN,""));
 
             sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's " + turnController.getActivePlayer() + "'s turn, wait for your turn!"), getVirtualViewByNickname(turnController.getActivePlayer()));
-        } catch (JsonFileNotFoundException ex) {
+        } catch (JsonFileNotFoundException e) {
             sendAll(new ErrorMessage("I've had trouble instantiating the game, sorry..."));
         }
     }

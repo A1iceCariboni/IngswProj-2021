@@ -1,50 +1,40 @@
 package it.polimi.ingsw.CLI;
 
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonToken;
 import it.polimi.ingsw.client.DummyModel.*;
-import it.polimi.ingsw.client.ReadInput;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.enumerations.Constants;
-import it.polimi.ingsw.enumerations.GamePhase;
 import it.polimi.ingsw.enumerations.TurnPhase;
+import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.request.NumberOfPlayerReply;
 import it.polimi.ingsw.messages.request.SetupMessage;
 import it.polimi.ingsw.observers.CliObservable;
+import it.polimi.ingsw.utility.DummyWarehouseConstructor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
 
-//TODO add the method checkResponse() in all the other method that need it
 
 /**
- * @author Sofia Canestraci
+ * @author Sofia Canestraci, Alice Cariboni
  * class that implements the method to answer to the server message in the client controller
  */
 public class Cli extends CliObservable {
-    private VirtualModel virtualModel = new VirtualModel();
+    private final VirtualModel virtualModel = new VirtualModel();
     Gson gson = new Gson();
-    private ExecutorService inputRead ;
-    private static final String STR_INPUT_CANCELED = "User input canceled.";
     private TurnPhase turnPhase;
 
-    public Cli(){
-        this.inputRead = Executors.newSingleThreadExecutor();
+    public Cli() {
     }
 
-    public VirtualModel getVirtualModel(){
+    public VirtualModel getVirtualModel() {
         return virtualModel;
     }
 
-    public void start(){
+    public void start() {
         /*System.out.println(">Insert the server IP address");
         System.out.print(">");
         String ip = input.nextLine();
@@ -61,31 +51,15 @@ public class Cli extends CliObservable {
      * Reads a line from the standard input.
      *
      * @return the string read from the input.
-     * @throws ExecutionException if the input stream thread is interrupted.
      */
-    public String readLine() throws ExecutionException {
-        FutureTask<String> futureTask = new FutureTask<>(new ReadInput());
-        inputRead.submit(futureTask);
-
-        String input = null;
-
-        try {
-            input = futureTask.get();
-        } catch (InterruptedException e) {
-            futureTask.cancel(true);
-            Thread.currentThread().interrupt();
-        }
-        return input;
+    public String readLine() {
+        Scanner in = new Scanner(System.in);
+        return in.nextLine();
     }
 
     public void askNickname()  {
         System.out.println("Insert your nickname >");
-        String nickname = null;
-        try {
-            nickname = readLine();
-        } catch (ExecutionException e) {
-            System.out.println(STR_INPUT_CANCELED);
-        }
+        String nickname = readLine();
         SetupMessage setupMessage = new SetupMessage(nickname);
         notifyObserver(obs -> obs.onUpdateNickname(setupMessage));
     }
@@ -94,11 +68,7 @@ public class Cli extends CliObservable {
         boolean ok = false;
         int number = 0;
         while(!ok) {
-            try {
                 number = Integer.parseInt(readLine());
-            } catch (ExecutionException e) {
-                System.out.println(STR_INPUT_CANCELED);
-            }
             if(number >= Constants.MIN_NUMBER_OF_PLAYERS && number <= Constants.MAX_NUMBER_OF_PLAYERS){
                 ok = true;
             }
@@ -150,8 +120,12 @@ public class Cli extends CliObservable {
         chooseAction();
     }
 
+    public void wareHouseNew(DummyWareHouse dummyWareHouse){
+        virtualModel.getPlayerBoard().setWareHouse(dummyWareHouse);
+    }
 
     public void chooseAction() {
+        System.out.println(gson.toJson(virtualModel.getPlayerBoard().getWareHouse()));
         turnPhase = TurnPhase.FREE;
         System.out.println("If it's your first round you can:");
         System.out.println("1. Discard a leader card");
@@ -161,75 +135,90 @@ public class Cli extends CliObservable {
         System.out.println("4. Buy a development card");
         System.out.println("5. Take resources from the market");
         System.out.println("6. Rearrange the warehouse");
-        System.out.println("7. Discard some resources");
+        System.out.println("7. Discard a resource");
         System.out.println("8. End your turn");
-        int choice = 0;
-        try {
-            choice = readInt(8, 1, "What you want to do? Choose a number");
-        } catch (ExecutionException e) {
-            System.out.println(STR_INPUT_CANCELED);
-        }
+        int  choice = readInt(8, 1, "What you want to do? Choose a number");
         switch (choice) {
-            case 1:
-                discardLeader();
-                break;
-            case 8:
-                notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.END_TURN,"")));
-                break;
-            case 2:
+            case 1 -> discardLeader();
+            case 2 -> {
                 turnPhase = TurnPhase.ACTIVATE_PRODUCTION;
-
                 activateProduction(new String[0]);
-                break;
-            case 4:
+            }
+            case 3 -> activateLeader();
+            case 4 -> {
                 turnPhase = TurnPhase.BUY_DEV;
                 buyDevelopmentCard();
-                break;
-               /* case 2:
-                    takeResourcesFromMarket();
-                    break;
-                case 3:
-                    activateProduction();
-                    do {
-                        System.out.println("Do you want to activate the production of another card? (y/n)");
-                        if(input.nextLine() != "y" && input.nextLine() != "n"){
-                            validInput1 = false;
-                            System.out.println("Answer doesn't accepted.\n");
-                        }
-                        else activateProduction();
-                    } while (!validInput1);
-                    break;
-                default:
-                    validInput = false;
-                    System.out.println("Number doesn't accepted.\n");
-                    break;
-            }*/
-
+            }
+            case 5 -> {
+                turnPhase = TurnPhase.BUY_MARKET;
+                takeResourcesFromMarket();
+            }
+            case 6 -> modifyWarehouse();
+            case 7 -> discardResource();
+            case 8 -> {
+                turnPhase = TurnPhase.NOT_YOUR_TURN;
+                notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.END_TURN, "")));
+            }
         }
     }
 
-    public void discardLeader(){
-        virtualModel.showLeaderCards();
+    private void discardResource() {
+        virtualModel.showWarewouse();
+            System.out.println("From which depot you want to discard the resource?");
+            int id = readDepotId();
+            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.REMOVE_RESOURCES, gson.toJson(id))));
+    }
+
+    private void modifyWarehouse()  {
         try{
+        virtualModel.showWarewouse();
+        DummyWareHouse dummyWareHouse = DummyWarehouseConstructor.parseVoid();
+        DummyExtraDepot dummyExtraDepot1 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1();
+        if(dummyExtraDepot1.getId() != -1){
+            dummyWareHouse.setExtraDepot1(new DummyExtraDepot(dummyExtraDepot1.getId(),dummyExtraDepot1.getDimension(), new ArrayList<>(), dummyExtraDepot1.getResourceType()));
+        }
+        DummyExtraDepot dummyExtraDepot2 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1();
+        if(dummyExtraDepot2.getId() != -1){
+            dummyWareHouse.setExtraDepot2(new DummyExtraDepot(dummyExtraDepot2.getId(),dummyExtraDepot2.getDimension(), new ArrayList<>(), dummyExtraDepot2.getResourceType()));
+        }
+            for(DummyDepot dummyDepot: dummyWareHouse.getDummyDepots()){
+                String answer = "y";
+                if(dummyDepot.getId() != -1) {
+                    ArrayList<String> res = new ArrayList<>();
+                    while((answer.equals("y") && (res.size() < dummyDepot.getDimension()))){
+                            System.out.println("Which resource you want to put in the depot " +dummyDepot.getId());
+                            String resource = readResource();
+                            res.add(resource);
+                            System.out.println("Others?");
+                            answer = readYN();
+                    }
+                    dummyDepot.setResources(res);
+                }
+            }
+            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
+        } catch (JsonFileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void discardLeader() {
+        virtualModel.showLeaderCards();
             int id = readAnyInt("Select one id");
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DISCARD_LEADER, Integer.toString(id))));
-        } catch (ExecutionException e) {
-            System.out.println(STR_INPUT_CANCELED);
-        }
+
     }
 
     /**
      * asks the resources and notifies the server
      */
-    public void chooseResources(int quantity)  {
+    public void chooseResources(int quantity) {
         String[] chosenResources = new String[quantity];
         String resource = null;
-        for(int i=0; i<quantity; i++){
-            try {
+        for (int i = 0; i < quantity; i++) {
                 resource = readResource();
-            } catch (ExecutionException e) {
-                System.out.println(STR_INPUT_CANCELED);
-            }
+
             chosenResources[i] = resource;
         }
         Message message = new Message(MessageType.CHOOSE_RESOURCES, gson.toJson(chosenResources));
@@ -241,21 +230,86 @@ public class Cli extends CliObservable {
      * adds the resources to the dummy warehouse
      * notifies the server about the choice and sends -1 if the resource must be discard
      */
-    public void addResourceToWareHouse(String[] resource){
+    public void addResourceToWareHouse(String[] resource) {
         int[] answer = new int[resource.length];
         virtualModel.showWarewouse();
         int i = 0;
-        try {
-            for(String res : resource) {
+            for (String res : resource) {
                 System.out.println("Resource: " + res);
 
                 answer[i] = readAnyInt("In which depot you want to put it? Type -1 if you want to discard and give 1 faith points to the other players");
                 i++;
             }
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
-        } catch (ExecutionException e) {
-            System.out.println(STR_INPUT_CANCELED);
-        }
+
+
+    }
+
+
+    /**
+     * asks if the player wants to activate a leader card and, in case he answers yes, notifies the server
+     */
+    public void activateLeader() {
+        virtualModel.showLeaderCards();
+            int id = readAnyInt("Type the id of the leader card you want to activate");
+            Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(id));
+            notifyObserver(obs -> obs.onReadyReply(message));
+
+    }
+
+
+
+
+    /**
+     * asks to the player whit which color wants to change the white marbles
+     * shows the possible choices and then notify the server whit the arrays
+     * @param num number of the white marbles
+     */
+    public void askWhiteMarble(int num) {
+        System.out.println("You have to choose the leader effect you want to use for each white marble");
+        virtualModel.showLeaderCards();
+        String[] powers = new String[num];
+            for (int i = 0; i < num; i++) {
+                System.out.println("Choose one of your active powers, type the resource you want from this white marble");
+                String resource = readResource();
+                powers[i] = resource;
+            }
+            Message message = new Message(MessageType.WHITE_MARBLES, gson.toJson(powers));
+            notifyObserver(obs -> obs.onReadyReply(message));
+
+    }
+
+
+
+    /**
+     * method to choose a row or a column of the market
+     */
+    public void takeResourcesFromMarket(){
+        virtualModel.showMarket();
+        String rOc = "";
+        int n = 0;
+        boolean validInput = true;
+            do {
+                System.out.println("Do you want to buy a row(row) or a column(col)?");
+                rOc = readLine();
+                switch (rOc) {
+                    case "row":
+                        n = readInt(3,1, "Which row? [1/2/3]");
+                        break;
+                    case "col":
+                        n = readInt(4,1,"Which column? [1/2/3/4]");
+                        break;
+                    default:
+                        System.out.println("Answer doesn't accepted.\n");
+                        validInput = false;
+                        break;
+                }
+            } while (!validInput);
+            String[] payload = new String[2];
+            payload[0] = (rOc);
+            payload[1] = (Integer.toString(n));
+            Message message = new Message(MessageType.BUY_MARKET, gson.toJson(payload));
+            notifyObserver(obs -> obs.onReadyReply(message));
 
     }
 
@@ -265,20 +319,19 @@ public class Cli extends CliObservable {
      * and in which slot he wants to put the card
      */
     public void buyDevelopmentCard(){
-        virtualModel.showDevCards();
-        int r = 0;
-        try {
-            r = readInt(Constants.rows, 0, "Which is the row of the card you want to buy? [1/2/3/4]");
-        } catch (ExecutionException e) {
-            System.out.println(STR_INPUT_CANCELED);
+        virtualModel.showBoard();
+        String yn = "n";
+        while(yn.equalsIgnoreCase("n")){
+            int n = readInt(12, 1, "Type the number to see the card");
+            virtualModel.showDev(n);
+            System.out.println("Are you done?");
+            yn = readYN();
         }
 
-        int c = 0;
-        try {
-            c = readInt(Constants.cols, 0, "Which is the column of the card you want to buy? [1/2/3]");
-        } catch (ExecutionException e) {
-            System.out.println(STR_INPUT_CANCELED);
-        }
+        int  r = readInt(Constants.rows, 0, "Which is the row of the card you want to buy? [1/2/3/4]");
+
+
+        int c = readInt(Constants.cols, 0, "Which is the column of the card you want to buy? [1/2/3]");
         ArrayList<Integer> payloadDev = new ArrayList<>();
         payloadDev.add(r);
         payloadDev.add(c);
@@ -288,26 +341,21 @@ public class Cli extends CliObservable {
     }
 
     public void activateProduction(String[] toPay){
-     virtualModel.showPlayerDevCards();
-     virtualModel.showLeaderCards();
+     //virtualModel.showPlayerDevCards();
+        virtualModel.showLeaderCards();
         System.out.println("You choose to activate the production, you can: ");
         System.out.println("1. Activate a development card production");
         System.out.println("2. Activate a leader card production(if you have some)");
         System.out.println("3. Activate the basic production (2 x 1)");
         System.out.println("4. Pay to start the production");
-        int choice = 0;
-        try {
-            choice = readInt(4,1,"What do you want to do?");
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+         int choice = readInt(4,1,"What do you want to do?");
+
         switch(choice){
             case 1:
                 ArrayList<Integer> ids = new ArrayList<>();
                 int i = 0;
-                String response = "y";
-                try {
-                    while((i < 3) && (response.equalsIgnoreCase("y"))) {
+                String response = "n";
+                    while((i < 3) && (response.equalsIgnoreCase("n"))) {
                         int id = 0;
                         id = readAnyInt("Type the card's id");
                         ids.add(id);
@@ -317,41 +365,33 @@ public class Cli extends CliObservable {
                     }
                     Message message = new Message(MessageType.ACTIVATE_PRODUCTION, gson.toJson(ids));
                     notifyObserver(obs -> obs.onReadyReply(message));
-                } catch (ExecutionException e) {
-                        System.out.println(STR_INPUT_CANCELED);
-                }
+
                 break;
             case 2:
-                try{
                     int id = readAnyInt("Type the extra production power id");
                     System.out.println("Type the resource you want to produce");
                     String res = readResource();
                     String [] command = new String[2];
                     command[0] = Integer.toString(id);
                     command[1] = res;
-                    Message message = new Message(MessageType.EXTRA_PRODUCTION, gson.toJson(command));
-                    notifyObserver(obs -> obs.onReadyReply(message));
-                } catch (ExecutionException e) {
-                    System.out.println(STR_INPUT_CANCELED);
-                }
+                    Message message1 = new Message(MessageType.EXTRA_PRODUCTION, gson.toJson(command));
+                    notifyObserver(obs -> obs.onReadyReply(message1));
+
                 break;
             case 3:
-                try{
                     System.out.println("Type the first resource you want to pay");
                     String res1 = readResource();
                     System.out.println("Type the second resource you want to pay");
                     String res2 = readResource();
                     System.out.println("Type the resource you want to produce");
                     String res3 = readResource();
-                    String [] command = new String[3];
-                    command[0] = res1;
-                    command[1] = res2;
-                    command[3] = res3;
-                    Message message = new Message(MessageType.BASE_PRODUCTION, gson.toJson(command));
-                    notifyObserver(obs -> obs.onReadyReply(message));
-                } catch (ExecutionException e) {
-                    System.out.println(STR_INPUT_CANCELED);
-                }
+                    String [] command1 = new String[3];
+                    command1[0] = res1;
+                    command1[1] = res2;
+                    command1[3] = res3;
+                    Message message2 = new Message(MessageType.BASE_PRODUCTION, gson.toJson(command1));
+                    notifyObserver(obs -> obs.onReadyReply(message2));
+
                 break;
             case 4:
                 if(toPay.length == 0){
@@ -364,8 +404,8 @@ public class Cli extends CliObservable {
     }
 
 
-    public String readYN() throws ExecutionException {
-        String res = null;
+    public String readYN(){
+        String res ;
       do {
           res = readLine();
           if ((!res.equalsIgnoreCase("y")) && (!res.equalsIgnoreCase("n"))) {
@@ -382,18 +422,14 @@ public class Cli extends CliObservable {
      * @param question question that asks to insert the input
      * @return the correct choosen number
      */
-    public int readInt(int max_value, int min_value, String question) throws ExecutionException {
+    public int readInt(int max_value, int min_value, String question)  {
         int number = min_value - 1;
         do{
-            try {
                 System.out.println(question);
                 number = Integer.parseInt(readLine());
                 if((number < min_value) || (number > max_value)){
                     System.out.println("That's not  a possible choice, try again");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Not a number");
-            }
         }while((number > max_value || number < min_value));
         return number;
     }
@@ -404,7 +440,7 @@ public class Cli extends CliObservable {
      * @return the number given by the player
      * @throws ExecutionException if the input stream thread is interrupted
      */
-    public int readAnyInt(String question) throws ExecutionException {
+    public int readAnyInt(String question) {
         int number = 0;
             try {
                 System.out.println(question);
@@ -416,12 +452,11 @@ public class Cli extends CliObservable {
         return number;
     }
 
-    public String readResource() throws ExecutionException {
-        String res = null;
-
+    public String readResource() {
+        String res;
         do {
             System.out.println("Type the resource name you want : [COIN,SHIELD,SERVANT,STONE]");
-            res = readLine();
+             res = readLine();
             if ((!res.equalsIgnoreCase("coin")) && (!res.equalsIgnoreCase("shield")) && (!res.equalsIgnoreCase("servant")) && (!res.equalsIgnoreCase("stone"))) {
                 System.out.println("Not a resource!");
             }
@@ -453,7 +488,7 @@ public class Cli extends CliObservable {
         int[] ids = new int[resource.length];
         int i = -1;
         System.out.println("You have to pay");
-           try {
+
            for(String res : resource) {
                System.out.println("Resource: " + res);
                int id = readAnyInt("From where do you want to take the resources? Type the depot id or -1 for strongbox");
@@ -461,24 +496,56 @@ public class Cli extends CliObservable {
            }
            Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(ids));
            notifyObserver(obs -> obs.onReadyReply(message));
-           } catch (ExecutionException e) {
-               System.out.println(STR_INPUT_CANCELED);
-           }
+
     }
 
     public void slotChoice() {
         int answer = 0;
             System.out.println("In which slot do you want to put the card? (1/2/3)");
-        try {
             answer = readInt(3, 1, "In which slot do you want to put the card? [1/2/3]");
-        } catch (ExecutionException e) {
-            System.out.println(STR_INPUT_CANCELED);
-        }
-        Message messageSlot = new Message(MessageType.SLOT_CHOICE, gson.toJson(answer - 1));
+            Message messageSlot = new Message(MessageType.SLOT_CHOICE, gson.toJson(answer - 1));
         notifyObserver(obs -> obs.onReadyReply(messageSlot));
+    }
+
+    public int readDepotId(){
+        int id = 0;
+        do{
+                id = readAnyInt("Type the id of the depot");
+                if(!virtualModel.getPlayerBoard().getWareHouse().getIds().contains(id)){
+                    System.out.println("Not a valid id");
+                }
+
+        }while(!virtualModel.getPlayerBoard().getWareHouse().getIds().contains(id));
+        return id;
     }
 
     public TurnPhase getTurnPhase() {
         return turnPhase;
     }
+
+
+    /**
+     * sets the dummy strong box in the virtual model
+     * @param strongBox the new dummy strongbox
+     */
+    public void newDummyStrongBox(DummyStrongbox strongBox){
+        virtualModel.getPlayerBoard().setStrongBox(strongBox);
+    }
+
+
+    /**
+     * adds the development cards in the dummy development section
+     * @param cards
+     */
+    public void addDevCards(DummyDev[] cards){
+        virtualModel.getPlayerBoard().setDevSections(cards);
+    }
+
+    public void waitTurn(){
+        while(turnPhase == TurnPhase.NOT_YOUR_TURN){
+                readLine();
+                System.out.println("Wait it's not your turn");
+        }
+    }
+
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.client.DummyModel.DummyDepot;
+import it.polimi.ingsw.client.DummyModel.DummyExtraDepot;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 
@@ -12,9 +14,9 @@ import java.util.Objects;
 
     public class ExtraDepot extends Depot{
 
-        private Resource type  ;
+        private ResourceType type  ;
 
-        public ExtraDepot(int dimension,int id, Resource type) {
+        public ExtraDepot(int dimension,int id, ResourceType type) {
             super( dimension,id, new ArrayList<>());
 
             this.type = type;
@@ -35,7 +37,7 @@ import java.util.Objects;
 
         @Override
         public boolean possibleToAdd(Resource res){
-            if(super.possibleToAdd(res) && res.getResourceType() == type.getResourceType()){
+            if(super.possibleToAdd(res) && res.getResourceType() == type){
                 return true;
             }
             return false;
@@ -66,7 +68,7 @@ import java.util.Objects;
         }
 
 
-    public Resource getType() {
+    public ResourceType getType() {
         return type;
     }
 
@@ -77,7 +79,13 @@ import java.util.Objects;
         ExtraDepot that = (ExtraDepot) o;
         return dimension == that.dimension && Objects.equals(resources, that.resources) && Objects.equals(type, that.type);
     }
-
+    public DummyExtraDepot getDummy(){
+        ArrayList<String> res = new ArrayList<>();
+        for(Resource r: resources){
+            res.add(r.getResourceType().name());
+        }
+        return new DummyExtraDepot(id, dimension, res, type.name());
+    }
     @Override
     public int hashCode() {
         return Objects.hash(dimension, resources, type);
@@ -85,7 +93,7 @@ import java.util.Objects;
 
     @Override
     public boolean possibleResource(Resource res){
-        if(res.getResourceType() == type.getResourceType()){
+        if(res.getResourceType() == type){
             return true;
         }
         return false;

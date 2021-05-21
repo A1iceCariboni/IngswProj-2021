@@ -181,11 +181,6 @@ public class Player {
                 return depot;
             }
         }
-        for(Depot depot: playerBoard.getExtraDepots()){
-            if(depot.getId() == id){
-                return depot;
-            }
-        }
         return null;
     }
 }

@@ -24,8 +24,8 @@ public class ExtraDepotTest {
 
     @Before
     public void setUp() {
-        extraDepot1 = new ExtraDepot(2,1, new Resource(COIN));
-        extraDepot2 = new ExtraDepot(2,1, new Resource(SERVANT));
+        extraDepot1 = new ExtraDepot(2,1, (COIN));
+        extraDepot2 = new ExtraDepot(2,1, (SERVANT));
 
     }
 
@@ -37,7 +37,7 @@ public class ExtraDepotTest {
     public void getter() {
         ArrayList<Resource> res = new ArrayList<>();
         Resource r1 = new Resource(COIN);
-        extraDepot1 = new ExtraDepot( 2,1,new Resource(COIN));
+        extraDepot1 = new ExtraDepot( 2,1,(COIN));
         extraDepot1.getDepot().add(r1);
         assertTrue(extraDepot1.getDepot().contains(r1));
         assertEquals(extraDepot1.getDimension(), 2);
@@ -52,7 +52,7 @@ public class ExtraDepotTest {
     public void removeRes() {
         ArrayList<Resource> res = new ArrayList<>();
         Resource r1 = new Resource(COIN);
-        extraDepot1 = new ExtraDepot(2,1,new Resource(COIN));
+        extraDepot1 = new ExtraDepot(2,1,(COIN));
         extraDepot1.getDepot().add(r1);
         assertTrue(extraDepot1.getDepot().contains(r1));
         extraDepot1.removeResource(r1);
@@ -68,8 +68,8 @@ public class ExtraDepotTest {
         public void addRes() throws NotPossibleToAdd {
             Resource r1 = new Resource(ResourceType.COIN);
             Resource r2 = new Resource(ResourceType.SERVANT);
-            extraDepot1 = new ExtraDepot( 3,1,new Resource(COIN));
-            extraDepot2 = new ExtraDepot( 3,1,new Resource(SERVANT));
+            extraDepot1 = new ExtraDepot( 3,1,(COIN));
+            extraDepot2 = new ExtraDepot( 3,1,(SERVANT));
             assertEquals(r1.getResourceType(), COIN);
         assertNotEquals(r1.getResourceType(), SERVANT);
             assertThrows(NotPossibleToAdd.class, () -> extraDepot1.addResource(r2));

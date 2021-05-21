@@ -48,7 +48,7 @@ public class LeaderCardParser {
                 JsonArray jsonRequirements = leaderCard.getAsJsonArray("requirements");
                 int id = leaderCard.get("id").getAsInt();
 
-                int quantity;
+                int quantity, id2;
                 String resource;
                 String color;
                 ResourceType resourceType;
@@ -99,8 +99,8 @@ public class LeaderCardParser {
                         resource = jsonLeaderEffect.get("resourceType").getAsString();
                         resourceType = ResourceType.valueOf(resource);
                         quantity = jsonLeaderEffect.get("quantity").getAsInt();
-                        id = jsonLeaderEffect.get("id").getAsInt();
-                        leaderEffect = new ExtraProductionPower(new Resource(resourceType),quantity,id);
+                        id2 = jsonLeaderEffect.get("id").getAsInt();
+                        leaderEffect = new ExtraProductionPower(new Resource(resourceType),quantity,id2);
                         leaderCards.add(new LeaderCard(id,leaderEffect,victoryPoints,requirements));
 
                         break;
@@ -108,7 +108,7 @@ public class LeaderCardParser {
                         resource = jsonLeaderEffect.get("resourceType").getAsString();
                         resourceType = ResourceType.valueOf(resource);
                         quantity = jsonLeaderEffect.get("quantity").getAsInt();
-                        leaderEffect = new ExtraSlot(new Resource(resourceType),quantity);
+                        leaderEffect = new ExtraSlot(resourceType,quantity);
                         leaderCards.add(new LeaderCard(id,leaderEffect,victoryPoints,requirements));
 
                         break;

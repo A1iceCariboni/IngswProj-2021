@@ -10,7 +10,6 @@ public enum MessageType {
     DEPOTS,
     DEVELOPMENT_MARKET,
     DISCARD_LEADER,
-    DISCOUNTED_RESOURCES,
     DUMMY_DEVS,
     DUMMY_LEADER_CARD,
     DUMMY_STRONGBOX,
@@ -33,7 +32,6 @@ public enum MessageType {
     SETUP,
     SLOT_CHOICE,
     WHITE_MARBLES,
-    WHITE_MARBLES_POWERS,
     WINNER,
     PONG
 

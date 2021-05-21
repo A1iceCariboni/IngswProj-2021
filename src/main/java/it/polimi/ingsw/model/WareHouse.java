@@ -1,6 +1,15 @@
 package it.polimi.ingsw.model;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import it.polimi.ingsw.client.DummyModel.DummyDepot;
+import it.polimi.ingsw.client.DummyModel.DummyExtraDepot;
+import it.polimi.ingsw.client.DummyModel.DummyWareHouse;
+import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 
 /**
@@ -15,6 +24,8 @@ public class WareHouse {
         this.depots.add(new Depot(1,1, new ArrayList<>()));
         this.depots.add(new Depot(2,2, new ArrayList<>()));
         this.depots.add(new Depot(3,3, new ArrayList<>()));
+        this.depots.add(new ExtraDepot(0, -1, ResourceType.NONE));
+        this.depots.add(new ExtraDepot(0, -1, ResourceType.NONE));
     }
 
     /**
@@ -56,7 +67,9 @@ public class WareHouse {
     public ArrayList<Resource> getWarehouse(){
         ArrayList<Resource> res = new ArrayList<>();
         for(Depot d : this.depots){
-            res.addAll(d.getDepot());
+            if(d.getId() != -1) {
+                res.addAll(d.getDepot());
+            }
         }
         return res;
     }
@@ -65,14 +78,45 @@ public class WareHouse {
     /** This method removes the resource to the depot **/
     public void remove(Resource res){
         for(Depot d : this.depots){
-            if(d.getDepot().contains(res)){
-                d.removeResource();
+            if(d.getId() != -1) {
+                if(d.getDepot().contains(res)) {
+                    d.removeResource();
+                }
             }
         }
     }
 
+    public void setExtraDepot(ExtraDepot extraDepot){
+        if(depots.get(3).getId() == -1) {
+            this.depots.set(3, extraDepot);
+        }else{
+            this.depots.set(4,extraDepot);
+        }
+    }
+
+    public ArrayList<Integer> getIds(){
+        ArrayList<Integer> ids = new ArrayList<>();
+        for(Depot depot: depots){
+            if(depot.getId() != -1){
+                ids.add(depot.getId());
+            }
+        }
+        return ids;
+    }
+
+    public DummyWareHouse getDummy(){
+        ArrayList<DummyDepot>  dummyDepots = new ArrayList<>();
+        for(Depot d: depots){
+            dummyDepots.add(d.getDummy());
+        }
+        return new DummyWareHouse(dummyDepots);
+    }
     /** This method adds the resource to the depot **/
     public void addRestoDepot(Resource res, Depot d) throws NotPossibleToAdd {
-          d.addResource(res);
+        if(depots.contains(d)){
+            depots.get(depots.indexOf(d)).addResource(res);
+        }else{
+            throw new NotPossibleToAdd();
+        }
     }
 }

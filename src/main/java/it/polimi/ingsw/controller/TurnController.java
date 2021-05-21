@@ -83,19 +83,10 @@ public class TurnController {
         if(gameController.getPlayers().get(0).equals(activePlayer)){
             changeGamePhase();
         }
-        switch(gameController.getGamePhase()){
-            case FIRST_ROUND:
-                game.nextPlayer();
-                gameController.getVirtualViewByNickname(activePlayer).update(new Message(MessageType.NOTIFY_TURN, ""));
-                gameController.sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's "+activePlayer+" turn, wait!"), gameController.getVirtualView(activePlayer));
-                break;
-            case IN_GAME:
-            case LAST_ROUND:
-                game.nextPlayer();
-                gameController.getVirtualView(activePlayer).update(new Message(MessageType.NOTIFY_TURN, "It's your turn!"));
-                gameController.sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's "+activePlayer+" turn, wait!"), gameController.getVirtualView(activePlayer));
-                break;
-        }
+        game.nextPlayer();
+        gameController.getVirtualViewByNickname(activePlayer).update(new Message(MessageType.NOTIFY_TURN, ""));
+        gameController.sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's "+activePlayer+" turn, wait!"), gameController.getVirtualView(activePlayer));
+        gameController.getVirtualViewByNickname(nickNamesQueue.get(nickNamesQueue.size()-1)).update(new Message(MessageType.END_TURN, ""));
     }
 
 
@@ -107,6 +98,7 @@ public class TurnController {
               case IN_GAME:
                   if(gameController.getGame().checkEndGame()){
                       gameController.setGamePhase(GamePhase.LAST_ROUND);
+                      gameController.sendAll(new Message(MessageType.GENERIC_MESSAGE, "Last round!"));
                   }
                   break;
               case LAST_ROUND:

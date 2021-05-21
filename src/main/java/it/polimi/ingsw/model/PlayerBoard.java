@@ -17,7 +17,6 @@ public class PlayerBoard {
     private ArrayList<DevelopmentCard> coveredDevCards;
     private ArrayList<DevelopmentCard> devCards;
     private int faithMarker;
-    private ArrayList <ExtraDepot> extraDepots ;
     private int depotId = 3;
     private int extraProductionId = 0;
     private ArrayList<Resource> unplacedResources;
@@ -33,7 +32,6 @@ public class PlayerBoard {
         this.coveredDevCards = new ArrayList<>();
         this.devCards = new ArrayList<>();
         this.countDevCards = 0;
-        this.extraDepots = new ArrayList<>();
         this.unplacedResources = new ArrayList<>();
     }
 
@@ -45,11 +43,6 @@ public class PlayerBoard {
         return res;
     }
 
-    public void addExtraDepot(ExtraDepot extraDepot){
-        this.extraDepots.add(extraDepot);
-    }
-
-    public ArrayList<ExtraDepot> getExtraDepots(){return extraDepots;}
 
     public void addToExtraDepot(Resource resource, ExtraDepot extraDepot) throws NotPossibleToAdd {
         extraDepot.addResource(resource);

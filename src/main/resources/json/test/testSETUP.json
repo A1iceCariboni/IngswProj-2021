@@ -5,5 +5,8 @@
   {"code":"DISCARD_LEADER","payload":"1"},
   {"code":"CHOOSE_RESOURCES","payload":"[\"SERVANT\",\"COIN\"]"},
   {"code":"PLACE_RESOURCE_WAREHOUSE","payload":"[1,2]"},
-{"code":"BUY_DEV","payload":"[1,1]"}
+{"code":"BUY_DEV","payload":"[1,1]"},
+  {"code":"EXTRA_PRODUCTION","payload":"[\"4\",\"COIN\"]"},
+  {"code":"BUY_MARKET","payload":"[\"row\",\"1\"]"},
+  {"code":"REMOVE_RESOURCES","payload":"2"}
   ]

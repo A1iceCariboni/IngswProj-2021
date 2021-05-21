@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
 import it.polimi.ingsw.enumerations.MarbleColor;
 import it.polimi.ingsw.enumerations.ResourceType;
@@ -90,7 +91,7 @@ class MultiGameControllerTest {
     }
 
     @Test
-    void putResource() throws NotPossibleToAdd {
+    void putResource() throws NotPossibleToAdd, JsonProcessingException {
     ArrayList<Resource> resources = new ArrayList<>();
     resources.add(new Resource(ResourceType.SHIELD));
     resources.add(new Resource(ResourceType.COIN));
@@ -109,7 +110,7 @@ class MultiGameControllerTest {
 
     }
     @Test
-    void buyCard(){
+    void buyCard() throws JsonProcessingException {
       gameController.turnPhase = TurnPhase.BUY_DEV;
       ArrayList<Resource> res = gameController.getGame().getDeckDevelopment()[0][0].getCard().getCost();
       for(Resource resource: res) {

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.DummyModel;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.polimi.ingsw.model.Resource;
 
 import java.util.ArrayList;
@@ -32,5 +34,11 @@ public class DummyDepot {
     }
 
 
+    public int getDimension() {
+        return dimension;
+    }
 
+    public void setResources(ArrayList<String> resources) {
+        this.resources = resources;
+    }
 }

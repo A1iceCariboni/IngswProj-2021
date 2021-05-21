@@ -10,14 +10,13 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.request.SetupMessage;
 import it.polimi.ingsw.observers.CliObserver;
 import it.polimi.ingsw.observers.Observer;
-
-//TODO  thread per leggere int e stringhe + metodo per aspettare OK O ERROR
+import it.polimi.ingsw.utility.DummyWarehouseConstructor;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+//TODO  thread per leggere int e stringhe + metodo per aspettare OK O ERROR
 
 
 /**
@@ -111,6 +110,8 @@ public class ClientController implements CliObserver,Observer {
 
                 break;
             case GENERIC_MESSAGE:
+            case WINNER:
+            case LOSER:
                 executionQueue.execute(() -> printMessage(message.getPayload()));
                 break;
 
@@ -175,68 +176,37 @@ public class ClientController implements CliObserver,Observer {
                 executionQueue.execute(cli::slotChoice);
                 break;
 
-            /*
-
-
-
-
-
-            case ACTIVATE_LEADER_CARD:
-                int[] dummyLeaderCardsId = gson.fromJson(message.getPayload(), int[].class);
-                cli.activateLeaderCard(dummyLeaderCardsId);
-                break;
-
-
-
-            case FAITH_MOVE:
-                int pos = gson.fromJson(message.getPayload(), int.class);
-                cli.faithMove(pos);//ti dice di quante posizioni ha spostato la pedina
-                break;
-
             case WHITE_MARBLES:
                 int numWhite = gson.fromJson(message.getPayload(), int.class);
-                cli.askWhiteMarble(numWhite);//chiede al player di dire quali poteri white marble vuole usare per ogni white marble, deve dare un array di numeri
-                //e i numeri devono essere lo stesso numero delle white marble pescate che sono nel payload del messaggio
-                //se vuole usare un potere più volte lo deve scrivere più volte
-                //la risposta deve avere lo stesso codice WHITE_MARBLE
+                executionQueue.execute(() -> cli.askWhiteMarble(numWhite));
                 break;
-            case DEPOTS:
-                DummyDepot[] depots = gson.fromJson(message.getPayload(), DummyDepot[].class);
-                cli.allDepots(depots);//contiene un arraylist di tutti i depot, sia extra che non
-                break;
+
             case DUMMY_STRONGBOX:
                 DummyStrongbox dummyStrongbox = gson.fromJson(message.getPayload(), DummyStrongbox.class);
-                cli.newDummyStrongBox(dummyStrongbox);//contiene un dummy strongbox
+                executionQueue.execute(() -> cli.newDummyStrongBox(dummyStrongbox));
                 break;
-            //se il player vuole muovere le risorse (e lo puo fare in qualsiasi momento)
-            // manda un messaggio di tipo depot con tutti i depot che vuole modificare e come li vuole modificare
-            // poi un messaggio di tipo DUMMY_STRONGBOX se vuole modificare anche strongbox e quando è pronto
-            //inivia un messaggio di tipo MOVE_RESOURCES vuoto, tutti i controlli li faccio io ner server
-            case WHITE_MARBLES_POWERS:
-                String[] whiteMarbles = gson.fromJson(message.getPayload(), String[].class);// è UN ARRAY di stringhe che ti dice quali white marbles
-                cli.addWhiteMarblesPower(whiteMarbles);// hai per quando poi devi inviare il messaggio WHITE_MARBLES
-                break;//potrebbe essere vuoto se non ne hai
-            case EXTRA_PRODUCTION:
-                DummyExtraProduction[] extraProd= gson.fromJson(message.getPayload(), DummyExtraProduction[].class);
-                cli.addExtraProduction(extraProd);// è un array di dummy extra production
-                break;//potrebbe essere vuoto se non ne hai
-            case DISCOUNTED_RESOURCES:
-                String[] discounts = gson.fromJson(message.getPayload(), String[].class);
-                cli.addDiscountedResources(discounts);//array di stringhe che dice quali risorse hai scontate
-                break;//potrebbe essere vuoto se non ne hai
+
+
             case DUMMY_DEVS:
                 DummyDev[] devCards = gson.fromJson(message.getPayload(), DummyDev[].class);
-                cli.addDevCards(devCards);
-                break;//è un array delle tue 3 development card sulla playerboard
-            case REMOVE_RESOURCES:
-                cli.removeResources();
-            */
-            default: break;
+                executionQueue.execute(() -> cli.addDevCards(devCards));
+                break;
+
+            case DEPOTS:
+                DummyWareHouse dummyWareHouse = DummyWarehouseConstructor.parse(message.getPayload());
+                executionQueue.execute(() -> cli.wareHouseNew(dummyWareHouse));
+                break;
+
+            case END_TURN:
+                executionQueue.execute(cli::waitTurn);
+                break;
+
+            default:
+                System.out.println("Error reading from server");
+                executionQueue.execute(() -> client.disconnect());
+                break;
 
         }
-
-
-
 
     }
 }

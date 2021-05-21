@@ -54,7 +54,6 @@ public class InputChecker {
                 return false;
             case BUY_MARKET:
                 if (gameController.getTurnController().isGameActionDone()) {
-                    connectedClients.get(nickname).sendInvalidActionMessage();
                     return false;
                 }
                 String[] dim = gson.fromJson(message.getPayload(), String[].class);
@@ -257,12 +256,7 @@ public class InputChecker {
      * @return true if he owns it
      */
     public boolean checkIdDepot(int id){
-        if((id == 1)||(id == 2)||(id == 3)||(id == -1)) return true;
-        for(int j = 0 ; j < game.getCurrentPlayer().getPlayerBoard().getExtraDepots().size(); j ++){
-            if(game.getCurrentPlayer().getPlayerBoard().getExtraDepots().get(j).getId() == id){
-                return true;
-            }
-        }
+        if(game.getCurrentPlayer().getPlayerBoard().getWareHouse().getIds().contains(id))return true;
         return false;
     }
 
