@@ -13,9 +13,12 @@ import it.polimi.ingsw.messages.request.SetupMessage;
 import it.polimi.ingsw.observers.CliObservable;
 import it.polimi.ingsw.utility.DummyWarehouseConstructor;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.*;
 
 
 /**
@@ -26,8 +29,12 @@ public class Cli extends CliObservable {
     private final VirtualModel virtualModel = new VirtualModel();
     Gson gson = new Gson();
     private TurnPhase turnPhase;
+    private ExecutorService input;
+    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
 
     public Cli() {
+        this.input = Executors.newSingleThreadExecutor();
     }
 
     public VirtualModel getVirtualModel() {
@@ -53,8 +60,13 @@ public class Cli extends CliObservable {
      * @return the string read from the input.
      */
     public String readLine() {
-        Scanner in = new Scanner(System.in);
-        return in.nextLine();
+        String in = null;
+        try {
+            in = reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return in;
     }
 
     public void askNickname()  {
@@ -125,7 +137,6 @@ public class Cli extends CliObservable {
     }
 
     public void chooseAction() {
-        System.out.println(gson.toJson(virtualModel.getPlayerBoard().getWareHouse()));
         turnPhase = TurnPhase.FREE;
         System.out.println("If it's your first round you can:");
         System.out.println("1. Discard a leader card");
@@ -139,26 +150,42 @@ public class Cli extends CliObservable {
         System.out.println("8. End your turn");
         int  choice = readInt(8, 1, "What you want to do? Choose a number");
         switch (choice) {
-            case 1 -> discardLeader();
-            case 2 -> {
+            case 1:
+                discardLeader();
+                break;
+            case 2:
                 turnPhase = TurnPhase.ACTIVATE_PRODUCTION;
+
                 activateProduction(new String[0]);
-            }
-            case 3 -> activateLeader();
-            case 4 -> {
+                break;
+
+            case 3:
+                activateLeader();
+                break;
+
+            case 4:
                 turnPhase = TurnPhase.BUY_DEV;
                 buyDevelopmentCard();
-            }
-            case 5 -> {
+                break;
+
+            case 5:
                 turnPhase = TurnPhase.BUY_MARKET;
                 takeResourcesFromMarket();
-            }
-            case 6 -> modifyWarehouse();
-            case 7 -> discardResource();
-            case 8 -> {
+                break;
+
+            case 6:
+                modifyWarehouse();
+                break;
+
+            case 7:
+                discardResource();
+                break;
+
+            case 8:
                 turnPhase = TurnPhase.NOT_YOUR_TURN;
                 notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.END_TURN, "")));
-            }
+                break;
+
         }
     }
 
@@ -307,7 +334,7 @@ public class Cli extends CliObservable {
             } while (!validInput);
             String[] payload = new String[2];
             payload[0] = (rOc);
-            payload[1] = (Integer.toString(n));
+            payload[1] = (Integer.toString(n - 1));
             Message message = new Message(MessageType.BUY_MARKET, gson.toJson(payload));
             notifyObserver(obs -> obs.onReadyReply(message));
 
@@ -543,9 +570,35 @@ public class Cli extends CliObservable {
 
     public void waitTurn(){
         while(turnPhase == TurnPhase.NOT_YOUR_TURN){
-                readLine();
-                System.out.println("Wait it's not your turn");
+               if( readLineWithTimeout() != null){
+                   System.out.println("Wait it's not your turn");
+                }
         }
     }
 
+    public void setTurnPhase(TurnPhase turnPhase) {
+        this.turnPhase = turnPhase;
+    }
+
+    public String readLineWithTimeout() {
+        FutureTask<String> readNextLine = new FutureTask<>(() -> {
+            Scanner scanner = new Scanner(System.in);
+            return scanner.nextLine();
+        });
+        ExecutorService inputToDiscard = Executors.newSingleThreadExecutor();
+        inputToDiscard.submit(readNextLine);
+        String in = null;
+        try{
+            in = readNextLine.get(5000, TimeUnit.MILLISECONDS);
+
+        } catch (ExecutionException | InterruptedException| TimeoutException e) {
+            readNextLine.cancel(true);
+            inputToDiscard.shutdownNow();
+        }
+        return in;
+    }
+
+    public void flushLine(){
+        readLine();
+    }
 }

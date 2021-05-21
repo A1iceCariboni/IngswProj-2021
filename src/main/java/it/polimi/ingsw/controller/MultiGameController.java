@@ -65,6 +65,7 @@ public class MultiGameController extends GameController {
 
             getVirtualViewByNickname(turnController.getActivePlayer()).update(new Message(MessageType.GENERIC_MESSAGE,"You are the first player, discard 2 leader cards from your hand"));
             getVirtualViewByNickname(turnController.getActivePlayer()).update(new Message(MessageType.NOTIFY_TURN,""));
+            sendAllExcept(new Message(MessageType.END_TURN,""),getVirtualView(game.getCurrentPlayer().getNickName()));
 
             sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's " + turnController.getActivePlayer() + "'s turn, wait for your turn!"), getVirtualViewByNickname(turnController.getActivePlayer()));
         } catch (JsonFileNotFoundException e) {

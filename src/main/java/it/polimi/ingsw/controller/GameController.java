@@ -877,7 +877,7 @@ public class GameController {
         }
         sendDummyLead();
 
-        if (gamePhase != GamePhase.FIRST_ROUND) {
+        if (game.getCurrentPlayer().getLeadercards().size() < 2) {
                 game.getCurrentPlayer().getPlayerBoard().moveFaithMarker(1);
                 updateFaith();
             }

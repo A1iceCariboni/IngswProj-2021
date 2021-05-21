@@ -140,6 +140,7 @@ public class ClientController implements CliObserver,Observer {
                 break;
 
             case NOTIFY_TURN:
+                cli.setTurnPhase(TurnPhase.FREE);
                 executionQueue.execute(cli::yourTurn);
                 break;
 
@@ -198,7 +199,7 @@ public class ClientController implements CliObserver,Observer {
                 break;
 
             case END_TURN:
-                executionQueue.execute(cli::waitTurn);
+                //executionQueue.execute(cli::waitTurn);
                 break;
 
             default:
