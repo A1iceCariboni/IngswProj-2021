@@ -111,12 +111,17 @@ public class WareHouse {
         }
         return new DummyWareHouse(dummyDepots);
     }
+
     /** This method adds the resource to the depot **/
     public void addRestoDepot(Resource res, Depot d) throws NotPossibleToAdd {
-        if(depots.contains(d)){
-            depots.get(depots.indexOf(d)).addResource(res);
-        }else{
-            throw new NotPossibleToAdd();
+        for (int i = 0; i < depots.size(); i++) {
+            if (depots.get(i) != depots.get(depots.indexOf(d))) {
+                if (depots.contains(res)) {
+                    throw new NotPossibleToAdd();
+                } else {
+                    depots.get(depots.indexOf(d)).addResource(res);
+                }
+            }
         }
     }
 }
