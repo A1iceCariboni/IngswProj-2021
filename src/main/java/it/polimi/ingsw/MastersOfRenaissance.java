@@ -1,4 +1,6 @@
 package it.polimi.ingsw;
+import it.polimi.ingsw.Gui.GUIRunnable;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -29,7 +31,7 @@ public static void main(String[] args){
         break;
         case 2 :
             System.out.println("You selected the GUI interface, have fun!\nStarting...");
-            GUI.main(null);
+            GUIRunnable.main(args);
         break;
         default: System.err.println("Invalid argument, please run the executable again with one of these options:\n1.server\n2.client");
         break;
