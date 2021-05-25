@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.DummyModel;
 import java.util.ArrayList;
 
 public class DummyWareHouse {
-    private ArrayList<DummyDepot> dummyDepots;
+    private final ArrayList<DummyDepot> dummyDepots;
 
     public DummyWareHouse( ArrayList<DummyDepot> dummyDepots){
       this.dummyDepots = dummyDepots;

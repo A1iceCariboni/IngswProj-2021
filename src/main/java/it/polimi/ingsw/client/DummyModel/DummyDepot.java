@@ -26,11 +26,11 @@ public class DummyDepot {
     }
 
     public ArrayList<String> getResources(){
-        return this.resources;
+        return resources;
     }
 
     public int getId(){
-        return this.id;
+        return id;
     }
 
 

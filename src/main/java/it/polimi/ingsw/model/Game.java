@@ -117,5 +117,10 @@ public class Game {
          return false;
      }
      public ArrayList<Player> getWinners() { return winners;}
+
+
+    public FakePlayer getFakePlayer(){
+         return null;
+    }
 }
 

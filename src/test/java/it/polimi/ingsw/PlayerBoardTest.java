@@ -100,9 +100,9 @@ public class PlayerBoardTest {
         p.getWareHouse().setExtraDepot(e1);
         p.getWareHouse().setExtraDepot(e2);
         assertFalse(e1.equals(e2));
-        p.getWareHouse().addRestoDepot(new Resource(SERVANT),e1);
+        p.getWareHouse().addToDepot(new Resource(SERVANT),e1);
         assertEquals(p.getWareHouse().getDepots().get(3).getDepot().size(),1);
-        assertThrows(NotPossibleToAdd.class, () -> p.getWareHouse().addRestoDepot(new Resource(COIN),e1));
+        assertThrows(NotPossibleToAdd.class, () -> p.getWareHouse().addToDepot(new Resource(COIN),e1));
     }
 
     /**

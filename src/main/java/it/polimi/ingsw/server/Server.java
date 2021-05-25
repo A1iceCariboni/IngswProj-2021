@@ -1,19 +1,12 @@
 package it.polimi.ingsw.server;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.gson.Gson;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.MultiGameController;
 import it.polimi.ingsw.controller.SingleGameController;
-import it.polimi.ingsw.enumerations.ResourceType;
-import it.polimi.ingsw.exceptions.NotPossibleToAdd;
-import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.answer.ErrorMessage;
 import it.polimi.ingsw.messages.answer.NumberOfPlayerRequest;
-import it.polimi.ingsw.messages.answer.OkMessage;
-import it.polimi.ingsw.model.Resource;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -126,7 +119,7 @@ public class Server {
     }
 
 
-    public void onMessageReceived(Message message, ClientHandler clientHandler) throws JsonProcessingException {
+    public void onMessageReceived(Message message, ClientHandler clientHandler) {
         if(clients.get(clientHandler) == null){
             System.out.println("Register first, please");
             clientHandler.disconnect();

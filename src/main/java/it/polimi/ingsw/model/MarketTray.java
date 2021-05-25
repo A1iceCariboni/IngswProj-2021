@@ -22,7 +22,7 @@ import java.util.Collections;
  */
 public class MarketTray {
     private Marble slidingMarble;
-    private Marble[][] marbles = new Marble[Constants.MARKET_ROWS][Constants.MARKET_COLS    ];
+    private final Marble[][] marbles = new Marble[Constants.MARKET_ROWS][Constants.MARKET_COLS    ];
 
     /**
      * it puts the marbles in the matrix and it sets the sliding marble

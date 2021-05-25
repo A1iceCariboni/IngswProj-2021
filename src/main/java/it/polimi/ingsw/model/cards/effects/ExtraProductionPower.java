@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author Alice Cariboni
  */
 public class ExtraProductionPower implements LeaderEffect{
-    private int id;
+    private final int id;
     private final Resource resourceType;
     private final int quantity;
 

@@ -10,8 +10,8 @@ import java.util.ArrayList;
  * the player can choose th resource he wants to produce
  */
 public class ExtraProduction {
-    private int id;
-    private ArrayList<Resource> entryResources;
+    private final int id;
+    private final ArrayList<Resource> entryResources;
 
 
     public ExtraProduction(ArrayList<Resource> entryResources, int id) {

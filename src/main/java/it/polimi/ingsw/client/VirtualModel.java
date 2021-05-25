@@ -2,34 +2,31 @@ package it.polimi.ingsw.client;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.CLI.Cli;
 import it.polimi.ingsw.client.DummyModel.*;
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
-import it.polimi.ingsw.model.FaithCell;
-import it.polimi.ingsw.model.FaithTrack;
 import it.polimi.ingsw.model.MarketTray;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
-import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.utility.LeaderCardParser;
-import static it.polimi.ingsw.enumerations.Constants.*;
-import static it.polimi.ingsw.enumerations.Constants.ANSI_RESET;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static it.polimi.ingsw.enumerations.Constants.*;
+
 /**
  * simplified version of the player model in the client
- * @authors Alessandra Atria and Sofia Canestraci
+ * @author Alessandra Atria and Sofia Canestraci
  */
 
 
 
 public class VirtualModel {
-    private DummyPlayerBoard playerBoard;
+    private final DummyPlayerBoard playerBoard;
     private ArrayList<DummyLeaderCard> leaderCards;
     private DummyDev[][] boardDevCard;
     private DummyMarket dummyMarket;
@@ -117,8 +114,7 @@ public class VirtualModel {
      * This method displays the leadercards
      */
     public void showLeaderCards() {
-        for (int i = 0; i < leaderCards.size(); i++) {
-            DummyLeaderCard card = leaderCards.get(i);
+        for (DummyLeaderCard card : leaderCards) {
             String cards =
                     "\n" + ANSI_YELLOW
                             + " CardID: "
@@ -148,29 +144,20 @@ public class VirtualModel {
 
        /** This method colors the background based on the development card color*/
     public String showDevColor(int i, int j){
-        String card = new String();
-        switch (boardDevCard[i][j].getColor()) {
-            case ("YELLOW"):
-                 card = ANSI_YELLOW;
-                break;
-            case ("PURPLE"):
-                card = ANSI_PURPLE;
-                break;
-            case ("BLUE"):
-                card = ANSI_BLUE;
-                break;
-            case ("GREEN"):
-                card = ANSI_GREEN;
-                break;
-        }
-        return card;
+        return switch (boardDevCard[i][j].getColor()) {
+            case ("YELLOW") -> ANSI_YELLOW;
+            case ("PURPLE") -> ANSI_PURPLE;
+            case ("BLUE") -> ANSI_BLUE;
+            case ("GREEN") -> ANSI_GREEN;
+            default -> "";
+        };
     }
 
 
 
 
     public void showPlayerDevCards(){
-        String cards = new String();
+        String cards = "";
          for (int j = 0; j < 3; j++) {
              if(playerBoard.getDevSections()[j]!= null){
                  cards = showDevColor(0, j)
@@ -212,14 +199,14 @@ public class VirtualModel {
                 }
             } else if (playerBoard.getFaithTrack().isPopeSpace(i)) {
                 color.append(" ");
-                color.append(ANSI_BG_RED + "│ " + i + "  │" + ANSI_RESET);
+                color.append(ANSI_BG_RED + "│ ").append(i).append("  │").append(ANSI_RESET);
             } else if (playerBoard.getFaithTrack().getReportSection(i) != 0) {
                 color.append(" ");
-                color.append(ANSI_BG_YELLOW + "│ " + i + "  │" + ANSI_RESET);
+                color.append(ANSI_BG_YELLOW + "│ ").append(i).append("  │").append(ANSI_RESET);
 
             } else {
                 color.append(" ");
-                color.append("│ " + i + "  │");
+                color.append("│ ").append(i).append("  │");
             }
         }
 
@@ -234,14 +221,14 @@ public class VirtualModel {
                 }
             } else if (playerBoard.getFaithTrack().isPopeSpace(i)) {
                 color.append(" ");
-                color.append(ANSI_BG_RED + "│ " + i + "  │" + ANSI_RESET);
+                color.append(ANSI_BG_RED + "│ ").append(i).append("  │").append(ANSI_RESET);
             } else if (playerBoard.getFaithTrack().getReportSection(i) != 0) {
                 color.append(" ");
-                color.append(ANSI_BG_YELLOW + "│ " + i + "  │" + ANSI_RESET);
+                color.append(ANSI_BG_YELLOW + "│ ").append(i).append("  │").append(ANSI_RESET);
 
             } else {
                 color.append(" ");
-                color.append("│ " + i + "  │");
+                color.append("│ ").append(i).append("  │");
             }
         }
         color.append("  │");
@@ -298,7 +285,7 @@ public class VirtualModel {
 
         }
         resE1.append(" ");
-        resE1.append("    ││  " + showResource(res1) + "  │  │  " + showResource(res2) + "  ││\n ");
+        resE1.append("    ││  ").append(showResource(res1)).append("  │  │  ").append(showResource(res2)).append("  ││\n ");
 
 
         return resE1.toString();
@@ -315,7 +302,7 @@ public class VirtualModel {
             }
 
         resE2.append(" ");
-        resE2.append("    ││  " + showResource(res1) + "  │  │  " + showResource(res2) + "  ││\n ");
+        resE2.append("    ││  ").append(showResource(res1)).append("  │  │  ").append(showResource(res2)).append("  ││\n ");
 
 
         return resE2.toString();
@@ -358,7 +345,7 @@ public class VirtualModel {
              res1 = playerBoard.getWareHouse().getDepot1().getResources().get(0);
 
          resD1.append(" ");
-         resD1.append("       │ │  " + showResource(res1) + "  │ │\n");
+         resD1.append("       │ │  ").append(showResource(res1)).append("  │ │\n");
 
 
         return resD1.toString();
@@ -379,7 +366,7 @@ public class VirtualModel {
         }
 
         resD2.append(" ");
-        resD2.append("    ││  " + showResource(res1) + "  │  │  " + showResource(res2) + "  ││\n ");
+        resD2.append("    ││  ").append(showResource(res1)).append("  │  │  ").append(showResource(res2)).append("  ││\n ");
 
         return resD2.toString();
     }
@@ -394,14 +381,16 @@ public class VirtualModel {
         StringBuilder resD3 = new StringBuilder();
         if(!playerBoard.getWareHouse().getDepot3().getResources().isEmpty()) {
             res1 = playerBoard.getWareHouse().getDepot3().getResources().get(0);
-            if (playerBoard.getWareHouse().getDepot3().getResources().size() == 2)
+            if (playerBoard.getWareHouse().getDepot3().getResources().size() == 2) {
                 res2 = playerBoard.getWareHouse().getDepot3().getResources().get(1);
-            if (playerBoard.getWareHouse().getDepot3().getResources().size() == 3)
+            }
+            if (playerBoard.getWareHouse().getDepot3().getResources().size() == 3) {
                 res2 = playerBoard.getWareHouse().getDepot3().getResources().get(1);
                 res3 = playerBoard.getWareHouse().getDepot3().getResources().get(2);
+            }
         }
         resD3.append(" ");
-        resD3.append("││  " + showResource(res1) + "  │ │  " + showResource(res2) + "  │  │  " + showResource(res3) + "  ││\n ");
+        resD3.append("││  ").append(showResource(res1)).append("  │ │  ").append(showResource(res2)).append("  │  │  ").append(showResource(res3)).append("  ││\n ");
 
         return resD3.toString();
 
@@ -413,8 +402,7 @@ public class VirtualModel {
     }
 
     public void setLeaderCard(DummyLeaderCard[] card) {
-        ArrayList<DummyLeaderCard> dummyLeaderCards = new ArrayList<>(Arrays.asList(card));
-        this.leaderCards = dummyLeaderCards;
+        this.leaderCards = new ArrayList<>(Arrays.asList(card));
     }
 
     public ArrayList<DummyLeaderCard> getLeaderCards() {
@@ -436,14 +424,14 @@ public class VirtualModel {
         StringBuilder r1 = new StringBuilder();
         StringBuilder r2 = new StringBuilder();
         StringBuilder r3 = new StringBuilder();
-        String marbles[][] = dummyMarket.getDummyMarbles();
+        String[][] marbles = dummyMarket.getDummyMarbles();
         r1.append(" ");
-        r1.append("││  " + showMarble(marbles[0][0]) + "  ││  " + showMarble(marbles[0][1]) + "  ││  " + showMarble(marbles[0][2]) + "  ││  " + showMarble(marbles[0][3]) + "  ││\n ");
+        r1.append("││  ").append(showMarble(marbles[0][0])).append("  ││  ").append(showMarble(marbles[0][1])).append("  ││  ").append(showMarble(marbles[0][2])).append("  ││  ").append(showMarble(marbles[0][3])).append("  ││\n ");
 
         r2.append(" ");
-        r2.append("││  " + showMarble(marbles[1][0]) + "  ││  " + showMarble(marbles[1][1]) + "  ││  " + showMarble(marbles[1][2]) + "  ││  " + showMarble(marbles[1][3]) + "  ││\n ");
+        r2.append("││  ").append(showMarble(marbles[1][0])).append("  ││  ").append(showMarble(marbles[1][1])).append("  ││  ").append(showMarble(marbles[1][2])).append("  ││  ").append(showMarble(marbles[1][3])).append("  ││\n ");
         r3.append(" ");
-        r3.append("││  " + showMarble(marbles[2][0]) + "  ││  " + showMarble(marbles[2][1]) + "  ││  " + showMarble(marbles[2][2]) + "  ││  " + showMarble(marbles[2][3]) + "  ││ \n ");
+        r3.append("││  ").append(showMarble(marbles[2][0])).append("  ││  ").append(showMarble(marbles[2][1])).append("  ││  ").append(showMarble(marbles[2][2])).append("  ││  ").append(showMarble(marbles[2][3])).append("  ││ \n ");
         r1.toString();
         r2.toString();
         r3.toString();
@@ -474,16 +462,16 @@ public class VirtualModel {
      * This method displays a resource
      */
     public String showResource(String res) {
-        String resType = new String();
+        String resType = "";
         switch (res) {
             case ("COIN"):
                 resType = ANSI_YELLOW + RES + ANSI_RESET;
                 break;
             case ("SHIELD"):
-                resType = ANSI_PURPLE + RES + ANSI_RESET;
+                resType = ANSI_BLUE + RES + ANSI_RESET;
                 break;
             case ("SERVANT"):
-                resType = ANSI_BLUE + RES + ANSI_RESET;
+                resType = ANSI_PURPLE + RES + ANSI_RESET;
                 break;
             case ("STONE"):
                 resType = ANSI_WHITE + RES + ANSI_RESET;

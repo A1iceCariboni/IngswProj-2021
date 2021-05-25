@@ -29,7 +29,7 @@ public class ClientController implements CliObserver,Observer {
 
     private SocketClient client;
     private String nickname;
-    private ExecutorService executionQueue;
+    private final ExecutorService executionQueue;
     private GamePhase gamePhase;
 
 

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.DummyModel.DummyDev;
 import it.polimi.ingsw.client.DummyModel.DummyLeaderCard;
@@ -17,6 +16,7 @@ import it.polimi.ingsw.messages.answer.OkMessage;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.VirtualView;
 
 import java.util.ArrayList;
@@ -55,24 +55,18 @@ public class GameController {
         this.startedAction = false;
     }
 
-    public void startGame(){}
 
 
-    public void onMessageReceived(Message message, String nickname) throws JsonProcessingException {
+
+    public void onMessageReceived(Message message, String nickname) {
         VirtualView virtualView = connectedClients.get(nickname);
         if (!turnController.getActivePlayer().equals(nickname)) {
             virtualView.update(new ErrorMessage("It's not your turn"));
         } else {
             switch (gamePhase) {
-                case FIRST_ROUND:
-                    firstRoundHandler(message, virtualView);
-                    break;
-                case IN_GAME:
-                case LAST_ROUND:
-                    actionHandler(message, virtualView);
-                break;
-                default:
-                    virtualView.update(new ErrorMessage("not possible"));
+                case FIRST_ROUND -> firstRoundHandler(message, virtualView);
+                case IN_GAME, LAST_ROUND -> actionHandler(message, virtualView);
+                default -> virtualView.update(new ErrorMessage("not possible"));
             }
         }
     }
@@ -255,6 +249,15 @@ public class GameController {
         }
     }
 
+    public void sendResourcesToPlace(){
+        ArrayList<String> names = new ArrayList<>();
+        VirtualView virtualView = getVirtualView(game.getCurrentPlayer().getNickName());
+        for (Resource res : game.getCurrentPlayer().getPlayerBoard().getUnplacedResources()) {
+            names.add(res.getResourceType().name());
+        }
+        virtualView.update(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(names)));
+    }
+
     /**
      * sends the updated faithmarker, if there is a vatican report it sends the new faith track to all players
      */
@@ -267,7 +270,7 @@ public class GameController {
          }
     }
 
-    public void actionHandler(Message message, VirtualView virtualView) throws JsonProcessingException {
+    public void actionHandler(Message message, VirtualView virtualView) {
         switch(turnPhase){
             case FREE:
                 inGameHandler(message,virtualView);
@@ -284,7 +287,7 @@ public class GameController {
         }
     }
 
-    protected  void buyMarketHandler(Message message, VirtualView virtualView) throws JsonProcessingException {
+    protected  void buyMarketHandler(Message message, VirtualView virtualView) {
         Gson gson = new Gson();
             switch (message.getCode()) {
                 case WHITE_MARBLES:
@@ -302,6 +305,7 @@ public class GameController {
                         try {
                             putResource(id);
                             virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
+                            turnController.doneGameAction();
 
                         } catch (NotPossibleToAdd notPossibleToAdd) {
                             virtualView.update(new ErrorMessage(notPossibleToAdd.getMessage()));
@@ -309,7 +313,7 @@ public class GameController {
                         }
                     }else{
                         virtualView.sendInvalidActionMessage();
-                        virtualView.update(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(game.getCurrentPlayer().getPlayerBoard().getUnplacedResources())));
+                        placeResources();
                     }
                     break;
                 default:
@@ -321,12 +325,13 @@ public class GameController {
 
     }
 
-    public void productionHandler(Message message, VirtualView virtualView) throws JsonProcessingException {
+    public void productionHandler(Message message, VirtualView virtualView) {
             switch (message.getCode()) {
                     case RESOURCE_PAYMENT:
                     if(inputChecker.checkReceivedMessage(message, turnController.getActivePlayer())) {
                         int[] ids = gson.fromJson(message.getPayload(), int[].class);
                         pay(ids);
+                        turnController.doneGameAction();
                     }else {
                       virtualView.update(new ErrorMessage(""));
                       sendResourcesToPay();
@@ -401,7 +406,7 @@ public class GameController {
 
     }
 
-    public  void buyDevHandler(Message message, VirtualView virtualView) throws JsonProcessingException {
+    public  void buyDevHandler(Message message, VirtualView virtualView) {
         Gson gson = new Gson();
             switch (message.getCode()) {
                 case RESOURCE_PAYMENT:
@@ -409,6 +414,7 @@ public class GameController {
                         int[] ids = gson.fromJson(message.getPayload(), int[].class);
                         pay(ids);
                         sendDepots();
+                        turnController.doneGameAction();
                     }else {
                         virtualView.update(new ErrorMessage("Invalid message for this state"));
                         sendResourcesToPay();
@@ -439,7 +445,7 @@ public class GameController {
      * @param virtualView
      */
 
-    public void inGameHandler(Message message, VirtualView virtualView) throws JsonProcessingException {
+    public void inGameHandler(Message message, VirtualView virtualView) {
         Gson gson = new Gson();
         if(inputChecker.checkReceivedMessage(message, turnController.getActivePlayer())) {
             switch (message.getCode()) {
@@ -497,7 +503,7 @@ public class GameController {
      * @param message
      * @param virtualView
      */
-    public void firstRoundHandler(Message message, VirtualView virtualView) throws JsonProcessingException {
+    public void firstRoundHandler(Message message, VirtualView virtualView) {
         Gson gson = new Gson();
 
             switch (message.getCode()) {
@@ -597,7 +603,7 @@ public class GameController {
      * removes from warehouse and strongbox all the resources used to pay a development card or the production powers
      * @param ids ids of the depot where he need to take the resources, -1 if it's the strongbox
      */
-   public void pay(int[] ids) throws JsonProcessingException {
+   public void pay(int[] ids) {
        String name = game.getCurrentPlayer().getNickName();
        VirtualView virtualView = getConnectedClients().get(name);
        ArrayList<Resource> cost ;
@@ -632,10 +638,7 @@ public class GameController {
         String name = game.getCurrentPlayer().getNickName();
         VirtualView virtualView = getConnectedClients().get(name);
         ArrayList<String> names = new ArrayList<>();
-        for (Resource res : game.getCurrentPlayer().getPlayerBoard().getUnplacedResources()) {
-            names.add(res.getResourceType().name());
-        }
-        virtualView.update(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(names)));
+        sendResourcesToPlace();
     }
 
 
@@ -643,7 +646,7 @@ public class GameController {
      * tries to put the resources in the required place in the warehouse or strong box or discard the resource
      * @param id of the depot or strongbox if it's 0
      */
-    public void putResource(int[] id) throws NotPossibleToAdd, JsonProcessingException {
+    public void putResource(int[] id) throws NotPossibleToAdd {
         String name = game.getCurrentPlayer().getNickName();
         VirtualView virtualView = getConnectedClients().get(name);
         for (int j : id) {
@@ -658,7 +661,8 @@ public class GameController {
                     }
                     sendAllExcept(new Message(MessageType.FAITH_MOVE, "1"), virtualView);
                 } else {
-                    game.getCurrentPlayer().getDepotById(j).addResource(game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().get(0));
+                    Depot d = game.getCurrentPlayer().getDepotById(j);
+                    game.getCurrentPlayer().getPlayerBoard().getWareHouse().addToDepot(game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().get(0), d);
                 }
             game.getCurrentPlayer().getPlayerBoard().removeUnplacedResource(0);
         }
@@ -817,7 +821,7 @@ public class GameController {
      * after the player pay , the production start and all the resources are added to strongbox
      * and the faithPoint are added to the fait marker
      */
-    public void startProduction() throws JsonProcessingException {
+    public void startProduction()  {
         String name = game.getCurrentPlayer().getNickName();
         VirtualView virtualView = getConnectedClients().get(name);
         for(int j : virtualView.getCardsToActivate()){
@@ -848,7 +852,7 @@ public class GameController {
      * activate the required leader card
      * @param id id of the leader card
      */
-    public  void activateLeaderCard(int id) throws JsonProcessingException {
+    public  void activateLeaderCard(int id)  {
         game.getCurrentPlayer().getLeaderCardById(id).active(game.getCurrentPlayer(), game.getCurrentPlayer().getPlayerBoard());
         sendDummyLead();
         sendDepots();
@@ -919,7 +923,7 @@ public class GameController {
      *
      * @param id id of the depot
      */
-    public void removeResource(int id) throws JsonProcessingException {
+    public void removeResource(int id) {
         Gson gson = new Gson();
         if(game.getCurrentPlayer().getDepotById(id).isEmpty()){
             getVirtualView(turnController.getActivePlayer()).update(new ErrorMessage("This depot is empty"));
@@ -935,7 +939,52 @@ public class GameController {
                 sendUpdateFaithTrack();
             }
             sendDepots();
+            getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.NOTIFY_TURN,""));
+
         }
+    }
+
+
+    /**
+     * it's called by the subclasses multigamecontroller and singlegame controller after creating the game
+     * it sends the first structures to the player and creates an input checker and a turn controller
+     */
+    public void startGame()  {
+        Server.LOGGER.info("instantiating game");
+        this.inputChecker = new InputChecker(this, connectedClients, game);
+
+        for(String name : players) {
+            game.addPlayer(new Player(false, name, 0, new PlayerBoard(new WareHouse(), new StrongBox())));
+        }
+
+        game.startGame();
+
+        sendUpdateMarketDev();
+        sendUpdateFaithTrack();
+        sendUpdateMarketTray();
+        ArrayList<String> nickNames = new ArrayList<>();
+        ArrayList<Player> players = game.getPlayers();
+
+        for (Player player : players) {
+            Server.LOGGER.info("giving cards to player " + player.getNickName());
+            VirtualView vv = getVirtualView(player.getNickName());
+            nickNames.add(player.getNickName());
+            ArrayList<DummyLeaderCard> dummyLeaderCards = new ArrayList<>();
+            for (LeaderCard leaderCard : player.getLeadercards()) {
+                dummyLeaderCards.add(leaderCard.getDummy());
+            }
+            Message message = new Message(MessageType.DUMMY_LEADER_CARD,gson.toJson(dummyLeaderCards));
+            vv.update(message);
+        }
+        turnController = new TurnController(this, nickNames, game.getCurrentPlayer().getNickName(), this.game);
+        setGamePhase(GamePhase.FIRST_ROUND);
+
+        getVirtualViewByNickname(turnController.getActivePlayer()).update(new Message(MessageType.GENERIC_MESSAGE,"You are the first player, discard 2 leader cards from your hand"));
+        getVirtualViewByNickname(turnController.getActivePlayer()).update(new Message(MessageType.NOTIFY_TURN,""));
+        sendAllExcept(new Message(MessageType.END_TURN,""),getVirtualView(game.getCurrentPlayer().getNickName()));
+
+        sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's " + turnController.getActivePlayer() + "'s turn, wait for your turn!"), getVirtualViewByNickname(turnController.getActivePlayer()));
+
     }
 
     public boolean isStartedAction() {
@@ -944,6 +993,11 @@ public class GameController {
 
     public void setStartedAction(boolean startedAction) {
         this.startedAction = startedAction;
+    }
+
+
+    public void fakePlayerMove(){
+
     }
 }
 

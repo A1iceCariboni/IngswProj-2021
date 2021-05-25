@@ -1,11 +1,11 @@
 package it.polimi.ingsw.client.DummyModel;
 
 public class DummyCell {
-    private boolean isPopeSpace;
+    private final boolean isPopeSpace;
     private final int victoryPoints;
-    private int pointsForPopeSpace;
-    private int reportSection;
-    private int number;
+    private final int pointsForPopeSpace;
+    private final int reportSection;
+    private final int number;
 
     public DummyCell(boolean isPopeSpace, int victoryPoints, int pointsForPopeSpace, int reportSection, int number) {
         this.isPopeSpace = isPopeSpace;

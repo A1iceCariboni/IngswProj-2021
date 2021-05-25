@@ -11,10 +11,10 @@ import it.polimi.ingsw.server.VirtualView;
 import java.util.List;
 
 public class TurnController {
-    private GameController gameController;
+    private final GameController gameController;
     private TurnPhase turnPhase;
     private int gameActionPerTurn;
-    private Game game;
+    private final Game game;
 
 
 
@@ -60,7 +60,7 @@ public class TurnController {
                 }
                 break;
             case FIRST_ROUND:
-                if((gameController.getGame().getCurrentPlayer().getLeadercards().size() == 2)&&
+                if((gameController.getGame().getCurrentPlayer().getLeadercards().size() <= 2)&&
                     (gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedResources().isEmpty())){
                     nextPlayer();
                 }else{
@@ -84,9 +84,13 @@ public class TurnController {
             changeGamePhase();
         }
         game.nextPlayer();
+        gameController.setTurnPhase(TurnPhase.FREE);
+        gameController.fakePlayerMove();
         gameController.getVirtualViewByNickname(activePlayer).update(new Message(MessageType.NOTIFY_TURN, ""));
         gameController.sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's "+activePlayer+" turn, wait!"), gameController.getVirtualView(activePlayer));
-        gameController.getVirtualViewByNickname(nickNamesQueue.get(nickNamesQueue.size()-1)).update(new Message(MessageType.END_TURN, ""));
+        if(nickNamesQueue.size() > 1) {
+            gameController.getVirtualViewByNickname(nickNamesQueue.get(nickNamesQueue.size() - 1)).update(new Message(MessageType.END_TURN, ""));
+        }
     }
 
 

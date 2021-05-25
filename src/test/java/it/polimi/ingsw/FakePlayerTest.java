@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
         @Before
         public void setUp() throws JsonFileNotFoundException {
-            f = new FakePlayer(b);
+            f = new FakePlayer();
         }
 
 
@@ -27,11 +27,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
      */
         @Test
         public void moveBCross() throws JsonFileNotFoundException {
-            b = 5;
-            f = new FakePlayer(b);
-            assertEquals( f.getBlackCross(), 5 );
+
+            f = new FakePlayer();
+            assertEquals( f.getBlackCross(), 0);
             f.moveBlackCross(2);
-            assertEquals( f.getBlackCross(), 7 );
+            assertEquals( f.getBlackCross(), 2);
 
         }
 }

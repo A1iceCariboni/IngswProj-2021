@@ -11,7 +11,7 @@ import it.polimi.ingsw.model.cards.effects.TokenEffect;
  */
 public class ActionToken {
     private final TokenType tokenType;
-    private TokenEffect tokenEffect;
+    private final TokenEffect tokenEffect;
 
 
     public ActionToken(TokenType tokenType, TokenEffect tokenEffect) {
@@ -23,4 +23,7 @@ public class ActionToken {
         this.tokenEffect.applyEffect(singleGame,fakePlayer);
     }
 
+    public TokenType getTokenType() {
+        return tokenType;
+    }
 }

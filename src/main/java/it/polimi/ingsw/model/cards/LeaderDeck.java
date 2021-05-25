@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class LeaderDeck extends Deck {
-    private ArrayList<LeaderCard> cardDeck;
+    private final ArrayList<LeaderCard> cardDeck;
 
     public LeaderDeck(ArrayList<LeaderCard> cardDeck) {
         this.cardDeck = cardDeck;

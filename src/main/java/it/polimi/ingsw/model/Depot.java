@@ -38,9 +38,7 @@ import java.util.Objects;
         }
 
         public boolean possibleToAdd(Resource res){
-            if(!resources.isEmpty() && res.getResourceType()!=resources.get(0).getResourceType()){
-                return false;
-            }return true;
+            return resources.isEmpty() || res.getResourceType() == resources.get(0).getResourceType();
         }
 
     /**

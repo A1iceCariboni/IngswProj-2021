@@ -7,7 +7,7 @@ import it.polimi.ingsw.utility.FaithTrackParser;
  * the class controls the faith track of the game
  */
 public class FaithTrack {
-    private FaithCell[] faithTrack;
+    private final FaithCell[] faithTrack;
 
     public FaithTrack(){
         this.faithTrack = FaithTrackParser.parseFaithTrack();

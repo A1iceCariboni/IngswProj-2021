@@ -1,8 +1,8 @@
 package it.polimi.ingsw.client.DummyModel;
 
 public class DummyMarket {
-private String[][] dummyMarbles;
-private String slindig;
+private final String[][] dummyMarbles;
+private final String slindig;
 
 
 

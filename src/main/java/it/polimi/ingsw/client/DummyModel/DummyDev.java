@@ -3,11 +3,11 @@ package it.polimi.ingsw.client.DummyModel;
 import java.util.ArrayList;
 
 public class DummyDev {
-private int id;
-private ArrayList<String> cost;
-private int level;
-private String color;
-private DummyProductionPower productionPower;
+private final int id;
+private final ArrayList<String> cost;
+private final int level;
+private final String color;
+private final DummyProductionPower productionPower;
 
     public ArrayList<String> getCost() {
         return cost;

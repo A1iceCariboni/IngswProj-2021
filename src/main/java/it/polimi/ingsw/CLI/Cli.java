@@ -2,6 +2,7 @@ package it.polimi.ingsw.CLI;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.DummyModel.*;
+import it.polimi.ingsw.client.InputReadTask;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.enumerations.TurnPhase;
@@ -13,12 +14,8 @@ import it.polimi.ingsw.messages.request.SetupMessage;
 import it.polimi.ingsw.observers.CliObservable;
 import it.polimi.ingsw.utility.DummyWarehouseConstructor;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -29,12 +26,10 @@ public class Cli extends CliObservable {
     private final VirtualModel virtualModel = new VirtualModel();
     Gson gson = new Gson();
     private TurnPhase turnPhase;
-    private ExecutorService input;
-    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
+    private final InputReadTask inputReadTask;
 
     public Cli() {
-        this.input = Executors.newSingleThreadExecutor();
+        this.inputReadTask = new InputReadTask();
     }
 
     public VirtualModel getVirtualModel() {
@@ -59,37 +54,45 @@ public class Cli extends CliObservable {
      *
      * @return the string read from the input.
      */
-    public String readLine() {
-        String in = null;
-        try {
-            in = reader.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return in;
+    public String readLine(String question) throws ExecutionException, InterruptedException {
+        return inputReadTask.readLine(question).get();
     }
 
+
     public void askNickname()  {
-        System.out.println("Insert your nickname >");
-        String nickname = readLine();
-        SetupMessage setupMessage = new SetupMessage(nickname);
-        notifyObserver(obs -> obs.onUpdateNickname(setupMessage));
+        String nickname;
+        try {
+            nickname = readLine("Insert your nickname >");
+            SetupMessage setupMessage = new SetupMessage(nickname);
+            notifyObserver(obs -> obs.onUpdateNickname(setupMessage));
+        } catch (ExecutionException|InterruptedException e) {
+            System.out.println("Interrupted input");
+        }
     }
 
     public void askNumberOfPlayers() {
         boolean ok = false;
         int number = 0;
-        while(!ok) {
-                number = Integer.parseInt(readLine());
-            if(number >= Constants.MIN_NUMBER_OF_PLAYERS && number <= Constants.MAX_NUMBER_OF_PLAYERS){
-                ok = true;
+        try {
+            while(!ok) {
+                try {
+                        number = Integer.parseInt(readLine("Type the players number"));
+                        if(number >= Constants.MIN_NUMBER_OF_PLAYERS && number <= Constants.MAX_NUMBER_OF_PLAYERS){
+                            ok = true;
+                        }
+                        if(!ok){
+                            System.out.println("The number must be between " + Constants.MIN_NUMBER_OF_PLAYERS + "and" + Constants.MAX_NUMBER_OF_PLAYERS);
+                        }
+                }catch(NumberFormatException e){
+                        System.out.println("Not a number");
+                        ok = false;
+                }
             }
-            if(!ok){
-                System.out.println("The number must be between " + Constants.MIN_NUMBER_OF_PLAYERS + "and" + Constants.MAX_NUMBER_OF_PLAYERS);
-            }
+            NumberOfPlayerReply message = new NumberOfPlayerReply(Integer.toString(number));
+            notifyObserver(obs -> obs.onReadyReply(message));
+        } catch (ExecutionException|InterruptedException e) {
+            System.out.println("Interrupted input");
         }
-        NumberOfPlayerReply message = new NumberOfPlayerReply(Integer.toString(number));
-        notifyObserver(obs -> obs.onReadyReply(message));
     }
 
     /**
@@ -98,6 +101,7 @@ public class Cli extends CliObservable {
      */
     public void DummyLeaderCardIn(DummyLeaderCard[] dummyLeaderCards){
         virtualModel.setLeaderCard(dummyLeaderCards);
+        virtualModel.showLeaderCards();
     }
 
     /**
@@ -114,6 +118,7 @@ public class Cli extends CliObservable {
      */
     public void devMarketNew(DummyDev[][] devMarket){
         virtualModel.setBoardDevCard(devMarket);
+        virtualModel.showBoard();
     }
 
     /**
@@ -122,6 +127,7 @@ public class Cli extends CliObservable {
      */
     public void marketTrayNew(DummyMarket market){
         virtualModel.setDummyMarket(market);
+        virtualModel.showMarket();
     }
 
     /**
@@ -134,6 +140,8 @@ public class Cli extends CliObservable {
 
     public void wareHouseNew(DummyWareHouse dummyWareHouse){
         virtualModel.getPlayerBoard().setWareHouse(dummyWareHouse);
+        virtualModel.showWarewouse();
+        virtualModel.showStrongbox();
     }
 
     public void chooseAction() {
@@ -212,6 +220,8 @@ public class Cli extends CliObservable {
                 String answer = "y";
                 if(dummyDepot.getId() != -1) {
                     ArrayList<String> res = new ArrayList<>();
+                    System.out.println("You want to put resources in depot "+dummyDepot.getId()+ " ?");
+                    answer = readYN();
                     while((answer.equals("y") && (res.size() < dummyDepot.getDimension()))){
                             System.out.println("Which resource you want to put in the depot " +dummyDepot.getId());
                             String resource = readResource();
@@ -317,20 +327,25 @@ public class Cli extends CliObservable {
         int n = 0;
         boolean validInput = true;
             do {
-                System.out.println("Do you want to buy a row(row) or a column(col)?");
-                rOc = readLine();
-                switch (rOc) {
-                    case "row":
-                        n = readInt(3,1, "Which row? [1/2/3]");
-                        break;
-                    case "col":
-                        n = readInt(4,1,"Which column? [1/2/3/4]");
-                        break;
-                    default:
-                        System.out.println("Answer doesn't accepted.\n");
-                        validInput = false;
-                        break;
+                try {
+                    validInput = true;
+                    rOc = readLine("Do you want to buy a row(row) or a column(col)?");
+                    switch (rOc) {
+                        case "row":
+                            n = readInt(3,1, "Which row? [1/2/3]");
+                            break;
+                        case "col":
+                            n = readInt(4,1,"Which column? [1/2/3/4]");
+                            break;
+                        default:
+                            System.out.println("Answer not accepted.\n");
+                            validInput = false;
+                            break;
+                    }
+                } catch (ExecutionException|InterruptedException e) {
+                    System.out.println("Interrupted input");
                 }
+
             } while (!validInput);
             String[] payload = new String[2];
             payload[0] = (rOc);
@@ -368,7 +383,7 @@ public class Cli extends CliObservable {
     }
 
     public void activateProduction(String[] toPay){
-     //virtualModel.showPlayerDevCards();
+        virtualModel.showPlayerDevCards();
         virtualModel.showLeaderCards();
         System.out.println("You choose to activate the production, you can: ");
         System.out.println("1. Activate a development card production");
@@ -415,7 +430,7 @@ public class Cli extends CliObservable {
                     String [] command1 = new String[3];
                     command1[0] = res1;
                     command1[1] = res2;
-                    command1[3] = res3;
+                    command1[2] = res3;
                     Message message2 = new Message(MessageType.BASE_PRODUCTION, gson.toJson(command1));
                     notifyObserver(obs -> obs.onReadyReply(message2));
 
@@ -432,12 +447,17 @@ public class Cli extends CliObservable {
 
 
     public String readYN(){
-        String res ;
+        String res = null;
       do {
-          res = readLine();
-          if ((!res.equalsIgnoreCase("y")) && (!res.equalsIgnoreCase("n"))) {
-              System.out.println("You have to type y or n");
+          try {
+              res = readLine("Type y or n");
+              if ((!res.equalsIgnoreCase("y")) && (!res.equalsIgnoreCase("n"))) {
+                  System.out.println("You have to type y or n");
+              }
+          } catch (ExecutionException|InterruptedException e) {
+              System.out.println("Interrupted input");
           }
+
       }while((!res.equalsIgnoreCase("y")) && (!res.equalsIgnoreCase("n")));
       return res;
     }
@@ -451,13 +471,20 @@ public class Cli extends CliObservable {
      */
     public int readInt(int max_value, int min_value, String question)  {
         int number = min_value - 1;
-        do{
-                System.out.println(question);
-                number = Integer.parseInt(readLine());
-                if((number < min_value) || (number > max_value)){
-                    System.out.println("That's not  a possible choice, try again");
+        try {
+            do{
+                try {
+                    number = Integer.parseInt(readLine(question));
+                }catch(NumberFormatException e){
+                    System.out.println("Not a number");
                 }
-        }while((number > max_value || number < min_value));
+                if((number < min_value) || (number > max_value)){
+                        System.out.println("That's not  a possible choice, try again");
+                    }
+            }while((number > max_value || number < min_value));
+        } catch (ExecutionException|InterruptedException e) {
+            System.out.println("Interrupted input");
+        }
         return number;
     }
 
@@ -470,25 +497,32 @@ public class Cli extends CliObservable {
     public int readAnyInt(String question) {
         int number = 0;
             try {
-                System.out.println(question);
-                number = Integer.parseInt(readLine());
+                try {
+                    number = Integer.parseInt(readLine(question));
+                } catch (NumberFormatException e) {
+                    System.out.println("Not a number");
+                }
+                } catch (ExecutionException|InterruptedException e) {
+                    System.out.println("Interrupted input");
+                }
 
-            } catch (NumberFormatException e) {
-                System.out.println("Not a number");
-            }
+
         return number;
     }
 
     public String readResource() {
-        String res;
-        do {
-            System.out.println("Type the resource name you want : [COIN,SHIELD,SERVANT,STONE]");
-             res = readLine();
-            if ((!res.equalsIgnoreCase("coin")) && (!res.equalsIgnoreCase("shield")) && (!res.equalsIgnoreCase("servant")) && (!res.equalsIgnoreCase("stone"))) {
-                System.out.println("Not a resource!");
-            }
-        }while((!res.equalsIgnoreCase("coin"))&&(!res.equalsIgnoreCase("shield"))&&(!res.equalsIgnoreCase("servant"))&&(!res.equalsIgnoreCase("stone")));
+        String res = null;
+        try {
+            do {
+                res = readLine("Type the resource name you want : [COIN,SHIELD,SERVANT,STONE]");
 
+                if ((!res.equalsIgnoreCase("coin")) && (!res.equalsIgnoreCase("shield")) && (!res.equalsIgnoreCase("servant")) && (!res.equalsIgnoreCase("stone"))) {
+                    System.out.println("Not a resource!");
+                }
+            } while ((!res.equalsIgnoreCase("coin")) && (!res.equalsIgnoreCase("shield")) && (!res.equalsIgnoreCase("servant")) && (!res.equalsIgnoreCase("stone")));
+        }catch (ExecutionException|InterruptedException e) {
+            System.out.println("Interrupted input");
+        }
        return res.toUpperCase();
     }
 
@@ -568,37 +602,12 @@ public class Cli extends CliObservable {
         virtualModel.getPlayerBoard().setDevSections(cards);
     }
 
-    public void waitTurn(){
-        while(turnPhase == TurnPhase.NOT_YOUR_TURN){
-               if( readLineWithTimeout() != null){
-                   System.out.println("Wait it's not your turn");
-                }
-        }
-    }
+
 
     public void setTurnPhase(TurnPhase turnPhase) {
         this.turnPhase = turnPhase;
     }
 
-    public String readLineWithTimeout() {
-        FutureTask<String> readNextLine = new FutureTask<>(() -> {
-            Scanner scanner = new Scanner(System.in);
-            return scanner.nextLine();
-        });
-        ExecutorService inputToDiscard = Executors.newSingleThreadExecutor();
-        inputToDiscard.submit(readNextLine);
-        String in = null;
-        try{
-            in = readNextLine.get(5000, TimeUnit.MILLISECONDS);
 
-        } catch (ExecutionException | InterruptedException| TimeoutException e) {
-            readNextLine.cancel(true);
-            inputToDiscard.shutdownNow();
-        }
-        return in;
-    }
 
-    public void flushLine(){
-        readLine();
-    }
 }

@@ -17,11 +17,10 @@ import java.util.ArrayList;
 
 public class SingleGame extends Game{
 
-    private FakePlayer fakePlayer;
 
     public SingleGame() throws JsonFileNotFoundException {
         super();
-        this.fakePlayer = new FakePlayer(0);
+        this.players.add(new FakePlayer());
     }
 
     /**
@@ -29,7 +28,9 @@ public class SingleGame extends Game{
      */
     @Override
     public void startGame() {
-        super.startGame();
+        for (int i = 0; i < Constants.smallDecks; i++) {
+            players.get(1).addLeaderCard(this.deckLeader.popCard());
+        }
     }
 
     /**
@@ -38,8 +39,8 @@ public class SingleGame extends Game{
      */
     @Override
     public void addPlayer(Player p) {
-        this.players.add(p);
         p.setInkwell(true);
+        this.players.add(p);
     }
 
     /**
@@ -49,7 +50,7 @@ public class SingleGame extends Game{
      */
     @Override
     public boolean checkEndGame() {
-        boolean b = fakePlayer.getBlackCross() == Constants.winFaith;
+        boolean b = players.get(0).getBlackCross() == Constants.winFaith;
         for(int c=0; c<Constants.cols; c++){
             if(getColDevCards(c).isEmpty()){
                 b = true;
@@ -78,13 +79,13 @@ public class SingleGame extends Game{
     }
 
     /**
-     *it return the player, it is always the player's turn, but first get a tocken card of Fake Player
+     *it return the player, it is always the player's turn, but first get a token card of Fake Player
      * @return the same single player that has to play again after the action of the fake player
      */
     @Override
     public Player nextPlayer() {
-        fakePlayer.getToken().applyEffect(this, fakePlayer);
-        return players.get(0);
+        players.get(0).getToken().applyEffect(this, (FakePlayer) players.get(0));
+        return players.get(1);
     }
 
     /**
@@ -93,14 +94,14 @@ public class SingleGame extends Game{
      */
     @Override
     public void getPopePoints(){
-        if (faithTrack.isReportSection(players.get(0).getPlayerBoard().getFaithMarker())){
-            players.get(0).addVictoryPoints(faithTrack.getPointsForPope(players.get(0).getPlayerBoard().getFaithMarker()));
+        if (faithTrack.isReportSection(players.get(1).getPlayerBoard().getFaithMarker())){
+            players.get(1).addVictoryPoints(faithTrack.getPointsForPope(players.get(1).getPlayerBoard().getFaithMarker()));
         }
     }
 
 @Override
      public Player getCurrentPlayer(){
-        return players.get(0);
+        return players.get(1);
      }
 
     /**
@@ -109,20 +110,17 @@ public class SingleGame extends Game{
      */
     @Override
 public ArrayList<Player> getWinners(){
-    boolean b = fakePlayer.getBlackCross() == Constants.winFaith;
+    boolean b = players.get(0).getBlackCross() == Constants.winFaith;
     for(int c=0; c<Constants.cols; c++){
         if(getColDevCards(c).isEmpty()){
             b = true;
         }
     }
     if(!b){
-        this.winners.add(players.get(0));
+        this.winners.add(players.get(1));
     }
     return winners;
 }
-    public FakePlayer getFakePlayer(){
-        return fakePlayer;
-    }
 
 
     public void discardCard(CardColor cardColor, int quantity) {
@@ -137,5 +135,17 @@ public ArrayList<Player> getWinners(){
                 }
             }
         }
+    }
+
+    @Override
+    public FakePlayer getFakePlayer(){
+        return (FakePlayer) players.get(0);
+    }
+
+    @Override
+    public ArrayList<Player> getPlayers(){
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(this.players.get(1));
+        return  players;
     }
 }

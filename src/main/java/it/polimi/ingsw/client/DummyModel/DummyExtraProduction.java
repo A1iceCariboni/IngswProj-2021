@@ -5,8 +5,8 @@ import it.polimi.ingsw.model.Resource;
 import java.util.ArrayList;
 
 public class DummyExtraProduction {
-    private int id;
-    private ArrayList<String> entryResources;
+    private final int id;
+    private final ArrayList<String> entryResources;
 
 
     public DummyExtraProduction(ArrayList<String> entryResources, int id) {

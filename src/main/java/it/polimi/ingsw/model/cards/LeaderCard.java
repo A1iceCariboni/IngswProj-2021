@@ -21,7 +21,7 @@ public class LeaderCard extends Card {
     private final LeaderEffect leaderEffect;
     private final int victoryPoints;
     private final ArrayList<Requirement> requirements;
-    private int id;
+    private final int id;
 
     public LeaderCard(int id, LeaderEffect leaderEffect, int victoryPoints, ArrayList<Requirement> requirements) {
         this.isActive = false;

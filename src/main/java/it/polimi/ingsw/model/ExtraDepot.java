@@ -14,7 +14,7 @@ import java.util.Objects;
 
     public class ExtraDepot extends Depot{
 
-        private ResourceType type  ;
+        private final ResourceType type  ;
 
         public ExtraDepot(int dimension,int id, ResourceType type) {
             super( dimension,id, new ArrayList<>());
@@ -37,10 +37,7 @@ import java.util.Objects;
 
         @Override
         public boolean possibleToAdd(Resource res){
-            if(super.possibleToAdd(res) && res.getResourceType() == type){
-                return true;
-            }
-            return false;
+            return super.possibleToAdd(res) && res.getResourceType() == type;
         }
         /**
          * This method removes resources from the depot
@@ -93,10 +90,7 @@ import java.util.Objects;
 
     @Override
     public boolean possibleResource(Resource res){
-        if(res.getResourceType() == type){
-            return true;
-        }
-        return false;
+        return res.getResourceType() == type;
     }
 }
 

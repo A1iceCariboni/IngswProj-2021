@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.enumerations.PlayerMove;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.exceptions.NullCardException;
+import it.polimi.ingsw.model.cards.ActionToken;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.effects.ProductionPower;
 
@@ -19,14 +20,26 @@ import java.util.stream.Collectors;
 
 public class Player {
     private boolean inkwell;
-    private String nickName;
+    private final String nickName;
     private int victoryPoints;
-    private ArrayList<LeaderCard> leaderCards;
-    private PlayerBoard playerBoard;
+    private final ArrayList<LeaderCard> leaderCards;
+    private final PlayerBoard playerBoard;
     private PlayerMove playerMove;
-    private ArrayList<Resource> discountedResource;
-    private ArrayList<ExtraProduction> extraProductionPowers;
-    private ArrayList<Resource> possibleWhiteMarbles;
+    private final ArrayList<Resource> discountedResource;
+    private final ArrayList<ExtraProduction> extraProductionPowers;
+    private final ArrayList<Resource> possibleWhiteMarbles;
+
+
+    public Player(){
+        this.inkwell = false;
+        this.nickName = null;
+        this.victoryPoints = 0;
+        this.leaderCards = new ArrayList<>();
+        this.playerBoard = new PlayerBoard(new WareHouse(), new StrongBox());
+        this.discountedResource = new ArrayList<>();
+        this.extraProductionPowers= new ArrayList<>();
+        this.possibleWhiteMarbles = new ArrayList<>();
+    }
 
     public Player(boolean inkwell, String nickName, int victoryPoints, PlayerBoard playerBoard) {
         this.inkwell = inkwell;
@@ -181,6 +194,14 @@ public class Player {
                 return depot;
             }
         }
+        return null;
+    }
+
+    public int getBlackCross(){
+        return -1;
+    }
+
+    public ActionToken getToken(){
         return null;
     }
 }

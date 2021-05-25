@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public abstract class Observable {
-   private ArrayList<Observer> observers = new ArrayList<>();
+   private final ArrayList<Observer> observers = new ArrayList<>();
 
 
     /**

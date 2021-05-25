@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 class TempPlayerBoard extends PlayerBoard {
-    private ArrayList<Resource> res;
+    private final ArrayList<Resource> res;
     public TempPlayerBoard(ArrayList<Resource> res){
         super(new WareHouse(), new StrongBox());
         this.res = res;

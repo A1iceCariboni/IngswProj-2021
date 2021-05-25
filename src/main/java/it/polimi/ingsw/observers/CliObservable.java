@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class CliObservable {
-    private ArrayList<CliObserver> observers = new ArrayList<>();
+    private final ArrayList<CliObserver> observers = new ArrayList<>();
 
 
     /**

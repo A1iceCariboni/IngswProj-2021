@@ -6,18 +6,21 @@ import it.polimi.ingsw.model.cards.TokenDeck;
 /**
  * @author Alessandra Atria
  */
-public class FakePlayer {
+public class FakePlayer extends Player{
     private int blackCross;
-    TokenDeck tokenDeck;
+    private TokenDeck tokenDeck;
 
-    public FakePlayer(int blackCross) throws JsonFileNotFoundException {
-        this.blackCross = blackCross;
+    public FakePlayer() throws JsonFileNotFoundException {
+        super();
+        this.blackCross = 0;
         this.tokenDeck = new TokenDeck();
     }
 
+    @Override
     public int getBlackCross() {
         return blackCross;
     }
+
 
     /** This method moves black cross a number pos positions
      * @param pos represents the number of position that black cross is moved
@@ -30,7 +33,12 @@ public class FakePlayer {
         this.tokenDeck.shuffle();
     }
 
+    @Override
     public ActionToken getToken() {
         return this.tokenDeck.pickToken();
+    }
+
+    public TokenDeck getTokenDeck() {
+        return tokenDeck;
     }
 }

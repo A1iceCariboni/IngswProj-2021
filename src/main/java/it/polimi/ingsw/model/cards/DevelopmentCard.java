@@ -17,12 +17,12 @@ import java.util.Objects;
  * This class represents a developent card
  */
 public class DevelopmentCard extends Card{
-    private int id;
-    private ArrayList<Resource> cost;
-    private int level;
-    private CardColor color;
-    private ProductionPower productionPower;
-    private int victoryPoints;
+    private final int id;
+    private final ArrayList<Resource> cost;
+    private final int level;
+    private final CardColor color;
+    private final ProductionPower productionPower;
+    private final int victoryPoints;
 
 
     public DevelopmentCard(int id, ArrayList<Resource> cost, int level, CardColor color , ProductionPower productionPower,int victoryPoints ) {
@@ -58,10 +58,7 @@ public class DevelopmentCard extends Card{
                 return false;
             }
         }
-        if(!b.canAddDevCard(this)) {
-            return false;
-        }
-        return true;
+        return b.canAddDevCard(this);
     }
     /**
      * this method apply the production to a playerboard, it removes the resources that are required to start the production

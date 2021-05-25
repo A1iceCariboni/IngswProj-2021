@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.enumerations.MarbleColor;
 
 public class Marble{
-    private MarbleColor marbleColor;
+    private final MarbleColor marbleColor;
     private MarbleEffect marbleEffect;
 
 

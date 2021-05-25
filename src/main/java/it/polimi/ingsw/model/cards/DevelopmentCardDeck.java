@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * @author Alice Cariboni
  */
 public class DevelopmentCardDeck extends Deck{
-   private ArrayList<DevelopmentCard> cardDeck;
+   private final ArrayList<DevelopmentCard> cardDeck;
 
     public DevelopmentCardDeck(ArrayList<DevelopmentCard> cardDeck) {
         this.cardDeck = cardDeck;

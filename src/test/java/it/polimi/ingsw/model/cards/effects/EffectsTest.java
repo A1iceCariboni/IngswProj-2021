@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class EffectsTest {
 
-    private static Player player = new Player(true, "ali",0, new PlayerBoard(new WareHouse(), new StrongBox()));
+    private static final Player player = new Player(true, "ali",0, new PlayerBoard(new WareHouse(), new StrongBox()));
 
 
     @Test

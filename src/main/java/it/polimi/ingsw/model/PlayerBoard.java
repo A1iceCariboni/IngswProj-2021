@@ -18,7 +18,7 @@ public class PlayerBoard {
     private ArrayList<DevelopmentCard> devCards;
     private int faithMarker;
     private int depotId = 3;
-    private int extraProductionId = 0;
+    private final int extraProductionId = 0;
     private ArrayList<Resource> unplacedResources;
 
     public PlayerBoard() {}

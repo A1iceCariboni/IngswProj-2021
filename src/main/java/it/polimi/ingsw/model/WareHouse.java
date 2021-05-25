@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 
 public class WareHouse {
-    private ArrayList<Depot> depots;
+    private final ArrayList<Depot> depots;
 
     public WareHouse() {
         this.depots = new ArrayList<>();
@@ -112,16 +112,37 @@ public class WareHouse {
         return new DummyWareHouse(dummyDepots);
     }
 
-    /** This method adds the resource to the depot **/
-    public void addRestoDepot(Resource res, Depot d) throws NotPossibleToAdd {
-        for (int i = 0; i < depots.size(); i++) {
-            if (depots.get(i) != depots.get(depots.indexOf(d))) {
-                if (depots.contains(res)) {
+    /**
+     * add the resource in the depot if it's possibile
+     * @param res resource to add
+     * @param d depot to add the resource
+     * @throws NotPossibleToAdd if the depot is full or if there is another depot with the same resource
+     */
+    public void addToDepot(Resource res, Depot d) throws NotPossibleToAdd {
+        for(Depot dep : depots){
+            if((!dep.equals(d))&&((dep.getId() == 1)||(dep.getId() == 2)||(dep.getId() == 3))){
+                if((!dep.getDepot().isEmpty())&&(dep.getDepot().contains(res))){
                     throw new NotPossibleToAdd();
-                } else {
-                    depots.get(depots.indexOf(d)).addResource(res);
                 }
             }
         }
+        depots.get(depots.indexOf(d)).addResource(res);
+    }
+
+    /**
+     * tells if a resource if a resource can be placed in a depot
+     * @param res the resource to put
+     * @param d the depot where to put the resource
+     * @return true if the resoure can be placed i that depot, false otherwise
+     */
+    public boolean canAddToDepot(Resource res, Depot d) {
+        for(Depot dep : depots){
+            if((!dep.equals(d))&&((dep.getId() == 1)||(dep.getId() == 2)||(dep.getId() == 3))){
+                if((!dep.getDepot().isEmpty())&&(dep.getDepot().contains(res))){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
