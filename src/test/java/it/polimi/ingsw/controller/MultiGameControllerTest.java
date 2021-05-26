@@ -1,28 +1,23 @@
 package it.polimi.ingsw.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.gson.Gson;
 import it.polimi.ingsw.enumerations.MarbleColor;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.exceptions.CannotAdd;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
-import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.server.ClientHandler;
-import it.polimi.ingsw.server.Server;
-import it.polimi.ingsw.server.SocketServer;
 import it.polimi.ingsw.server.VirtualView;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.net.Socket;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 class FakeClientHandler extends ClientHandler{
 
 
@@ -91,7 +86,7 @@ class MultiGameControllerTest {
     }
 
     @Test
-    void putResource() throws NotPossibleToAdd, JsonProcessingException {
+    void putResource() throws NotPossibleToAdd {
     ArrayList<Resource> resources = new ArrayList<>();
     resources.add(new Resource(ResourceType.SHIELD));
     resources.add(new Resource(ResourceType.COIN));
@@ -110,7 +105,7 @@ class MultiGameControllerTest {
 
     }
     @Test
-    void buyCard() throws JsonProcessingException {
+    void buyCard() {
       gameController.turnPhase = TurnPhase.BUY_DEV;
       ArrayList<Resource> res = gameController.getGame().getDeckDevelopment()[0][0].getCard().getCost();
       for(Resource resource: res) {

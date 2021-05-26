@@ -56,10 +56,10 @@ public class SingleGame extends Game{
                 b = true;
             }
         }
-        if (players.get(0).getPlayerBoard().getFaithMarker() == Constants.winFaith){
+        if (players.get(1).getPlayerBoard().getFaithMarker() == Constants.winFaith){
             b = true;
         }
-        if(players.get(0).getPlayerBoard().getCountDevCards() == Constants.winDev){
+        if(players.get(1).getPlayerBoard().getCountDevCards() == Constants.winDev){
             b = true;
         }
         return b;

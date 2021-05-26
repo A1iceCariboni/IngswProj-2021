@@ -86,7 +86,7 @@ import java.util.Objects;
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Depot depot = (Depot) o;
-        return dimension == depot.dimension && Objects.equals(resources, depot.resources);
+        return this.id == depot.getId();
     }
 
     @Override

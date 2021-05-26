@@ -46,7 +46,6 @@ public class TurnController {
                 if(!((isGameActionDone())&&
                         (vv.getCardsToActivate().isEmpty())&&
                         (vv.getExtraProductionToActivate().isEmpty())&&
-                        (vv.getTempDepots().isEmpty())&&
                         (vv.getFreeMarble().isEmpty())&&
                         (vv.getFreeResources().isEmpty())&&
                         (vv.getResourcesToPay().isEmpty())&&

@@ -18,6 +18,7 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.VirtualView;
+import it.polimi.ingsw.utility.WarehouseConstructor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,9 +65,10 @@ public class GameController {
             virtualView.update(new ErrorMessage("It's not your turn"));
         } else {
             switch (gamePhase) {
-                case FIRST_ROUND -> firstRoundHandler(message, virtualView);
-                case IN_GAME, LAST_ROUND -> actionHandler(message, virtualView);
-                default -> virtualView.update(new ErrorMessage("not possible"));
+                case FIRST_ROUND: firstRoundHandler(message, virtualView);
+                case IN_GAME:
+                case LAST_ROUND : actionHandler(message, virtualView);
+                default: virtualView.update(new ErrorMessage("not possible"));
             }
         }
     }
@@ -463,11 +465,12 @@ public class GameController {
                     }
                     break;
                 case DEPOTS:
-                        Depot[] depots = gson.fromJson(message.getPayload(), Depot[].class);
-                        virtualView.setTempDepots(new ArrayList<>(Arrays.asList(depots)));
-                        changeDepotsState();
+                        Depot[] depots = WarehouseConstructor.parse(message.getPayload());
+                        changeDepotsState(depots);
                         virtualView.update(new Message(MessageType.OK, ""));
                         sendDepots();
+                        virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
+
                     break;
                 case ACTIVATE_PRODUCTION:
                 case EXTRA_PRODUCTION:
@@ -753,14 +756,13 @@ public class GameController {
     /**
      * rearrange depots as requested by the player
      */
-    public void changeDepotsState(){
+    public void changeDepotsState(Depot[] depots){
         String name = game.getCurrentPlayer().getNickName();
         VirtualView virtualView = getConnectedClients().get(name);
-        for(Depot d: virtualView.getTempDepots()){
+        for(Depot d: depots){
             Depot toChange = game.getCurrentPlayer().getDepotById(d.getId());
             toChange.setDepot(d.getDepot());
         }
-        virtualView.freeTempDepots();
     }
 
     /**

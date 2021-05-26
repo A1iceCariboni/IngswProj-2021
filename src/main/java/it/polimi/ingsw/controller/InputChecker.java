@@ -3,14 +3,13 @@ package it.polimi.ingsw.controller;
 import com.google.gson.Gson;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.enumerations.TurnPhase;
+import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.model.Depot;
-import it.polimi.ingsw.model.ExtraProduction;
-import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Resource;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.server.VirtualView;
+import it.polimi.ingsw.utility.WarehouseConstructor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,7 +81,8 @@ public class InputChecker {
                 int ca = gson.fromJson(message.getPayload(), int.class);
                 return checkOwnedLeaderCard(ca);
             case DEPOTS:
-                return checkDepotsState(nickname);
+                Depot[] depots = WarehouseConstructor.parse(message.getPayload());
+                return checkDepotsState(nickname, depots) && validDepots( depots);
             case REMOVE_RESOURCES:
                 l = gson.fromJson(message.getPayload(), int.class);
                 return checkIdDepot(l);
@@ -154,57 +154,46 @@ public class InputChecker {
      *
      * @return true if it is valid false otherwise
      */
-    public boolean checkDepotsState(String nickname) {
+    public boolean checkDepotsState(String nickname, Depot[] depots) {
         ArrayList<Resource> newPlacement = new ArrayList<>();
-        for (Depot depot : gameController.getVirtualView(nickname).getTempDepots()) {
+        for (Depot depot : depots) {
             if(!checkIdDepot(depot.getId()))return false;
             newPlacement.addAll(depot.getDepot());
         }
-        ArrayList<Resource> intersection;
-        intersection = newPlacement;
-        intersection.removeAll(game.getCurrentPlayer().getPlayerBoard().getWareHouse().getWarehouse());
+        ArrayList<Resource> intersection = new ArrayList<>();
+        intersection.addAll(newPlacement);
+        intersection.removeAll(game.getCurrentPlayer().getPlayerBoard().getWareHouse().getResources());
         if (intersection.isEmpty()) {
-            intersection = game.getCurrentPlayer().getPlayerBoard().getWareHouse().getWarehouse();
+            intersection.addAll(game.getCurrentPlayer().getPlayerBoard().getWareHouse().getResources());
             intersection.removeAll(newPlacement);
             if (intersection.isEmpty()) {
-                for (Depot depot : gameController.getVirtualView(nickname).getTempDepots()) {
-                    if (!validDepot(depot)) {
-                        emptyStorage(nickname);
-                        return false;
-                    }
-                }
+                return true;
             } else {
-                emptyStorage(nickname);
                 return false;
             }
         } else {
-            emptyStorage(nickname);
             return false;
         }
-        return true;
     }
 
     /**
-     * checks if the given depot is a valid depot in terms of dimension and resource type
+     * checks if the given depots are valid  in terms of dimension and resource type
      *
      * @param depot depot to be checked
      * @return true if it is valid, false otherwise
      */
-    public boolean validDepot(Depot depot) {
-        Depot d = game.getCurrentPlayer().getDepotById(depot.getId());
-        for (Resource r : depot.getDepot()) {
-            if (!d.possibleToAdd(r)) {
-                return false;
+    public boolean validDepots( Depot[] depot) {
+        WareHouse wareHouse = new WareHouse();
+        for(Depot d: depot) {
+            for (Resource r : d.getDepot()) {
+                try{
+                    wareHouse.addToDepot(r,d);
+                }catch(NotPossibleToAdd ex){
+                    return false;
+                }
             }
         }
-        return depot.getDepot().size() <= d.getDimension();
-    }
-
-    /**
-     * empty the storage in case of invalid move_resources request
-     */
-    public void emptyStorage(String nickname) {
-        gameController.getVirtualView(nickname).freeTempDepots();
+        return true;
     }
 
     /**
@@ -235,6 +224,7 @@ public class InputChecker {
      * @return true if he owns it
      */
     public boolean checkIdDepot(int id){
+        if(id == -1)return true;
         return game.getCurrentPlayer().getPlayerBoard().getWareHouse().getIds().contains(id);
     }
 

@@ -27,7 +27,6 @@ public class VirtualView implements Observer {
     private ArrayList<Resource> freeResources;
     private ArrayList<Marble> freeMarble;
     private ArrayList<DevelopmentCard> freeDevelopment;
-    private ArrayList<Depot> tempDepots = new ArrayList<>();
     private ArrayList<Resource> resourcesToPay;
     private ArrayList<Integer> cardsToActivate;
     private ArrayList<Integer> extraProductionToActivate;
@@ -116,17 +115,6 @@ public class VirtualView implements Observer {
         this.freeDevelopment.remove(pos);
     }
 
-    public ArrayList<Depot> getTempDepots() {
-        return tempDepots;
-    }
-
-    public void setTempDepots(ArrayList<Depot> tempDepots) {
-        this.tempDepots = tempDepots;
-    }
-
-    public void freeTempDepots() {
-        this.tempDepots.removeAll(this.tempDepots);
-    }
 
     public void addCardToActivate(int id){
         this.cardsToActivate.add(id);

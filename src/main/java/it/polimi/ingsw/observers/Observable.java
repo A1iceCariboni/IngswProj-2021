@@ -1,10 +1,8 @@
 package it.polimi.ingsw.observers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import it.polimi.ingsw.messages.Message;
 
 import java.util.ArrayList;
-import java.util.function.Consumer;
 
 public abstract class Observable {
    private final ArrayList<Observer> observers = new ArrayList<>();
@@ -31,7 +29,7 @@ public abstract class Observable {
      * notify all the observers
      * @param message massage to be processed
      */
-   public void notifyObserver(Message message) throws JsonProcessingException {
+   public void notifyObserver(Message message)  {
     for(Observer observer : observers){
         observer.update(message);
     }

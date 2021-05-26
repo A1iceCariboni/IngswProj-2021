@@ -64,7 +64,7 @@ public class WareHouse {
     }
 
     /** This method gets the resources from the depot **/
-    public ArrayList<Resource> getWarehouse(){
+    public ArrayList<Resource> getResources(){
         ArrayList<Resource> res = new ArrayList<>();
         for(Depot d : this.depots){
             if(d.getId() != -1) {

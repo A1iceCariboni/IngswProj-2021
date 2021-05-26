@@ -38,7 +38,7 @@ public class PlayerBoard {
 
     public ArrayList<Resource> getResources() {
         ArrayList<Resource> res = new ArrayList<>();
-        res.addAll(this.wareHouse.getWarehouse());
+        res.addAll(this.wareHouse.getResources());
         res.addAll(this.strongBox.getRes());
         return res;
     }

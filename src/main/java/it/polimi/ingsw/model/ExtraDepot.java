@@ -18,7 +18,6 @@ import java.util.Objects;
 
         public ExtraDepot(int dimension,int id, ResourceType type) {
             super( dimension,id, new ArrayList<>());
-
             this.type = type;
         }
         /**

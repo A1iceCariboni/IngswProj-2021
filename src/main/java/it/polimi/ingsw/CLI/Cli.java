@@ -265,7 +265,7 @@ public class Cli extends CliObservable {
     /**
      * adds a resource where the player wants to add it
      * adds the resources to the dummy warehouse
-     * notifies the server about the choice and sends -1 if the resource must be discard
+     * notifies the server about the choice and sends -1 if the resource must be discarded
      */
     public void addResourceToWareHouse(String[] resource) {
         int[] answer = new int[resource.length];
