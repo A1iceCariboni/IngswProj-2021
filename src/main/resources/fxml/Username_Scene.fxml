@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<StackPane prefHeight="760.0" prefWidth="1300.0" styleClass="anchor" stylesheets="@../css/login_scene.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.LoginController">
+<children>
+   <Group scaleX="1.5" scaleY="1.5">
+      <children>
+         <AnchorPane layoutX="-28.0" layoutY="-1.0" prefHeight="545.0" prefWidth="712.0" styleClass="anchor" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="183.0" layoutY="174.0" prefHeight="44.0" prefWidth="376.0" text="Choose your Nickname:" textFill="WHITE">
+         <font>
+            <Font name="Book Antiqua" size="23.0" />
+         </font>
+      </Label>
+      <TextField fx:id="Nickname_field" layoutX="200.0" layoutY="227.0" prefHeight="25.0" prefWidth="353.0" />
+      <Button fx:id="joinButton" contentDisplay="CENTER" layoutX="183.0" layoutY="329.0" mnemonicParsing="false" onAction="#Login" prefHeight="51.0" prefWidth="157.0" text="Join">
+         <effect>
+            <DropShadow height="66.47" radius="32.239999999999995" spread="0.38" width="64.49">
+               <color>
+                  <Color red="0.7456140518188477" green="0.3375207483768463" blue="0.046025559306144714" />
+               </color>
+            </DropShadow>
+         </effect>
+         <font>
+            <Font name="Book Antiqua" size="19.0" />
+         </font>
+      </Button>
+      <Button fx:id="back_to_menu" contentDisplay="CENTER" layoutX="432.0" layoutY="328.0" mnemonicParsing="false" onAction="#GotMenuScene" prefHeight="51.0" prefWidth="157.0" text="Back to Menu">
+         <effect>
+            <DropShadow height="66.47" radius="32.239999999999995" spread="0.38" width="64.49">
+               <color>
+                  <Color red="0.7456140518188477" green="0.3375207483768463" blue="0.046025559306144714" />
+               </color>
+            </DropShadow>
+         </effect>
+         <font>
+            <Font name="Book Antiqua" size="19.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
+</children>
+</Group>
+</children>
+</StackPane>
