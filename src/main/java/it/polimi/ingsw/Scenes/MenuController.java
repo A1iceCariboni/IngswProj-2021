@@ -17,7 +17,6 @@ import java.io.IOException;
 
 public class MenuController extends Observable {
 
-    public ImageView settingsBackground;
 
         @FXML
         AnchorPane rootPane;
@@ -43,7 +42,7 @@ public class MenuController extends Observable {
            window.setResizable(false);
            window.setMaximized(true);
            window.setFullScreen(true);
-           window.setFullScreenExitHint("");
+           window.setFullScreenExitHint(" ");
            window.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 
        }
