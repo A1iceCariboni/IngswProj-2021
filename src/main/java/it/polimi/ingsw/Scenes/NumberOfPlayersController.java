@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Scenes;
 
+import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.observers.GuiObservable;
 import it.polimi.ingsw.observers.Observable;
 import javafx.collections.FXCollections;
@@ -29,7 +30,6 @@ public class NumberOfPlayersController extends GuiObservable {
 
     @FXML
     AnchorPane Waiting;
-
 
 
 

@@ -1,6 +1,10 @@
 package it.polimi.ingsw.Scenes;
 
+import it.polimi.ingsw.Gui.GUIRunnable;
+import it.polimi.ingsw.enumerations.Constants;
+import it.polimi.ingsw.observers.GuiObservable;
 import it.polimi.ingsw.observers.Observable;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -10,12 +14,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class MenuController extends Observable {
+public class MenuController extends GuiObservable {
 
 
         @FXML
@@ -25,25 +30,20 @@ public class MenuController extends Observable {
         @FXML
         Button ExitButton;
 
-        @FXML
-        private Button BottoneTitolo;
+
+    @FXML
+    public void initialize()  {
 
 
-
+     PlayButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::GotoLoggerScene);
+    }
 
 
        @FXML
-       public void GotoLoggerScene(Event event) throws IOException {
-           Parent root = FXMLLoader.load(getClass().getResource("/fxml/Username_Scene.fxml"));
-           Stage window =(Stage) PlayButton.getScene().getWindow();
-           window.setScene(new Scene(root));
-           window.setWidth(1280d);
-           window.setHeight(720d);
-           window.setResizable(false);
-           window.setMaximized(true);
-           window.setFullScreen(true);
-           window.setFullScreenExitHint(" ");
-           window.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+       public void GotoLoggerScene(Event event){
+           int port = Constants.DEFAULT_PORT;
+           String ip = Constants.LOCAL_HOST;
+           notifyObserver(obs -> obs.onConnectionRequest(ip,port));
 
        }
 
@@ -52,9 +52,5 @@ public class MenuController extends Observable {
            System.exit(0);
       }
 
-    public void nascondititolo(ActionEvent actionEvent) {
 
-
-
-    }
 }

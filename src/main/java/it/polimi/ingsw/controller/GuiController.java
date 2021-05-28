@@ -24,7 +24,7 @@ import it.polimi.ingsw.observers.Observer;
      * reads messages from server and pass them to the client
      * @author Alice Cariboni, Sofia Canestraci
      */
-    public class GuiController implements GuiObserver, Observer {
+    public class GuiController implements GuiObserver, Observer{
         private final Gui gui;
 
         private SocketClient client;
@@ -116,7 +116,8 @@ import it.polimi.ingsw.observers.Observer;
                     break;
 
                 case INVALID_NICKNAME:
-                    executionQueue.execute(() -> gui.askNickname());
+                    executionQueue.execute(() -> { gui.askNickname();
+                    });
                     break;
 
                 case DUMMY_LEADER_CARD:

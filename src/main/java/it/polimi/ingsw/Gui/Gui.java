@@ -1,31 +1,38 @@
 package it.polimi.ingsw.Gui;
 
+import com.google.gson.Gson;
+import it.polimi.ingsw.Scenes.LoginController;
+import it.polimi.ingsw.Scenes.MenuController;
 import it.polimi.ingsw.client.DummyModel.*;
+import it.polimi.ingsw.client.InputReadTask;
+import it.polimi.ingsw.controller.GuiController;
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.observers.GuiObservable;
+import javafx.application.Platform;
+import javafx.scene.Scene;
 
 public class Gui extends GuiObservable{
 
 
-    public void start() {
-        int port = Constants.DEFAULT_PORT;
-        String ip = Constants.LOCAL_HOST;
-        notifyObserver(obs -> obs.onConnectionRequest(ip,port));
-
-    }
+    Gson gson = new Gson();
+    private TurnPhase turnPhase;
+    private Scene scene;
 
 
-    public String readLine() {
-        return null;
+    public Gui() {
     }
 
 
     public void askNickname() {
+      //  GUIRunnable.changeLogin(
+        Platform.runLater(() -> GUIRunnable.changeLogin());
 
     }
 
-    public void askNumberOfPlayers() {
+    public void askNumberOfPlayers()  {
+
+        Platform.runLater(() -> GUIRunnable.changetoNumPlayers());
 
     }
 
