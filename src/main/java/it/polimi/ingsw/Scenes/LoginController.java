@@ -1,5 +1,4 @@
 package it.polimi.ingsw.Scenes;
-
 import it.polimi.ingsw.messages.request.SetupMessage;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.event.Event;
@@ -11,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -34,7 +32,6 @@ public class LoginController extends ViewObservable {
     public void initialize(){
         InvalidNickname.setOpacity(0);
 
-        joinButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::Login);
       //  back_to_menu.addEventHandler(MouseEvent.MOUSE_CLICKED, this::GotMenuScene);
     }
 
@@ -48,7 +45,6 @@ public class LoginController extends ViewObservable {
         }else {
             SetupMessage setupMessage = new SetupMessage(nickname);
             notifyObserver(obs -> obs.onUpdateNickname(setupMessage));
-
         }
 
     }

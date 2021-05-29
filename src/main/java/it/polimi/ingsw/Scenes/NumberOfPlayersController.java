@@ -1,5 +1,5 @@
 package it.polimi.ingsw.Scenes;
-
+import it.polimi.ingsw.messages.request.NumberOfPlayerReply;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,9 +52,9 @@ public class NumberOfPlayersController extends ViewObservable {
 
      @FXML
     public void GotoWaitingScene(ActionEvent actionEvent) {
-        String selected = playerschoice.getValue();
-        int playersNumber = Character.getNumericValue(playerschoice.getValue().charAt(0));
-       // new Thread(() -> notifyObserver(obs -> obs.onUpdatePlayersNumber(playersNumber))).start();
+         int number = Character.getNumericValue(playerschoice.getValue().charAt(0));
+         NumberOfPlayerReply message = new NumberOfPlayerReply(Integer.toString(number));
+         notifyObserver(obs -> obs.onReadyReply(message));
 
 
     }

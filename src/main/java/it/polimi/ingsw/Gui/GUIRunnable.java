@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Gui;
 import it.polimi.ingsw.Scenes.LoginController;
 import it.polimi.ingsw.Scenes.MenuController;
+import it.polimi.ingsw.Scenes.NumberOfPlayersController;
 import it.polimi.ingsw.client.SocketClient;
 import it.polimi.ingsw.controller.GuiController;
 import javafx.application.Application;
@@ -17,6 +18,9 @@ public class GUIRunnable extends Application {
 
     private static Scene scene;
 
+    public static Scene getScene() {
+        return scene;
+    }
 
     /**
      * Returns the active controller.
@@ -56,32 +60,37 @@ public class GUIRunnable extends Application {
 
 
 
-    public static void changeLogin() {
+    public static LoginController changeLogin(LoginController l) {
         try {
         FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Username_Scene.fxml"));
             Parent root = loader.load();
-
-
             scene.setRoot(root);
-
-
+            l = loader.getController();
         } catch (IOException e) {
             SocketClient.LOGGER.severe(e.getMessage());
         }
+        return l;
     }
 
-    public static void changetoNumPlayers() {
+
+
+
+
+
+    public static NumberOfPlayersController changetoNumPlayers(NumberOfPlayersController n) {
         try {
 
             FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Number_of_players_Scene.fxml"));
             Parent root = loader.load();
             scene.setRoot(root);
-
+            n = loader.getController();
 
 
         } catch (IOException e) {
             SocketClient.LOGGER.severe(e.getMessage());
         }
+        return n;
     }
+
 
 }

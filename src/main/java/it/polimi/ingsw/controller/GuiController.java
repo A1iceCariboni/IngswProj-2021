@@ -49,7 +49,7 @@ import it.polimi.ingsw.observers.Observer;
         public void onConnectionRequest(String ip, int port) {
             client = new SocketClient(ip, port);
             client.addObserver(this);
-            //client.enablePing(true);
+            client.enablePing(true);
 
             try {
                 client.readMessage();
@@ -122,7 +122,7 @@ import it.polimi.ingsw.observers.Observer;
 
                 case DUMMY_LEADER_CARD:
                     DummyLeaderCard[] dummyLeaderCards = gson.fromJson(message.getPayload(), DummyLeaderCard[].class);
-                    executionQueue.execute(() -> gui.DummyLeaderCardIn(dummyLeaderCards));
+                    executionQueue.execute(() -> gui.dummyLeaderCardIn(dummyLeaderCards));
                     break;
 
                 case FAITH_TRACK:
@@ -202,7 +202,8 @@ import it.polimi.ingsw.observers.Observer;
                 case END_TURN:
                     //executionQueue.execute(cli::waitTurn);
                     break;
-
+                case PONG:
+                    break;
                 default:
                     System.out.println("Error reading from server");
                     executionQueue.execute(() -> client.disconnect());

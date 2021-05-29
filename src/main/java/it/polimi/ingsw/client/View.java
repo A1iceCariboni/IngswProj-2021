@@ -6,7 +6,7 @@ import it.polimi.ingsw.enumerations.TurnPhase;
 public interface View {
 
 
-     void start();
+
 
      void askNickname();
 
@@ -61,9 +61,6 @@ public interface View {
      void setTurnPhase(TurnPhase turnPhase);
 
      TurnPhase getTurnPhase();
-
-
-
 
 
 }

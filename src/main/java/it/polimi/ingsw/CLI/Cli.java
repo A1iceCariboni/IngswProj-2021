@@ -38,7 +38,7 @@ public class Cli extends ViewObservable implements View {
     }
 
 
-    @Override
+
     public void start() {
         /*System.out.println(">Insert the server IP address");
         System.out.print(">");

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.enumerations.MarbleColor;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.answer.ErrorMessage;

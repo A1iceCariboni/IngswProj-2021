@@ -3,13 +3,16 @@ package it.polimi.ingsw.Gui;
 
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.Scenes.LoginController;
+import it.polimi.ingsw.Scenes.NumberOfPlayersController;
 import it.polimi.ingsw.client.DummyModel.*;
+import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 
-public class Gui extends ViewObservable {
+public class Gui extends ViewObservable implements View {
 
 
     Gson gson = new Gson();
@@ -17,178 +20,145 @@ public class Gui extends ViewObservable {
     private Scene scene;
 
 
-    public Gui() {
-    }
-
-
+    @Override
     public void askNickname() {
-      //  GUIRunnable.changeLogin(
-        Platform.runLater(() -> GUIRunnable.changeLogin());
+        LoginController loginController = new LoginController();
+        Platform.runLater(() -> GUIRunnable.changeLogin(loginController).addAllObservers(observers));
+
 
     }
 
-    public void askNumberOfPlayers()  {
+    @Override
+    public void askNumberOfPlayers() {
+        NumberOfPlayersController n = new NumberOfPlayersController();
 
-        Platform.runLater(() -> GUIRunnable.changetoNumPlayers());
+        Platform.runLater(() -> GUIRunnable.changetoNumPlayers(n).addAllObservers(observers));
+    }
+
+    @Override
+    public void dummyLeaderCardIn(DummyLeaderCard[] dummyLeaderCards) {
 
     }
 
-
-    public void DummyLeaderCardIn(DummyLeaderCard[] dummyLeaderCards) {
-
-    }
-
-    public void faithTrackNew(DummyFaithTrack faithTrack) {
+    @Override
+    public void faithTrackNew(DummyFaithTrack dummyFaithTrack) {
 
     }
 
-
-    public void devMarketNew(DummyDev[][] devMarket) {
-
-    }
-
-
-    public void marketTrayNew(DummyMarket market) {
+    @Override
+    public void devMarketNew(DummyDev[][] dummyDevs) {
 
     }
 
+    @Override
+    public void marketTrayNew(DummyMarket dummyMarket) {
 
+    }
+
+    @Override
     public void yourTurn() {
 
     }
 
-
+    @Override
     public void wareHouseNew(DummyWareHouse dummyWareHouse) {
 
     }
 
-
+    @Override
     public void chooseAction() {
 
     }
 
-
+    @Override
     public void discardResource() {
 
     }
 
-
+    @Override
     public void modifyWarehouse() {
 
     }
 
-
+    @Override
     public void discardLeader() {
 
     }
 
-
+    @Override
     public void chooseResources(int quantity) {
 
     }
 
-
+    @Override
     public void addResourceToWareHouse(String[] resource) {
 
     }
 
-
+    @Override
     public void activateLeader() {
 
     }
 
-
+    @Override
     public void askWhiteMarble(int num) {
 
     }
 
-
+    @Override
     public void takeResourcesFromMarket() {
 
     }
 
-
+    @Override
     public void buyDevelopmentCard() {
 
     }
 
-
+    @Override
     public void activateProduction(String[] toPay) {
 
     }
 
-
-    public String readYN() {
-        return null;
-    }
-
-
-    public int readInt(int max_value, int min_value, String question) {
-        return 0;
-    }
-
-
-    public int readAnyInt(String question) {
-        return 0;
-    }
-
-
-    public String readResource() {
-        return null;
-    }
-
-
-    public void checkResponse(String name) {
+    @Override
+    public void checkResponse(String message) {
 
     }
 
-
+    @Override
     public void modifyFaithMarker(int pos) {
 
     }
 
-
-    public void payResources(String[] resource) {
+    @Override
+    public void payResources(String[] resources) {
 
     }
 
-
+    @Override
     public void slotChoice() {
 
     }
 
+    @Override
+    public void newDummyStrongBox(DummyStrongbox dummyStrongbox) {
 
-    public int readDepotId() {
-        return 0;
     }
 
+    @Override
+    public void addDevCards(DummyDev[] dummyDevs) {
 
+    }
+
+    @Override
+    public void setTurnPhase(TurnPhase turnPhase) {
+
+    }
+
+    @Override
     public TurnPhase getTurnPhase() {
         return null;
     }
 
 
-    public void newDummyStrongBox(DummyStrongbox strongBox) {
-
-    }
-
-
-    public void addDevCards(DummyDev[] cards) {
-
-    }
-
-
-    public void waitTurn() {
-
-    }
-
-
-    public void setTurnPhase(TurnPhase turnPhase) {
-
-    }
-
-
-    public String readLineWithTimeout() {
-        return null;
-    }
 }

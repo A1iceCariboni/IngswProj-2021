@@ -1,11 +1,9 @@
 package it.polimi.ingsw.Scenes;
-
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class MenuController extends ViewObservable {
@@ -21,9 +19,6 @@ public class MenuController extends ViewObservable {
 
     @FXML
     public void initialize()  {
-
-
-     PlayButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::GotoLoggerScene);
     }
 
 
@@ -32,7 +27,6 @@ public class MenuController extends ViewObservable {
            int port = Constants.DEFAULT_PORT;
            String ip = Constants.LOCAL_HOST;
            notifyObserver(obs -> obs.onConnectionRequest(ip,port));
-
        }
 
       @FXML
