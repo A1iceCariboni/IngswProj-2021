@@ -1,26 +1,14 @@
 package it.polimi.ingsw.Scenes;
 
-import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.enumerations.Constants;
-import it.polimi.ingsw.observers.GuiObservable;
-import it.polimi.ingsw.observers.Observable;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
+import it.polimi.ingsw.observers.ViewObservable;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
-import java.io.IOException;
-
-public class MenuController extends GuiObservable {
+public class MenuController extends ViewObservable {
 
 
         @FXML

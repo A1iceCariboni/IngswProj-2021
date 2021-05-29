@@ -52,7 +52,7 @@ public class ClientHandler implements  Runnable{
         this.ponger = Executors.newSingleThreadScheduledExecutor();
 
         try {
-            //client.setSoTimeout(5000);
+            client.setSoTimeout(5000);
             in = new BufferedReader(new InputStreamReader(client.getInputStream()));
             out = new PrintWriter(client.getOutputStream());
         } catch (IOException e) {

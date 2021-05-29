@@ -64,11 +64,10 @@ public class GameController {
         if (!turnController.getActivePlayer().equals(nickname)) {
             virtualView.update(new ErrorMessage("It's not your turn"));
         } else {
-            switch (gamePhase) {
-                case FIRST_ROUND: firstRoundHandler(message, virtualView);
-                case IN_GAME:
-                case LAST_ROUND : actionHandler(message, virtualView);
-                default: virtualView.update(new ErrorMessage("not possible"));
+            switch (this.gamePhase) {
+                case FIRST_ROUND -> firstRoundHandler(message, virtualView);
+                case IN_GAME, LAST_ROUND -> actionHandler(message, virtualView);
+                default-> virtualView.update(new ErrorMessage("not possible"));
             }
         }
     }
@@ -148,6 +147,10 @@ public class GameController {
     }
 
 
+    public void sendUpdateMove(final PlayerMove playerMove){
+        sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "ACTION: " + playerMove.name() + " PLAYER: " + this.game.getCurrentPlayer().getNickName()), this.getVirtualView(this.game.getCurrentPlayer().getNickName()));
+    }
+
     public boolean isStarted() {
         return isStarted;
     }
@@ -201,7 +204,9 @@ public class GameController {
        DummyDev[][] dummyDevs = new DummyDev[Constants.rows][Constants.cols];
        for(int r = 0; r < Constants.rows; r++){
            for(int c = 0; c < Constants.cols; c++){
-               dummyDevs[r][c] = game.getDeckDevelopment()[r][c].getCard().getDummy();
+               if(!game.getDeckDevelopment()[r][c].isEmpty()) {
+                   dummyDevs[r][c] = game.getDeckDevelopment()[r][c].getCard().getDummy();
+               }
            }
        }
            sendAll(new Message(MessageType.DEVELOPMENT_MARKET, gson.toJson(dummyDevs)));
@@ -264,12 +269,20 @@ public class GameController {
      * sends the updated faithmarker, if there is a vatican report it sends the new faith track to all players
      */
     public void updateFaith(){
-        Gson gson = new Gson();
-        VirtualView virtualView = connectedClients.get(turnController.getActivePlayer());
+         VirtualView virtualView = connectedClients.get(turnController.getActivePlayer());
         virtualView.update(new Message(MessageType.FAITH_MOVE,gson.toJson(game.getCurrentPlayer().getPlayerBoard().getFaithMarker())));
          if(game.checkPopeSpace()){
              sendUpdateFaithTrack();
          }
+    }
+
+    public void sendAllUpdateFaith(){
+        for(VirtualView virtualView : connectedClients.values()) {
+            virtualView.update(new Message(MessageType.FAITH_MOVE, gson.toJson(game.getCurrentPlayer().getPlayerBoard().getFaithMarker())));
+            if (game.checkPopeSpace()) {
+                sendUpdateFaithTrack();
+            }
+        }
     }
 
     public void actionHandler(Message message, VirtualView virtualView) {
@@ -560,15 +573,16 @@ public class GameController {
      * @param rig row in the matrix of developments
      * @param col column in the matrix of developments
      */
-   public void buyDevelopment(int rig, int col){
-       String name = game.getCurrentPlayer().getNickName();
-       VirtualView virtualView = getConnectedClients().get(name);
+   public void buyDevelopment(final int rig, final int col){
+        String name = game.getCurrentPlayer().getNickName();
+        VirtualView virtualView = getConnectedClients().get(name);
         if(game.getDeckDevelopment()[rig][col].getCard().isBuyable(game.getCurrentPlayer())){
-            turnController.doneGameAction();
             virtualView.addFreeDevelopment(game.getDeckDevelopment()[rig][col].popCard());
             turnController.doneGameAction();
             turnPhase = TurnPhase.BUY_DEV;
+            sendUpdateMarketDev();
             sendResourcesToPay();
+            sendUpdateMove(PlayerMove.BUY_DEV_CARD);
         }else{
             virtualView.update(new ErrorMessage("You don't have enough resources to buy this card, choose another one"));
             virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
@@ -591,6 +605,7 @@ public class GameController {
            success = true;
        } catch (CannotAdd cannotAdd) {
            virtualView.update(new ErrorMessage(cannotAdd.getMessage()));
+           virtualView.update(new Message(MessageType.SLOT_CHOICE, ""));
            success = false;
        }
        if(success){
@@ -629,6 +644,8 @@ public class GameController {
            startProduction();
            virtualView.removeAllResourcesToProduce();
            turnPhase = TurnPhase.FREE;
+       }else{
+           virtualView.update(new Message(MessageType.SLOT_CHOICE, ""));
        }
        virtualView.update(new OkMessage("Payed successfully!"));
    }
@@ -639,8 +656,6 @@ public class GameController {
      */
     public void placeResources() {
         String name = game.getCurrentPlayer().getNickName();
-        VirtualView virtualView = getConnectedClients().get(name);
-        ArrayList<String> names = new ArrayList<>();
         sendResourcesToPlace();
     }
 
@@ -659,10 +674,7 @@ public class GameController {
                             player.getPlayerBoard().moveFaithMarker(1);
                         }
                     }
-                    if (game.checkPopeSpace()) {
-                        sendUpdateFaithTrack();
-                    }
-                    sendAllExcept(new Message(MessageType.FAITH_MOVE, "1"), virtualView);
+                    sendAllUpdateFaith();
                 } else {
                     Depot d = game.getCurrentPlayer().getDepotById(j);
                     game.getCurrentPlayer().getPlayerBoard().getWareHouse().addToDepot(game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().get(0), d);
@@ -672,6 +684,7 @@ public class GameController {
         sendDepots();
         sendStrongBox();
         setTurnPhase(TurnPhase.FREE);
+        sendUpdateMove(PlayerMove.BUY_RESOURCES);
     }
 
     /**
@@ -936,7 +949,7 @@ public class GameController {
                     p.getPlayerBoard().moveFaithMarker(1);
                 }
             }
-            sendAllExcept(new Message(MessageType.FAITH_MOVE,gson.toJson(game.getCurrentPlayer().getPlayerBoard().getFaithMarker())), getVirtualView(turnController.getActivePlayer()));
+            sendAllUpdateFaith();
             if(game.checkPopeSpace()){
                 sendUpdateFaithTrack();
             }

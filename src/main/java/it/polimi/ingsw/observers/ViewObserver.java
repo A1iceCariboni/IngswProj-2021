@@ -4,7 +4,7 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.request.NumberOfPlayerReply;
 import it.polimi.ingsw.messages.request.SetupMessage;
 
-public interface CliObserver{
+public interface ViewObserver {
 
    void onConnectionRequest(String ip, int port);
    void onUpdateNickname(SetupMessage setupMessage);

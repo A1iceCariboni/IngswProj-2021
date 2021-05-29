@@ -32,14 +32,14 @@ public class SocketClient extends Observable {
 
     public SocketClient(String ip, int port){
         try {
-            this.socket = new Socket(ip,port);
-           // this.socket.setSoTimeout(5000);
+            socket = new Socket(ip,port);
+            socket.setSoTimeout(5000);
 
-            this.out = new PrintWriter(socket.getOutputStream(), true);
-            this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            this.readerExecutor = Executors.newSingleThreadExecutor();
-            this.active = true;
-            this.pinger = Executors.newSingleThreadScheduledExecutor();
+            out = new PrintWriter(socket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            readerExecutor = Executors.newSingleThreadExecutor();
+            active = true;
+            pinger = Executors.newSingleThreadScheduledExecutor();
         } catch (UnknownHostException e) {
             System.out.println("Couldn't find hosts IP address...");
             System.exit(1);
@@ -77,9 +77,11 @@ public class SocketClient extends Observable {
      * sends a message to server
      * @param message to be sent
      */
-    public void sendMessage(Message message){
-        Gson gson = new Gson();
-        System.out.println(gson.toJson(message));
+    public synchronized void sendMessage( Message message){
+         Gson gson = new Gson();
+        if(message.getCode() != MessageType.PING) {
+            System.out.println(gson.toJson(message));
+        }
         out.println(gson.toJson(message));
         out.flush();
 

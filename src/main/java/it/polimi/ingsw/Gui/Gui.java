@@ -1,18 +1,15 @@
 package it.polimi.ingsw.Gui;
 
+
+
 import com.google.gson.Gson;
-import it.polimi.ingsw.Scenes.LoginController;
-import it.polimi.ingsw.Scenes.MenuController;
 import it.polimi.ingsw.client.DummyModel.*;
-import it.polimi.ingsw.client.InputReadTask;
-import it.polimi.ingsw.controller.GuiController;
-import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.enumerations.TurnPhase;
-import it.polimi.ingsw.observers.GuiObservable;
+import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 
-public class Gui extends GuiObservable{
+public class Gui extends ViewObservable {
 
 
     Gson gson = new Gson();

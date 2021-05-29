@@ -95,11 +95,13 @@ public class InputChecker {
         return game.getCurrentPlayer().getPlayerBoard().getWareHouse().canAddToDepot(res, d);
     }
 
-    private boolean checkResources(ArrayList<Resource> resource) {
-        ArrayList<Resource> price = gameController.getVirtualView(game.getCurrentPlayer().getNickName()).getResourcesToPay();
+    private boolean checkResources( ArrayList<Resource> resource) {
+        ArrayList<Resource> price = new ArrayList<>();
+        price.addAll(gameController.getVirtualView(game.getCurrentPlayer().getNickName()).getResourcesToPay());
         price.addAll(resource);
         if(game.getCurrentPlayer().getPlayerBoard().getResources().isEmpty())return false;
-        ArrayList<Resource> wallet = game.getCurrentPlayer().getPlayerBoard().getResources();
+        ArrayList<Resource> wallet = new ArrayList<>();
+        wallet.addAll(game.getCurrentPlayer().getPlayerBoard().getResources());
 
         while(!wallet.isEmpty() && wallet.contains(price.get(0))){
             wallet.remove(price.get(0));
@@ -166,11 +168,7 @@ public class InputChecker {
         if (intersection.isEmpty()) {
             intersection.addAll(game.getCurrentPlayer().getPlayerBoard().getWareHouse().getResources());
             intersection.removeAll(newPlacement);
-            if (intersection.isEmpty()) {
-                return true;
-            } else {
-                return false;
-            }
+            return intersection.isEmpty();
         } else {
             return false;
         }

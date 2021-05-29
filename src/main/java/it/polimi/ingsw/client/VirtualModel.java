@@ -606,10 +606,16 @@ public class VirtualModel {
 
 
         }
-        String cards = " CardID: " + card.getId()
-                + "\n Color:" + card.getColor()
-                + "\n Level:" + card.getLevel()
-                + "\n Production Power:" + card.getProductionPower();
+         String cards;
+        if(card != null) {
+            cards = " CardID: " + card.getId()
+                    + "\n Color:" + card.getColor()
+                    + "\n Level:" + card.getLevel()
+                    + "\n Cost: " + card.getCost()
+                    + "\n Production Power:" + card.getProductionPower();
+        }else{
+            cards = "Empty deck";
+        }
 
         System.out.println(cards + "\n");
     }

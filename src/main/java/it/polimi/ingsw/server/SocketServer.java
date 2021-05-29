@@ -43,7 +43,7 @@ public class SocketServer implements  Runnable{
                 Socket client = serverSocket.accept();
 
                 ClientHandler clientHandler = new ClientHandler(client, this, server);
-                //clientHandler.enablePong(true);
+                clientHandler.enablePong(true);
                 Server.LOGGER.info("Accepted new client "+ client.getInetAddress());
                 executor.submit(clientHandler);
             } catch (IOException ex){
@@ -72,7 +72,7 @@ public class SocketServer implements  Runnable{
     @Override
     public void run() {
         try{
-            this.serverSocket = new ServerSocket(port);
+            serverSocket = new ServerSocket(port);
             System.out.println("Server listening on port " + port);
             acceptConnections(serverSocket);
         }catch(IOException e){

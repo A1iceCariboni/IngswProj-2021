@@ -24,7 +24,7 @@ import it.polimi.ingsw.observers.Observer;
      * reads messages from server and pass them to the client
      * @author Alice Cariboni, Sofia Canestraci
      */
-    public class GuiController implements GuiObserver, Observer{
+    public class GuiController implements ViewObserver, Observer{
         private final Gui gui;
 
         private SocketClient client;

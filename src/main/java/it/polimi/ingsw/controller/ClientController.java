@@ -8,7 +8,7 @@ import it.polimi.ingsw.enumerations.GamePhase;
 import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.request.SetupMessage;
-import it.polimi.ingsw.observers.CliObserver;
+import it.polimi.ingsw.observers.ViewObserver;
 import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.utility.DummyWarehouseConstructor;
 
@@ -24,7 +24,7 @@ import java.util.concurrent.Executors;
  * reads messages from server and pass them to the client
  * @author Alice Cariboni, Sofia Canestraci
  */
-public class ClientController implements CliObserver,Observer {
+public class ClientController implements ViewObserver,Observer {
     private final Cli cli;
 
     private SocketClient client;
@@ -49,7 +49,7 @@ public class ClientController implements CliObserver,Observer {
     public void onConnectionRequest(String ip, int port) {
         client = new SocketClient(ip, port);
         client.addObserver(this);
-        //client.enablePing(true);
+        client.enablePing(true);
 
         try {
             client.readMessage();
@@ -58,7 +58,7 @@ public class ClientController implements CliObserver,Observer {
         }
         cli.askNickname();
 
-        this.gamePhase = GamePhase.INIT;
+        gamePhase = GamePhase.INIT;
     }
 
     /**
@@ -105,8 +105,7 @@ public class ClientController implements CliObserver,Observer {
 
         switch (message.getCode()) {
             case NUMBER_OF_PLAYERS:
-                printMessage(message.getPayload());
-                executionQueue.execute(cli::askNumberOfPlayers);
+                executionQueue.execute(this.cli::askNumberOfPlayers);
 
                 break;
             case GENERIC_MESSAGE:
@@ -121,7 +120,7 @@ public class ClientController implements CliObserver,Observer {
 
             case DUMMY_LEADER_CARD:
                 DummyLeaderCard[] dummyLeaderCards = gson.fromJson(message.getPayload(), DummyLeaderCard[].class);
-                executionQueue.execute(() -> cli.DummyLeaderCardIn(dummyLeaderCards));
+                executionQueue.execute(() -> cli.dummyLeaderCardIn(dummyLeaderCards));
                 break;
 
             case FAITH_TRACK:
@@ -200,6 +199,8 @@ public class ClientController implements CliObserver,Observer {
 
             case END_TURN:
                 //executionQueue.execute(cli::waitTurn);
+                break;
+            case PONG:
                 break;
 
             default:

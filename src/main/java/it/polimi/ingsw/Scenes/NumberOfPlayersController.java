@@ -1,8 +1,6 @@
 package it.polimi.ingsw.Scenes;
 
-import it.polimi.ingsw.Gui.GUIRunnable;
-import it.polimi.ingsw.observers.GuiObservable;
-import it.polimi.ingsw.observers.Observable;
+import it.polimi.ingsw.observers.ViewObservable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,14 +10,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.RadioButton;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class NumberOfPlayersController extends GuiObservable {
+public class NumberOfPlayersController extends ViewObservable {
   ObservableList list = FXCollections.observableArrayList();
     @FXML
     public Button ConfirmButton;

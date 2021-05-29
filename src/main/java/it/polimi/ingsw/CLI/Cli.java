@@ -3,6 +3,7 @@ package it.polimi.ingsw.CLI;
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.DummyModel.*;
 import it.polimi.ingsw.client.InputReadTask;
+import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.enumerations.TurnPhase;
@@ -11,7 +12,7 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.request.NumberOfPlayerReply;
 import it.polimi.ingsw.messages.request.SetupMessage;
-import it.polimi.ingsw.observers.CliObservable;
+import it.polimi.ingsw.observers.ViewObservable;
 import it.polimi.ingsw.utility.DummyWarehouseConstructor;
 
 import java.util.ArrayList;
@@ -22,20 +23,22 @@ import java.util.concurrent.ExecutionException;
  * @author Sofia Canestraci, Alice Cariboni
  * class that implements the method to answer to the server message in the client controller
  */
-public class Cli extends CliObservable {
+public class Cli extends ViewObservable implements View {
     private final VirtualModel virtualModel = new VirtualModel();
     Gson gson = new Gson();
     private TurnPhase turnPhase;
     private final InputReadTask inputReadTask;
 
     public Cli() {
-        this.inputReadTask = new InputReadTask();
+        inputReadTask = new InputReadTask();
     }
 
     public VirtualModel getVirtualModel() {
-        return virtualModel;
+        return this.virtualModel;
     }
 
+
+    @Override
     public void start() {
         /*System.out.println(">Insert the server IP address");
         System.out.print(">");
@@ -54,13 +57,14 @@ public class Cli extends CliObservable {
      *
      * @return the string read from the input.
      */
-    public String readLine(String question) throws ExecutionException, InterruptedException {
-        return inputReadTask.readLine(question).get();
+    public String readLine(final String question) throws ExecutionException, InterruptedException {
+        return this.inputReadTask.readLine(question).get();
     }
 
+    @Override
 
     public void askNickname()  {
-        String nickname;
+         String nickname;
         try {
             nickname = readLine("Insert your nickname >");
             SetupMessage setupMessage = new SetupMessage(nickname);
@@ -69,6 +73,9 @@ public class Cli extends CliObservable {
             System.out.println("Interrupted input");
         }
     }
+
+
+    @Override
 
     public void askNumberOfPlayers() {
         boolean ok = false;
@@ -95,14 +102,18 @@ public class Cli extends CliObservable {
         }
     }
 
+    @Override
+
     /**
      * adds the leader card to the board of the player
      * @param dummyLeaderCards cards of the player
      */
-    public void DummyLeaderCardIn(DummyLeaderCard[] dummyLeaderCards){
+    public void dummyLeaderCardIn(DummyLeaderCard[] dummyLeaderCards){
         virtualModel.setLeaderCard(dummyLeaderCards);
         virtualModel.showLeaderCards();
     }
+
+    @Override
 
     /**
      * modifies the dummy faith track
@@ -112,6 +123,9 @@ public class Cli extends CliObservable {
         virtualModel.getPlayerBoard().setFaithTrack(faithTrack);
         virtualModel.showFaithTrack();
     }
+
+    @Override
+
     /**
      * modifies the dummy market of the development cards
      * @param devMarket new development cards market
@@ -120,6 +134,8 @@ public class Cli extends CliObservable {
         virtualModel.setBoardDevCard(devMarket);
         virtualModel.showBoard();
     }
+
+    @Override
 
     /**
      * modifies the dummy market tray
@@ -130,6 +146,8 @@ public class Cli extends CliObservable {
         virtualModel.showMarket();
     }
 
+    @Override
+
     /**
      * asks to the player which operations wants to do during the turn and to end the turn
      */
@@ -138,11 +156,15 @@ public class Cli extends CliObservable {
         chooseAction();
     }
 
+    @Override
+
     public void wareHouseNew(DummyWareHouse dummyWareHouse){
         virtualModel.getPlayerBoard().setWareHouse(dummyWareHouse);
         virtualModel.showWarewouse();
         virtualModel.showStrongbox();
     }
+
+    @Override
 
     public void chooseAction() {
         turnPhase = TurnPhase.FREE;
@@ -197,14 +219,18 @@ public class Cli extends CliObservable {
         }
     }
 
-    private void discardResource() {
+    @Override
+
+    public void discardResource() {
         virtualModel.showWarewouse();
             System.out.println("From which depot you want to discard the resource?");
             int id = readDepotId();
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.REMOVE_RESOURCES, gson.toJson(id))));
     }
 
-    private void modifyWarehouse()  {
+    @Override
+
+    public void modifyWarehouse()  {
         try{
         virtualModel.showWarewouse();
         DummyWareHouse dummyWareHouse = DummyWarehouseConstructor.parseVoid();
@@ -240,12 +266,16 @@ public class Cli extends CliObservable {
 
     }
 
+    @Override
+
     public void discardLeader() {
         virtualModel.showLeaderCards();
             int id = readAnyInt("Select one id");
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DISCARD_LEADER, Integer.toString(id))));
 
     }
+
+    @Override
 
     /**
      * asks the resources and notifies the server
@@ -261,6 +291,9 @@ public class Cli extends CliObservable {
         Message message = new Message(MessageType.CHOOSE_RESOURCES, gson.toJson(chosenResources));
         notifyObserver(obs -> obs.onReadyReply(message));
     }
+
+
+    @Override
 
     /**
      * adds a resource where the player wants to add it
@@ -283,6 +316,8 @@ public class Cli extends CliObservable {
     }
 
 
+    @Override
+
     /**
      * asks if the player wants to activate a leader card and, in case he answers yes, notifies the server
      */
@@ -296,6 +331,7 @@ public class Cli extends CliObservable {
 
 
 
+    @Override
 
     /**
      * asks to the player whit which color wants to change the white marbles
@@ -317,6 +353,7 @@ public class Cli extends CliObservable {
     }
 
 
+    @Override
 
     /**
      * method to choose a row or a column of the market
@@ -355,6 +392,8 @@ public class Cli extends CliObservable {
 
     }
 
+    @Override
+
     /**
      * method for buy a development card
      * asks to the player which card wants, from where he wants to take the resources
@@ -381,6 +420,8 @@ public class Cli extends CliObservable {
         notifyObserver(obs -> obs.onReadyReply(messageDev));
 
     }
+
+    @Override
 
     public void activateProduction(String[] toPay){
         virtualModel.showPlayerDevCards();
@@ -526,6 +567,7 @@ public class Cli extends CliObservable {
        return res.toUpperCase();
     }
 
+    @Override
 
     public void checkResponse(String name) {
         switch(name){
@@ -538,10 +580,14 @@ public class Cli extends CliObservable {
         }
     }
 
+    @Override
+
     public void modifyFaithMarker(int pos) {
         virtualModel.getPlayerBoard().moveFaithMarker(pos);
         virtualModel.showFaithTrack();
     }
+
+    @Override
 
     public void payResources(String[] resource)  {
         virtualModel.showWarewouse();
@@ -559,6 +605,9 @@ public class Cli extends CliObservable {
            notifyObserver(obs -> obs.onReadyReply(message));
 
     }
+
+    @Override
+
 
     public void slotChoice() {
         int answer = 0;
@@ -579,11 +628,13 @@ public class Cli extends CliObservable {
         }while(!virtualModel.getPlayerBoard().getWareHouse().getIds().contains(id));
         return id;
     }
+    @Override
 
     public TurnPhase getTurnPhase() {
         return turnPhase;
     }
 
+    @Override
 
     /**
      * sets the dummy strong box in the virtual model
@@ -593,6 +644,7 @@ public class Cli extends CliObservable {
         virtualModel.getPlayerBoard().setStrongBox(strongBox);
     }
 
+    @Override
 
     /**
      * adds the development cards in the dummy development section
@@ -603,6 +655,7 @@ public class Cli extends CliObservable {
     }
 
 
+    @Override
 
     public void setTurnPhase(TurnPhase turnPhase) {
         this.turnPhase = turnPhase;

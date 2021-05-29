@@ -8,5 +8,7 @@
 {"code":"BUY_DEV","payload":"[1,1]"},
   {"code":"EXTRA_PRODUCTION","payload":"[\"4\",\"COIN\"]"},
   {"code":"BUY_MARKET","payload":"[\"row\",\"1\"]"},
-  {"code":"REMOVE_RESOURCES","payload":"2"}
-  ]
+  {"code":"REMOVE_RESOURCES","payload":"2"},
+  {"wareHouse":{"depots":[{"id":1,"dimension":1,"resources":[]},{"id":2,"dimension":2,"resources":[]},{"id":3,"dimension":3,"resources":[]},{"type":"NONE","id":-1,"dimension":0,"resources":[]},{"type":"NONE","id":-1,"dimension":0,"resources":[]}]},"strongBox":{"res":[]},"devCardSlots":[null,null,null],"countDevCards":0,"coveredDevCards":[],"devCards":[],"faithMarker":0,"depotId":3,"extraProductionId":0,"unplacedResources":[]}
+
+]

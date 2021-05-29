@@ -53,12 +53,18 @@ public class SingleGameController extends GameController{
             case MOVE_2 :
             case MOVE_AND_SHUFFLE:
                 if(game.checkPopeSpace()) updateFaith();
+                sendAll(new Message(MessageType.GENERIC_MESSAGE, "Your opponent picked the " +
+                        tokenDeck.getPickedTokens().get(tokenDeck.getPickedTokens().size() - 1).getTokenType() +
+                        " token"));
                 break;
             case DRAW_BLUE:
             case DRAW_GREEN:
             case DRAW_PURPLE:
             case DRAW_YELLOW:
                 sendUpdateMarketDev();
+                sendAll(new Message(MessageType.GENERIC_MESSAGE, "Your opponent picked the " +
+                        tokenDeck.getPickedTokens().get(tokenDeck.getPickedTokens().size() - 1).getTokenType() +
+                        " token"));
                 break;
         }
     }

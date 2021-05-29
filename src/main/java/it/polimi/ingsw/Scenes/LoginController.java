@@ -1,12 +1,7 @@
 package it.polimi.ingsw.Scenes;
 
-import it.polimi.ingsw.Gui.GUIRunnable;
-import it.polimi.ingsw.Gui.Gui;
 import it.polimi.ingsw.messages.request.SetupMessage;
-import it.polimi.ingsw.observers.GuiObservable;
-import it.polimi.ingsw.observers.Observable;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.event.ActionEvent;
+import it.polimi.ingsw.observers.ViewObservable;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,13 +13,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.stage.Window;
-import org.apache.maven.artifact.resolver.DefaultResolutionErrorHandler;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 
-public class LoginController extends GuiObservable {
+public class LoginController extends ViewObservable {
 
 
     public Label InvalidNickname;
