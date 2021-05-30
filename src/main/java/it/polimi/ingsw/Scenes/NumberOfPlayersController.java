@@ -51,13 +51,15 @@ public class NumberOfPlayersController extends ViewObservable {
 
 
      @FXML
-    public void GotoWaitingScene(ActionEvent actionEvent) {
+    public void GotoWaitingScene(ActionEvent event){
+         ConfirmButton.setCancelButton(true);
          int number = Character.getNumericValue(playerschoice.getValue().charAt(0));
          NumberOfPlayerReply message = new NumberOfPlayerReply(Integer.toString(number));
          notifyObserver(obs -> obs.onReadyReply(message));
-
-
     }
+
+
+
 
     @FXML
     public void GotMenuScene(ActionEvent actionEvent) throws IOException {

@@ -1,8 +1,7 @@
 package it.polimi.ingsw.Gui;
-import it.polimi.ingsw.Scenes.LoginController;
-import it.polimi.ingsw.Scenes.MenuController;
-import it.polimi.ingsw.Scenes.NumberOfPlayersController;
+import it.polimi.ingsw.Scenes.*;
 import it.polimi.ingsw.client.SocketClient;
+import it.polimi.ingsw.Scenes.AlertSceneController;
 import it.polimi.ingsw.controller.GuiController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +17,8 @@ public class GUIRunnable extends Application {
 
     private static Scene scene;
 
-    public static Scene getScene() {
+
+    public static Scene getActiveScene() {
         return scene;
     }
 
@@ -92,5 +92,37 @@ public class GUIRunnable extends Application {
         return n;
     }
 
+
+    public static BoardController changetoStart(BoardController bc) {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Board_Scene.fxml"));
+            Parent root = loader.load();
+            scene.setRoot(root);
+            bc = loader.getController();
+
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+        }
+        return bc;
+    }
+
+
+    public static void showAlert(String title, String message) {
+        FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Alert_Scene.fxml"));
+        Parent parent;
+        try {
+            parent = loader.load();
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+            return;
+        }
+        AlertSceneController alertSceneController = loader.getController();
+        Scene alertScene = new Scene(parent);
+        alertSceneController.setScene(alertScene);
+        alertSceneController.setAlertTitle(title);
+        alertSceneController.setAlertMessage(message);
+        alertSceneController.displayAlert();
+    }
 
 }

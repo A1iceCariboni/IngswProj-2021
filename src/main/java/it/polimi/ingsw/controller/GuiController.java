@@ -110,6 +110,9 @@ import it.polimi.ingsw.observers.Observer;
 
                     break;
                 case GENERIC_MESSAGE:
+                    String m = message.getPayload();
+                    executionQueue.execute(() -> { gui.showGenericMessage(m);
+                    });
                 case WINNER:
                 case LOSER:
                     executionQueue.execute(() -> printMessage(message.getPayload()));

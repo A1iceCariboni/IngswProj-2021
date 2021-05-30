@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane prefHeight="760.0" prefWidth="1300.0" styleClass="pane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.ChooseLeaderCardsController">
+   <children>
+      <Group scaleX="1.5" scaleY="1.5">
+         <children>
+            <AnchorPane layoutX="-52.0" layoutY="174.0" prefHeight="545.0" prefWidth="712.0" styleClass="anchor">
+               <children>
+                  <ImageView fx:id="l1" fitHeight="174.0" fitWidth="121.0" layoutX="555.0" layoutY="249.0" onMouseClicked="#pick1" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../CardsBack/MastersofRenaissance__Cards_BACK_3mmBleed-49-1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="l2" fitHeight="175.0" fitWidth="124.0" layoutX="408.0" layoutY="247.0" onMouseClicked="#pick2" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../CardsBack/MastersofRenaissance__Cards_BACK_3mmBleed-49-1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="l3" fitHeight="175.0" fitWidth="125.0" layoutX="235.0" layoutY="240.0" onMouseClicked="#pick3" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../CardsBack/MastersofRenaissance__Cards_BACK_3mmBleed-49-1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="l4" fitHeight="211.0" fitWidth="124.0" layoutX="57.0" layoutY="233.0" onMouseClicked="#pick4" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../CardsBack/MastersofRenaissance__Cards_BACK_3mmBleed-49-1.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="158.0" layoutY="134.0" prefHeight="59.0" prefWidth="493.0" text="Discard 2 leaderCards:">
+                     <font>
+                        <Font name="Lucida Calligraphy Italic" size="38.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </Group>
+   </children>
+</StackPane>
