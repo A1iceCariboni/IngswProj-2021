@@ -203,4 +203,8 @@ public class PlayerBoard {
     public int getCountDevCards() {
         return countDevCards;
     }
+
+    public DevelopmentCard[] getDevCardSlots() {
+        return this.devCardSlots;
+    }
 }

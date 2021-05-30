@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.Constants;
+import it.polimi.ingsw.exceptions.InvalidNickname;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.model.cards.Deck;
 import it.polimi.ingsw.model.cards.DevelopmentCardDeck;
@@ -118,6 +119,14 @@ public class Game {
      }
      public ArrayList<Player> getWinners() { return winners;}
 
+    public Player getPlayerByNickname(String nickname) throws InvalidNickname {
+         for(Player p: players){
+             if(p.getNickName().equals(nickname)){
+                 return p;
+             }
+         }
+         throw new InvalidNickname("That's not a player");
+     }
 
     public FakePlayer getFakePlayer(){
          return null;

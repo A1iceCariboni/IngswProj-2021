@@ -86,9 +86,19 @@ public class InputChecker {
             case REMOVE_RESOURCES:
                 l = gson.fromJson(message.getPayload(), int.class);
                 return checkIdDepot(l);
+            case SEE_PLAYERBOARD:
+               nickname = gson.fromJson(message.getPayload(), String.class);
+                return checkNickname(nickname);
             default:
                 return true;
         }
+    }
+
+    private boolean checkNickname(String nickname) {
+        for(Player p : game.getPlayers()){
+            if(p.getNickName().equals(nickname)) return true;
+        }
+        return false;
     }
 
     private boolean canAddToDepot(Resource res, Depot d) {

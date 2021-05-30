@@ -58,7 +58,7 @@ import it.polimi.ingsw.observers.Observer;
             }
             gui.askNickname();
 
-            this.gamePhase = GamePhase.INIT;
+            gamePhase = GamePhase.INIT;
         }
 
         /**
@@ -68,7 +68,7 @@ import it.polimi.ingsw.observers.Observer;
          */
         @Override
         public void onUpdateNickname(SetupMessage setupMessage) {
-            this.nickname = setupMessage.getPayload();
+            nickname = setupMessage.getPayload();
             System.out.println("Nickname request sent!..");
             client.sendMessage(setupMessage);
         }

@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.DummyModel.DummyMarket;
 import it.polimi.ingsw.client.DummyModel.DummyStrongbox;
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.CannotAdd;
+import it.polimi.ingsw.exceptions.InvalidNickname;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
@@ -91,7 +92,6 @@ public class GameController {
      *sends the new strongbox to the current player
      */
     public void sendStrongBox(){
-        Gson gson = new Gson();
 
         DummyStrongbox dummyStrongbox = game.getCurrentPlayer().getPlayerBoard().getStrongBox().getDummy();
         connectedClients.get(turnController.getActivePlayer()).update(new Message(MessageType.DUMMY_STRONGBOX, gson.toJson(dummyStrongbox)));
@@ -123,9 +123,13 @@ public class GameController {
         VirtualView virtualView = getConnectedClients().get(name);
 
         DummyDev[] dummyDevs = new DummyDev[3];
-        ArrayList<DevelopmentCard> developmentCards = game.getCurrentPlayer().getPlayerBoard().getDevelopmentCards();
+        DevelopmentCard[] developmentCards = game.getCurrentPlayer().getPlayerBoard().getDevCardSlots();
         for(int i = 0; i < Constants.DEV_SLOTS; i++){
-            dummyDevs[i] = developmentCards.get(i).getDummy();
+            if(developmentCards[i] != null) {
+                dummyDevs[i] = developmentCards[i].getDummy();
+            }else{
+                dummyDevs[i] = null;
+            }
         }
         virtualView.update(new Message(MessageType.DUMMY_DEVS,gson.toJson(dummyDevs)));
     }
@@ -134,7 +138,6 @@ public class GameController {
      * sends the updated dummy leadercards to the player
      */
     public void sendDummyLead(){
-        Gson gson = new Gson();
         String name = game.getCurrentPlayer().getNickName();
         VirtualView virtualView = getConnectedClients().get(name);
 
@@ -502,9 +505,20 @@ public class GameController {
                     id = gson.fromJson(message.getPayload(), int.class);
                     removeResource(id);
                     break;
+                case SEE_PLAYERBOARD:
+                    String nickname = gson.fromJson(message.getPayload(), String.class);
+                    try {
+                        sendOtherPlayerBoard(nickname);
+                        virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
+
+                    } catch (InvalidNickname invalidNickname) {
+                        virtualView.update(new ErrorMessage("not a player"));
+                        virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));                    }
+                    break;
                 default:
                     virtualView.update(new ErrorMessage("Invalid message for this state"));
                     virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
+                    break;
             }
         }else{
             virtualView.sendInvalidActionMessage();
@@ -512,6 +526,8 @@ public class GameController {
         }
 
     }
+
+
 
 
     /**
@@ -616,6 +632,43 @@ public class GameController {
        }
 
    }
+
+    /**
+     * sends to the player the playerboard of another player
+     * @param nickname the other player
+     */
+    public void sendOtherPlayerBoard(String nickname) throws InvalidNickname {
+      Player p = game.getPlayerByNickname(nickname);
+      VirtualView vv = getVirtualView(game.getCurrentPlayer().getNickName());
+      vv.update(new Message(MessageType.OTHER_FAITHMARKER, gson.toJson(p.getPlayerBoard().getFaithMarker())));
+
+        DummyDev[] dummyDevs = new DummyDev[3];
+        DevelopmentCard[] developmentCards = p.getPlayerBoard().getDevCardSlots();
+        for(int i = 0; i < Constants.DEV_SLOTS; i++){
+            if(developmentCards[i] != null) {
+                dummyDevs[i] = developmentCards[i].getDummy();
+            }else{
+                dummyDevs[i] = null;
+            }
+        }
+        vv.update(new Message(MessageType.OTHER_DEV_SLOTS ,gson.toJson(dummyDevs)));
+
+       vv.update(new Message(MessageType.OTHER_WAREHOUSE,gson.toJson(p.getPlayerBoard().getWareHouse().getDummy())));
+
+
+
+        DummyStrongbox dummyStrongbox = p.getPlayerBoard().getStrongBox().getDummy();
+        vv.update(new Message(MessageType.OTHER_STRONGBOX, gson.toJson(dummyStrongbox)));
+
+
+        ArrayList<DummyLeaderCard> dummyLeaderCards = new ArrayList<>();
+        ArrayList<LeaderCard> leaderCards = p.getActiveLeaderCards();
+        for(LeaderCard lc: leaderCards){
+            dummyLeaderCards.add(lc.getDummy());
+        }
+        vv.update(new Message(MessageType.OTHER_LEADER,gson.toJson(dummyLeaderCards)));
+
+    }
 
     /**
      * removes from warehouse and strongbox all the resources used to pay a development card or the production powers

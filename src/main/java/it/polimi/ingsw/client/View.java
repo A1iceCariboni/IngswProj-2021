@@ -7,7 +7,6 @@ public interface View {
 
 
 
-
      void askNickname();
 
      void askNumberOfPlayers();
@@ -19,6 +18,16 @@ public interface View {
      void devMarketNew(DummyDev[][] dummyDevs);
 
      void marketTrayNew(DummyMarket dummyMarket);
+
+     void otherWarehouseNew(DummyWareHouse dummyWareHouse);
+
+     void otherDummyStrongBox(DummyStrongbox dummyStrongbox);
+
+     void otherFaithMarker(int pos);
+
+     void otherDevCards(DummyDev[] dummyDevs);
+
+     void otherLeaderCardIn(DummyLeaderCard[] dummyLeaderCards);
 
      void yourTurn();
 
@@ -61,6 +70,10 @@ public interface View {
      void setTurnPhase(TurnPhase turnPhase);
 
      TurnPhase getTurnPhase();
+
+     void showGenericMessage(String message);
+
+
 
 
 }

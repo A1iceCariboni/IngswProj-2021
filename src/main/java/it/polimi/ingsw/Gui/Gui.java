@@ -3,10 +3,11 @@ package it.polimi.ingsw.Gui;
 
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.Scenes.*;
+import it.polimi.ingsw.Scenes.BoardController;
+import it.polimi.ingsw.Scenes.LoginController;
+import it.polimi.ingsw.Scenes.NumberOfPlayersController;
 import it.polimi.ingsw.client.DummyModel.*;
 import it.polimi.ingsw.client.View;
-import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
@@ -20,6 +21,10 @@ public class Gui extends ViewObservable implements View {
     Gson gson = new Gson();
     private TurnPhase turnPhase;
     private Scene scene;
+
+
+    public Gui() {
+    }
 
 
     @Override
@@ -46,12 +51,49 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void dummyLeaderCardIn(DummyLeaderCard[] dummyLeaderCards) {
+
+
+    }
+
+
+    @Override
+
+    public void faithTrackNew(DummyFaithTrack faithTrack) {
+
+    }
+
+
+    @Override
+
+    public void marketTrayNew(DummyMarket market) {
+
     }
 
     @Override
-    public void faithTrackNew(DummyFaithTrack dummyFaithTrack) {
+    public void otherWarehouseNew(DummyWareHouse dummyWareHouse) {
 
     }
+
+    @Override
+    public void otherDummyStrongBox(DummyStrongbox dummyStrongbox) {
+
+    }
+
+    @Override
+    public void otherFaithMarker(int pos) {
+
+    }
+
+    @Override
+    public void otherDevCards(DummyDev[] dummyDevs) {
+
+    }
+
+    @Override
+    public void otherLeaderCardIn(DummyLeaderCard[] dummyLeaderCards) {
+
+    }
+
 
     @Override
     public void devMarketNew(DummyDev[][] dummyDevs) {
@@ -59,10 +101,7 @@ public class Gui extends ViewObservable implements View {
         Platform.runLater(() -> GUIRunnable.changetoStart(bc).addAllObservers(observers));
     }
 
-    @Override
-    public void marketTrayNew(DummyMarket dummyMarket) {
 
-    }
 
     @Override
     public void yourTurn() {
@@ -113,7 +152,8 @@ public class Gui extends ViewObservable implements View {
 
             case 8:
                 turnPhase = TurnPhase.NOT_YOUR_TURN;
-                notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.END_TURN, "")));
+                notifyObserver(obs -> obs.onReadyReply(new
+                        Message(MessageType.END_TURN, "")));
                 break;
 
         }

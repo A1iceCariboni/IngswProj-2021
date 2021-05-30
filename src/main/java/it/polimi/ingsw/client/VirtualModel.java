@@ -28,13 +28,17 @@ import static it.polimi.ingsw.enumerations.Constants.*;
 public class VirtualModel {
     private final DummyPlayerBoard playerBoard;
     private ArrayList<DummyLeaderCard> leaderCards;
+    private ArrayList<DummyLeaderCard> otherCards;
     private DummyDev[][] boardDevCard;
     private DummyMarket dummyMarket;
+
+    private DummyPlayerBoard otherPlayer;
 
     public VirtualModel() {
         playerBoard = new DummyPlayerBoard();
         leaderCards = new ArrayList<>();
         boardDevCard = new DummyDev[Constants.rows][Constants.cols];
+        otherPlayer = new DummyPlayerBoard();
     }
 
     public static void main(String[] args) throws JsonFileNotFoundException {
@@ -113,7 +117,7 @@ public class VirtualModel {
     /**
      * This method displays the leadercards
      */
-    public void showLeaderCards() {
+    public void showLeaderCards(ArrayList<DummyLeaderCard> leaderCards) {
         for (DummyLeaderCard card : leaderCards) {
             String cards =
                     "\n" + ANSI_YELLOW
@@ -156,7 +160,7 @@ public class VirtualModel {
 
 
 
-    public void showPlayerDevCards(){
+    public void showPlayerDevCards(DummyPlayerBoard playerBoard){
         String cards = "";
          for (int j = 0; j < 3; j++) {
              if(playerBoard.getDevSections()[j]!= null){
@@ -182,7 +186,7 @@ public class VirtualModel {
     /**
      * This method colors the player faithtrack based on his position and base
      **/
-    private String getPlayerColor() {
+    private String getPlayerColor(DummyPlayerBoard playerBoard) {
         StringBuilder color = new StringBuilder();
         color.append("│  ");
         for (int i = 0; i < 10; i++) {
@@ -240,8 +244,8 @@ public class VirtualModel {
     /**
      * This method displays each player's faithtrack
      */
-    public void showFaithTrack() {
-        String s = getPlayerColor();
+    public void showFaithTrack(DummyPlayerBoard playerBoard) {
+        String s = getPlayerColor(playerBoard);
         String track1 = "┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐\n" +
                 "│   ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐  │\n";
 
@@ -255,9 +259,9 @@ public class VirtualModel {
     /**
      * This method along with showResExtraDepot() displays the player's ExtraDepot if he has one
      */
-    public void showExtraDepot() {
-        String E1 = showResExtraDepot1();
-        String E2 = showResExtraDepot2();
+    public void showExtraDepot(DummyPlayerBoard playerBoard) {
+        String E1 = showResExtraDepot1(playerBoard);
+        String E2 = showResExtraDepot2(playerBoard);
 
         String track1 = "     ┌────────────────┐\n" +
                 "     │┌─────┐  ┌─────┐│\n";
@@ -274,7 +278,7 @@ public class VirtualModel {
     }
 
 
-    private String showResExtraDepot1() {
+    private String showResExtraDepot1(DummyPlayerBoard playerBoard) {
         StringBuilder resE1 = new StringBuilder();
         String res1= " ";
         String res2 = " ";
@@ -291,7 +295,7 @@ public class VirtualModel {
         return resE1.toString();
     }
 
-    private String showResExtraDepot2() {
+    private String showResExtraDepot2(DummyPlayerBoard playerBoard) {
         StringBuilder resE2 = new StringBuilder();
         String res1 = " ";
         String res2 = " ";
@@ -315,10 +319,10 @@ public class VirtualModel {
     /**
      * This method shows the player's warehouse, and his extradepots if he has them
      */
-    public void showWarewouse() {
-        String resD1 = showResDep1();
-        String resD2 = showResDep2();
-        String resD3 = showResDep3();
+    public void showWarewouse(DummyPlayerBoard playerBoard) {
+        String resD1 = showResDep1(playerBoard);
+        String resD2 = showResDep2(playerBoard);
+        String resD3 = showResDep3(playerBoard);
 
         String w = "        ┌─────────┐\n" +
                 "        │ ┌─────┐ │\n";
@@ -332,13 +336,13 @@ public class VirtualModel {
         String x = "│└─────┘ └─────┘  └─────┘│\n" +
                 " └────────────────────────┘\n";
         System.out.println(w + resD1 + y + resD2 + z + resD3 + x);
-        showExtraDepot();
+        showExtraDepot(playerBoard);
     }
 
     /**
      * This method displays the resources in depot 1
      */
-    private String showResDep1() {
+    private String showResDep1(DummyPlayerBoard playerBoard) {
         StringBuilder resD1 = new StringBuilder();
         String res1 = " ";
         if(!playerBoard.getWareHouse().getDepot1().getResources().isEmpty())
@@ -355,7 +359,7 @@ public class VirtualModel {
     /**
      * This method displays the resources in depot 2
      */
-    private String showResDep2() {
+    private String showResDep2(DummyPlayerBoard playerBoard) {
         StringBuilder resD2 = new StringBuilder();
         String res1 = " ";
         String res2 = " ";
@@ -374,7 +378,7 @@ public class VirtualModel {
     /**
      * This method displays the resources in depot 3
      */
-    private String showResDep3() {
+    private String showResDep3(DummyPlayerBoard playerBoard) {
         String res1 = " ";
         String res2 = " ";
         String res3 = " ";
@@ -516,8 +520,9 @@ public class VirtualModel {
 
     /**
      * Displays the player's strongbox
+     * @param otherPlayer
      */
-    public void showStrongbox() {
+    public void showStrongbox(DummyPlayerBoard otherPlayer) {
         int size = playerBoard.getStrongBox().getResources().size();
 
         for (int i = 0; i < size; i++) {
@@ -620,10 +625,19 @@ public class VirtualModel {
         System.out.println(cards + "\n");
     }
 
+public void showOtherPlayerBoard(){
+        showLeaderCards(otherCards);
+        showFaithTrack(otherPlayer);
+        showWarewouse(otherPlayer);
+        showStrongbox(otherPlayer);
+}
 
 
+    public DummyPlayerBoard getOtherPlayer() {
+        return this.otherPlayer;
+    }
 
-
-
-
+    public void setOtherCards( DummyLeaderCard[] otherCards) {
+        this.otherCards = new ArrayList<>(Arrays.asList(otherCards));
+    }
 }

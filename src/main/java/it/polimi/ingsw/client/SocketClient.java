@@ -97,7 +97,7 @@ public class SocketClient extends Observable {
     public void disconnect(){
         try{
             if(!socket.isClosed()){
-                this.active = false;
+                active = false;
                 enablePing(false);
                 readerExecutor.shutdownNow();
 
@@ -118,9 +118,9 @@ public class SocketClient extends Observable {
     public void enablePing(boolean enable){
         if(enable){
             Message message = new PingMessage();
-            this.pinger.scheduleAtFixedRate(()->sendMessage(message),0,2000, TimeUnit.MILLISECONDS);
+            pinger.scheduleAtFixedRate(()->sendMessage(message),0,2000, TimeUnit.MILLISECONDS);
         }else{
-            this.pinger.shutdownNow();
+            pinger.shutdownNow();
         }
     }
 

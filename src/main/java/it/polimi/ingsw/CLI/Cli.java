@@ -110,7 +110,7 @@ public class Cli extends ViewObservable implements View {
      */
     public void dummyLeaderCardIn(DummyLeaderCard[] dummyLeaderCards){
         virtualModel.setLeaderCard(dummyLeaderCards);
-        virtualModel.showLeaderCards();
+        virtualModel.showLeaderCards(virtualModel.getLeaderCards());
     }
 
     @Override
@@ -121,7 +121,8 @@ public class Cli extends ViewObservable implements View {
      */
     public void faithTrackNew(DummyFaithTrack faithTrack){
         virtualModel.getPlayerBoard().setFaithTrack(faithTrack);
-        virtualModel.showFaithTrack();
+        virtualModel.getOtherPlayer().setFaithTrack(faithTrack);
+        virtualModel.showFaithTrack(virtualModel.getPlayerBoard());
     }
 
     @Override
@@ -160,8 +161,29 @@ public class Cli extends ViewObservable implements View {
 
     public void wareHouseNew(DummyWareHouse dummyWareHouse){
         virtualModel.getPlayerBoard().setWareHouse(dummyWareHouse);
-        virtualModel.showWarewouse();
-        virtualModel.showStrongbox();
+        virtualModel.showWarewouse(virtualModel.getPlayerBoard());
+        virtualModel.showStrongbox(virtualModel.getPlayerBoard());
+    }
+
+    public void otherWarehouseNew(DummyWareHouse dummyWareHouse){
+        virtualModel.getOtherPlayer().setWareHouse(dummyWareHouse);
+    }
+
+    public void otherDummyStrongBox(DummyStrongbox strongBox){
+        virtualModel.getOtherPlayer().setStrongBox(strongBox);
+    }
+
+    public void otherFaithMarker(int pos) {
+        virtualModel.getOtherPlayer().moveFaithMarker(pos);
+    }
+
+    public void otherDevCards(DummyDev[] cards){
+        virtualModel.getOtherPlayer().setDevSections(cards);
+    }
+
+    public void otherLeaderCardIn(DummyLeaderCard[] dummyLeaderCards){
+        virtualModel.setOtherCards(dummyLeaderCards);
+        virtualModel.showOtherPlayerBoard();
     }
 
     @Override
@@ -178,7 +200,8 @@ public class Cli extends ViewObservable implements View {
         System.out.println("6. Rearrange the warehouse");
         System.out.println("7. Discard a resource");
         System.out.println("8. End your turn");
-        int  choice = readInt(8, 1, "What you want to do? Choose a number");
+        System.out.println("9. To see someone else's playerboard");
+        int  choice = readInt(9, 1, "What you want to do? Choose a number");
         switch (choice) {
             case 1:
                 discardLeader();
@@ -222,7 +245,7 @@ public class Cli extends ViewObservable implements View {
     @Override
 
     public void discardResource() {
-        virtualModel.showWarewouse();
+        virtualModel.showWarewouse(virtualModel.getPlayerBoard());
             System.out.println("From which depot you want to discard the resource?");
             int id = readDepotId();
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.REMOVE_RESOURCES, gson.toJson(id))));
@@ -232,7 +255,7 @@ public class Cli extends ViewObservable implements View {
 
     public void modifyWarehouse()  {
         try{
-        virtualModel.showWarewouse();
+        virtualModel.showWarewouse(virtualModel.getPlayerBoard());
         DummyWareHouse dummyWareHouse = DummyWarehouseConstructor.parseVoid();
         DummyExtraDepot dummyExtraDepot1 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1();
         if(dummyExtraDepot1.getId() != -1){
@@ -269,7 +292,7 @@ public class Cli extends ViewObservable implements View {
     @Override
 
     public void discardLeader() {
-        virtualModel.showLeaderCards();
+        virtualModel.showLeaderCards(virtualModel.getLeaderCards());
             int id = readAnyInt("Select one id");
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DISCARD_LEADER, Integer.toString(id))));
 
@@ -302,7 +325,7 @@ public class Cli extends ViewObservable implements View {
      */
     public void addResourceToWareHouse(String[] resource) {
         int[] answer = new int[resource.length];
-        virtualModel.showWarewouse();
+        virtualModel.showWarewouse(virtualModel.getPlayerBoard());
         int i = 0;
             for (String res : resource) {
                 System.out.println("Resource: " + res);
@@ -322,7 +345,7 @@ public class Cli extends ViewObservable implements View {
      * asks if the player wants to activate a leader card and, in case he answers yes, notifies the server
      */
     public void activateLeader() {
-        virtualModel.showLeaderCards();
+        virtualModel.showLeaderCards(virtualModel.getLeaderCards());
             int id = readAnyInt("Type the id of the leader card you want to activate");
             Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(id));
             notifyObserver(obs -> obs.onReadyReply(message));
@@ -340,7 +363,7 @@ public class Cli extends ViewObservable implements View {
      */
     public void askWhiteMarble(int num) {
         System.out.println("You have to choose the leader effect you want to use for each white marble");
-        virtualModel.showLeaderCards();
+        virtualModel.showLeaderCards(virtualModel.getLeaderCards());
         String[] powers = new String[num];
             for (int i = 0; i < num; i++) {
                 System.out.println("Choose one of your active powers, type the resource you want from this white marble");
@@ -409,13 +432,13 @@ public class Cli extends ViewObservable implements View {
             yn = readYN();
         }
 
-        int  r = readInt(Constants.rows, 0, "Which is the row of the card you want to buy? [1/2/3/4]");
+        int  r = readInt(Constants.rows, 0, "Which is the row of the card you want to buy? [1/2/3]");
 
 
-        int c = readInt(Constants.cols, 0, "Which is the column of the card you want to buy? [1/2/3]");
+        int c = readInt(Constants.cols, 0, "Which is the column of the card you want to buy? [1/2/3/4]");
         ArrayList<Integer> payloadDev = new ArrayList<>();
-        payloadDev.add(r);
-        payloadDev.add(c);
+        payloadDev.add(r - 1);
+        payloadDev.add(c - 1);
         Message messageDev = new Message(MessageType.BUY_DEV, gson.toJson(payloadDev));
         notifyObserver(obs -> obs.onReadyReply(messageDev));
 
@@ -424,8 +447,8 @@ public class Cli extends ViewObservable implements View {
     @Override
 
     public void activateProduction(String[] toPay){
-        virtualModel.showPlayerDevCards();
-        virtualModel.showLeaderCards();
+        virtualModel.showPlayerDevCards(virtualModel.getPlayerBoard());
+        virtualModel.showLeaderCards(virtualModel.getLeaderCards());
         System.out.println("You choose to activate the production, you can: ");
         System.out.println("1. Activate a development card production");
         System.out.println("2. Activate a leader card production(if you have some)");
@@ -584,16 +607,16 @@ public class Cli extends ViewObservable implements View {
 
     public void modifyFaithMarker(int pos) {
         virtualModel.getPlayerBoard().moveFaithMarker(pos);
-        virtualModel.showFaithTrack();
+        virtualModel.showFaithTrack(virtualModel.getPlayerBoard());
     }
 
     @Override
 
     public void payResources(String[] resource)  {
-        virtualModel.showWarewouse();
-        virtualModel.showStrongbox();
+        virtualModel.showWarewouse(virtualModel.getPlayerBoard());
+        virtualModel.showStrongbox(virtualModel.getPlayerBoard());
         int[] ids = new int[resource.length];
-        int i = -1;
+        int i = 0;
         System.out.println("You have to pay");
 
            for(String res : resource) {
@@ -635,6 +658,11 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
+    public void showGenericMessage(String message) {
+        System.out.println(message);
+    }
+
+    @Override
 
     /**
      * sets the dummy strong box in the virtual model
@@ -661,6 +689,14 @@ public class Cli extends ViewObservable implements View {
         this.turnPhase = turnPhase;
     }
 
+    public void chooseName(){
+        try {
+            String name = readLine("Type the name of the player you want to see the playerboard");
+            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.SEE_PLAYERBOARD, name)));
 
+        } catch (ExecutionException | InterruptedException e) {
+            System.out.println("Interrupted input");
+        }
+    }
 
 }
