@@ -289,7 +289,7 @@ public class Cli extends ViewObservable implements View {
 
     }
 
-    @Override
+
 
     public void discardLeader() {
         virtualModel.showLeaderCards(virtualModel.getLeaderCards());

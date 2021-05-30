@@ -15,6 +15,9 @@ import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class Gui extends ViewObservable implements View {
 
 
@@ -42,7 +45,7 @@ public class Gui extends ViewObservable implements View {
         Platform.runLater(() -> GUIRunnable.changetoNumPlayers(n).addAllObservers(observers));
     }
 
-
+    @Override
     public void showGenericMessage(String genericMessage) {
         Platform.runLater(() -> GUIRunnable.showAlert("Info Message", genericMessage));
     }
@@ -97,8 +100,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void devMarketNew(DummyDev[][] dummyDevs) {
-        BoardController bc = new BoardController();
-        Platform.runLater(() -> GUIRunnable.changetoStart(bc).addAllObservers(observers));
+
     }
 
 
@@ -116,47 +118,20 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void chooseAction() {
+        BoardController bc = new BoardController();
+        Platform.runLater(() -> GUIRunnable.changetoStart(bc).addAllObservers(observers));
         turnPhase = TurnPhase.FREE;
-        int choice = 0;
-        switch (choice) {
-            case 1:
-                discardLeader();
-                break;
-            case 2:
-                turnPhase = TurnPhase.ACTIVATE_PRODUCTION;
-
-                activateProduction(new String[0]);
-                break;
-
-            case 3:
-                activateLeader();
-                break;
-
-            case 4:
-                turnPhase = TurnPhase.BUY_DEV;
-                buyDevelopmentCard();
-                break;
-
-            case 5:
-                turnPhase = TurnPhase.BUY_MARKET;
-                takeResourcesFromMarket();
-                break;
-
-            case 6:
-                modifyWarehouse();
-                break;
-
-            case 7:
-                discardResource();
-                break;
-
-            case 8:
-                turnPhase = TurnPhase.NOT_YOUR_TURN;
-                notifyObserver(obs -> obs.onReadyReply(new
-                        Message(MessageType.END_TURN, "")));
-                break;
-
-        }
+        System.out.println("If it's your first round you can:");
+        System.out.println("1. Discard a leader card");
+        System.out.println("If it's not you can also:");
+        System.out.println("2. Activate the production");
+        System.out.println("3. Activate a leader card");
+        System.out.println("4. Buy a development card");
+        System.out.println("5. Take resources from the market");
+        System.out.println("6. Rearrange the warehouse");
+        System.out.println("7. Discard a resource");
+        System.out.println("8. End your turn");
+        System.out.println("9. To see someone else's playerboard");
     }
 
 
@@ -172,10 +147,6 @@ public class Gui extends ViewObservable implements View {
 
     }
 
-    @Override
-    public void discardLeader() {
-
-    }
 
     @Override
     public void chooseResources(int quantity) {

@@ -39,7 +39,7 @@ public interface View {
 
      void modifyWarehouse();
 
-     void discardLeader();
+    // void discardLeader();
 
      void chooseResources(int quantity);
 

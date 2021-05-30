@@ -102,6 +102,7 @@ public class ClientController implements ViewObserver,Observer {
 
                 break;
             case GENERIC_MESSAGE:
+                executionQueue.execute(() -> view.showGenericMessage(message.getPayload()));
             case WINNER:
             case LOSER:
                 executionQueue.execute(() -> view.showGenericMessage(message.getPayload()));

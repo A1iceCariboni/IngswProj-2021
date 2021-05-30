@@ -2,7 +2,7 @@ package it.polimi.ingsw.Gui;
 import it.polimi.ingsw.Scenes.*;
 import it.polimi.ingsw.client.SocketClient;
 import it.polimi.ingsw.Scenes.AlertSceneController;
-import it.polimi.ingsw.controller.GuiController;
+import it.polimi.ingsw.controller.ClientController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,6 +11,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class GUIRunnable extends Application {
 
@@ -32,13 +33,13 @@ public class GUIRunnable extends Application {
         @Override
         public void start(Stage Stage) throws Exception{
             Gui gui = new Gui();
-            GuiController  guiController = new GuiController(gui);
-            gui.addObserver(guiController);
+            ClientController clientController = new ClientController(gui);
+            gui.addObserver(clientController);
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/Menu_Scene.fxml"));
             Parent root = loader.load();
             MenuController controller = loader.getController();
-            controller.addObserver(guiController);
+            controller.addObserver(clientController);
             Stage.setTitle("Masters Of Renaissance");
             scene = new Scene(root);
             Stage.setScene(scene);
@@ -112,7 +113,7 @@ public class GUIRunnable extends Application {
         FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Alert_Scene.fxml"));
         Parent parent;
         try {
-            parent = loader.load();
+           parent = loader.load();
         } catch (IOException e) {
             SocketClient.LOGGER.severe(e.getMessage());
             return;
@@ -123,6 +124,24 @@ public class GUIRunnable extends Application {
         alertSceneController.setAlertTitle(title);
         alertSceneController.setAlertMessage(message);
         alertSceneController.displayAlert();
+    }
+
+
+    public static ChooseLeaderCardsController discardLeaderCards(ChooseLeaderCardsController cl) {
+        try {
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Discard_LeaderCards.fxml"));
+            Parent parent = loader.load();
+            cl  = loader.getController();
+            Scene discLeadCards = new Scene(parent);
+            cl.setScene(discLeadCards);
+            cl.display();
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+          
+        }
+
+        return cl;
+
     }
 
 }
