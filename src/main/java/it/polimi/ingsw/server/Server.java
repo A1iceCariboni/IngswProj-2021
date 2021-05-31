@@ -87,17 +87,17 @@ public class Server {
             GameController savedGameController = persistence.restore();
             if(savedGameController != null &&
                 savedGameController.getNumberOfPlayers() == gameController.getNumberOfPlayers() &&
-                savedGameController.getPlayers().containsAll(gameController.getPlayers())){
-                savedGameController.addAllConnectedClients(gameController.getConnectedClients());
+               savedGameController.getPlayers().containsAll(gameController.getPlayers())){
+              savedGameController.addAllConnectedClients(gameController.getConnectedClients());
 
-                gameController = savedGameController;
-                gameController.sendRestoredGame();
-            }else {
+              gameController = savedGameController;
+              gameController.sendRestoredGame();
+           }else {
                 gameController.sendAll(new Message(MessageType.GENERIC_MESSAGE, "Game is starting!"));
                 gameController.setStarted(true);
                 gameController.startGame();
             }
-        } else {
+         } else {
             if (gameController.isStarted()) {
                 clientHandler.sendMessage(new ErrorMessage("The game is already started, try again later"));
                 clientHandler.disconnect();

@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class LoginController extends ViewObservable {
+public class Login extends ViewObservable {
 
 
     public Label InvalidNickname;

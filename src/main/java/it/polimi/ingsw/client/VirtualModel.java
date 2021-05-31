@@ -146,6 +146,9 @@ public class VirtualModel {
     }
 
 
+
+
+
        /** This method colors the background based on the development card color*/
     public String showDevColor(int i, int j){
         return switch (boardDevCard[i][j].getColor()) {

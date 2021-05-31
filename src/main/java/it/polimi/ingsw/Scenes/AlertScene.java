@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -13,7 +14,7 @@ import javafx.stage.StageStyle;
 /**
  * This class implements the controller of a generic Alert Scene.
  */
-public class AlertSceneController{
+public class AlertScene {
 
     private final Stage stage;
 
@@ -29,10 +30,11 @@ public class AlertSceneController{
     @FXML
     private Button okBtn;
 
+
     /**
      * Default constructor.
      */
-    public AlertSceneController() {
+    public AlertScene() {
         stage = new Stage();
         stage.initOwner(GUIRunnable.getActiveScene().getWindow());
         stage.initModality(Modality.APPLICATION_MODAL);

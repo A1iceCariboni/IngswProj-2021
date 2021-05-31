@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class NumberOfPlayersController extends ViewObservable {
+public class NumberOfPlayers extends ViewObservable {
   ObservableList list = FXCollections.observableArrayList();
     @FXML
     public Button ConfirmButton;

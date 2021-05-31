@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.DiscarLeaderCards">
+   <children>
+      <BorderPane>
+         <center>
+            <Group BorderPane.alignment="CENTER">
+               <children>
+                  <AnchorPane layoutX="170.0" layoutY="76.0" prefHeight="715.0" prefWidth="1264.0" styleClass="boardPane">
+                     <children>
+                        <ImageView fx:id="l4" fitHeight="216.0" fitWidth="145.0" layoutX="791.0" layoutY="193.0" onMouseClicked="#pick4" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../CardsBack/MastersofRenaissance__Cards_BACK_3mmBleed-49-1.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="l3" fitHeight="219.0" fitWidth="147.0" layoutX="615.0" layoutY="191.0" onMouseClicked="#pick3" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../CardsBack/MastersofRenaissance__Cards_BACK_3mmBleed-49-1.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="l2" fitHeight="219.0" fitWidth="147.0" layoutX="401.0" layoutY="201.0" onMouseClicked="#pick2" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../CardsBack/MastersofRenaissance__Cards_BACK_3mmBleed-49-1.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="l1" fitHeight="219.0" fitWidth="147.0" layoutX="199.0" layoutY="191.0" onMouseClicked="#pick1" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../CardsBack/MastersofRenaissance__Cards_BACK_3mmBleed-49-1.png" />
+                           </image>
+                        </ImageView>
+                        <Button fx:id="okBtn" layoutX="438.0" layoutY="495.0" mnemonicParsing="false" onAction="#Exit" prefHeight="57.0" prefWidth="188.0" text="OK" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </Group>
+         </center>
+      </BorderPane>
+   </children>
+</StackPane>

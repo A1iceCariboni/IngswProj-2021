@@ -95,7 +95,7 @@ public class ClientController implements ViewObserver,Observer {
     @Override
     public void update(Message message) {
         Gson gson = new Gson();
-
+        System.out.println(message.getCode());
         switch (message.getCode()) {
             case NUMBER_OF_PLAYERS:
                 executionQueue.execute(this.view::askNumberOfPlayers);
@@ -191,7 +191,7 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case END_TURN:
-                //executionQueue.execute(cli::waitTurn);
+                executionQueue.execute(view::waitTurn);
                 break;
             case PONG:
                 break;

@@ -3,23 +3,17 @@ package it.polimi.ingsw.Gui;
 
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.Scenes.BoardController;
-import it.polimi.ingsw.Scenes.LoginController;
-import it.polimi.ingsw.Scenes.NumberOfPlayersController;
+import it.polimi.ingsw.Scenes.*;
 import it.polimi.ingsw.client.DummyModel.*;
 import it.polimi.ingsw.client.View;
+import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.enumerations.TurnPhase;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 
-import javax.swing.*;
-import java.awt.*;
-
 public class Gui extends ViewObservable implements View {
-
+    private VirtualModel virtualModel;
 
     Gson gson = new Gson();
     private TurnPhase turnPhase;
@@ -27,12 +21,13 @@ public class Gui extends ViewObservable implements View {
 
 
     public Gui() {
+        virtualModel = new VirtualModel();
     }
 
 
     @Override
     public void askNickname() {
-        LoginController loginController = new LoginController();
+        Login loginController = new Login();
         Platform.runLater(() -> GUIRunnable.changeLogin(loginController).addAllObservers(observers));
 
 
@@ -40,7 +35,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askNumberOfPlayers() {
-        NumberOfPlayersController n = new NumberOfPlayersController();
+        NumberOfPlayers n = new NumberOfPlayers();
 
         Platform.runLater(() -> GUIRunnable.changetoNumPlayers(n).addAllObservers(observers));
     }
@@ -54,22 +49,19 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void dummyLeaderCardIn(DummyLeaderCard[] dummyLeaderCards) {
-
-
+        virtualModel.setLeaderCard(dummyLeaderCards);
     }
 
 
     @Override
 
     public void faithTrackNew(DummyFaithTrack faithTrack) {
-
     }
 
 
     @Override
 
     public void marketTrayNew(DummyMarket market) {
-
     }
 
     @Override
@@ -110,6 +102,10 @@ public class Gui extends ViewObservable implements View {
         chooseAction();
     }
 
+    @Override
+    public void waitTurn(){
+
+    }
 
 
     @Override
@@ -118,9 +114,11 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void chooseAction() {
-        BoardController bc = new BoardController();
-        Platform.runLater(() -> GUIRunnable.changetoStart(bc).addAllObservers(observers));
         turnPhase = TurnPhase.FREE;
+        Board bc = new Board();
+        bc.setLeaderCards(virtualModel);
+        System.out.println(virtualModel.getLeaderCards().get(0));
+        Platform.runLater(() -> GUIRunnable.changetoStart(bc).addAllObservers(observers));
         System.out.println("If it's your first round you can:");
         System.out.println("1. Discard a leader card");
         System.out.println("If it's not you can also:");

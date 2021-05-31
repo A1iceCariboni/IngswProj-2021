@@ -13,7 +13,7 @@
 <?import java.net.URL?>
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="278.0" prefWidth="540.0" styleClass="rootPane" xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.AlertSceneController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.AlertScene">
 <top>
    <AnchorPane prefHeight="250.0" prefWidth="545.0">
       <children>
