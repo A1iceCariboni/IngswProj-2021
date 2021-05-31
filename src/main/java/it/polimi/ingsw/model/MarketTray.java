@@ -13,6 +13,7 @@ import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -20,79 +21,23 @@ import java.util.Collections;
  * @autor Sofia Canestraci
  * this class represents the Market Tray: the area where the marbles can be bought
  */
-public class MarketTray {
+public class MarketTray implements Serializable {
+    private static final long serialVersionUID = -8136525021121205628L;
+
     private Marble slidingMarble;
-    private final Marble[][] marbles = new Marble[Constants.MARKET_ROWS][Constants.MARKET_COLS    ];
-
+    private Marble[][] marbles = new Marble[Constants.MARKET_ROWS][Constants.MARKET_COLS];
     /**
+     *
      * it puts the marbles in the matrix and it sets the sliding marble
-     * @throws JsonFileNotFoundException
+
      */
-    public MarketTray() throws JsonFileNotFoundException {
-        String path = "/json/marbles.json";
-
-
-        InputStream is = MarketTray.class.getResourceAsStream(path);
-
-        if (is == null) throw new JsonFileNotFoundException("File " + path + " not found");
-
-        JsonParser parser = new JsonParser();
-
-
-        JsonArray json = parser.parse(new InputStreamReader(is)).getAsJsonArray();
-
-
-        ArrayList<Marble> marbles1 = new ArrayList<>();
-        MarbleEffect marbleEffect;
-
-        for (JsonElement jsonElement : json) {
-
-            JsonObject jsonObject = jsonElement.getAsJsonObject();
-            String color = jsonObject.get("marbleColor").getAsString();
-            MarbleColor marbleColor = MarbleColor.valueOf(color);
-            switch(marbleColor){
-                case WHITE:
-                    marbleEffect = playerBoard -> {
-                    };
-                    marbles1 .add(new Marble(marbleColor,marbleEffect));
-                    break;
-                case BLUE:
-                    marbleEffect = playerBoard -> {
-                        playerBoard.addUnplacedResource(new Resource(ResourceType.SHIELD));};
-                    marbles1 .add(new Marble(marbleColor,marbleEffect));
-                    break;
-                case GREY:
-                    marbleEffect = playerBoard -> {
-                        playerBoard.addUnplacedResource(new Resource(ResourceType.STONE));};
-                    marbles1 .add(new Marble(marbleColor,marbleEffect));
-                    break;
-                case YELLOW:
-                    marbleEffect = playerBoard -> {playerBoard.addUnplacedResource(new Resource(ResourceType.COIN));};
-                    marbles1 .add(new Marble(marbleColor,marbleEffect));
-                    break;
-                case PURPLE:
-                    marbleEffect = playerBoard -> {playerBoard.addUnplacedResource(new Resource(ResourceType.SERVANT));};
-                    marbles1 .add(new Marble(marbleColor,marbleEffect));
-                    break;
-                case RED:
-                    marbleEffect = playerBoard -> playerBoard.moveFaithMarker(1);
-                    marbles1 .add(new Marble(marbleColor,marbleEffect));
-                    break;
-            }
-
-        }
-
-        Collections.shuffle(marbles1);
-        int cont = 0 ;
-        for(int r = 0; r < 3; r++){
-            for(int c = 0; c < 4; c++){
-                this.marbles[r][c] = marbles1.get(cont);
-                cont++;
-            }
-        }
-        this.slidingMarble = marbles1.get(cont);
-
+    public MarketTray(Marble[][] marbles, final Marble slidingMarble) {
+        this.marbles = marbles;
+        this.slidingMarble = slidingMarble;
     }
+
+
+
 
     /**
      * return a column of the Market Tray

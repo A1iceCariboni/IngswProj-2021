@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.enumerations.CardColor;
-import it.polimi.ingsw.utility.DevelopentCardParser;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,14 +12,14 @@ import java.util.stream.Collectors;
  * @author Alice Cariboni
  */
 public class DevelopmentCardDeck extends Deck{
-   private final ArrayList<DevelopmentCard> cardDeck;
+   private final ArrayList<DevelopmentCard> developmentCards;
 
     public DevelopmentCardDeck(ArrayList<DevelopmentCard> cardDeck) {
-        this.cardDeck = cardDeck;
+        this.developmentCards = cardDeck;
     }
 
     public DevelopmentCardDeck() {
-     this.cardDeck = new ArrayList<>();
+     this.developmentCards = new ArrayList<>();
     }
 
     /**
@@ -28,14 +27,14 @@ public class DevelopmentCardDeck extends Deck{
      * @return the first card of the deck without removing it
      */
     public DevelopmentCard getCard(){
-        return cardDeck.get(0);
+        return developmentCards.get(0);
     }
     /**
      * @return first card of the deck and remove the card from the deck
      */
     public DevelopmentCard popCard(){
-        DevelopmentCard c = cardDeck.get(0);
-        cardDeck.remove(c);
+        DevelopmentCard c = developmentCards.get(0);
+        developmentCards.remove(c);
         return c;
     }
 
@@ -45,11 +44,11 @@ public class DevelopmentCardDeck extends Deck{
      * @return the first occurency of the card with the required color and remove the card from the deck
      */
     public DevelopmentCard getByColor(CardColor cardColor){
-        List<DevelopmentCard> filtered = cardDeck.stream()
+        List<DevelopmentCard> filtered = developmentCards.stream()
                                                     .filter(card -> card.getColor() == cardColor)
                                                     .collect(Collectors.toList());
         DevelopmentCard card = filtered.get(0);
-        this.cardDeck.remove(card);
+        this.developmentCards.remove(card);
         return card;
     }
 
@@ -60,11 +59,11 @@ public class DevelopmentCardDeck extends Deck{
      * @return the first occurency in the deck with the required level and remove the card from the deck
      */
     public DevelopmentCard getByLevel(int cardLevel){
-        List<DevelopmentCard> filtered = cardDeck.stream()
+        List<DevelopmentCard> filtered = developmentCards.stream()
                 .filter(card -> card.getLevel() == cardLevel)
                 .collect(Collectors.toList());
         DevelopmentCard card = filtered.get(0);
-        this.cardDeck.remove(card);
+        this.developmentCards.remove(card);
         return card;
     }
 
@@ -76,11 +75,11 @@ public class DevelopmentCardDeck extends Deck{
      * @return the first occurency with the required level and color and remove the card from the deck
      */
     public DevelopmentCard getByColorAndLevel(CardColor cardColor, int cardLevel){
-        List<DevelopmentCard> filtered = cardDeck.stream()
+        List<DevelopmentCard> filtered = developmentCards.stream()
                 .filter(card -> card.getColor() == cardColor && card.getLevel() == cardLevel)
                 .collect(Collectors.toList());
         DevelopmentCard card = filtered.get(0);
-        this.cardDeck.remove(card);
+        this.developmentCards.remove(card);
         return card;
     }
 
@@ -88,24 +87,24 @@ public class DevelopmentCardDeck extends Deck{
      * @param card add card to the deck
      */
     public void addCard(DevelopmentCard card){
-        this.cardDeck.add(card);
+        this.developmentCards.add(card);
     }
 
     /**
      * @return true if it's empty
      */
     public boolean isEmpty(){
-        return cardDeck.isEmpty();
+        return developmentCards.isEmpty();
     }
 
     /**
      * shuffle the deck
      */
     public void shuffle(){
-        Collections.shuffle(this.cardDeck);
+        Collections.shuffle(this.developmentCards);
     }
 
-    public ArrayList<DevelopmentCard> getCardDeck() {
-        return cardDeck;
+    public ArrayList<DevelopmentCard> getDevelopmentCards() {
+        return developmentCards;
     }
 }

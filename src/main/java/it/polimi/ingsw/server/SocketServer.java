@@ -43,7 +43,7 @@ public class SocketServer implements  Runnable{
                 Socket client = serverSocket.accept();
 
                 ClientHandler clientHandler = new ClientHandler(client, this, server);
-                clientHandler.enablePong(true);
+                //clientHandler.enablePong(true);
                 Server.LOGGER.info("Accepted new client "+ client.getInetAddress());
                 executor.submit(clientHandler);
             } catch (IOException ex){

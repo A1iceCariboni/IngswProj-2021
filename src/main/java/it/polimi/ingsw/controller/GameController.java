@@ -17,14 +17,14 @@ import it.polimi.ingsw.messages.answer.OkMessage;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.effects.ProductionPower;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.utility.WarehouseConstructor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.*;
 
 //TODO bloccare azioni finché il giocatore non ha pagato e posizionato carta e risorse
 //TODO scegliere cosa fare dei client quando finisce la partita
@@ -33,12 +33,13 @@ import java.util.Map;
  * the messages from client
  * @author Alice Cariboni
  */
-public class GameController {
+public class GameController implements Serializable {
     protected Game game;
-    Gson gson = new Gson();
+    private static final long serialVersionUID = -4658746997554128681L;
+    transient Gson gson ;
 
 
-    protected Map<String, VirtualView> connectedClients;
+    protected transient Map<String, VirtualView> connectedClients;
     protected boolean isStarted;
     protected TurnController turnController;
     protected ArrayList<String> players;
@@ -49,12 +50,13 @@ public class GameController {
     protected int numberOfPlayers;
 
     public GameController(){
-        this.connectedClients = new HashMap<>();
+        gson = new Gson();
+        connectedClients = Collections.synchronizedMap(new HashMap<>());
         isStarted = false;
         numberOfPlayers = 0;
         gamePhase = GamePhase.INIT;
         players = new ArrayList<>();
-        this.startedAction = false;
+        startedAction = false;
     }
 
 
@@ -72,12 +74,13 @@ public class GameController {
             }
         }
     }
+
     public Map<String, VirtualView> getConnectedClients() {
         return connectedClients;
     }
 
     public void addConnectedClient(String nickname, VirtualView virtualView) {
-        this.connectedClients.put(nickname,virtualView);
+        connectedClients.put(nickname,virtualView);
     }
 
     /**
@@ -98,10 +101,11 @@ public class GameController {
     }
 
     public void removeConnectedClient(String nickname){
-        this.connectedClients.remove(nickname);
+        connectedClients.remove(nickname);
     }
     public void addAllConnectedClients(Map<String, VirtualView> clients){
-        this.connectedClients.putAll(clients);
+        connectedClients = Collections.synchronizedMap(new HashMap<>());
+        connectedClients.putAll(clients);
     }
 
     /**
@@ -149,8 +153,51 @@ public class GameController {
         virtualView.update(new Message(MessageType.DUMMY_LEADER_CARD,gson.toJson(dummyLeaderCards)));
     }
 
+    /**
+     * sends all the structures of the saved game to the players
+     */
+    public void sendRestoredGame(){
+        gson = new Gson();
+        try{
+            sendUpdateMarketDev();
+            sendUpdateMarketTray();
+            sendUpdateFaithTrack();
+            sendAllUpdateFaith();
+            for(VirtualView virtualView : connectedClients.values()){
+                ArrayList<DummyLeaderCard> dummyLeaderCards = new ArrayList<>();
+                ArrayList<LeaderCard> leaderCards = null;
+                    leaderCards = game.getPlayerByNickname(virtualView.getNickname()).getLeadercards();
 
-    public void sendUpdateMove(final PlayerMove playerMove){
+                for(LeaderCard lc: leaderCards){
+                    dummyLeaderCards.add(lc.getDummy());
+                }
+                virtualView.update(new Message(MessageType.DUMMY_LEADER_CARD,gson.toJson(dummyLeaderCards)));
+
+                DummyDev[] dummyDevs = new DummyDev[3];
+                DevelopmentCard[] developmentCards = game.getPlayerByNickname(virtualView.getNickname()).getPlayerBoard().getDevCardSlots();
+                for(int i = 0; i < Constants.DEV_SLOTS; i++){
+                    if(developmentCards[i] != null) {
+                        dummyDevs[i] = developmentCards[i].getDummy();
+                    }else{
+                        dummyDevs[i] = null;
+                    }
+                }
+                virtualView.update(new Message(MessageType.DUMMY_DEVS,gson.toJson(dummyDevs)));
+
+                virtualView.update(new Message(MessageType.DEPOTS,gson.toJson(game.getPlayerByNickname(virtualView.getNickname()).getPlayerBoard().getWareHouse().getDummy())));
+
+
+                DummyStrongbox dummyStrongbox = game.getPlayerByNickname(virtualView.getNickname()).getPlayerBoard().getStrongBox().getDummy();
+                virtualView.update(new Message(MessageType.DUMMY_STRONGBOX, gson.toJson(dummyStrongbox)));
+            }
+            getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.NOTIFY_TURN, ""));
+            sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's " + turnController.getActivePlayer() + " turn, wait"), getVirtualView(turnController.getActivePlayer()));
+        } catch (InvalidNickname invalidNickname) {
+            invalidNickname.printStackTrace();
+        }
+    }
+
+    public void sendUpdateMove(PlayerMove playerMove){
         sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "ACTION: " + playerMove.name() + " PLAYER: " + this.game.getCurrentPlayer().getNickName()), this.getVirtualView(this.game.getCurrentPlayer().getNickName()));
     }
 
@@ -170,9 +217,6 @@ public class GameController {
         return numberOfPlayers;
     }
 
-    public VirtualView getVirtualViewByNickname(String nickname){
-        return connectedClients.get(nickname);
-    }
 
     public void setNumberOfPlayers(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
@@ -1019,7 +1063,7 @@ public class GameController {
      */
     public void startGame()  {
         Server.LOGGER.info("instantiating game");
-        this.inputChecker = new InputChecker(this, connectedClients, game);
+        this.inputChecker = new InputChecker(this, game);
 
         for(String name : players) {
             game.addPlayer(new Player(false, name, 0, new PlayerBoard(new WareHouse(), new StrongBox())));
@@ -1047,11 +1091,11 @@ public class GameController {
         turnController = new TurnController(this, nickNames, game.getCurrentPlayer().getNickName(), this.game);
         setGamePhase(GamePhase.FIRST_ROUND);
 
-        getVirtualViewByNickname(turnController.getActivePlayer()).update(new Message(MessageType.GENERIC_MESSAGE,"You are the first player, discard 2 leader cards from your hand"));
-        getVirtualViewByNickname(turnController.getActivePlayer()).update(new Message(MessageType.NOTIFY_TURN,""));
+        getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.GENERIC_MESSAGE,"You are the first player, discard 2 leader cards from your hand"));
+        getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.NOTIFY_TURN,""));
         sendAllExcept(new Message(MessageType.END_TURN,""),getVirtualView(game.getCurrentPlayer().getNickName()));
 
-        sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's " + turnController.getActivePlayer() + "'s turn, wait for your turn!"), getVirtualViewByNickname(turnController.getActivePlayer()));
+        sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's " + turnController.getActivePlayer() + "'s turn, wait for your turn!"), getVirtualView(turnController.getActivePlayer()));
 
     }
 

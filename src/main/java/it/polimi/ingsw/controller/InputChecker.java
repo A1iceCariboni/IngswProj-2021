@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
+import com.sun.prism.Image;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
@@ -11,21 +12,21 @@ import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.utility.WarehouseConstructor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class InputChecker {
+public class InputChecker implements Serializable {
+    private static final long serialVersionUID = -9074030847073411987L;
     private final GameController gameController;
-    private final Map<String, VirtualView> connectedClients;
     private final Game game;
 
 
-    public InputChecker(GameController gameController, Map<String, VirtualView> connectedClients, Game game) {
+    public InputChecker(GameController gameController, Game game) {
         this.gameController = gameController;
-        this.connectedClients = connectedClients;
         this.game = game;
     }
 
@@ -52,7 +53,7 @@ public class InputChecker {
                 return (dim.length == 2) && ((dim[0].equalsIgnoreCase("row")) || (dim[0].equalsIgnoreCase("col")));
             case WHITE_MARBLES:
                 String[] marb = gson.fromJson(message.getPayload(), String[].class);
-                return (!connectedClients.get(nickname).getFreeMarble().isEmpty()) && (marb.length >= connectedClients.get(nickname).getFreeMarble().size()) && ((gameController.getTurnPhase() == TurnPhase.BUY_MARKET) || (checkWhiteMarble(marb)));
+                return (!gameController.getVirtualView(nickname).getFreeMarble().isEmpty()) && (marb.length >= gameController.getVirtualView(nickname).getFreeMarble().size()) && ((gameController.getTurnPhase() == TurnPhase.BUY_MARKET) || (checkWhiteMarble(marb)));
             case SLOT_CHOICE:
                 return gameController.getTurnPhase() == TurnPhase.BUY_DEV;
             case ACTIVATE_PRODUCTION:
@@ -132,9 +133,9 @@ public class InputChecker {
         List<Integer> depotIds = Arrays.asList(ids);
         ArrayList<Resource> cost;
         if (gameController.getTurnPhase() == TurnPhase.BUY_DEV) {
-            cost = connectedClients.get(nickname).getFreeDevelopment().get(0).getCost();
+            cost = gameController.getVirtualView(nickname).getFreeDevelopment().get(0).getCost();
         } else {
-            cost = connectedClients.get(nickname).getResourcesToPay();
+            cost = gameController.getVirtualView(nickname).getResourcesToPay();
         }
         ArrayList<Resource> payment = cost;
         Map<Integer, Long> couterMap = depotIds.stream().collect(Collectors.groupingBy(p -> p, Collectors.counting()));

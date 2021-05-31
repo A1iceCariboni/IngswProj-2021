@@ -33,7 +33,7 @@ public class SocketClient extends Observable {
     public SocketClient(String ip, int port){
         try {
             socket = new Socket(ip,port);
-            socket.setSoTimeout(5000);
+            //socket.setSoTimeout(5000);
 
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));

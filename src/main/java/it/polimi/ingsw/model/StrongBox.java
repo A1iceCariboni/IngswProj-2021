@@ -1,10 +1,13 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.client.DummyModel.DummyStrongbox;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /** author Alessandra Atria*/
-public class StrongBox {
+public class StrongBox implements Serializable {
+    private static final long serialVersionUID = -8009204854362906931L;
+
     private ArrayList<Resource> res;
 
 

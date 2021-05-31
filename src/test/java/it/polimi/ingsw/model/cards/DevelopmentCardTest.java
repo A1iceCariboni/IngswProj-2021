@@ -155,10 +155,10 @@ class DevelopmentCardTest {
     void getByColor(){
         DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck(DevelopentCardParser.parseDevCards());
         assertFalse(developmentCardDeck.isEmpty());
-         int size1 = developmentCardDeck.getCardDeck().size();
+         int size1 = developmentCardDeck.getDevelopmentCards().size();
         DevelopmentCard dev = developmentCardDeck.getByColor(CardColor.GREEN);
         assertTrue(dev.getColor() == CardColor.GREEN);
-        int size2 = developmentCardDeck.getCardDeck().size();
+        int size2 = developmentCardDeck.getDevelopmentCards().size();
         assertTrue(size1 == size2 + 1);
     }
 
@@ -166,10 +166,10 @@ class DevelopmentCardTest {
     void getByLevel(){
         DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck(DevelopentCardParser.parseDevCards());
         assertFalse(developmentCardDeck.isEmpty());
-        int size1 = developmentCardDeck.getCardDeck().size();
+        int size1 = developmentCardDeck.getDevelopmentCards().size();
         DevelopmentCard dev = developmentCardDeck.getByLevel(2);
         assertTrue(dev.getLevel() == 2);
-        int size2 = developmentCardDeck.getCardDeck().size();
+        int size2 = developmentCardDeck.getDevelopmentCards().size();
         assertTrue(size1 == size2 + 1);
     }
 
@@ -177,11 +177,11 @@ class DevelopmentCardTest {
     void getByLevelAndColor(){
         DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck(DevelopentCardParser.parseDevCards());
         assertFalse(developmentCardDeck.isEmpty());
-        int size1 = developmentCardDeck.getCardDeck().size();
+        int size1 = developmentCardDeck.getDevelopmentCards().size();
         DevelopmentCard dev = developmentCardDeck.getByColorAndLevel(CardColor.BLUE,3);
         assertTrue(dev.getLevel() == 3);
         assertTrue(dev.getColor() == CardColor.BLUE);
-        int size2 = developmentCardDeck.getCardDeck().size();
+        int size2 = developmentCardDeck.getDevelopmentCards().size();
         assertTrue(size1 == size2 + 1);
     }
 }

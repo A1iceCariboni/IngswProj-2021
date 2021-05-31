@@ -3,6 +3,7 @@ import it.polimi.ingsw.client.DummyModel.DummyDepot;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -10,8 +11,10 @@ import java.util.Objects;
  * @author Alessandra Atria
  */
 
-    public class Depot {
-        protected int id;
+    public class Depot implements Serializable {
+    private static final long serialVersionUID = 7376232902862183189L;
+
+    protected int id;
         protected int dimension;
         protected ArrayList<Resource> resources;
 

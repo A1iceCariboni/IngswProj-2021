@@ -26,11 +26,11 @@ class CardDeckTest {
     @Test
     public void devTest(){
         DevelopmentCardDeck developmentCardDeck = new DevelopmentCardDeck(DevelopentCardParser.parseDevCards());
-        int beforeSize = developmentCardDeck.getCardDeck().size();
+        int beforeSize = developmentCardDeck.getDevelopmentCards().size();
         DevelopmentCard developmentCard = developmentCardDeck.popCard();
-        assertTrue(beforeSize>developmentCardDeck.getCardDeck().size());
+        assertTrue(beforeSize>developmentCardDeck.getDevelopmentCards().size());
         developmentCardDeck.addCard(developmentCard);
-        assertTrue(developmentCardDeck.getCardDeck().size() == beforeSize);
+        assertTrue(developmentCardDeck.getDevelopmentCards().size() == beforeSize);
         developmentCard = developmentCardDeck.getByColor(CardColor.GREEN);
         assertTrue(developmentCard.getColor() == CardColor.GREEN);
         developmentCard = developmentCardDeck.getByLevel(1);

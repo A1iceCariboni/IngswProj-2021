@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.cards.ActionToken;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.effects.ProductionPower;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +19,9 @@ import java.util.stream.Collectors;
  * @author Alessandra Atria
  */
 
-public class Player {
+public class Player implements Serializable {
+    private static final long serialVersionUID = 3448105864781799196L;
+
     private boolean inkwell;
     private final String nickName;
     private int victoryPoints;

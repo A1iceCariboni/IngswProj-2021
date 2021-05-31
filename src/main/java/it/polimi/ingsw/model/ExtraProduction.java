@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.model.cards.effects.ProductionPower;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -10,6 +11,7 @@ import java.util.ArrayList;
  * the player can choose th resource he wants to produce
  */
 public class ExtraProduction {
+
     private final int id;
     private final ArrayList<Resource> entryResources;
 

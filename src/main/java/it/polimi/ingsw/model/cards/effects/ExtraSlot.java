@@ -3,10 +3,14 @@ package it.polimi.ingsw.model.cards.effects;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.model.*;
 
+import java.io.Serializable;
+
 /**
  * this effect is an extra slot in the wharehouse only for resource of type resourceType
  */
-public class ExtraSlot implements LeaderEffect{
+public class ExtraSlot implements LeaderEffect, Serializable {
+    private static final long serialVersionUID = -3261195465205181917L;
+
     private final ResourceType resourceType;
     private final int quantity;
 

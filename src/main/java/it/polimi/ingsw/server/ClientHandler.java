@@ -9,10 +9,7 @@ import it.polimi.ingsw.messages.answer.ErrorMessage;
 import it.polimi.ingsw.messages.answer.PongMessage;
 import it.polimi.ingsw.messages.request.PingMessage;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
@@ -26,6 +23,7 @@ import java.util.concurrent.TimeUnit;
  * @author Alice Cariboni
  */
 public class ClientHandler implements  Runnable{
+
     private Server server;
     private  Socket client;
     private  SocketServer socketServer;
@@ -47,12 +45,12 @@ public class ClientHandler implements  Runnable{
 
         this.server = server;
         this.socketServer = socketServer;
-        this.input = new Object();
-        this.connected = true;
-        this.ponger = Executors.newSingleThreadScheduledExecutor();
+        input = new Object();
+        connected = true;
+        ponger = Executors.newSingleThreadScheduledExecutor();
 
         try {
-            client.setSoTimeout(5000);
+            //client.setSoTimeout(5000);
             in = new BufferedReader(new InputStreamReader(client.getInputStream()));
             out = new PrintWriter(client.getOutputStream());
         } catch (IOException e) {

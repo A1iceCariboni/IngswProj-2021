@@ -12,7 +12,6 @@ import it.polimi.ingsw.server.Server;
 import java.util.ArrayList;
 
 public class SingleGameController extends GameController{
-        private SingleGame singleGame;
 
 
 
@@ -40,9 +39,9 @@ public class SingleGameController extends GameController{
     public void endGame() {
         ArrayList<Player> winner = game.getWinners();
         if(winner.isEmpty()){
-            getVirtualViewByNickname(turnController.getActivePlayer()).update(new Message(MessageType.LOSER, ""));
+            getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.LOSER, ""));
         }else{
-            getVirtualViewByNickname(turnController.getActivePlayer()).update(new Message(MessageType.WINNER, ""));
+            getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.WINNER, ""));
         }
     }
 

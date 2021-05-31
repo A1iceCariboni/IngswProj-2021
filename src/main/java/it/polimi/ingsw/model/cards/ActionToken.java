@@ -5,11 +5,15 @@ import it.polimi.ingsw.model.FakePlayer;
 import it.polimi.ingsw.model.SingleGame;
 import it.polimi.ingsw.model.cards.effects.TokenEffect;
 
+import java.io.Serializable;
+
 /**
  * this class represents an action token, for the single play
  * @author Alice Cariboni
  */
-public class ActionToken {
+public class ActionToken implements Serializable {
+    private static final long serialVersionUID = 7619821908717431984L;
+
     private final TokenType tokenType;
     private final TokenEffect tokenEffect;
 

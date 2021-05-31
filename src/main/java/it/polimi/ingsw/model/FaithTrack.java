@@ -2,11 +2,15 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.utility.FaithTrackParser;
 
+import java.io.Serializable;
+
 /**
  * @author Sofia Canestraci
  * the class controls the faith track of the game
  */
-public class FaithTrack {
+public class FaithTrack implements Serializable {
+    private static final long serialVersionUID = 7005662815742328464L;
+
     private final FaithCell[] faithTrack;
 
     public FaithTrack(){

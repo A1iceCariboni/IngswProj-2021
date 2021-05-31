@@ -9,14 +9,18 @@ import it.polimi.ingsw.model.cards.DevelopmentCardDeck;
 import it.polimi.ingsw.model.cards.LeaderDeck;
 import it.polimi.ingsw.utility.DevelopentCardParser;
 import it.polimi.ingsw.utility.LeaderCardParser;
+import it.polimi.ingsw.utility.MarketTrayParser;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * @author Sofia Canestraci
  * the class controls the game and makes possible that it starts and ends
  */
-public class Game {
+public class Game implements Serializable {
+    private static final long serialVersionUID = -1219837309023544815L;
+
     protected LeaderDeck deckLeader;
     protected DevelopmentCardDeck[][] deckDevelopment;
     protected FaithTrack faithTrack;
@@ -29,7 +33,7 @@ public class Game {
     public Game() throws JsonFileNotFoundException {
         this.players = new ArrayList<>();
         this.faithTrack = new FaithTrack();
-        this.marketTray = new MarketTray();
+        this.marketTray = MarketTrayParser.parseMarket();
         this.winners = new ArrayList<>();
         this.currentPlayer = 0;
         this.deckLeader = new LeaderDeck(LeaderCardParser.parseLeadCards());

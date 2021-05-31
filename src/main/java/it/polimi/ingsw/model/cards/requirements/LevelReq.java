@@ -4,6 +4,7 @@ import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -12,7 +13,7 @@ import java.util.Arrays;
  *  to activate it
  * @author Alice Cariboni
  */
-public class LevelReq implements Requirement{
+public class LevelReq implements Requirement, Serializable {
     private final int level;
     private final CardColor color;
     private final int quantity;

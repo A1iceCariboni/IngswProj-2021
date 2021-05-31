@@ -7,6 +7,7 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.answer.ErrorMessage;
 import it.polimi.ingsw.messages.answer.NumberOfPlayerRequest;
+import it.polimi.ingsw.utility.Persistence;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -82,9 +83,20 @@ public class Server {
         if (waiting.size() == gameController.getNumberOfPlayers()) {
             gameController.addConnectedClient(virtualView.getNickname(), virtualView);
             gameController.addPlayer(virtualView.getNickname());
-            gameController.sendAll(new Message(MessageType.GENERIC_MESSAGE,"Game is starting!"));
-            gameController.setStarted(true);
-            gameController.startGame();
+            Persistence persistence = new Persistence();
+            GameController savedGameController = persistence.restore();
+            if(savedGameController != null &&
+                savedGameController.getNumberOfPlayers() == gameController.getNumberOfPlayers() &&
+                savedGameController.getPlayers().containsAll(gameController.getPlayers())){
+                savedGameController.addAllConnectedClients(gameController.getConnectedClients());
+
+                gameController = savedGameController;
+                gameController.sendRestoredGame();
+            }else {
+                gameController.sendAll(new Message(MessageType.GENERIC_MESSAGE, "Game is starting!"));
+                gameController.setStarted(true);
+                gameController.startGame();
+            }
         } else {
             if (gameController.isStarted()) {
                 clientHandler.sendMessage(new ErrorMessage("The game is already started, try again later"));
@@ -108,11 +120,11 @@ public class Server {
         if (numberOfPlayers == 1) {
             SingleGameController singleGameController = new SingleGameController();
             singleGameController.setNumberOfPlayers(numberOfPlayers);
-            this.gameController = singleGameController;
+            gameController = singleGameController;
         } else {
             MultiGameController multiGameController = new MultiGameController();
             multiGameController.setNumberOfPlayers(numberOfPlayers);
-            this.gameController = multiGameController;
+            gameController = multiGameController;
 
         }
         LOGGER.info("Created game");

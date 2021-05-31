@@ -1,12 +1,9 @@
 package it.polimi.ingsw.model;
 import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.Constants;
+import it.polimi.ingsw.exceptions.InvalidNickname;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
-import it.polimi.ingsw.model.cards.Deck;
 import it.polimi.ingsw.model.cards.DevelopmentCardDeck;
-import it.polimi.ingsw.model.cards.LeaderDeck;
-import it.polimi.ingsw.utility.DevelopentCardParser;
-import it.polimi.ingsw.utility.LeaderCardParser;
 
 import java.util.ArrayList;
 
@@ -19,8 +16,7 @@ public class SingleGame extends Game{
 
 
     public SingleGame() throws JsonFileNotFoundException {
-        super();
-        this.players.add(new FakePlayer());
+        players.add(new FakePlayer());
     }
 
     /**
@@ -29,7 +25,7 @@ public class SingleGame extends Game{
     @Override
     public void startGame() {
         for (int i = 0; i < Constants.smallDecks; i++) {
-            players.get(1).addLeaderCard(this.deckLeader.popCard());
+            players.get(1).addLeaderCard(deckLeader.popCard());
         }
     }
 
@@ -128,7 +124,7 @@ public ArrayList<Player> getWinners(){
         for(int r = 0; r < Constants.rows; r++){
             for(int c = 0; c < Constants.cols ; c++){
                 for(int ind = 0; ind < Constants.smallDecks; ind++) {
-                    if (!this.deckDevelopment[r][c].isEmpty() && this.deckDevelopment[r][c].getCardDeck().get(0).getColor() == cardColor && i > 0) {
+                    if (!this.deckDevelopment[r][c].isEmpty() && this.deckDevelopment[r][c].getDevelopmentCards().get(0).getColor() == cardColor && i > 0) {
                         this.deckDevelopment[r][c].popCard();
                         i--;
                     }
@@ -147,5 +143,11 @@ public ArrayList<Player> getWinners(){
         ArrayList<Player> players = new ArrayList<>();
         players.add(this.players.get(1));
         return  players;
+    }
+
+    @Override
+    public Player getPlayerByNickname(String nickname) throws InvalidNickname {
+        if(nickname.equals(players.get(1).getNickName())) return players.get(1);
+        throw new InvalidNickname("Not a nickname");
     }
 }

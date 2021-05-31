@@ -2,13 +2,16 @@ package it.polimi.ingsw.model.cards.effects;
 
 import it.polimi.ingsw.model.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * this effect is an extra production power that produces a resource resourcetype and a faith point with any resource type as entry resource
  * @author Alice Cariboni
  */
-public class ExtraProductionPower implements LeaderEffect{
+public class ExtraProductionPower implements LeaderEffect, Serializable {
+    private static final long serialVersionUID = 2437025212007881053L;
+
     private final int id;
     private final Resource resourceType;
     private final int quantity;

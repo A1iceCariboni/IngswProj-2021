@@ -1,24 +1,21 @@
 package it.polimi.ingsw.model.cards;
 
-import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
-import it.polimi.ingsw.utility.LeaderCardParser;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class LeaderDeck extends Deck {
-    private final ArrayList<LeaderCard> cardDeck;
+    private final ArrayList<LeaderCard> leaderCards;
 
     public LeaderDeck(ArrayList<LeaderCard> cardDeck) {
-        this.cardDeck = cardDeck;
+        this.leaderCards = cardDeck;
     }
 
     /**
      * @return first card of the deck and remove the card from the deck
      */
     public LeaderCard popCard() {
-        LeaderCard c = cardDeck.get(0);
-        cardDeck.remove(c);
+        LeaderCard c = leaderCards.get(0);
+        leaderCards.remove(c);
         return c;
     }
 
@@ -26,22 +23,22 @@ public class LeaderDeck extends Deck {
      * @return true if it's empty
      */
     public boolean isEmpty() {
-        return cardDeck.isEmpty();
+        return leaderCards.isEmpty();
     }
 
     /**
      * @param card add card to the deck
      */
     public void addCard(LeaderCard card){
-        this.cardDeck.add(card);
+        this.leaderCards.add(card);
     }
 
     @Override
     public void shuffle() {
-        Collections.shuffle(this.cardDeck);
+        Collections.shuffle(this.leaderCards);
     }
 
     public ArrayList<LeaderCard> getCardDeck() {
-        return cardDeck;
+        return leaderCards;
     }
 }

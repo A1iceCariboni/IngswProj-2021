@@ -6,12 +6,19 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.answer.ErrorMessage;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.VirtualView;
+import it.polimi.ingsw.utility.Persistence;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 
-public class TurnController {
-    private final GameController gameController;
+public class TurnController implements Serializable {
+
+    private static final long serialVersionUID = -4041289575909035845L;
+
+    private  GameController gameController;
     private TurnPhase turnPhase;
     private int gameActionPerTurn;
     private final Game game;
@@ -85,11 +92,13 @@ public class TurnController {
         game.nextPlayer();
         gameController.setTurnPhase(TurnPhase.FREE);
         gameController.fakePlayerMove();
-        gameController.getVirtualViewByNickname(activePlayer).update(new Message(MessageType.NOTIFY_TURN, ""));
+        gameController.getVirtualView(activePlayer).update(new Message(MessageType.NOTIFY_TURN, ""));
         gameController.sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's "+activePlayer+" turn, wait!"), gameController.getVirtualView(activePlayer));
         if(nickNamesQueue.size() > 1) {
-            gameController.getVirtualViewByNickname(nickNamesQueue.get(nickNamesQueue.size() - 1)).update(new Message(MessageType.END_TURN, ""));
+            gameController.getVirtualView(nickNamesQueue.get(nickNamesQueue.size() - 1)).update(new Message(MessageType.END_TURN, ""));
         }
+        Persistence persistence = new Persistence();
+        persistence.store(gameController);
     }
 
 

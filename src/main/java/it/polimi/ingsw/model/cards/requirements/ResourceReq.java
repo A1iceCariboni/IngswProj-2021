@@ -4,6 +4,7 @@ import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.Resource;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -11,7 +12,9 @@ import java.util.ArrayList;
  *  to activate it
  * @author Alice Cariboni
  */
-public class ResourceReq implements Requirement{
+public class ResourceReq implements Requirement, Serializable {
+    private static final long serialVersionUID = 5926209895900320601L;
+
     private final ResourceType resourceType;
     private final int quantity;
 

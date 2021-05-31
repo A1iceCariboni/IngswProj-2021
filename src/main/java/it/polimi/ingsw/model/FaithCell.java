@@ -1,10 +1,14 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
+
 /**
  * this class represents a single cell of the faith track
  * @author Alice Cariboni
  */
-public class FaithCell {
+public class FaithCell implements Serializable {
+    private static final long serialVersionUID = -2853218142037035039L;
+
     private  boolean isPopeSpace;
     private final int victoryPoints;
     private int pointsForPopeSpace;

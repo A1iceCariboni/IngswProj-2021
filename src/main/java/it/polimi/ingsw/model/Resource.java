@@ -2,7 +2,11 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.ResourceType;
 
-public class Resource {
+import java.io.Serializable;
+
+public class Resource implements Serializable {
+    private static final long serialVersionUID = -8267728156211412994L;
+
     private final ResourceType resourceType;
 
 

@@ -7,6 +7,7 @@ import it.polimi.ingsw.messages.answer.ErrorMessage;
 import it.polimi.ingsw.model.MultiGame;
 import it.polimi.ingsw.model.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class MultiGameController extends GameController {
@@ -37,15 +38,15 @@ public class MultiGameController extends GameController {
         ArrayList<Player> winners = game.getWinners();
         if(winners.size() > 1){
             for(Player p: winners){
-                getVirtualViewByNickname(p.getNickName()).update(new Message(MessageType.WINNER,""));
+                getVirtualView(p.getNickName()).update(new Message(MessageType.WINNER,""));
                 players.remove(p.getNickName());
             }
             for(String name: players){
-                getVirtualViewByNickname(name).update(new Message(MessageType.LOSER, ""));
+                getVirtualView(name).update(new Message(MessageType.LOSER, ""));
             }
         }else{
-            getVirtualViewByNickname(winners.get(0).getNickName()).update(new Message(MessageType.WINNER,""));
-            sendAllExcept(new Message(MessageType.LOSER, ""), getVirtualViewByNickname(winners.get(0).getNickName()));
+            getVirtualView(winners.get(0).getNickName()).update(new Message(MessageType.WINNER,""));
+            sendAllExcept(new Message(MessageType.LOSER, ""), getVirtualView(winners.get(0).getNickName()));
         }
     }
 

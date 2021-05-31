@@ -9,7 +9,6 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.DevelopmentCardDeck;
 import it.polimi.ingsw.model.cards.LeaderDeck;
 import it.polimi.ingsw.model.cards.effects.ProductionPower;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -189,7 +188,7 @@ public class MultiGameTest {
         multiGame.addPlayer(players1.get(2));
         multiGame.addPlayer(players1.get(3));
         DevelopmentCard developmentCard = multiGame.getCardFrom(0,0);
-        assertFalse(multiGame.getDeckDevelopment()[0][0].getCardDeck().contains(developmentCard));
+        assertFalse(multiGame.getDeckDevelopment()[0][0].getDevelopmentCards().contains(developmentCard));
     }
 
 

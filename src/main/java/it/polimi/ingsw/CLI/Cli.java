@@ -122,7 +122,6 @@ public class Cli extends ViewObservable implements View {
     public void faithTrackNew(DummyFaithTrack faithTrack){
         virtualModel.getPlayerBoard().setFaithTrack(faithTrack);
         virtualModel.getOtherPlayer().setFaithTrack(faithTrack);
-        virtualModel.showFaithTrack(virtualModel.getPlayerBoard());
     }
 
     @Override
@@ -239,6 +238,9 @@ public class Cli extends ViewObservable implements View {
                 notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.END_TURN, "")));
                 break;
 
+            case 9:
+                chooseName();
+                break;
         }
     }
 

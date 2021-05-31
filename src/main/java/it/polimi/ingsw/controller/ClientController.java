@@ -50,7 +50,7 @@ public class ClientController implements ViewObserver,Observer {
     public void onConnectionRequest(String ip, int port) {
         client = new SocketClient(ip, port);
         client.addObserver(this);
-        client.enablePing(true);
+        //client.enablePing(true);
 
         try {
             client.readMessage();
@@ -102,7 +102,6 @@ public class ClientController implements ViewObserver,Observer {
 
                 break;
             case GENERIC_MESSAGE:
-                executionQueue.execute(() -> view.showGenericMessage(message.getPayload()));
             case WINNER:
             case LOSER:
                 executionQueue.execute(() -> view.showGenericMessage(message.getPayload()));

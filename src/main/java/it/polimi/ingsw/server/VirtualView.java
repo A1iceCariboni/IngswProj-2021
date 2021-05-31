@@ -15,6 +15,7 @@ import it.polimi.ingsw.model.StrongBox;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.observers.Observer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ import java.util.Map;
  * @author Alice Cariboni
  */
 public class VirtualView implements Observer {
+
     private ClientHandler clientHandler;
     private String nickname;
     private ArrayList<Resource> freeResources;

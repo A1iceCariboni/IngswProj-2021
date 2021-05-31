@@ -10,13 +10,16 @@ import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * @author Alessandra Atria
  */
 
-public class WareHouse {
+public class WareHouse implements Serializable {
+    private static final long serialVersionUID = -556480160257325637L;
+
     private final ArrayList<Depot> depots;
 
     public WareHouse() {

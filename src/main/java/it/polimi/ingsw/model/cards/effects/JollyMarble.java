@@ -5,11 +5,15 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.Resource;
 
+import java.io.Serializable;
+
 /**
  * this effect gives the indicated resource when the chosen column/row of the market gives white marbles
  * @author Alice Cariboni
  */
-public class JollyMarble implements LeaderEffect{
+public class JollyMarble implements LeaderEffect, Serializable {
+    private static final long serialVersionUID = -2626652660894446194L;
+
     private final Resource resourceType;
 
 

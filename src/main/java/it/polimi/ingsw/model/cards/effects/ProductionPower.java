@@ -4,13 +4,16 @@ import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.Resource;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * @author Alice Cariboni
  * This class represents the production power of a development card
  */
-public class ProductionPower {
+public class ProductionPower implements Serializable {
+    private static final long serialVersionUID = 8727605790420008920L;
+
     private ArrayList<Resource> entryResources;
     private ArrayList<Resource> productResources;
 

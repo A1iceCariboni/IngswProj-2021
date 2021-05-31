@@ -4,6 +4,7 @@ import it.polimi.ingsw.enumerations.MarbleColor;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.MarketTray;
+import it.polimi.ingsw.utility.MarketTrayParser;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +29,7 @@ public class MarketTrayTest {
         Marble[][] marble1 = new Marble[3][4];
         ArrayList<Marble> colMarble2;
 
-        MarketTray marketTray1 = new MarketTray();
+        MarketTray marketTray1 = MarketTrayParser.parseMarket();
         marble1 = marketTray1.getMarketTrayMarbles();
         int c = 0;
         Marble freeMarble1 = marketTray1.getSlidingMarble();
@@ -49,7 +50,7 @@ public class MarketTrayTest {
         Marble[][] marble1 = new Marble[3][4];
         ArrayList<Marble> rowMarble2;
 
-        MarketTray marketTray1 = new MarketTray();
+        MarketTray marketTray1 =  MarketTrayParser.parseMarket();
         int r = 1;
         marble1 = marketTray1.getMarketTrayMarbles();
         Marble freeMarble1 = marketTray1.getSlidingMarble();

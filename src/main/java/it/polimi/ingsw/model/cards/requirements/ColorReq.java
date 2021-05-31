@@ -4,6 +4,7 @@ import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.model.PlayerBoard;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,7 +14,9 @@ import java.util.Arrays;
  * @author Alice Cariboni
  */
 
-public class ColorReq implements Requirement{
+public class ColorReq implements Requirement, Serializable {
+    private static final long serialVersionUID = 7946989059547079529L;
+
     private final CardColor color;
     private final int quantity;
 

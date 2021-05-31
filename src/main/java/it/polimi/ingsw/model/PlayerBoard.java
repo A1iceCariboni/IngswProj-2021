@@ -4,12 +4,15 @@ import it.polimi.ingsw.exceptions.CannotAdd;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /** @author Alessandra Atria
 */
 
-public class PlayerBoard {
+public class PlayerBoard implements Serializable {
+    private static final long serialVersionUID = 7218667999815038982L;
+
     private WareHouse wareHouse;
     private StrongBox strongBox;
     private DevelopmentCard[] devCardSlots;

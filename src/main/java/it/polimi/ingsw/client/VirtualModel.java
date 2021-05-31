@@ -90,8 +90,8 @@ public class VirtualModel {
         }
 
         //market
-        MarketTray marketTray = new MarketTray();
-        this.dummyMarket = marketTray.getDummy();
+        //MarketTray marketTray = new MarketTray();
+        //this.dummyMarket = marketTray.getDummy();
 
         //dummy depots warehouse (tutti depot pieni + 1 extradepot di tipo coin vuoto)
         path = "/json/test/testwarehouse.json";

@@ -2,7 +2,11 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.MarbleColor;
 
-public class Marble{
+import java.io.Serializable;
+
+public class Marble implements Serializable {
+    private static final long serialVersionUID = -1205174966470572983L;
+
     private final MarbleColor marbleColor;
     private MarbleEffect marbleEffect;
 

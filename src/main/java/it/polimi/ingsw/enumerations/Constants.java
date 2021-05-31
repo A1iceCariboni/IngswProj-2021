@@ -54,6 +54,6 @@ public class Constants {
     public static final String ANSI_BG_PURPLE = "\u001B[45m";
     public static final String ANSI_BG_CYAN = "\u001B[46m";
     public static final String  ANSI_BRIGHT_BG_RED =  "\u001B[101m";
-
+    public static final String SAVED_GAME = "game.txt";
 }
 

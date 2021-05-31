@@ -48,32 +48,32 @@ public class TokenDeck extends Deck{
 
        switch(tokenEnum){
             case DRAW_YELLOW:
-                tokenEffect = (singleGame, fakePlayer) -> singleGame.discardCard(CardColor.YELLOW,2);
+                tokenEffect = (TokenEffect & Serializable) (singleGame, fakePlayer) -> singleGame.discardCard(CardColor.YELLOW,2);
                 this.actionTokens.add(new ActionToken(tokenEnum,tokenEffect));
 
                 break;
             case DRAW_BLUE:
-                tokenEffect = (singleGame, fakePlayer) -> singleGame.discardCard(CardColor.BLUE,2);
+                tokenEffect = (TokenEffect & Serializable) (singleGame, fakePlayer) -> singleGame.discardCard(CardColor.BLUE,2);
                 this.actionTokens.add(new ActionToken(tokenEnum,tokenEffect));
 
                 break;
             case DRAW_GREEN:
-                tokenEffect = (singleGame, fakePlayer) -> singleGame.discardCard(CardColor.GREEN,2);
+                tokenEffect = (TokenEffect & Serializable) (singleGame, fakePlayer) -> singleGame.discardCard(CardColor.GREEN,2);
                 this.actionTokens.add(new ActionToken(tokenEnum,tokenEffect));
 
                 break;
             case DRAW_PURPLE:
-                tokenEffect = (singleGame, fakePlayer) -> singleGame.discardCard(CardColor.PURPLE,2);
+                tokenEffect = (TokenEffect & Serializable) (singleGame, fakePlayer) -> singleGame.discardCard(CardColor.PURPLE,2);
                 this.actionTokens.add(new ActionToken(tokenEnum,tokenEffect));
 
                 break;
             case MOVE_2:
-                tokenEffect = (singleGame, fakePlayer) -> fakePlayer.moveBlackCross(2);
+                tokenEffect = (TokenEffect & Serializable) (singleGame, fakePlayer) -> fakePlayer.moveBlackCross(2);
                 this.actionTokens.add(new ActionToken(tokenEnum,tokenEffect));
 
                 break;
             case MOVE_AND_SHUFFLE:
-                tokenEffect = (singleGame, fakePlayer) -> {
+                tokenEffect = (TokenEffect & Serializable) (singleGame, fakePlayer) -> {
                     fakePlayer.moveBlackCross(1);
                     fakePlayer.shuffleToken();
                 };
