@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
@@ -76,21 +77,19 @@ public class Board extends ViewObservable {
     @FXML
     public ImageView p24;
 
-
-
-
-
+    @FXML
+    public ImageView led2;
 
     @FXML
     Button DiscardButton;
 
     public Board() {
+        this.leaderCards = new ArrayList<>();
     }
 
 
-
     @FXML
-    public void initialize(){
+    public void initialize() {
         p0.setVisible(false);
         p1.setVisible(false);
         p2.setVisible(false);
@@ -117,20 +116,16 @@ public class Board extends ViewObservable {
         p23.setVisible(false);
         p23.setVisible(false);
         p24.setVisible(false);
+
     }
-
-
-
-
-
 
 
     @FXML
     public void DiscardLeaderCards() {
         DiscarLeaderCards f = new DiscarLeaderCards();
-        f.setLeaderCards(virtualModel);
-        System.out.println(virtualModel.getLeaderCards().get(0).getId());
-        Platform.runLater(() -> GUIRunnable.FirstScene(f).addAllObservers(observers));
+        f.addAllObservers(observers);
+        System.out.println(leaderCards.get(1).getId());
+        Platform.runLater(() -> GUIRunnable.FirstScene(f).setLeaderCards(leaderCards));
 
     }
 
@@ -166,7 +161,11 @@ public class Board extends ViewObservable {
     }
 
 
-    public void setLeaderCards(VirtualModel virtualModel) {
-        this.virtualModel = virtualModel;
+
+    public void setLeaderCards(ArrayList<DummyLeaderCard> leaderCards) {
+        this.leaderCards = leaderCards;
+        Image img1 = new Image(Board.class.getResourceAsStream("/CardsFront/led" + leaderCards.get(0).getId() + ".png"));
+        led2.setImage(img1);
     }
+
 }

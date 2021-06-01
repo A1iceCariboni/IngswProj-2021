@@ -1,38 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.StackPane?>
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="278.0" prefWidth="540.0" styleClass="rootPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.Market">
-   <top>
-      <AnchorPane prefHeight="250.0" prefWidth="545.0">
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.DiscarLeaderCards">
+   <children>
+      <AnchorPane prefHeight="715.0" prefWidth="1264.0" styleClass="boardPane">
          <children>
-            <Label fx:id="titleLbl" alignment="CENTER" layoutX="179.0" layoutY="38.0" prefHeight="22.0" prefWidth="180.0" styleClass="customText" text="ERROR">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="messageLbl" alignment="CENTER" layoutX="84.0" layoutY="83.0" prefHeight="85.0" prefWidth="370.0" styleClass="alertText" text="Something went wrong :(" wrapText="true">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-            <Button fx:id="okBtn" layoutX="167.0" layoutY="189.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="204.0" styleClass="smallButton" text="OK" />
-            <ImageView fx:id="l1" fitHeight="150.0" fitWidth="200.0" layoutX="35.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="920.0" fitWidth="1311.0" layoutX="-1.0" layoutY="-159.0" opacity="0.43" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../CardsBack/MastersofRenaissance__Cards_BACK_3mmBleed-49-1.png" />
-               </image></ImageView>
-            <ImageView fx:id="l2" fitHeight="150.0" fitWidth="200.0" layoutX="316.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" />
+                  <Image url="@../Board/MastersofRenaissance_PlayerBoard_back.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="425.0" fitWidth="327.0" layoutX="690.0" layoutY="228.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/planciaportabiglie.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
-   </top>
-   <stylesheets>
-      <URL value="@../css/ChooseLeaderCards.css" />
-   </stylesheets>
-</BorderPane>
+   </children>
+</StackPane>

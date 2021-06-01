@@ -56,12 +56,14 @@ public class Gui extends ViewObservable implements View {
     @Override
 
     public void faithTrackNew(DummyFaithTrack faithTrack) {
+        virtualModel.getPlayerBoard().setFaithTrack(faithTrack);
     }
 
 
     @Override
 
     public void marketTrayNew(DummyMarket market) {
+        virtualModel.setDummyMarket(market);
     }
 
     @Override
@@ -91,8 +93,8 @@ public class Gui extends ViewObservable implements View {
 
 
     @Override
-    public void devMarketNew(DummyDev[][] dummyDevs) {
-
+    public void devMarketNew(DummyDev[][] devMarket) {
+        virtualModel.setBoardDevCard(devMarket);
     }
 
 
@@ -110,15 +112,15 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void wareHouseNew(DummyWareHouse dummyWareHouse) {
+        virtualModel.getPlayerBoard().setWareHouse(dummyWareHouse);
     }
 
     @Override
     public void chooseAction() {
         turnPhase = TurnPhase.FREE;
         Board bc = new Board();
-        bc.setLeaderCards(virtualModel);
-        System.out.println(virtualModel.getLeaderCards().get(0));
-        Platform.runLater(() -> GUIRunnable.changetoStart(bc).addAllObservers(observers));
+        bc.addAllObservers(observers);
+        Platform.runLater(() -> GUIRunnable.changetoStart(bc).setLeaderCards(virtualModel.getLeaderCards()));
         System.out.println("If it's your first round you can:");
         System.out.println("1. Discard a leader card");
         System.out.println("If it's not you can also:");
