@@ -123,9 +123,8 @@ public class Board extends ViewObservable {
     @FXML
     public void DiscardLeaderCards() {
         DiscarLeaderCards f = new DiscarLeaderCards();
-        f.addAllObservers(observers);
         System.out.println(leaderCards.get(1).getId());
-        Platform.runLater(() -> GUIRunnable.FirstScene(f).setLeaderCards(leaderCards));
+        Platform.runLater(() -> GUIRunnable.FirstScene(f, observers).setLeaderCards(leaderCards));
 
     }
 
@@ -164,8 +163,6 @@ public class Board extends ViewObservable {
 
     public void setLeaderCards(ArrayList<DummyLeaderCard> leaderCards) {
         this.leaderCards = leaderCards;
-        Image img1 = new Image(Board.class.getResourceAsStream("/CardsFront/led" + leaderCards.get(0).getId() + ".png"));
-        led2.setImage(img1);
     }
 
 }

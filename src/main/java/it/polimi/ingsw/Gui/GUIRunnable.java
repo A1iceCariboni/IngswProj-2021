@@ -3,6 +3,9 @@ import it.polimi.ingsw.Scenes.*;
 import it.polimi.ingsw.client.SocketClient;
 import it.polimi.ingsw.Scenes.AlertScene;
 import it.polimi.ingsw.controller.ClientController;
+import it.polimi.ingsw.observers.Observable;
+import it.polimi.ingsw.observers.Observer;
+import it.polimi.ingsw.observers.ViewObserver;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,6 +14,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class GUIRunnable extends Application {
 
@@ -93,14 +97,14 @@ public class GUIRunnable extends Application {
     }
 
 
-    public static Board changetoStart(Board bc) {
+    public static Board changetoStart(Board bc, ArrayList<ViewObserver> observers) {
         try {
 
             FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Board_Scene.fxml"));
             Parent root = loader.load();
             scene.setRoot(root);
             bc = loader.getController();
-
+            bc.addAllObservers(observers);
         } catch (IOException e) {
             SocketClient.LOGGER.severe(e.getMessage());
         }
@@ -108,13 +112,14 @@ public class GUIRunnable extends Application {
     }
 
 
-    public static DiscarLeaderCards FirstScene(DiscarLeaderCards f) {
+    public static DiscarLeaderCards FirstScene(DiscarLeaderCards f, ArrayList<ViewObserver> observers) {
         try {
 
             FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/DiscardLeaderCards_Scene.fxml"));
             Parent root = loader.load();
             scene.setRoot(root);
             f = loader.getController();
+            f.addAllObservers(observers);
 
         } catch (IOException e) {
             SocketClient.LOGGER.severe(e.getMessage());

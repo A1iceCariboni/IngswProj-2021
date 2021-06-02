@@ -119,8 +119,7 @@ public class Gui extends ViewObservable implements View {
     public void chooseAction() {
         turnPhase = TurnPhase.FREE;
         Board bc = new Board();
-        bc.addAllObservers(observers);
-        Platform.runLater(() -> GUIRunnable.changetoStart(bc).setLeaderCards(virtualModel.getLeaderCards()));
+        Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers).setLeaderCards(virtualModel.getLeaderCards()));
         System.out.println("If it's your first round you can:");
         System.out.println("1. Discard a leader card");
         System.out.println("If it's not you can also:");

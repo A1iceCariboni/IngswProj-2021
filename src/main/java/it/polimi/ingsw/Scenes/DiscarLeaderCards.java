@@ -7,6 +7,7 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.observers.ViewObservable;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -85,10 +86,13 @@ public class DiscarLeaderCards extends ViewObservable {
 
     @FXML
     public void DiscardLeader4() {
-        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DISCARD_LEADER, Integer.toString(leaderCards.get(3).getId()))));
-        l4.setVisible(false);
+        //notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DISCARD_LEADER, Integer.toString(leaderCards.get(3).getId()))));
+       // l4.setVisible(false);
+        Board bc = new Board();
+        Platform.runLater(() -> GUIRunnable.changetoStart(bc,observers));
 
     }
+
 
     @FXML
     public void ActivateLeader1(){}
@@ -107,8 +111,7 @@ public class DiscarLeaderCards extends ViewObservable {
 
     public void Exit() {
         Board bc = new Board();
-        bc.addAllObservers(observers);
-        GUIRunnable.changetoStart(bc);
+        GUIRunnable.changetoStart(bc, observers);
 
     }
 
