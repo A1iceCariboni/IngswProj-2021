@@ -22,6 +22,7 @@ public class Board extends ViewObservable {
 
     private VirtualModel virtualModel;
     public Button LeaderActiveButton;
+    public ArrayList<ImageView> faithMarker;
 
 
     @FXML
@@ -86,6 +87,7 @@ public class Board extends ViewObservable {
 
     public Board() {
         this.virtualModel = new VirtualModel();
+        this.faithMarker = new ArrayList<>();
     }
 
 
@@ -118,14 +120,47 @@ public class Board extends ViewObservable {
         p23.setVisible(false);
         p24.setVisible(false);
 
+        faithMarker.add(p0);
+        faithMarker.add(p1);
+        faithMarker.add(p2);
+        faithMarker.add(p3);
+        faithMarker.add(p4);
+        faithMarker.add(p5);
+        faithMarker.add(p6);
+        faithMarker.add(p7);
+        faithMarker.add(p8);
+        faithMarker.add(p9);
+        faithMarker.add(p10);
+        faithMarker.add(p11);
+        faithMarker.add(p12);
+        faithMarker.add(p13);
+        faithMarker.add(p14);
+        faithMarker.add(p15);
+        faithMarker.add(p16);
+        faithMarker.add(p17);
+        faithMarker.add(p18);
+        faithMarker.add(p19);
+        faithMarker.add(p20);
+        faithMarker.add(p21);
+        faithMarker.add(p22);
+        faithMarker.add(p23);
+        faithMarker.add(p24);
     }
 
+
+    @FXML
+    public void updateFaithTrack() {
+        for(int i=0; i<24; i++){
+            faithMarker.get(i).setVisible(false);
+        }
+        int p = virtualModel.getPlayerBoard().getFaithMarker();
+        faithMarker.get(p).setVisible(true);
+    }
 
     @FXML
     public void DiscardLeaderCards() {
         DiscarLeaderCards f = new DiscarLeaderCards();
         Platform.runLater(() -> GUIRunnable.FirstScene(f, observers).setLeaderCards(virtualModel));
-
     }
 
     @FXML
@@ -167,5 +202,6 @@ public class Board extends ViewObservable {
     public void setVirtualModel(VirtualModel virtualModel) {
         this.virtualModel = virtualModel;
     }
+
 
 }

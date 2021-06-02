@@ -38,6 +38,7 @@ public interface View {
      void discardResource();
 
      void modifyWarehouse();
+
      void waitTurn();
     // void discardLeader();
 

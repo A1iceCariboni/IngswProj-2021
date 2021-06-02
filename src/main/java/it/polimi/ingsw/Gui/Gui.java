@@ -18,6 +18,7 @@ public class Gui extends ViewObservable implements View {
     Gson gson = new Gson();
     private TurnPhase turnPhase;
     private Scene scene;
+    Board bc;
 
 
     public Gui() {
@@ -118,7 +119,7 @@ public class Gui extends ViewObservable implements View {
     @Override
     public void chooseAction() {
         turnPhase = TurnPhase.FREE;
-        Board bc = new Board();
+        bc = new Board();
         Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers).setVirtualModel(virtualModel));
         System.out.println("If it's your first round you can:");
         System.out.println("1. Discard a leader card");
@@ -190,7 +191,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void modifyFaithMarker(int pos) {
-
+        virtualModel.getPlayerBoard().setFaithMarker(pos);
     }
 
     @Override
