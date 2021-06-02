@@ -145,6 +145,10 @@ public class VirtualModel {
         }
     }
 
+    public DummyDev[][] getBoardDevCard(){
+        return this.boardDevCard;
+    }
+
 
 
 

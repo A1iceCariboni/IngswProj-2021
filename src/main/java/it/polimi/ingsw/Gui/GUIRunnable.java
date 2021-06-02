@@ -127,6 +127,18 @@ public class GUIRunnable extends Application {
         return f;
     }
 
+    public static DevCards buyDevCard(DevCards cl, ArrayList<ViewObserver> observers) {
+        try {
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Development_Deck.fxml"));
+            Parent root = loader.load();
+            scene.setRoot(root);
+            cl  = loader.getController();
+            cl.addAllObservers(observers);
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+        }
+        return cl;
+    }
 
     public static void showAlert(String title, String message) {
         FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Alert_Scene.fxml"));

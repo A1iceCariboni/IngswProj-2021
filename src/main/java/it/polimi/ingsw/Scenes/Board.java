@@ -1,8 +1,10 @@
 package it.polimi.ingsw.Scenes;
 
 import it.polimi.ingsw.Gui.GUIRunnable;
+import it.polimi.ingsw.client.DummyModel.DummyDev;
 import it.polimi.ingsw.client.DummyModel.DummyLeaderCard;
 import it.polimi.ingsw.client.VirtualModel;
+import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.observers.ViewObservable;
@@ -79,6 +81,9 @@ public class Board extends ViewObservable {
     @FXML
     Button DiscardButton;
 
+    @FXML
+    Button DevButton;
+
     public Board() {
         this.virtualModel = new VirtualModel();
     }
@@ -123,6 +128,12 @@ public class Board extends ViewObservable {
 
     }
 
+    @FXML
+    public void buyDev() {
+        DevCards deck = new DevCards();
+        Platform.runLater(() -> GUIRunnable.buyDevCard(deck, observers).setDevCards(virtualModel));
+    }
+
 
     @FXML
     public void buyfromMarket(ActionEvent actionEvent) {
@@ -150,9 +161,6 @@ public class Board extends ViewObservable {
     public void discardRes(ActionEvent actionEvent) {
     }
 
-    @FXML
-    public void buyDev(ActionEvent actionEvent) {
-    }
 
 
 
