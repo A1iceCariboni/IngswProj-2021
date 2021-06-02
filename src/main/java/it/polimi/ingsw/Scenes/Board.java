@@ -20,11 +20,7 @@ public class Board extends ViewObservable {
 
     private VirtualModel virtualModel;
     public Button LeaderActiveButton;
-    private ArrayList<DummyLeaderCard> leaderCards;
-    int id1;
-    int id2;
-    int id3;
-    int id4;
+
 
     @FXML
     public ImageView p0;
@@ -84,7 +80,7 @@ public class Board extends ViewObservable {
     Button DiscardButton;
 
     public Board() {
-        this.leaderCards = new ArrayList<>();
+        this.virtualModel = new VirtualModel();
     }
 
 
@@ -123,8 +119,7 @@ public class Board extends ViewObservable {
     @FXML
     public void DiscardLeaderCards() {
         DiscarLeaderCards f = new DiscarLeaderCards();
-        System.out.println(leaderCards.get(1).getId());
-        Platform.runLater(() -> GUIRunnable.FirstScene(f, observers).setLeaderCards(leaderCards));
+        Platform.runLater(() -> GUIRunnable.FirstScene(f, observers).setLeaderCards(virtualModel));
 
     }
 
@@ -161,8 +156,8 @@ public class Board extends ViewObservable {
 
 
 
-    public void setLeaderCards(ArrayList<DummyLeaderCard> leaderCards) {
-        this.leaderCards = leaderCards;
+    public void setVirtualModel(VirtualModel virtualModel) {
+        this.virtualModel = virtualModel;
     }
 
 }

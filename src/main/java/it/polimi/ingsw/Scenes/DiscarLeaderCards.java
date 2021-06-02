@@ -1,26 +1,22 @@
 package it.polimi.ingsw.Scenes;
-
 import it.polimi.ingsw.Gui.GUIRunnable;
-import it.polimi.ingsw.client.DummyModel.DummyLeaderCard;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
-import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.util.ArrayList;
+/** @author  Alessandra Atria*/
+
 
 public class DiscarLeaderCards extends ViewObservable {
-    int id1, id2, id3, id4;
+
     private VirtualModel virtualModel;
-    private ArrayList<DummyLeaderCard> leaderCards;
-    int count;
+
 
 
     @FXML
@@ -35,7 +31,7 @@ public class DiscarLeaderCards extends ViewObservable {
     public ImageView l4;
 
     public DiscarLeaderCards() {
-        this.leaderCards = new ArrayList<>();
+        this.virtualModel = new VirtualModel();
     }
 
 
@@ -66,7 +62,7 @@ public class DiscarLeaderCards extends ViewObservable {
     }
     @FXML
     public void DiscardLeader1() {
-        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DISCARD_LEADER, Integer.toString(leaderCards.get(0).getId()))));
+        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DISCARD_LEADER, Integer.toString(virtualModel.getLeaderCards().get(0).getId()))));
         l1.setVisible(false);
 
     }
@@ -74,22 +70,20 @@ public class DiscarLeaderCards extends ViewObservable {
     @FXML
     public void DiscardLeader2() {
 
-        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DISCARD_LEADER, Integer.toString(leaderCards.get(1).getId()))));
+        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DISCARD_LEADER, Integer.toString(virtualModel.getLeaderCards().get(1).getId()))));
         l2.setVisible(false);
     }
 
     @FXML
     public void DiscardLeader3() {
-        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DISCARD_LEADER, Integer.toString(leaderCards.get(2).getId()))));
+        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DISCARD_LEADER, Integer.toString(virtualModel.getLeaderCards().get(2).getId()))));
         l3.setVisible(false);
     }
 
     @FXML
     public void DiscardLeader4() {
-        //notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DISCARD_LEADER, Integer.toString(leaderCards.get(3).getId()))));
-       // l4.setVisible(false);
-        Board bc = new Board();
-        Platform.runLater(() -> GUIRunnable.changetoStart(bc,observers));
+        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DISCARD_LEADER, Integer.toString(virtualModel.getLeaderCards().get(3).getId()))));
+        l4.setVisible(false);
 
     }
 
@@ -116,15 +110,15 @@ public class DiscarLeaderCards extends ViewObservable {
     }
 
 
-    public void setLeaderCards(ArrayList<DummyLeaderCard> leaderCards) {
-        this.leaderCards = leaderCards;
-        Image img1 = new Image(getClass().getResourceAsStream("/CardsFront/led" + leaderCards.get(0).getId() + ".png"));
+    public void setLeaderCards(VirtualModel virtualModel) {
+        this.virtualModel =  virtualModel;
+        Image img1 = new Image(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getLeaderCards().get(0).getId() + ".png"));
         l1.setImage(img1);
-        Image img2 = new Image(getClass().getResourceAsStream("/CardsFront/led" + leaderCards.get(1).getId()+ ".png"));
+        Image img2 = new Image(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getLeaderCards().get(1).getId()+ ".png"));
         l2.setImage(img2);
-        Image img3 = new Image(getClass().getResourceAsStream("/CardsFront/led" + leaderCards.get(2).getId() + ".png"));
+        Image img3 = new Image(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getLeaderCards().get(2).getId() + ".png"));
         l3.setImage(img3);
-        Image img4 = new Image(getClass().getResourceAsStream("/CardsFront/led" + leaderCards.get(3).getId() + ".png"));
+        Image img4 = new Image(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getLeaderCards().get(3).getId() + ".png"));
         l4.setImage(img4);
 
     }

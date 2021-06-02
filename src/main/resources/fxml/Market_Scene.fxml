@@ -1,24 +1,314 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
-
-<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.DiscarLeaderCards">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/14.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.Market">
    <children>
       <AnchorPane prefHeight="715.0" prefWidth="1264.0" styleClass="boardPane">
          <children>
-            <ImageView fitHeight="920.0" fitWidth="1311.0" layoutX="-1.0" layoutY="-159.0" opacity="0.43" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="920.0" fitWidth="1311.0" layoutX="14.0" layoutY="-140.0" opacity="0.43" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Board/MastersofRenaissance_PlayerBoard_back.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="425.0" fitWidth="327.0" layoutX="690.0" layoutY="228.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="446.0" fitWidth="380.0" layoutX="417.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/planciaportabiglie.png" />
                </image>
             </ImageView>
+            <GridPane hgap="4.0" layoutX="420.0" layoutY="629.0" prefHeight="45.0" prefWidth="339.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="chooseC1" mnemonicParsing="false" onAction="#getcol1" prefHeight="55.0" prefWidth="367.0" text="Column 1">
+                     <font>
+                        <Font name="Lucida Calligraphy Italic" size="10.0" />
+                     </font>
+                     <effect>
+                        <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                           <bumpInput>
+                              <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                                 <color>
+                                    <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                                 </color>
+                              </Shadow>
+                           </bumpInput>
+                           <light>
+                              <Light.Distant>
+                                 <color>
+                                    <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                                 </color>
+                              </Light.Distant>
+                           </light>
+                        </Lighting>
+                     </effect>
+                  </Button>
+                  <Button fx:id="chooseC2" mnemonicParsing="false" onAction="#getcol2" prefHeight="55.0" prefWidth="367.0" text="Column 2" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Lucida Calligraphy Italic" size="10.0" />
+                     </font>
+                     <effect>
+                        <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                           <bumpInput>
+                              <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                                 <color>
+                                    <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                                 </color>
+                              </Shadow>
+                           </bumpInput>
+                           <light>
+                              <Light.Distant>
+                                 <color>
+                                    <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                                 </color>
+                              </Light.Distant>
+                           </light>
+                        </Lighting>
+                     </effect>
+                  </Button>
+                  <Button fx:id="chooseC3" mnemonicParsing="false" onAction="#getcol3" prefHeight="55.0" prefWidth="367.0" text="Column 3" GridPane.columnIndex="2">
+                     <font>
+                        <Font name="Lucida Calligraphy Italic" size="10.0" />
+                     </font>
+                     <effect>
+                        <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                           <bumpInput>
+                              <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                                 <color>
+                                    <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                                 </color>
+                              </Shadow>
+                           </bumpInput>
+                           <light>
+                              <Light.Distant>
+                                 <color>
+                                    <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                                 </color>
+                              </Light.Distant>
+                           </light>
+                        </Lighting>
+                     </effect>
+                  </Button>
+                  <Button fx:id="chooseC4" mnemonicParsing="false" onAction="#getcol4" prefHeight="55.0" prefWidth="367.0" text="Column 4" GridPane.columnIndex="3">
+                     <font>
+                        <Font name="Lucida Calligraphy Italic" size="10.0" />
+                     </font>
+                     <effect>
+                        <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                           <bumpInput>
+                              <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                                 <color>
+                                    <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                                 </color>
+                              </Shadow>
+                           </bumpInput>
+                           <light>
+                              <Light.Distant>
+                                 <color>
+                                    <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                                 </color>
+                              </Light.Distant>
+                           </light>
+                        </Lighting>
+                     </effect>
+                  </Button>
+               </children>
+            </GridPane>
+            <GridPane layoutX="770.0" layoutY="222.0" prefHeight="168.0" prefWidth="108.0" vgap="10.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Button fx:id="chooseR1" mnemonicParsing="false" onAction="#getrow1" prefHeight="151.0" prefWidth="108.0" text="Row 1">
+                     <font>
+                        <Font name="Lucida Calligraphy Italic" size="10.0" />
+                     </font>
+                     <effect>
+                        <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                           <bumpInput>
+                              <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                                 <color>
+                                    <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                                 </color>
+                              </Shadow>
+                           </bumpInput>
+                           <light>
+                              <Light.Distant>
+                                 <color>
+                                    <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                                 </color>
+                              </Light.Distant>
+                           </light>
+                        </Lighting>
+                     </effect>
+                  </Button>
+                  <Button fx:id="chooseR2" mnemonicParsing="false" onAction="#getrow2" prefHeight="113.0" prefWidth="108.0" text="Row 2" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Lucida Calligraphy Italic" size="10.0" />
+                     </font>
+                     <effect>
+                        <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                           <bumpInput>
+                              <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                                 <color>
+                                    <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                                 </color>
+                              </Shadow>
+                           </bumpInput>
+                           <light>
+                              <Light.Distant>
+                                 <color>
+                                    <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                                 </color>
+                              </Light.Distant>
+                           </light>
+                        </Lighting>
+                     </effect>
+                  </Button>
+                  <Button fx:id="chooseR3" mnemonicParsing="false" onAction="#getrow3" prefHeight="137.0" prefWidth="108.0" text="Row 3" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Lucida Calligraphy Italic" size="10.0" />
+                     </font>
+                     <effect>
+                        <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                           <bumpInput>
+                              <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                                 <color>
+                                    <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                                 </color>
+                              </Shadow>
+                           </bumpInput>
+                           <light>
+                              <Light.Distant>
+                                 <color>
+                                    <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                                 </color>
+                              </Light.Distant>
+                           </light>
+                        </Lighting>
+                     </effect>
+                  </Button>
+               </children>
+            </GridPane>
+            <Button fx:id="exitBtn" layoutX="1067.0" layoutY="633.0" mnemonicParsing="false" onAction="#exit" prefHeight="37.0" prefWidth="118.0" text="Exit">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="10.0" />
+               </font>
+               <effect>
+                  <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                     <bumpInput>
+                        <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                           <color>
+                              <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                           </color>
+                        </Shadow>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
+            <Label layoutX="343.0" layoutY="59.0" prefHeight="132.0" prefWidth="539.0" text="Choose Row or Column :" textFill="#530000">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="38.0" />
+               </font>
+            </Label>
+            <GridPane layoutX="472.0" layoutY="222.0" prefHeight="195.0" prefWidth="236.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <image>
+                        <Image url="@../PunchBoard/bigliagrigia.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="58.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                     <image>
+                        <Image url="@../PunchBoard/bigliagialla.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+                     <image>
+                        <Image url="@../PunchBoard/bigliarossa.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <image>
+                        <Image url="@../PunchBoard/bigliablu.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+                     <image>
+                        <Image url="@../PunchBoard/bigliabianca.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <image>
+                        <Image url="@../PunchBoard/bigliaviola.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                     <image>
+                        <Image url="@../PunchBoard/bigliagialla.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
+                     <image>
+                        <Image url="@../PunchBoard/bigliarossa.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+                     <image>
+                        <Image url="@../PunchBoard/bigliagrigia.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                     <image>
+                        <Image url="@../PunchBoard/bigliabianca.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <image>
+                        <Image url="@../PunchBoard/bigliaviola.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../PunchBoard/bigliablu.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </GridPane>
          </children>
       </AnchorPane>
    </children>
