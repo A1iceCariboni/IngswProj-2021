@@ -26,6 +26,20 @@ public class Board extends ViewObservable {
 
 
     @FXML
+    public ImageView res1;
+
+    @FXML
+    public ImageView res2;
+
+    @FXML
+    public ImageView res3;
+    @FXML
+    public ImageView res4;
+    @FXML
+    public ImageView res5;
+    @FXML
+    public ImageView res6;
+    @FXML
     public ImageView p0;
     @FXML
     public ImageView p1;
@@ -203,6 +217,9 @@ public class Board extends ViewObservable {
 
     public void setVirtualModel(VirtualModel virtualModel) {
         this.virtualModel = virtualModel;
+        Image i1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot1() + ".png"));
+        res1.setImage(i1);
+
     }
 
 

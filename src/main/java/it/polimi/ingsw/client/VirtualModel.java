@@ -659,4 +659,8 @@ public void showOtherPlayerBoard(){
     public String getSlindig() {
         return dummyMarket.getSlindig();
     }
+
+    public String getSlot1() {
+        return playerBoard.getWareHouse().getDepot1().getResources().get(0);
+    }
 }

@@ -158,6 +158,8 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void addResourceToWareHouse(String[] resource) {
+        ChooseResources c = new ChooseResources();
+        Platform.runLater(() -> GUIRunnable.putInWarehouse(c, observers, resource));
 
     }
 

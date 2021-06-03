@@ -188,6 +188,22 @@ public class GUIRunnable extends Application {
         return m;
     }
 
+    public static ChooseResources putInWarehouse(ChooseResources c, ArrayList<ViewObserver> observers, String[] resource) {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/ChooseResouce_Scene.fxml"));
+            Parent root = loader.load();
+            scene.setRoot(root);
+            c = loader.getController();
+            c.addAllObservers(observers);
+            c.setResource(resource);
+            c.setText();
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+        }
+        return c;
+    }
+
 
 
 
