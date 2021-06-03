@@ -182,27 +182,27 @@
                   </Lighting>
                </effect>
             </Button>
-            <Label fx:id="wLabel" layoutX="254.0" layoutY="95.0" prefHeight="168.0" prefWidth="917.0" text="Choose where you want to put the resources" textFill="#590e0e">
+            <Label fx:id="wLabel" layoutX="254.0" layoutY="95.0" prefHeight="168.0" prefWidth="917.0" text="Pick resources from the following:" textFill="#590e0e">
                <font>
                   <Font name="Lucida Calligraphy Italic" size="34.0" />
                </font>
             </Label>
-            <ImageView fx:id="servant" fitHeight="74.0" fitWidth="79.0" layoutX="530.0" layoutY="229.0" onMouseClicked="#pickServant" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="r2" fitHeight="74.0" fitWidth="79.0" layoutX="530.0" layoutY="229.0" onMouseClicked="#pickServant" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/servant.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="coin" fitHeight="74.0" fitWidth="79.0" layoutX="428.0" layoutY="229.0" onMouseClicked="#pickCoin" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="r1" fitHeight="74.0" fitWidth="79.0" layoutX="428.0" layoutY="229.0" onMouseClicked="#pickCoin" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/coin.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="shield" fitHeight="74.0" fitWidth="79.0" layoutX="759.0" layoutY="229.0" onMouseClicked="#pickShield" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="r4" fitHeight="74.0" fitWidth="79.0" layoutX="759.0" layoutY="229.0" onMouseClicked="#pickShield" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/shield.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="stone" fitHeight="74.0" fitWidth="79.0" layoutX="641.0" layoutY="229.0" onMouseClicked="#pickStone" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="r3" fitHeight="74.0" fitWidth="79.0" layoutX="641.0" layoutY="229.0" onMouseClicked="#pickStone" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/stone.png" />
                </image>

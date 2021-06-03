@@ -1,4 +1,5 @@
 package it.polimi.ingsw.Scenes;
+import com.google.gson.Gson;
 import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.messages.Message;
@@ -16,6 +17,7 @@ import javafx.scene.image.ImageView;
 public class DiscarLeaderCards extends ViewObservable {
 
     private VirtualModel virtualModel;
+    Gson gson = new Gson();
 
 
 
@@ -89,15 +91,27 @@ public class DiscarLeaderCards extends ViewObservable {
 
 
     @FXML
-    public void ActivateLeader1(){}
+    public void ActivateLeader1(){
+        Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(1));
+        notifyObserver(obs -> obs.onReadyReply(message));
+    }
 
     @FXML
-    public void ActivateLeader2(){}
+    public void ActivateLeader2(){
+        Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(2));
+        notifyObserver(obs -> obs.onReadyReply(message));
+    }
 
     @FXML
-    public void ActivateLeader3(){}
+    public void ActivateLeader3(){
+        Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(3));
+        notifyObserver(obs -> obs.onReadyReply(message));
+    }
     @FXML
-    public void ActivateLeader4(){}
+    public void ActivateLeader4(){
+        Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(4));
+        notifyObserver(obs -> obs.onReadyReply(message));
+    }
 
 
 

@@ -91,6 +91,8 @@ public class Board extends ViewObservable {
     public ImageView p24;
 
     @FXML
+    public ImageView led1;
+    @FXML
     public ImageView led2;
 
     @FXML
@@ -197,6 +199,8 @@ public class Board extends ViewObservable {
 
     @FXML
     public void ActivateLeader(ActionEvent actionEvent) {
+        DiscarLeaderCards f = new DiscarLeaderCards();
+        Platform.runLater(() -> GUIRunnable.FirstScene(f, observers).setLeaderCards(virtualModel));
     }
 
     @FXML
@@ -217,9 +221,28 @@ public class Board extends ViewObservable {
 
     public void setVirtualModel(VirtualModel virtualModel) {
         this.virtualModel = virtualModel;
+        //to set the warehouse
         Image i1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot1() + ".png"));
         res1.setImage(i1);
-
+        Image i2 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot2() + ".png"));
+        res2.setImage(i2);
+        Image i3 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot3() + ".png"));
+        res3.setImage(i3);
+        Image i4 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot4() + ".png"));
+        res4.setImage(i4);
+        Image i5 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot5() + ".png"));
+        res5.setImage(i5);
+        Image i6 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot6() + ".png"));
+        res6.setImage(i6);
+        //to set active cards on the board
+        if (virtualModel.get1ActiveLeaderCard() != 0) {
+            Image aL1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.get1ActiveLeaderCard() + ".png"));
+            led1.setImage(aL1);
+        }
+        if (virtualModel.get2ActiveLeaderCard() != 0) {
+            Image aL2 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.get2ActiveLeaderCard() + ".png"));
+            led2.setImage(aL2);
+        }
     }
 
 

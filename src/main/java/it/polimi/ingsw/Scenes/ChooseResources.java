@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import static it.polimi.ingsw.enumerations.ResourceType.SERVANT;
@@ -16,10 +17,10 @@ public class ChooseResources extends ViewObservable {
     public Button d1,d2,d3,d4,d5,d6;
     Gson gson = new Gson();
     public Label wLabel;
-    public ImageView shield;
-    public ImageView coin;
-    public ImageView servant;
-    public ImageView stone;
+    public ImageView r1;
+    public ImageView r2;
+    public ImageView r3;
+    public ImageView r4;
     private String[] chosenRes;
     private int i = 0;
     private int count = 0;
@@ -49,7 +50,7 @@ public class ChooseResources extends ViewObservable {
     @FXML
     public void put3(ActionEvent actionEvent) {
         int[] answer = new int[resource.length];
-        answer[count] = 3;
+        answer[count] = 2;
         count++;
         if(count == resource.length) {
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
@@ -59,7 +60,7 @@ public class ChooseResources extends ViewObservable {
     @FXML
     public void put4(ActionEvent actionEvent) {
         int[] answer = new int[resource.length];
-        answer[count] = 4;
+        answer[count] = 3;
         count++;
         if(count == resource.length) {
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
@@ -69,7 +70,7 @@ public class ChooseResources extends ViewObservable {
     @FXML
     public void put5(ActionEvent actionEvent) {
         int[] answer = new int[resource.length];
-        answer[count] = 5;
+        answer[count] = 3;
         count++;
         if(count == resource.length) {
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
@@ -79,7 +80,7 @@ public class ChooseResources extends ViewObservable {
 
     public void put6(ActionEvent actionEvent){
         int[] answer = new int[resource.length];
-        answer[count] = 6;
+        answer[count] = 3;
         count++;
         if(count == resource.length) {
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
@@ -135,7 +136,18 @@ public class ChooseResources extends ViewObservable {
     }
     
     public void setResource(String[] resource){
+
         this.resource = resource;
+        Image i1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + resource[0] + ".png"));
+        r1.setImage(i1);
+        Image i2 = new Image(getClass().getResourceAsStream("/PunchBoard/" + resource[1] + ".png"));
+        r2.setImage(i2);
+        Image i3 = new Image(getClass().getResourceAsStream("/PunchBoard/" + resource[2] + ".png"));
+        r3.setImage(i3);
+        if(resource.length==4) {
+            Image i4 = new Image(getClass().getResourceAsStream("/PunchBoard/" + resource[3] + ".png"));
+            r4.setImage(i4);
+        }
     }
 
     public void setQuantity(int quantity){

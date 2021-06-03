@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import it.polimi.ingsw.client.DummyModel.*;
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
-import it.polimi.ingsw.model.MarketTray;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.utility.LeaderCardParser;
@@ -663,4 +662,35 @@ public void showOtherPlayerBoard(){
     public String getSlot1() {
         return playerBoard.getWareHouse().getDepot1().getResources().get(0);
     }
+    public String getSlot2() {
+        return playerBoard.getWareHouse().getDepot2().getResources().get(0);
+    }
+    public String getSlot3() {
+        return playerBoard.getWareHouse().getDepot2().getResources().get(1);
+    }
+    public String getSlot4() {
+        return playerBoard.getWareHouse().getDepot3().getResources().get(0);
+    }
+    public String getSlot5() {
+        return playerBoard.getWareHouse().getDepot3().getResources().get(1);
+    }
+    public String getSlot6() {
+        return playerBoard.getWareHouse().getDepot3().getResources().get(2);
+    }
+
+    public int get1ActiveLeaderCard() {
+        if(leaderCards.get(0).isActive())
+            return 1;
+        return 0;
+    }
+
+
+    public int get2ActiveLeaderCard() {
+        if(leaderCards.get(1).isActive())
+            return 2;
+        return 0;
+    }
+
+
+
 }
