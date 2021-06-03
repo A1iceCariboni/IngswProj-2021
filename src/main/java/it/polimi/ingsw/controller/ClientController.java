@@ -50,7 +50,7 @@ public class ClientController implements ViewObserver,Observer {
     public void onConnectionRequest(String ip, int port) {
         client = new SocketClient(ip, port);
         client.addObserver(this);
-        //client.enablePing(true);
+       // client.enablePing(true);
 
         try {
             client.readMessage();
@@ -95,7 +95,6 @@ public class ClientController implements ViewObserver,Observer {
     @Override
     public void update(Message message) {
         Gson gson = new Gson();
-        System.out.println(message.getCode());
         switch (message.getCode()) {
             case NUMBER_OF_PLAYERS:
                 executionQueue.execute(this.view::askNumberOfPlayers);

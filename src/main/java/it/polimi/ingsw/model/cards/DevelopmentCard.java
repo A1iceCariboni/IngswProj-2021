@@ -41,10 +41,10 @@ public class DevelopmentCard extends Card{
      */
     public boolean isBuyable(Player p){
         ArrayList<Resource> personalCost = new ArrayList<>();
+        personalCost.addAll(this.cost);
         PlayerBoard b = p.getPlayerBoard();
-        for(Resource r: p.getDiscountedResource()){
-            personalCost.remove(r);
-        }
+        personalCost.removeAll(p.getDiscountedResource());
+
         ArrayList<Resource> res = b.getResources();
         for(ResourceType resourceType : ResourceType.values()) {
             Resource resource = new Resource(resourceType);

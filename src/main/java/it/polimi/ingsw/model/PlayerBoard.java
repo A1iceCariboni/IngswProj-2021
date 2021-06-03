@@ -133,40 +133,25 @@ public class PlayerBoard implements Serializable {
         for (int slot = 0; slot < 3; slot++) {
             if (card.getLevel() == 1) {
                 if (devCardSlots[slot] == null) {
-                    this.devCardSlots[slot] = card;
-                    this.countDevCards++;
+                    return true;
                 }
             } else {
                 if (card.getLevel() == 2) {
-                    if (devCardSlots[slot] == null) {
-                        return false;
-                    } else {
-                        if (devCardSlots[slot].getLevel() < 1) {
-                            return false;
-                        } else {
-                            this.coveredDevCards.add(devCardSlots[slot]);
-                            this.devCardSlots[slot] = card;
-                            this.countDevCards++;
+                    if (devCardSlots[slot] != null) {
+                        if (devCardSlots[slot].getLevel() == 1) {
+                            return true;
                         }
                     }
                 } else {
-                    if (card.getLevel() == 3) {
-                        if (devCardSlots[slot] == null) {
-                            return false;
-                        } else {
-                            if (devCardSlots[slot].getLevel() < 2) {
-                                return false;
-                            } else {
-                                this.coveredDevCards.add(devCardSlots[slot]);
-                                this.devCardSlots[slot] = card;
-                                this.countDevCards++;
-                            }
+                    if (devCardSlots[slot] != null) {
+                        if (devCardSlots[slot].getLevel() == 2) {
+                            return true;
                         }
                     }
                 }
             }
         }
-        return true;
+        return false;
     }
 
     public ArrayList<DevelopmentCard> getCoveredDevCards() {

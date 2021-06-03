@@ -18,7 +18,9 @@ public class ChooseResources extends ViewObservable {
     public ImageView coin;
     public ImageView servant;
     public ImageView stone;
-    String[] chosenRes;
+    private String[] chosenRes;
+    private int i = 0;
+
 
     @FXML
     public void put1(ActionEvent actionEvent) {
@@ -55,30 +57,42 @@ public class ChooseResources extends ViewObservable {
     }
 
     public void pickServant(MouseEvent mouseEvent) {
-        String serv = "SERVANT";
-        Message message = new Message(MessageType.CHOOSE_RESOURCES, gson.toJson(serv));
-        notifyObserver(obs -> obs.onReadyReply(message));
-
+        chosenRes[i] = "SERVANT";
+        i++;
+        if(i == chosenRes.length) {
+            Message message = new Message(MessageType.CHOOSE_RESOURCES, gson.toJson(chosenRes));
+            notifyObserver(obs -> obs.onReadyReply(message));
+        }
     }
 
     public void pickCoin(MouseEvent mouseEvent) {
-        String c = "COIN";
-        Message message = new Message(MessageType.CHOOSE_RESOURCES, gson.toJson(c));
-        notifyObserver(obs -> obs.onReadyReply(message));
+        chosenRes[i] = "COIN";
+        i++;
+        if(i == chosenRes.length) {
+            Message message = new Message(MessageType.CHOOSE_RESOURCES, gson.toJson(chosenRes));
+            notifyObserver(obs -> obs.onReadyReply(message));
+        }
     }
 
     public void pickShield(MouseEvent mouseEvent) {
-        String sh = "SHIELD";
-        Message message = new Message(MessageType.CHOOSE_RESOURCES, gson.toJson(sh));
-        notifyObserver(obs -> obs.onReadyReply(message));
+        chosenRes[i] = "SHIELD";
+        i++;
+        if(i == chosenRes.length) {
+            Message message = new Message(MessageType.CHOOSE_RESOURCES, gson.toJson(chosenRes));
+            notifyObserver(obs -> obs.onReadyReply(message));
+        }
     }
 
     public void pickStone(MouseEvent mouseEvent) {
-        String st = "STONE";
-        Message message = new Message(MessageType.CHOOSE_RESOURCES, gson.toJson(st));
-        notifyObserver(obs -> obs.onReadyReply(message));
-
+        chosenRes[i] = "STONE";
+        i++;
+        if(i == chosenRes.length) {
+            Message message = new Message(MessageType.CHOOSE_RESOURCES, gson.toJson(chosenRes));
+            notifyObserver(obs -> obs.onReadyReply(message));
+        }
     }
 
-
+    public void setQuantity(int quantity){
+        chosenRes = new String[quantity];
+    }
 }

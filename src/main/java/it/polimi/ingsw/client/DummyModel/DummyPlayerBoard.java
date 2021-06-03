@@ -68,7 +68,7 @@ public class DummyPlayerBoard {
     }
 
     public void setDevSections(DummyDev[] cards) {
-        this.devSections = cards;
+        devSections = cards;
     }
 
     public void setWareHouse(DummyWareHouse wareHouse) {

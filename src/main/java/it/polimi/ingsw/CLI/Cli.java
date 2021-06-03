@@ -3,6 +3,7 @@ package it.polimi.ingsw.CLI;
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.DummyModel.*;
 import it.polimi.ingsw.client.InputReadTask;
+import it.polimi.ingsw.client.SocketClient;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.enumerations.Constants;
@@ -16,6 +17,8 @@ import it.polimi.ingsw.observers.ViewObservable;
 import it.polimi.ingsw.utility.DummyWarehouseConstructor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
 
@@ -40,17 +43,28 @@ public class Cli extends ViewObservable implements View {
 
 
     public void start() {
-        /*System.out.println(">Insert the server IP address");
+        String ip;
+        int port = Constants.DEFAULT_PORT;
+
+        Scanner input = new Scanner(System.in);
+        System.out.println(">Insert the server IP address [Press enter for localhost] ");
         System.out.print(">");
-        String ip = input.nextLine();
-        System.out.println(">Insert the server port");
+        ip = input.nextLine();
+        if(ip.equals("")){
+            ip = Constants.LOCAL_HOST;
+        }
+        System.out.println(">Insert the server port [Default : 1234] ");
         System.out.print(">");
-        int port = input.nextInt();*/
+        try {
+            port = Integer.parseInt(input.nextLine());
+        }catch(NumberFormatException ex){
+            SocketClient.LOGGER.info("Using default port");
+        }
         System.out.println(Constants.MAESTRIDELRINASCIMENTO);
         System.out.println(Constants.AUTHORS);
-        int port = Constants.DEFAULT_PORT;
-        String ip = Constants.LOCAL_HOST;
-        notifyObserver(obs -> obs.onConnectionRequest(ip,port));
+        int finalPort = port;
+        String finalIp = ip;
+        notifyObserver(obs -> obs.onConnectionRequest(finalIp, finalPort));
     }
     /**
      * Reads a line from the standard input.
@@ -438,10 +452,10 @@ public class Cli extends ViewObservable implements View {
             yn = readYN();
         }
 
-        int  r = readInt(Constants.rows, 0, "Which is the row of the card you want to buy? [1/2/3]");
+        int  r = readInt(Constants.rows, 1, "Which is the row of the card you want to buy? [1/2/3]");
 
 
-        int c = readInt(Constants.cols, 0, "Which is the column of the card you want to buy? [1/2/3/4]");
+        int c = readInt(Constants.cols, 1, "Which is the column of the card you want to buy? [1/2/3/4]");
         ArrayList<Integer> payloadDev = new ArrayList<>();
         payloadDev.add(r - 1);
         payloadDev.add(c - 1);
@@ -640,7 +654,6 @@ public class Cli extends ViewObservable implements View {
 
     public void slotChoice() {
         int answer = 0;
-            System.out.println("In which slot do you want to put the card? (1/2/3)");
             answer = readInt(3, 1, "In which slot do you want to put the card? [1/2/3]");
             Message messageSlot = new Message(MessageType.SLOT_CHOICE, gson.toJson(answer - 1));
         notifyObserver(obs -> obs.onReadyReply(messageSlot));

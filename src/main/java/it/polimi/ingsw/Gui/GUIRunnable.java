@@ -158,7 +158,7 @@ public class GUIRunnable extends Application {
     }
 
 
-    public static ChooseResources chooseRes(ChooseResources c, ArrayList<ViewObserver> observers) {
+    public static ChooseResources chooseRes(ChooseResources c, ArrayList<ViewObserver> observers, int quantity) {
         try {
 
             FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/ChooseResouce_Scene.fxml"));
@@ -166,6 +166,7 @@ public class GUIRunnable extends Application {
             scene.setRoot(root);
             c = loader.getController();
             c.addAllObservers(observers);
+            c.setQuantity(quantity);
         } catch (IOException e) {
             SocketClient.LOGGER.severe(e.getMessage());
         }

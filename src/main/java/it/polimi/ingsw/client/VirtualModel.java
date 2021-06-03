@@ -29,6 +29,8 @@ public class VirtualModel {
     private final DummyPlayerBoard playerBoard;
     private ArrayList<DummyLeaderCard> leaderCards;
     private ArrayList<DummyLeaderCard> otherCards;
+
+
     private DummyDev[][] boardDevCard;
     private DummyMarket dummyMarket;
 
@@ -82,7 +84,7 @@ public class VirtualModel {
         for (int i = 0; i < Constants.DEV_SLOTS; i++) {
             dummyDevs1[i] = developmentCard[i].getDummy();
         }
-        this.playerBoard.setDevSections(dummyDevs1);
+       // this.playerBoard.setDevSections(dummyDevs1);
         //leader cards
         ArrayList<LeaderCard> leaderCards = LeaderCardParser.parseLeadCards();
         for (int i = 0; i < 2; i++) {
@@ -112,6 +114,11 @@ public class VirtualModel {
         System.out.println(gson.toJson(this.playerBoard));
 
 
+    }
+
+
+    public DummyDev[][] getBoardDevCard() {
+        return this.boardDevCard;
     }
 
     /**
@@ -145,17 +152,13 @@ public class VirtualModel {
         }
     }
 
-    public DummyDev[][] getBoardDevCard(){
-        return this.boardDevCard;
-    }
-
 
 
 
 
        /** This method colors the background based on the development card color*/
-    public String showDevColor(int i, int j){
-        return switch (boardDevCard[i][j].getColor()) {
+    public String showDevColor(DummyDev dummyDev){
+        return switch (dummyDev.getColor()) {
             case ("YELLOW") -> ANSI_YELLOW;
             case ("PURPLE") -> ANSI_PURPLE;
             case ("BLUE") -> ANSI_BLUE;
@@ -169,25 +172,26 @@ public class VirtualModel {
 
     public void showPlayerDevCards(DummyPlayerBoard playerBoard){
         String cards = "";
-         for (int j = 0; j < 3; j++) {
-             if(playerBoard.getDevSections()[j]!= null){
-                 cards = showDevColor(0, j)
+         for (DummyDev dummyDev : playerBoard.getDevSections()) {
+             if(dummyDev != null) {
+                 cards = showDevColor(dummyDev)
                          + "┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐\n"
                          + " CardID: "
-                         + playerBoard.getDevSections()[j].getId()
+                         + dummyDev.getId()
                          + "\n Color:"
-                         + playerBoard.getDevSections()[j].getColor()
+                         + dummyDev.getColor()
                          + "\n Level:"
-                         + playerBoard.getDevSections()[j].getLevel()
+                         + dummyDev.getLevel()
                          + "\n Production Power: "
-                         + playerBoard.getDevSections()[j].getProductionPower() + "\n"
+                         + dummyDev.getProductionPower() + "\n"
                          + "└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘"
                          + ANSI_RESET;
+             }
              }
              System.out.println(cards + "\n");
          }
 
-    }
+
 
 
     /**
@@ -655,5 +659,4 @@ public void showOtherPlayerBoard(){
     public String getSlindig() {
         return dummyMarket.getSlindig();
     }
-
 }

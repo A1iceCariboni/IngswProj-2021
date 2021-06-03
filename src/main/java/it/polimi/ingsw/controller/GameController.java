@@ -371,11 +371,11 @@ public class GameController implements Serializable {
 
                         } catch (NotPossibleToAdd notPossibleToAdd) {
                             virtualView.update(new ErrorMessage(notPossibleToAdd.getMessage()));
-                            placeResources();
+                            sendResourcesToPlace();
                         }
                     }else{
                         virtualView.sendInvalidActionMessage();
-                        placeResources();
+                        sendResourcesToPlace();
                     }
                     break;
                 default:
@@ -394,6 +394,7 @@ public class GameController implements Serializable {
                         int[] ids = gson.fromJson(message.getPayload(), int[].class);
                         pay(ids);
                         turnController.doneGameAction();
+                        virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
                     }else {
                       virtualView.update(new ErrorMessage(""));
                       sendResourcesToPay();
@@ -461,11 +462,19 @@ public class GameController implements Serializable {
         String name = game.getCurrentPlayer().getNickName();
         VirtualView virtualView = getConnectedClients().get(name);
         ArrayList<String> names = new ArrayList<>();
-        for (Resource res : virtualView.getFreeDevelopment().get(0).getCost()) {
-            names.add(res.getResourceType().name());
+        DevelopmentCard developmentCard;
+        if(turnPhase == TurnPhase.BUY_DEV){
+            for (Resource res : virtualView.getFreeDevelopment().get(0).getCost()) {
+                names.add(res.getResourceType().name());
+            }
         }
-        virtualView.update(new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(names)));
+        else{
+            for (Resource res : virtualView.getResourcesToPay()) {
+                names.add(res.getResourceType().name());
+            }
+        }
 
+        virtualView.update(new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(names)));
     }
 
     public  void buyDevHandler(Message message, VirtualView virtualView) {
@@ -542,6 +551,9 @@ public class GameController implements Serializable {
                     int id = gson.fromJson(message.getPayload(), int.class);
                     activateLeaderCard(id);
                     break;
+                case DISCARD_LEADER:
+                        discardLeaderCard(Integer.parseInt(message.getPayload()));
+                        break;
                 case END_TURN:
                     turnController.nextTurn();
                     break;
@@ -598,7 +610,7 @@ public class GameController implements Serializable {
                             Resource resource = new Resource(ResourceType.valueOf(resourceType));
                             game.getCurrentPlayer().getPlayerBoard().addUnplacedResource(resource);
                         }
-                        placeResources();
+                        sendResourcesToPlace();
                     break;
                 case PLACE_RESOURCE_WAREHOUSE:
                     if(inputChecker.checkReceivedMessage(message, turnController.getActivePlayer())) {
@@ -609,7 +621,7 @@ public class GameController implements Serializable {
 
                         } catch (NotPossibleToAdd notPossibleToAdd) {
                             virtualView.update(new ErrorMessage(notPossibleToAdd.getMessage()));
-                            placeResources();
+                            sendResourcesToPlace();
                         }
                     }else{
                         virtualView.sendInvalidActionMessage();
@@ -633,7 +645,7 @@ public class GameController implements Serializable {
      * @param rig row in the matrix of developments
      * @param col column in the matrix of developments
      */
-   public void buyDevelopment(final int rig, final int col){
+   public void buyDevelopment( int rig,  int col){
         String name = game.getCurrentPlayer().getNickName();
         VirtualView virtualView = getConnectedClients().get(name);
         if(game.getDeckDevelopment()[rig][col].getCard().isBuyable(game.getCurrentPlayer())){
@@ -747,14 +759,7 @@ public class GameController implements Serializable {
        virtualView.update(new OkMessage("Payed successfully!"));
    }
 
-    /**
-     * if the player has some resources that has not be placed yet , he have to choose were to put them
-     * before proceeding with the turn
-     */
-    public void placeResources() {
-        String name = game.getCurrentPlayer().getNickName();
-        sendResourcesToPlace();
-    }
+
 
 
     /**
@@ -805,7 +810,7 @@ public class GameController implements Serializable {
             virtualView.update(new Message(MessageType.WHITE_MARBLES,gson.toJson(virtualView.getFreeMarble().size())));
         }else{
             virtualView.removeAllFreeMarbles();
-            placeResources();
+            sendResourcesToPlace();
         }
     }
 
@@ -833,7 +838,7 @@ public class GameController implements Serializable {
             virtualView.update(new Message(MessageType.WHITE_MARBLES,""));
         }else{
             virtualView.removeAllFreeMarbles();
-            placeResources();
+            sendResourcesToPlace();
         }
     }
 
@@ -852,7 +857,7 @@ public class GameController implements Serializable {
             virtualView.getFreeMarble().get(i).getMarbleEffect().giveResourceTo(game.getCurrentPlayer().getPlayerBoard());
         }
         virtualView.removeAllFreeMarbles();
-        placeResources();
+        sendResourcesToPlace();
     }
 
     public TurnPhase getTurnPhase() {
@@ -923,7 +928,6 @@ public class GameController implements Serializable {
             toPay.add(res2);
             virtualView.addAllResourcesToPay(toPay);
             virtualView.setBasicProd(res3);
-            turnPhase = TurnPhase.ACTIVATE_PRODUCTION;
         }else{
             virtualView.update(new ErrorMessage("You can't activate the basic production more than one time"));
         }
@@ -1006,6 +1010,12 @@ public class GameController implements Serializable {
                     virtualView.update(new Message(MessageType.NOTIFY_TURN,""));
                     break;
                 case 1:
+                    if(game.getCurrentPlayer().getLeadercards().size() == 2) {
+                        virtualView.update(new Message(MessageType.CHOOSE_RESOURCES, "1"));
+                    }else{
+                        virtualView.update(new Message(MessageType.NOTIFY_TURN,""));
+                    }
+                    break;
                 case 2:
                     if(game.getCurrentPlayer().getLeadercards().size() == 2) {
                         game.getCurrentPlayer().getPlayerBoard().moveFaithMarker(1);

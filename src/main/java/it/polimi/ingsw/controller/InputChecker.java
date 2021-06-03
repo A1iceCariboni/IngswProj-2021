@@ -114,7 +114,7 @@ public class InputChecker implements Serializable {
         ArrayList<Resource> wallet = new ArrayList<>();
         wallet.addAll(game.getCurrentPlayer().getPlayerBoard().getResources());
 
-        while(!wallet.isEmpty() && wallet.contains(price.get(0))){
+        while(!wallet.isEmpty() && !price.isEmpty() && wallet.contains(price.get(0))){
             wallet.remove(price.get(0));
             price.remove(0);
         }
@@ -308,7 +308,7 @@ public class InputChecker implements Serializable {
         if(game.getCurrentPlayer().getPlayerBoard().getResources().isEmpty())return false;
         ArrayList<Resource> wallet = game.getCurrentPlayer().getPlayerBoard().getResources();
 
-        while(!wallet.isEmpty() && wallet.contains(price.get(0))){
+        while(!wallet.isEmpty() && !price.isEmpty() && wallet.contains(price.get(0))){
             wallet.remove(price.get(0));
             price.remove(0);
         }
