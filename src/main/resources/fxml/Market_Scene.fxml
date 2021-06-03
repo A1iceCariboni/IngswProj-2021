@@ -247,68 +247,73 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <ImageView fx:id="b12" fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <image>
-                        <Image url="@../PunchBoard/bigliagrigia.png" />
+                        <Image url="@../PunchBoard/GREY.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="58.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                  <ImageView fx:id="b01" fitHeight="58.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                      <image>
-                        <Image url="@../PunchBoard/bigliagialla.png" />
+                        <Image url="@../PunchBoard/YELLOW.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+                  <ImageView fx:id="b10" fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                      <image>
-                        <Image url="@../PunchBoard/bigliarossa.png" />
+                        <Image url="@../PunchBoard/RED.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <ImageView fx:id="b21" fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <image>
-                        <Image url="@../PunchBoard/bigliablu.png" />
+                        <Image url="@../PunchBoard/BLUE.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+                  <ImageView fx:id="b20" fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
                      <image>
-                        <Image url="@../PunchBoard/bigliabianca.png" />
+                        <Image url="@../PunchBoard/WHITE.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <ImageView fx:id="b11" fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <image>
-                        <Image url="@../PunchBoard/bigliaviola.png" />
+                        <Image url="@../PunchBoard/PURPLE.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <ImageView fx:id="b13" fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <image>
-                        <Image url="@../PunchBoard/bigliagialla.png" />
+                        <Image url="@../PunchBoard/YELLOW.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
+                  <ImageView fx:id="b03" fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
                      <image>
-                        <Image url="@../PunchBoard/bigliarossa.png" />
+                        <Image url="@../PunchBoard/RED.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+                  <ImageView fx:id="b02" fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
                      <image>
-                        <Image url="@../PunchBoard/bigliagrigia.png" />
+                        <Image url="@../PunchBoard/GREY.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                  <ImageView fx:id="b23" fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
                      <image>
-                        <Image url="@../PunchBoard/bigliabianca.png" />
+                        <Image url="@../PunchBoard/WHITE.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                  <ImageView fx:id="b22" fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <image>
-                        <Image url="@../PunchBoard/bigliaviola.png" />
+                        <Image url="@../PunchBoard/PURPLE.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="b00" fitHeight="64.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../PunchBoard/bigliablu.png" />
+                        <Image url="@../PunchBoard/BLUE.png" />
                      </image>
                   </ImageView>
                </children>
             </GridPane>
+            <ImageView fx:id="slide" fitHeight="64.0" fitWidth="59.0" layoutX="302.0" layoutY="358.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/BLUE.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>

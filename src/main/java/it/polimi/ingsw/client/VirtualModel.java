@@ -647,4 +647,13 @@ public void showOtherPlayerBoard(){
     public void setOtherCards( DummyLeaderCard[] otherCards) {
         this.otherCards = new ArrayList<>(Arrays.asList(otherCards));
     }
+
+    public String[][] getDummyMarbles() {
+        return dummyMarket.getDummyMarbles();
+    }
+
+    public String getSlindig() {
+        return dummyMarket.getSlindig();
+    }
+
 }

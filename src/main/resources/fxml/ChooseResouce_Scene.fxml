@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/14.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.ChooseResources">
+   <children>
+      <AnchorPane prefHeight="715.0" prefWidth="1264.0" styleClass="boardPane">
+         <children>
+            <ImageView fitHeight="919.0" fitWidth="1335.0" layoutX="-1.0" layoutY="-155.0" opacity="0.43" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Board/MastersofRenaissance_PlayerBoard_back.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="exitBtn" layoutX="1067.0" layoutY="633.0" mnemonicParsing="false" onAction="#exit" prefHeight="37.0" prefWidth="118.0" text="Exit">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="10.0" />
+               </font>
+               <effect>
+                  <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                     <bumpInput>
+                        <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                           <color>
+                              <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                           </color>
+                        </Shadow>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
+            <ImageView fitHeight="346.0" fitWidth="300.0" layoutX="507.0" layoutY="324.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/warehouse.jpg" />
+               </image>
+            </ImageView>
+            <Button fx:id="d2" layoutX="598.0" layoutY="473.0" mnemonicParsing="false" onAction="#put2" prefHeight="47.0" prefWidth="44.0" text="2">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="10.0" />
+               </font>
+               <effect>
+                  <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                     <bumpInput>
+                        <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                           <color>
+                              <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                           </color>
+                        </Shadow>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
+            <Button fx:id="d3" layoutX="658.0" layoutY="473.0" mnemonicParsing="false" onAction="#put3" prefHeight="47.0" prefWidth="44.0" text="3">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="10.0" />
+               </font>
+               <effect>
+                  <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                     <bumpInput>
+                        <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                           <color>
+                              <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                           </color>
+                        </Shadow>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
+            <Button fx:id="d1" layoutX="629.0" layoutY="395.0" mnemonicParsing="false" onAction="#put1" prefHeight="47.0" prefWidth="44.0" text="1">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="10.0" />
+               </font>
+               <effect>
+                  <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                     <bumpInput>
+                        <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                           <color>
+                              <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                           </color>
+                        </Shadow>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
+            <Button fx:id="d6" layoutX="691.0" layoutY="552.0" mnemonicParsing="false" onAction="#put6" prefHeight="47.0" prefWidth="44.0" text="6">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="10.0" />
+               </font>
+               <effect>
+                  <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                     <bumpInput>
+                        <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                           <color>
+                              <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                           </color>
+                        </Shadow>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
+            <Button fx:id="d5" layoutX="636.0" layoutY="552.0" mnemonicParsing="false" onAction="#put5" prefHeight="47.0" prefWidth="44.0" text="5">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="10.0" />
+               </font>
+               <effect>
+                  <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                     <bumpInput>
+                        <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                           <color>
+                              <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                           </color>
+                        </Shadow>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
+            <Button fx:id="d4" layoutX="576.0" layoutY="552.0" mnemonicParsing="false" onAction="#put4" prefHeight="47.0" prefWidth="44.0" text="4">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="10.0" />
+               </font>
+               <effect>
+                  <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                     <bumpInput>
+                        <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                           <color>
+                              <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                           </color>
+                        </Shadow>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
+            <Label layoutX="254.0" layoutY="95.0" prefHeight="168.0" prefWidth="917.0" text="Choose where you want to put the resources" textFill="#590e0e">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="34.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="servant" fitHeight="74.0" fitWidth="79.0" layoutX="530.0" layoutY="229.0" onMouseClicked="#pickServant" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/servant.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="coin" fitHeight="74.0" fitWidth="79.0" layoutX="428.0" layoutY="229.0" onMouseClicked="#pickCoin" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="shield" fitHeight="74.0" fitWidth="79.0" layoutX="759.0" layoutY="229.0" onMouseClicked="#pickShield" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/shield.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="stone" fitHeight="74.0" fitWidth="79.0" layoutX="641.0" layoutY="229.0" onMouseClicked="#pickStone" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/stone.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

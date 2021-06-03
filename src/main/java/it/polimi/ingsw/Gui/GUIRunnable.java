@@ -158,6 +158,36 @@ public class GUIRunnable extends Application {
     }
 
 
+    public static ChooseResources chooseRes(ChooseResources c, ArrayList<ViewObserver> observers) {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/ChooseResouce_Scene.fxml"));
+            Parent root = loader.load();
+            scene.setRoot(root);
+            c = loader.getController();
+            c.addAllObservers(observers);
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+        }
+        return c;
+    }
+
+
+    public static Market buyMarket(Market m, ArrayList<ViewObserver> observers) {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Market_Scene.fxml"));
+            Parent root = loader.load();
+            scene.setRoot(root);
+            m = loader.getController();
+            m.addAllObservers(observers);
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+        }
+        return m;
+    }
+
+
 
 
 }

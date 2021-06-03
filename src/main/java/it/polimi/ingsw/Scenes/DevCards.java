@@ -121,18 +121,18 @@ public class DevCards extends ViewObservable {
 
     @FXML
     public void initialize() {
-        images[0][0] = img00;
-        images[0][1] = img01;
-        images[0][2] = img02;
-        images[1][0] = img10;
-        images[1][1] = img11;
-        images[1][2] = img12;
-        images[2][0] = img20;
-        images[2][1] = img21;
-        images[2][2] = img22;
-        images[3][0] = img30;
-        images[3][1] = img31;
-        images[3][2] = img32;
+      images[0][0] = img00;
+      images[0][1] = img01;
+      images[0][2] = img02;
+      images[1][0] = img10;
+      images[1][1] = img11;
+      images[1][2] = img12;
+      images[2][0] = img20;
+      images[2][1] = img21;
+      images[2][2] = img22;
+      images[3][0] = img30;
+      images[3][1] = img31;
+      images[3][2] = img32;
     }
 
 

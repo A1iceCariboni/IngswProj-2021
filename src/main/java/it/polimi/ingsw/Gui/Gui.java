@@ -150,6 +150,8 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void chooseResources(int quantity) {
+        ChooseResources c = new ChooseResources();
+        Platform.runLater(() -> GUIRunnable.chooseRes(c, observers));
 
 
     }

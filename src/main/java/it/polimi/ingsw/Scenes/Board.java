@@ -172,6 +172,8 @@ public class Board extends ViewObservable {
 
     @FXML
     public void buyfromMarket(ActionEvent actionEvent) {
+        Market market = new Market();
+        Platform.runLater(() -> GUIRunnable.buyMarket(market, observers).setMarket(virtualModel));
     }
 
 
