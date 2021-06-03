@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -12,35 +13,21 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.image.Image?>
-
-<StackPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/14.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.DevCards">
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.DevCards">
    <children>
-      <AnchorPane prefHeight="715.0" prefWidth="1264.0" styleClass="boardPane">
-         <children>
-         <ImageView fitHeight="920.0" fitWidth="1311.0" layoutX="-1.0" layoutY="-159.0" opacity="0.43" pickOnBounds="true" preserveRatio="true">
+      <AnchorPane styleClass="boardPane">
+         <ImageView fitHeight="558.0" fitWidth="729.0" opacity="0.43" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../Board/MastersofRenaissance_PlayerBoard_back.png" />
             </image>
          </ImageView>
-         <GridPane hgap="6.0" layoutX="142.0" layoutY="191.0" prefHeight="360.0" prefWidth="1007.0">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
-            <RowConstraints maxHeight="360.0" minHeight="10.0" prefHeight="360.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-      <Label layoutX="32.0" prefHeight="75.0" prefWidth="607.0" text="Choose Developmet Card:">
+
+      <Label layoutX="153.0" layoutY="8.0" prefHeight="50.0" prefWidth="423.0" text="Choose Developmet Card:">
          <font>
-            <Font name="Lucida Calligraphy Italic" size="31.0" />
+            <Font name="Lucida Calligraphy Italic" size="30.0" />
          </font>
       </Label>
-      <GridPane hgap="10.0" layoutY="59.0" prefHeight="442.0" prefWidth="657.0">
+      <GridPane hgap="10.0" layoutX="28.0" layoutY="66.0" prefHeight="409.0" prefWidth="674.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="148.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="155.33334350585938" minWidth="10.0" prefWidth="148.0" />
@@ -53,159 +40,153 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <StackPane prefHeight="217.0" prefWidth="72.0">
-               <children>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0">
-                     <center>
-                        <ImageView fx:id="img00" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" >
-                           <image>
-                              <Image url = "@../CardsBack/DevGreen1.png"/>
-                           </image>
-                        </ImageView>
-                     </center>
-                     <bottom>
-                        <CheckBox fx:id="this00" mnemonicParsing="false" onAction="#selectThis00" text="This" BorderPane.alignment="CENTER" />
-                     </bottom>
-                  </BorderPane>
-               </children></StackPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                <center>
                   <ImageView fx:id="img01" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                   <image>
-                     <Image url = "@../CardsBack/DevGreen2.png"/>
+                     <Image url="@../CardsBack/DevGreen2.png" />
                   </image>
                </ImageView>
                </center>
-               <bottom>
+                  <right>
                   <CheckBox fx:id="this01" mnemonicParsing="false" onAction="#selectThis01" text="This" BorderPane.alignment="CENTER" />
-               </bottom>
+                  </right>
             </BorderPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                <center>
-                  <ImageView fx:id="img10" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" >
+                  <ImageView fx:id="img10" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
-                        <Image url = "@../CardsBack/DevBlue1.png"/>
+                        <Image url="@../CardsBack/DevBlue1.png" />
                      </image>
                   </ImageView>
                </center>
-               <bottom>
+                  <right>
                   <CheckBox fx:id="this10" mnemonicParsing="false" onAction="#selectThis10" text="This" BorderPane.alignment="CENTER" />
-               </bottom>
+                  </right>
             </BorderPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
                <center>
                   <ImageView fx:id="img20" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
-                        <Image url = "@../CardsBack/DevYellow1.png"/>
+                        <Image url="@../CardsBack/DevYellow1.png" />
                      </image>
                   </ImageView>
                </center>
-               <bottom>
+                  <right>
                   <CheckBox fx:id="this20" mnemonicParsing="false" onAction="#selectThis20" text="This" BorderPane.alignment="CENTER" />
-               </bottom>
+                  </right>
             </BorderPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3">
                <center>
                   <ImageView fx:id="img30" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
-                        <Image url = "@../CardsBack/DevPurple1.png"/>
+                        <Image url="@../CardsBack/DevPurple1.png" />
                      </image>
                   </ImageView>
                </center>
-               <bottom>
+                  <right>
                   <CheckBox fx:id="this30" mnemonicParsing="false" onAction="#selectThis30" text="This" BorderPane.alignment="CENTER" />
-               </bottom>
+                  </right>
             </BorderPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <center>
                   <ImageView fx:id="img11" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
-                        <Image url = "@../CardsBack/DevBlue2.png"/>
+                        <Image url="@../CardsBack/DevBlue2.png" />
                      </image>
                   </ImageView>
                </center>
-               <bottom>
+                  <right>
                   <CheckBox fx:id="this11" mnemonicParsing="false" onAction="#selectThis11" text="This" BorderPane.alignment="CENTER" />
-               </bottom>
+                  </right>
             </BorderPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <center>
                   <ImageView fx:id="img21" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
-                        <Image url = "@../CardsBack/DevYellow2.png"/>
+                        <Image url="@../CardsBack/DevYellow2.png" />
                      </image>
                   </ImageView>
                </center>
-               <bottom>
+                  <right>
                   <CheckBox fx:id="this21" mnemonicParsing="false" onAction="#selectThis21" text="This" BorderPane.alignment="CENTER" />
-               </bottom>
+                  </right>
             </BorderPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <center>
                   <ImageView fx:id="img31" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
-                        <Image url = "@../CardsBack/DevPurple2.png"/>
+                        <Image url="@../CardsBack/DevPurple2.png" />
                      </image>
                   </ImageView>
                </center>
-               <bottom>
+                  <right>
                   <CheckBox fx:id="this31" mnemonicParsing="false" onAction="#selectThis31" text="This" BorderPane.alignment="CENTER" />
-               </bottom>
+                  </right>
             </BorderPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                <center>
                   <ImageView fx:id="img02" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                   <image>
-                     <Image url = "@../CardsBack/DevGreen3.png"/>
+                     <Image url="@../CardsBack/DevGreen3.png" />
                   </image>
                </ImageView>
                </center>
-               <bottom>
+                  <right>
                   <CheckBox fx:id="this02" mnemonicParsing="false" onAction="#selectThis02" text="This" BorderPane.alignment="CENTER" />
-               </bottom>
+                  </right>
             </BorderPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <center>
                   <ImageView fx:id="img12" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
-                        <Image url = "@../CardsBack/DevBlue3.png"/>
+                        <Image url="@../CardsBack/DevBlue3.png" />
                      </image>
                   </ImageView>
                </center>
-               <bottom>
+                  <right>
                   <CheckBox fx:id="this12" mnemonicParsing="false" onAction="#selectThis12" text="This" BorderPane.alignment="CENTER" />
-               </bottom>
+                  </right>
             </BorderPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <center>
                   <ImageView fx:id="img22" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
-                        <Image url = "@../CardsBack/DevYellow3.png"/>
+                        <Image url="@../CardsBack/DevYellow3.png" />
                      </image>
                   </ImageView>
                </center>
-               <bottom>
+                  <right>
                   <CheckBox fx:id="this22" mnemonicParsing="false" onAction="#selectThis22" text="This" BorderPane.alignment="CENTER" />
-               </bottom>
+                  </right>
             </BorderPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
                <center>
                   <ImageView fx:id="img32" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
-                        <Image url = "@../CardsBack/DevPurple3.png"/>
+                        <Image url="@../CardsBack/DevPurple3.png" />
                      </image>
                   </ImageView>
                </center>
-               <bottom>
+                  <right>
                   <CheckBox fx:id="this32" mnemonicParsing="false" onAction="#selectThis32" text="This" BorderPane.alignment="CENTER" />
-               </bottom>
+                  </right>
+            </BorderPane>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+               <center>
+                  <ImageView fx:id="img00" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                     <image>
+                        <Image url="@../CardsBack/DevGreen1.png" />
+                     </image>
+                  </ImageView>
+               </center>
+                  <right>
+                  <CheckBox fx:id="this00" mnemonicParsing="false" onAction="#selectThis00" text="This" BorderPane.alignment="CENTER" />
+                  </right>
             </BorderPane>
          </children>
       </GridPane>
-      <Button fx:id="okButton" layoutX="262.0" layoutY="532.0" mnemonicParsing="false" onAction="#Exit" prefHeight="37.0" prefWidth="147.0" text="OK" />
-   </children>
-         </GridPane>
-         </children>
-</AnchorPane>
+      <Button fx:id="okButton" layoutX="283.0" layoutY="480.0" mnemonicParsing="false" onAction="#Exit" prefHeight="28.0" prefWidth="134.0" text="OK" />
+      </AnchorPane>
    </children>
 </StackPane>
