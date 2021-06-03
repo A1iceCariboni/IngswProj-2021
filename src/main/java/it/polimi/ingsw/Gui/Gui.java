@@ -137,10 +137,7 @@ public class Gui extends ViewObservable implements View {
 
 
 
-    @Override
-    public void discardResource() {
 
-    }
 
     @Override
     public void modifyWarehouse() {
@@ -150,7 +147,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void chooseResources(int quantity) {
-        ChooseResources c = new ChooseResources();
+        AddtoWarehouse c = new AddtoWarehouse();
         Platform.runLater(() -> GUIRunnable.chooseRes(c, observers, quantity));
 
 
@@ -158,25 +155,18 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void addResourceToWareHouse(String[] resource) {
-        ChooseResources c = new ChooseResources();
+        AddtoWarehouse c = new AddtoWarehouse();
         Platform.runLater(() -> GUIRunnable.putInWarehouse(c, observers, resource));
 
     }
 
-    @Override
-    public void activateLeader() {
 
-    }
 
     @Override
     public void askWhiteMarble(int num) {
 
     }
 
-    @Override
-    public void takeResourcesFromMarket() {
-
-    }
 
     @Override
     public void buyDevelopmentCard() {

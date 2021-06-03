@@ -660,22 +660,50 @@ public void showOtherPlayerBoard(){
     }
 
     public String getSlot1() {
-        return playerBoard.getWareHouse().getDepot1().getResources().get(0);
+        String s = "";
+        if(!playerBoard.getWareHouse().getDepot1().getResources().isEmpty())
+            return playerBoard.getWareHouse().getDepot1().getResources().get(0);
+        else return s;
     }
     public String getSlot2() {
-        return playerBoard.getWareHouse().getDepot2().getResources().get(0);
+        String s = "";
+        if(!playerBoard.getWareHouse().getDepot2().getResources().isEmpty())
+          return playerBoard.getWareHouse().getDepot2().getResources().get(0);
+        else return s;
     }
+
     public String getSlot3() {
-        return playerBoard.getWareHouse().getDepot2().getResources().get(1);
+        String s = "";
+        if (!playerBoard.getWareHouse().getDepot2().getResources().isEmpty()) {
+            if (playerBoard.getWareHouse().getDepot2().getResources().size() >= 2) {
+                 s =playerBoard.getWareHouse().getDepot2().getResources().get(1);
+            }
+        }return s;
     }
+
+
     public String getSlot4() {
-        return playerBoard.getWareHouse().getDepot3().getResources().get(0);
+        String s = "";
+        if (!playerBoard.getWareHouse().getDepot3().getResources().isEmpty()){
+                s = playerBoard.getWareHouse().getDepot3().getResources().get(0);
+
+        }return s;
     }
+
     public String getSlot5() {
-        return playerBoard.getWareHouse().getDepot3().getResources().get(1);
+        String s = "";
+        if (!playerBoard.getWareHouse().getDepot3().getResources().isEmpty()){
+            if (playerBoard.getWareHouse().getDepot3().getResources().size() >= 2)
+                s = playerBoard.getWareHouse().getDepot3().getResources().get(1);
+        } return s;
     }
     public String getSlot6() {
-        return playerBoard.getWareHouse().getDepot3().getResources().get(2);
+        String s = "";
+        if(!playerBoard.getWareHouse().getDepot3().getResources().isEmpty()) {
+            if (playerBoard.getWareHouse().getDepot3().getResources().size() == 3)
+               s= playerBoard.getWareHouse().getDepot3().getResources().get(2);
+        }
+         return s;
     }
 
     public int get1ActiveLeaderCard() {

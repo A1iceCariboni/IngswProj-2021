@@ -35,8 +35,6 @@ public interface View {
 
      void chooseAction();
 
-     void discardResource();
-
      void modifyWarehouse();
 
      void waitTurn();
@@ -46,11 +44,8 @@ public interface View {
 
      void addResourceToWareHouse(String[] resource);
 
-     void activateLeader();
 
      void askWhiteMarble(int num);
-
-     void takeResourcesFromMarket();
 
      void buyDevelopmentCard();
 

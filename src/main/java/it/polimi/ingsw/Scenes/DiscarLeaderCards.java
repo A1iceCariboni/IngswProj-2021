@@ -40,6 +40,7 @@ public class DiscarLeaderCards extends ViewObservable {
     @FXML
     public void initialize() {
 
+
     }
 
     @FXML
@@ -92,24 +93,24 @@ public class DiscarLeaderCards extends ViewObservable {
 
     @FXML
     public void ActivateLeader1(){
-        Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(1));
+        Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(virtualModel.getLeaderCards().get(0).getId()));
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 
     @FXML
     public void ActivateLeader2(){
-        Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(2));
+        Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(virtualModel.getLeaderCards().get(1).getId()));
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 
     @FXML
     public void ActivateLeader3(){
-        Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(3));
+        Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(virtualModel.getLeaderCards().get(2).getId()));
         notifyObserver(obs -> obs.onReadyReply(message));
     }
     @FXML
     public void ActivateLeader4(){
-        Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(4));
+        Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(virtualModel.getLeaderCards().get(3).getId()));
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 
@@ -126,14 +127,22 @@ public class DiscarLeaderCards extends ViewObservable {
 
     public void setLeaderCards(VirtualModel virtualModel) {
         this.virtualModel =  virtualModel;
-        Image img1 = new Image(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getLeaderCards().get(0).getId() + ".png"));
-        l1.setImage(img1);
-        Image img2 = new Image(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getLeaderCards().get(1).getId()+ ".png"));
-        l2.setImage(img2);
-        Image img3 = new Image(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getLeaderCards().get(2).getId() + ".png"));
-        l3.setImage(img3);
-        Image img4 = new Image(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getLeaderCards().get(3).getId() + ".png"));
-        l4.setImage(img4);
+        if(virtualModel.getLeaderCards().size() >= 1) {
+            Image img1 = new Image(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getLeaderCards().get(0).getId() + ".png"));
+            l1.setImage(img1);
+        }
+        if(virtualModel.getLeaderCards().size() >= 2) {
+            Image img2 = new Image(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getLeaderCards().get(1).getId() + ".png"));
+            l2.setImage(img2);
+        }
+        if(virtualModel.getLeaderCards().size() >= 3) {
+            Image img3 = new Image(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getLeaderCards().get(2).getId() + ".png"));
+            l3.setImage(img3);
+        }
+        if(virtualModel.getLeaderCards().size() >= 4) {
+            Image img4 = new Image(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getLeaderCards().get(3).getId() + ".png"));
+            l4.setImage(img4);
+        }
 
     }
 

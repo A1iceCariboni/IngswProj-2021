@@ -258,7 +258,7 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
-    @Override
+
 
     public void discardResource() {
         virtualModel.showWarewouse(virtualModel.getPlayerBoard());
@@ -359,7 +359,7 @@ public class Cli extends ViewObservable implements View {
     }
 
 
-    @Override
+
 
     /**
      * asks if the player wants to activate a leader card and, in case he answers yes, notifies the server
@@ -396,7 +396,7 @@ public class Cli extends ViewObservable implements View {
     }
 
 
-    @Override
+
 
     /**
      * method to choose a row or a column of the market

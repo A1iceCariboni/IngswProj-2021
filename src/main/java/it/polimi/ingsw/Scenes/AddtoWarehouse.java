@@ -10,10 +10,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import static it.polimi.ingsw.enumerations.ResourceType.SERVANT;
 
 
-public class ChooseResources extends ViewObservable {
+
+public class AddtoWarehouse extends ViewObservable {
     public Button d1,d2,d3,d4,d5,d6;
     Gson gson = new Gson();
     public Label wLabel;
@@ -25,11 +25,15 @@ public class ChooseResources extends ViewObservable {
     private int i = 0;
     private int count = 0;
     private String[] resource;
+    private int[] answer;
 
+    @FXML
+    public void initialize(){
+
+    }
 
     @FXML
     public void put1(ActionEvent actionEvent) {
-        int[] answer = new int[resource.length];
         answer[count] = 1;
         count++;
         if(count == resource.length) {
@@ -39,7 +43,6 @@ public class ChooseResources extends ViewObservable {
 
     @FXML
     public void put2(ActionEvent actionEvent) {
-        int[] answer = new int[resource.length];
         answer[count] = 2;
         count++;
         if(count == resource.length) {
@@ -49,7 +52,6 @@ public class ChooseResources extends ViewObservable {
 
     @FXML
     public void put3(ActionEvent actionEvent) {
-        int[] answer = new int[resource.length];
         answer[count] = 2;
         count++;
         if(count == resource.length) {
@@ -59,7 +61,6 @@ public class ChooseResources extends ViewObservable {
 
     @FXML
     public void put4(ActionEvent actionEvent) {
-        int[] answer = new int[resource.length];
         answer[count] = 3;
         count++;
         if(count == resource.length) {
@@ -69,7 +70,6 @@ public class ChooseResources extends ViewObservable {
 
     @FXML
     public void put5(ActionEvent actionEvent) {
-        int[] answer = new int[resource.length];
         answer[count] = 3;
         count++;
         if(count == resource.length) {
@@ -79,7 +79,6 @@ public class ChooseResources extends ViewObservable {
 
 
     public void put6(ActionEvent actionEvent){
-        int[] answer = new int[resource.length];
         answer[count] = 3;
         count++;
         if(count == resource.length) {
@@ -87,6 +86,14 @@ public class ChooseResources extends ViewObservable {
         }
     }
 
+    @FXML
+    public void discard(ActionEvent actionEvent) {
+        answer[count] = -1;
+        count++;
+        if(count == resource.length) {
+            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
+        }
+    }
 
     public void exit(ActionEvent actionEvent) {
     }
@@ -130,27 +137,42 @@ public class ChooseResources extends ViewObservable {
 
 
 
-    
-    public void setText(){
-        wLabel.setText("Where do you want to put it?");
-    }
-    
-    public void setResource(String[] resource){
 
+    
+    public void setResource(String[] resource) {
+        wLabel.setText("Where do you want to put it?");
         this.resource = resource;
+        answer = new int[resource.length];
         Image i1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + resource[0] + ".png"));
+        r1.setOpacity(1);
         r1.setImage(i1);
-        Image i2 = new Image(getClass().getResourceAsStream("/PunchBoard/" + resource[1] + ".png"));
-        r2.setImage(i2);
-        Image i3 = new Image(getClass().getResourceAsStream("/PunchBoard/" + resource[2] + ".png"));
-        r3.setImage(i3);
-        if(resource.length==4) {
+        if (resource.length >= 2) {
+            Image i2 = new Image(getClass().getResourceAsStream("/PunchBoard/" + resource[1] + ".png"));
+            r2.setOpacity(1);
+            r2.setImage(i2);
+        }
+        if (resource.length >= 3){
+            Image i3 = new Image(getClass().getResourceAsStream("/PunchBoard/" + resource[2] + ".png"));
+            r3.setImage(i3);
+            r3.setOpacity(1);
+        }
+        if(resource.length ==4) {
             Image i4 = new Image(getClass().getResourceAsStream("/PunchBoard/" + resource[3] + ".png"));
             r4.setImage(i4);
+            r4.setOpacity(1);
         }
     }
 
     public void setQuantity(int quantity){
         chosenRes = new String[quantity];
+        r1.setOpacity(1);
+        r2.setOpacity(1);
+        r3.setOpacity(1);
+        r4.setOpacity(1);
+
+
     }
+
+
+
 }
