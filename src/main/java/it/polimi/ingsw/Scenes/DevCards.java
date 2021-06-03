@@ -8,20 +8,14 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
-import java.net.URL;
+import java.util.ArrayList;
 
 public class DevCards extends ViewObservable {
 
@@ -104,8 +98,8 @@ public class DevCards extends ViewObservable {
     private int count;
     private VirtualModel virtualModel;
     private ImageView[][] images;
-    DummyDev[][] devBoard;
-    int id;
+    private DummyDev[][] devBoard;
+    private int id;
 
 
 
@@ -116,23 +110,37 @@ public class DevCards extends ViewObservable {
         images = new ImageView[Constants.rows][Constants.cols];
         count = 0;
         devBoard = new DummyDev[Constants.rows][Constants.cols];
-        int id = 0;
+        id = 0;
     }
 
     @FXML
     public void initialize() {
-      images[0][0] = img00;
-      images[0][1] = img01;
-      images[0][2] = img02;
-      images[1][0] = img10;
-      images[1][1] = img11;
-      images[1][2] = img12;
-      images[2][0] = img20;
-      images[2][1] = img21;
-      images[2][2] = img22;
-      images[3][0] = img30;
-      images[3][1] = img31;
-      images[3][2] = img32;
+        images[0][0] = img00;
+        images[0][1] = img01;
+        images[0][2] = img02;
+        images[1][0] = img10;
+        images[1][1] = img11;
+        images[1][2] = img12;
+        images[2][0] = img20;
+        images[2][1] = img21;
+        images[2][2] = img22;
+        images[3][0] = img30;
+        images[3][1] = img31;
+        images[3][2] = img32;
+
+        this00.setSelected(false);
+        this01.setSelected(false);
+        this02.setSelected(false);
+        this10.setSelected(false);
+        this11.setSelected(false);
+        this12.setSelected(false);
+        this20.setSelected(false);
+        this21.setSelected(false);
+        this22.setSelected(false);
+        this30.setSelected(false);
+        this31.setSelected(false);
+        this32.setSelected(false);
+        okButton.setDisable(true);
     }
 
 
