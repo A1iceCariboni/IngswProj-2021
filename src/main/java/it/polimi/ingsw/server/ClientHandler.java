@@ -29,7 +29,6 @@ public class ClientHandler implements  Runnable{
     private  SocketServer socketServer;
     private ScheduledExecutorService ponger;
 
-    private Object input;
     private boolean connected;
 
    private BufferedReader in;
@@ -42,10 +41,9 @@ public class ClientHandler implements  Runnable{
      */
     public ClientHandler(Socket client, SocketServer socketServer, Server server) {
         this.client = client;
-
+        connected = true;
         this.server = server;
         this.socketServer = socketServer;
-        input = new Object();
         connected = true;
         ponger = Executors.newSingleThreadScheduledExecutor();
 
@@ -77,7 +75,7 @@ public class ClientHandler implements  Runnable{
     public synchronized void readFromClient() throws IOException {
 
             try {
-                while (!Thread.currentThread().isInterrupted()) {
+                while (connected) {
                         String line = in.readLine();
                         Gson gson = new Gson();
                         Message message = gson.fromJson(line, Message.class);
@@ -106,8 +104,9 @@ public class ClientHandler implements  Runnable{
             } catch (IOException e) {
                 Server.LOGGER.info("couldn't close");
             }
-            Thread.currentThread().interrupt();
         }
+        connected = false;
+        server.onDisconnect(this);
     }
 
     /**

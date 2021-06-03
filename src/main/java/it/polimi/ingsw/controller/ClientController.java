@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.CLI.Cli;
 import it.polimi.ingsw.client.DummyModel.*;
 import it.polimi.ingsw.client.SocketClient;
 import it.polimi.ingsw.client.View;
@@ -9,9 +8,9 @@ import it.polimi.ingsw.enumerations.GamePhase;
 import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.request.SetupMessage;
-import it.polimi.ingsw.observers.ViewObserver;
 import it.polimi.ingsw.observers.Observer;
-import it.polimi.ingsw.utility.DummyWarehouseConstructor;
+import it.polimi.ingsw.observers.ViewObserver;
+import it.polimi.ingsw.utility.*;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;

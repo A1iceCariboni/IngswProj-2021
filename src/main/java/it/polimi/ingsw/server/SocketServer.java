@@ -38,7 +38,7 @@ public class SocketServer implements  Runnable{
      * @param serverSocket
      */
     public void acceptConnections(ServerSocket serverSocket){
-        while (!Thread.currentThread().isInterrupted()){
+        while (active){
             try {
                 Socket client = serverSocket.accept();
 

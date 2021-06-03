@@ -35,6 +35,7 @@ public class VirtualView implements Observer {
     private ArrayList<Integer> extraProductionToActivate;
     private ArrayList<Resource> resourcesToProduce;
     private Resource basicProd;
+    private int gameActionPerTurn;
 
     public VirtualView() {
     }
@@ -49,6 +50,7 @@ public class VirtualView implements Observer {
         this.cardsToActivate = new ArrayList<>();
         this.extraProductionToActivate = new ArrayList<>();
         this.resourcesToProduce = new ArrayList<>();
+        gameActionPerTurn = 0;
     }
 
     public void nickNameResult(boolean accepted, boolean first, boolean fullServer) {
@@ -176,5 +178,13 @@ public class VirtualView implements Observer {
     }
     public void removeResourceToProduce(int pos){
         this.resourcesToProduce.remove(pos);
+    }
+
+    public void doneGameAction(){
+        gameActionPerTurn = 1;
+    }
+
+    public boolean isGameActionDone(){
+        return gameActionPerTurn == 1;
     }
 }

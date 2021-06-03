@@ -25,8 +25,7 @@ import it.polimi.ingsw.utility.WarehouseConstructor;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.*;
-
-//TODO bloccare azioni finché il giocatore non ha pagato e posizionato carta e risorse
+//TODO riconnessione client con gestione del turno da finire
 //TODO scegliere cosa fare dei client quando finisce la partita
 /**
  * class game controller and subclasses handles the evolution of the game based on
@@ -40,6 +39,10 @@ public class GameController implements Serializable {
 
 
     protected transient Map<String, VirtualView> connectedClients;
+
+
+
+    protected ArrayList<String> disconnectedClients;
     protected boolean isStarted;
     protected TurnController turnController;
     protected ArrayList<String> players;
@@ -52,6 +55,7 @@ public class GameController implements Serializable {
     public GameController(){
         gson = new Gson();
         connectedClients = Collections.synchronizedMap(new HashMap<>());
+        disconnectedClients = new ArrayList<>();
         isStarted = false;
         numberOfPlayers = 0;
         gamePhase = GamePhase.INIT;
@@ -75,12 +79,21 @@ public class GameController implements Serializable {
         }
     }
 
+    public ArrayList<String> getDisconnectedClients() {
+        return disconnectedClients;
+    }
+
     public Map<String, VirtualView> getConnectedClients() {
         return connectedClients;
     }
 
     public void addConnectedClient(String nickname, VirtualView virtualView) {
         connectedClients.put(nickname,virtualView);
+    }
+
+    public void addDisconnectedClient(String nickname){
+        connectedClients.remove(nickname);
+        disconnectedClients.add(nickname);
     }
 
     /**
@@ -367,7 +380,7 @@ public class GameController implements Serializable {
                         try {
                             putResource(id);
                             virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
-                            turnController.doneGameAction();
+                            virtualView.doneGameAction();
 
                         } catch (NotPossibleToAdd notPossibleToAdd) {
                             virtualView.update(new ErrorMessage(notPossibleToAdd.getMessage()));
@@ -393,7 +406,8 @@ public class GameController implements Serializable {
                     if(inputChecker.checkReceivedMessage(message, turnController.getActivePlayer())) {
                         int[] ids = gson.fromJson(message.getPayload(), int[].class);
                         pay(ids);
-                        turnController.doneGameAction();
+
+                        virtualView.doneGameAction();
                         virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
                     }else {
                       virtualView.update(new ErrorMessage(""));
@@ -485,7 +499,7 @@ public class GameController implements Serializable {
                         int[] ids = gson.fromJson(message.getPayload(), int[].class);
                         pay(ids);
                         sendDepots();
-                        turnController.doneGameAction();
+                        virtualView.doneGameAction();
                     }else {
                         virtualView.update(new ErrorMessage("Invalid message for this state"));
                         sendResourcesToPay();
@@ -650,7 +664,7 @@ public class GameController implements Serializable {
         VirtualView virtualView = getConnectedClients().get(name);
         if(game.getDeckDevelopment()[rig][col].getCard().isBuyable(game.getCurrentPlayer())){
             virtualView.addFreeDevelopment(game.getDeckDevelopment()[rig][col].popCard());
-            turnController.doneGameAction();
+            virtualView.doneGameAction();
             turnPhase = TurnPhase.BUY_DEV;
             sendUpdateMarketDev();
             sendResourcesToPay();

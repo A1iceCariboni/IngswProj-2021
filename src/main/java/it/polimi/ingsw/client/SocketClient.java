@@ -1,9 +1,7 @@
 package it.polimi.ingsw.client;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.controller.ClientController;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.request.PingMessage;
 import it.polimi.ingsw.observers.Observable;
 

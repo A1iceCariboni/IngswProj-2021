@@ -34,7 +34,7 @@ public class InputChecker implements Serializable {
         Gson gson = new Gson();
         switch (message.getCode()) {
             case BUY_DEV:
-                return !gameController.getTurnController().isGameActionDone();
+                return !gameController.connectedClients.get(nickname).isGameActionDone();
             case RESOURCE_PAYMENT:
                 Integer[] ids = gson.fromJson(message.getPayload(), Integer[].class);
 
@@ -46,7 +46,7 @@ public class InputChecker implements Serializable {
                 }
                 return id.length == game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().size() ;
             case BUY_MARKET:
-                if (gameController.getTurnController().isGameActionDone()) {
+                if (gameController.getVirtualView(nickname).isGameActionDone()) {
                     return false;
                 }
                 String[] dim = gson.fromJson(message.getPayload(), String[].class);

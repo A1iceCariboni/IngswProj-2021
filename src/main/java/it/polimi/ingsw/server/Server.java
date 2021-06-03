@@ -144,6 +144,18 @@ public class Server {
         return gameController;
     }
 
+    public synchronized void onDisconnect(ClientHandler clientHandler){
+        if(!gameController.isStarted()){
+            waiting.remove(clientHandler);
+        }else{
+            String name = clients.get(clientHandler);
+            gameController.addDisconnectedClient(name);
+            if(gameController.getTurnController().getActivePlayer().equals(name)){
+                gameController.getTurnController().nextTurn();
+            }
+
+        }
+    }
 }
 
 
