@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Scenes;
 import com.google.gson.Gson;
+import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.observers.ViewObservable;
@@ -14,7 +15,9 @@ import javafx.scene.input.MouseEvent;
 
 
 public class AddtoWarehouse extends ViewObservable {
-    public Button d1,d2,d3,d4,d5,d6;
+    public Button d1,d2,d3;
+    public Button disc;
+    VirtualModel virtualModel;
     Gson gson = new Gson();
     public Label wLabel;
     public ImageView r1;
@@ -26,6 +29,9 @@ public class AddtoWarehouse extends ViewObservable {
     private int count = 0;
     private String[] resource;
     private int[] answer;
+
+    @FXML
+    ImageView res1, res2, res3, res4, res5, res6;
 
     @FXML
     public void initialize(){
@@ -52,15 +58,6 @@ public class AddtoWarehouse extends ViewObservable {
 
     @FXML
     public void put3(ActionEvent actionEvent) {
-        answer[count] = 2;
-        count++;
-        if(count == resource.length) {
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
-        }
-    }
-
-    @FXML
-    public void put4(ActionEvent actionEvent) {
         answer[count] = 3;
         count++;
         if(count == resource.length) {
@@ -68,23 +65,6 @@ public class AddtoWarehouse extends ViewObservable {
         }
     }
 
-    @FXML
-    public void put5(ActionEvent actionEvent) {
-        answer[count] = 3;
-        count++;
-        if(count == resource.length) {
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
-        }
-    }
-
-
-    public void put6(ActionEvent actionEvent){
-        answer[count] = 3;
-        count++;
-        if(count == resource.length) {
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
-        }
-    }
 
     @FXML
     public void discard(ActionEvent actionEvent) {
@@ -139,8 +119,9 @@ public class AddtoWarehouse extends ViewObservable {
 
 
     
-    public void setResource(String[] resource) {
+    public void setResource(String[] resource, VirtualModel virtualModel) {
         wLabel.setText("Where do you want to put it?");
+        this.virtualModel = virtualModel;
         this.resource = resource;
         answer = new int[resource.length];
         Image i1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + resource[0] + ".png"));
@@ -161,6 +142,40 @@ public class AddtoWarehouse extends ViewObservable {
             r4.setImage(i4);
             r4.setOpacity(1);
         }
+
+        //sets warehouse
+        if(virtualModel.getSlot1()!= "") {
+            Image im1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot1() + ".png"));
+            res1.setImage(im1);
+            res1.setOpacity(1);
+        }
+        if(virtualModel.getSlot2()!= "") {
+            Image im2 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot2() + ".png"));
+            res2.setImage(im2);
+            res2.setOpacity(1);
+        }
+        if(virtualModel.getSlot3()!= "") {
+            Image im3 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot3() + ".png"));
+            res3.setImage(im3);
+            res3.setOpacity(1);
+        }
+        if(virtualModel.getSlot4()!= "") {
+            Image im4 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot4() + ".png"));
+            res4.setImage(im4);
+            res4.setOpacity(1);
+        }
+        if(virtualModel.getSlot5()!= "") {
+            Image im5 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot5() + ".png"));
+            res5.setImage(im5);
+            res5.setOpacity(1);
+        }
+        if(virtualModel.getSlot6()!= "") {
+            Image im6 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot6() + ".png"));
+            res6.setImage(im6);
+            res6.setOpacity(1);
+        }
+
+
     }
 
     public void setQuantity(int quantity){
@@ -169,7 +184,10 @@ public class AddtoWarehouse extends ViewObservable {
         r2.setOpacity(1);
         r3.setOpacity(1);
         r4.setOpacity(1);
-
+        d1.setOpacity(0);
+        d2.setOpacity(0);
+        d3.setOpacity(0);
+        disc.setOpacity(0);
 
     }
 

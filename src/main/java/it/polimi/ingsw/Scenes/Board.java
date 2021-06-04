@@ -220,7 +220,7 @@ public class Board extends ViewObservable {
     @FXML
     public void discardRes(ActionEvent actionEvent) {
         DiscardResource f = new DiscardResource();
-        Platform.runLater(() -> GUIRunnable.discRes(f, observers));
+        Platform.runLater(() -> GUIRunnable.discRes(f, observers).setRes(virtualModel));
     }
 
 

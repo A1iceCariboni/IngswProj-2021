@@ -158,7 +158,7 @@ public class Gui extends ViewObservable implements View {
     @Override
     public void addResourceToWareHouse(String[] resource) {
         AddtoWarehouse c = new AddtoWarehouse();
-        Platform.runLater(() -> GUIRunnable.putInWarehouse(c, observers, resource));
+        Platform.runLater(() -> GUIRunnable.putInWarehouse(c, observers, resource, virtualModel));
 
     }
 
@@ -207,6 +207,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void addDevCards(DummyDev[] dummyDevs) {
+        virtualModel.getPlayerBoard().setDevSections(dummyDevs);
 
     }
 

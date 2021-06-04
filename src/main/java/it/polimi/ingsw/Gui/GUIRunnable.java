@@ -2,6 +2,7 @@ package it.polimi.ingsw.Gui;
 import it.polimi.ingsw.Scenes.*;
 import it.polimi.ingsw.client.SocketClient;
 import it.polimi.ingsw.Scenes.AlertScene;
+import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.controller.ClientController;
 import it.polimi.ingsw.observers.ViewObserver;
 import javafx.application.Application;
@@ -186,7 +187,7 @@ public class GUIRunnable extends Application {
         return m;
     }
 
-    public static AddtoWarehouse putInWarehouse(AddtoWarehouse c, ArrayList<ViewObserver> observers, String[] resource) {
+    public static AddtoWarehouse putInWarehouse(AddtoWarehouse c, ArrayList<ViewObserver> observers, String[] resource, VirtualModel virtualModel) {
         try {
 
             FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/ChooseResouce_Scene.fxml"));
@@ -194,7 +195,7 @@ public class GUIRunnable extends Application {
             scene.setRoot(root);
             c = loader.getController();
             c.addAllObservers(observers);
-            c.setResource(resource);
+            c.setResource(resource, virtualModel);
         } catch (IOException e) {
             SocketClient.LOGGER.severe(e.getMessage());
         }
