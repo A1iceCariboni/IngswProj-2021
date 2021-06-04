@@ -380,7 +380,7 @@ public class GameController implements Serializable {
                         try {
                             putResource(id);
                             virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
-                            virtualView.doneGameAction();
+                            virtualView.doneGameAction(1);
 
                         } catch (NotPossibleToAdd notPossibleToAdd) {
                             virtualView.update(new ErrorMessage(notPossibleToAdd.getMessage()));
@@ -407,7 +407,7 @@ public class GameController implements Serializable {
                         int[] ids = gson.fromJson(message.getPayload(), int[].class);
                         pay(ids);
 
-                        virtualView.doneGameAction();
+                        virtualView.doneGameAction(1);
                         virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
                     }else {
                       virtualView.update(new ErrorMessage(""));
@@ -499,7 +499,7 @@ public class GameController implements Serializable {
                         int[] ids = gson.fromJson(message.getPayload(), int[].class);
                         pay(ids);
                         sendDepots();
-                        virtualView.doneGameAction();
+                        virtualView.doneGameAction(1);
                     }else {
                         virtualView.update(new ErrorMessage("Invalid message for this state"));
                         sendResourcesToPay();
@@ -664,7 +664,7 @@ public class GameController implements Serializable {
         VirtualView virtualView = getConnectedClients().get(name);
         if(game.getDeckDevelopment()[rig][col].getCard().isBuyable(game.getCurrentPlayer())){
             virtualView.addFreeDevelopment(game.getDeckDevelopment()[rig][col].popCard());
-            virtualView.doneGameAction();
+            virtualView.doneGameAction(1);
             turnPhase = TurnPhase.BUY_DEV;
             sendUpdateMarketDev();
             sendResourcesToPay();

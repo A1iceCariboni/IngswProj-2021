@@ -126,7 +126,7 @@ public class TurnController implements Serializable {
             nickNamesQueue.add(activePlayer);
             activePlayer = nickNamesQueue.get(0);
             nickNamesQueue.remove(0);
-            gameActionPerTurn = 0;
+            gameController.getVirtualView(activePlayer).doneGameAction(0);
             if (gameController.getPlayers().get(0).equals(activePlayer)) {
                 changeGamePhase();
             }

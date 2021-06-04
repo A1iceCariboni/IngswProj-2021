@@ -180,8 +180,8 @@ public class VirtualView implements Observer {
         this.resourcesToProduce.remove(pos);
     }
 
-    public void doneGameAction(){
-        gameActionPerTurn = 1;
+    public void doneGameAction(int done){
+        gameActionPerTurn = done;
     }
 
     public boolean isGameActionDone(){
