@@ -141,7 +141,7 @@ public class ClientController implements ViewObserver,Observer {
 
             case OK:
             case ERROR:
-                executionQueue.execute(() -> view.checkResponse(message.getCode().name()));
+                executionQueue.execute(() -> view.showGenericMessage(message.getPayload()));
                 break;
 
             case PLACE_RESOURCE_WAREHOUSE:

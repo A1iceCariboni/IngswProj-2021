@@ -15,7 +15,7 @@ import javafx.scene.input.MouseEvent;
 
 
 public class AddtoWarehouse extends ViewObservable {
-    public Button d1,d2,d3;
+    public Button d1,d2,d3, c1, c2,c3 ;
     public Button disc;
     VirtualModel virtualModel;
     Gson gson = new Gson();
@@ -191,6 +191,13 @@ public class AddtoWarehouse extends ViewObservable {
 
     }
 
+
+    @FXML
+    public void ch1(ActionEvent actionEvent) {}
+    @FXML
+    public void ch2(ActionEvent actionEvent) {}
+    @FXML
+    public void ch3(ActionEvent actionEvent) {}
 
 
 }
