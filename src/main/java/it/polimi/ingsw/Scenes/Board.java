@@ -96,6 +96,9 @@ public class Board extends ViewObservable {
     public ImageView led2;
 
     @FXML
+    public ImageView devb1, devb2, devb3;
+
+    @FXML
     Button DiscardButton;
 
     @FXML
@@ -177,11 +180,12 @@ public class Board extends ViewObservable {
     public void DiscardLeaderCards() {
         DiscarLeaderCards f = new DiscarLeaderCards();
         Platform.runLater(() -> GUIRunnable.FirstScene(f, observers).setLeaderCards(virtualModel));
+
     }
 
     @FXML
     public void buyDev() {
-        DevCards deck = new DevCards();
+        DevelopmentMarket deck = new DevelopmentMarket();
         Platform.runLater(() -> GUIRunnable.buyDevCard(deck, observers).setDevCards(virtualModel));
     }
 
@@ -206,6 +210,7 @@ public class Board extends ViewObservable {
     @FXML
     public void EndTurn(ActionEvent actionEvent) {
         notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.END_TURN, "")));
+
     }
 
     @FXML
@@ -223,6 +228,9 @@ public class Board extends ViewObservable {
 
     public void setVirtualModel(VirtualModel virtualModel) {
         this.virtualModel = virtualModel;
+
+
+
         //to set the warehouse
         if(virtualModel.getSlot1()!= "") {
             Image i1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot1() + ".png"));
@@ -263,7 +271,11 @@ public class Board extends ViewObservable {
             Image aL2 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.get2ActiveLeaderCard() + ".png"));
             led2.setImage(aL2);
         }
+
+
     }
+
+
 
 
 }

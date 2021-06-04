@@ -107,6 +107,8 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void waitTurn(){
+        Wait w = new Wait();
+        Platform.runLater(() -> GUIRunnable.waitingscene(w, observers));
 
     }
 

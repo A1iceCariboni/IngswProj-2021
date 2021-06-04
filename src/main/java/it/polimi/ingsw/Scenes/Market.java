@@ -147,7 +147,7 @@ public class Market extends ViewObservable {
         String[] payload = new String[2];
         String c = "col";
         payload[0] = (c);
-        payload[1] = (Integer.toString(2));
+        payload[1] = (Integer.toString(3));
 
         Message message = new Message(MessageType.BUY_MARKET, gson.toJson(payload));
         notifyObserver(obs -> obs.onReadyReply(message));

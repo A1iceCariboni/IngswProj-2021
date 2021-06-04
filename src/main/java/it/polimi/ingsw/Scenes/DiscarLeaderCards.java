@@ -6,10 +6,12 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 /** @author  Alessandra Atria*/
 
@@ -117,14 +119,6 @@ public class DiscarLeaderCards extends ViewObservable {
 
 
 
-
-    public void Exit() {
-        Board bc = new Board();
-        GUIRunnable.changetoStart(bc, observers);
-
-    }
-
-
     public void setLeaderCards(VirtualModel virtualModel) {
         this.virtualModel =  virtualModel;
         if(virtualModel.getLeaderCards().size() >= 1) {
@@ -146,6 +140,11 @@ public class DiscarLeaderCards extends ViewObservable {
 
     }
 
+
+    public void back(ActionEvent actionEvent) {
+        Board bc = new Board();
+        Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers).setVirtualModel(virtualModel));
+    }
 }
 
 

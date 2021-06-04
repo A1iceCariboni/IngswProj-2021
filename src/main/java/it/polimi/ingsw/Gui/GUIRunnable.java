@@ -125,9 +125,9 @@ public class GUIRunnable extends Application {
         return f;
     }
 
-    public static DevCards buyDevCard(DevCards cl, ArrayList<ViewObserver> observers) {
+    public static DevelopmentMarket buyDevCard(DevelopmentMarket cl, ArrayList<ViewObserver> observers) {
         try {
-            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Development_Deck.fxml"));
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/DevelopmentDeck_Scene.fxml"));
             Parent root = loader.load();
             scene.setRoot(root);
             cl  = loader.getController();
@@ -215,6 +215,20 @@ public class GUIRunnable extends Application {
             SocketClient.LOGGER.severe(e.getMessage());
         }
         return f;
+    }
+
+
+    public static Wait waitingscene(Wait m, ArrayList<ViewObserver> observers) {
+        try {
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Waiting_Scene.fxml"));
+            Parent root = loader.load();
+            scene.setRoot(root);
+            m = loader.getController();
+            m.addAllObservers(observers);
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+        }
+        return m;
     }
 
 
