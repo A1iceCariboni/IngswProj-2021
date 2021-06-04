@@ -46,6 +46,10 @@ public class Gui extends ViewObservable implements View {
         Platform.runLater(() -> GUIRunnable.showAlert("Info Message", genericMessage));
     }
 
+    @Override
+    public void showBlackCross(int blackCross) {
+
+    }
 
 
     @Override

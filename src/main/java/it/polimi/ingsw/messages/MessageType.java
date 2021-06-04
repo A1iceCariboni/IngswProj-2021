@@ -39,5 +39,6 @@ public enum MessageType {
     OTHER_WAREHOUSE,
     OTHER_STRONGBOX,
     OTHER_DEV_SLOTS,
-    OTHER_LEADER
+    OTHER_LEADER,
+    BLACK_CROSS
 }

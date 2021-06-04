@@ -83,7 +83,7 @@ public class VirtualModel {
         for (int i = 0; i < Constants.DEV_SLOTS; i++) {
             dummyDevs1[i] = developmentCard[i].getDummy();
         }
-        // this.playerBoard.setDevSections(dummyDevs1);
+       // this.playerBoard.setDevSections(dummyDevs1);
         //leader cards
         ArrayList<LeaderCard> leaderCards = LeaderCardParser.parseLeadCards();
         for (int i = 0; i < 2; i++) {
@@ -152,10 +152,11 @@ public class VirtualModel {
     }
 
 
-    /**
-     * This method colors the background based on the development card color
-     */
-    public String showDevColor(DummyDev dummyDev) {
+
+
+
+       /** This method colors the background based on the development card color*/
+    public String showDevColor(DummyDev dummyDev){
         return switch (dummyDev.getColor()) {
             case ("YELLOW") -> ANSI_YELLOW;
             case ("PURPLE") -> ANSI_PURPLE;
@@ -166,36 +167,40 @@ public class VirtualModel {
     }
 
 
-    public void showPlayerDevCards(DummyPlayerBoard playerBoard) {
+
+
+    public void showPlayerDevCards(DummyPlayerBoard playerBoard){
         String cards = "";
-        for (DummyDev dummyDev : playerBoard.getDevSections()) {
-            if (dummyDev != null) {
-                cards = showDevColor(dummyDev)
-                        + "┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐\n"
-                        + " CardID: "
-                        + dummyDev.getId()
-                        + "\n Color:"
-                        + dummyDev.getColor()
-                        + "\n Level:"
-                        + dummyDev.getLevel()
-                        + "\n Production Power: "
-                        + dummyDev.getProductionPower() + "\n"
-                        + "└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘"
-                        + ANSI_RESET;
-            }
-        }
-        System.out.println(cards + "\n");
-    }
+         for (DummyDev dummyDev : playerBoard.getDevSections()) {
+             if(dummyDev != null) {
+                 cards = showDevColor(dummyDev)
+                         + "┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐\n"
+                         + " CardID: "
+                         + dummyDev.getId()
+                         + "\n Color:"
+                         + dummyDev.getColor()
+                         + "\n Level:"
+                         + dummyDev.getLevel()
+                         + "\n Production Power: "
+                         + dummyDev.getProductionPower() + "\n"
+                         + "└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘"
+                         + ANSI_RESET;
+             }
+             }
+             System.out.println(cards + "\n");
+         }
+
+
 
 
     /**
      * This method colors the player faithtrack based on his position and base
      **/
-    private String getPlayerColor(DummyPlayerBoard playerBoard) {
+    private String getPlayerColor(int pos) {
         StringBuilder color = new StringBuilder();
         color.append("│  ");
         for (int i = 0; i < 10; i++) {
-            if (playerBoard.getFaithMarker() == i) {
+            if (pos == i) {
                 if (playerBoard.getFaithTrack().isPopeSpace(i)) {
                     color.append(" ");
                     color.append(ANSI_BG_RED + "│ " + PLAYER + "  │" + ANSI_RESET);
@@ -249,8 +254,8 @@ public class VirtualModel {
     /**
      * This method displays each player's faithtrack
      */
-    public void showFaithTrack(DummyPlayerBoard playerBoard) {
-        String s = getPlayerColor(playerBoard);
+    public void showFaithTrack(int pos) {
+        String s = getPlayerColor(pos);
         String track1 = "┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐\n" +
                 "│   ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐  │\n";
 
@@ -273,23 +278,21 @@ public class VirtualModel {
 
         String track2 = "    │└─────┘  └─────┘│\n" +
                 "     └────────────────┘\n";
-        if (playerBoard.getWareHouse().getExtraDepot1().getId() != -1) {
+        if (playerBoard.getWareHouse().getExtraDepot1().getId() != -1){
             System.out.println(track1 + E1 + track2);
-            System.out.println("This extra Depot can only contain " + playerBoard.getWareHouse().getExtraDepot1().getResourceType() + " resources ");
-        }
-        if (playerBoard.getWareHouse().getExtraDepot2().getId() != -1) {
+            System.out.println("This extra Depot can only contain "+ playerBoard.getWareHouse().getExtraDepot1().getResourceType() + " resources ");}
+        if (playerBoard.getWareHouse().getExtraDepot2().getId() != -1){
             System.out.println(track1 + E2 + track2);
-            System.out.println("This extra Depot can only contain " + playerBoard.getWareHouse().getExtraDepot2().getResourceType() + " resources ");
-        }
+            System.out.println("This extra Depot can only contain "+ playerBoard.getWareHouse().getExtraDepot2().getResourceType() + " resources ");}
 
     }
 
 
     private String showResExtraDepot1(DummyPlayerBoard playerBoard) {
         StringBuilder resE1 = new StringBuilder();
-        String res1 = " ";
+        String res1= " ";
         String res2 = " ";
-        if (!playerBoard.getWareHouse().getExtraDepot1().getResources().isEmpty()) {
+        if( !playerBoard.getWareHouse().getExtraDepot1().getResources().isEmpty()) {
             res1 = playerBoard.getWareHouse().getExtraDepot1().getResources().get(0);
             if (playerBoard.getWareHouse().getExtraDepot1().getResources().size() == 2)
                 res2 = playerBoard.getWareHouse().getDepot1().getResources().get(1);
@@ -306,11 +309,11 @@ public class VirtualModel {
         StringBuilder resE2 = new StringBuilder();
         String res1 = " ";
         String res2 = " ";
-        if (!playerBoard.getWareHouse().getExtraDepot2().getResources().isEmpty()) {
-            res1 = playerBoard.getWareHouse().getExtraDepot2().getResources().get(0);
-            if (playerBoard.getWareHouse().getExtraDepot2().getResources().size() == 2)
-                res2 = playerBoard.getWareHouse().getExtraDepot2().getResources().get(1);
-        }
+            if (!playerBoard.getWareHouse().getExtraDepot2().getResources().isEmpty()) {
+                res1 = playerBoard.getWareHouse().getExtraDepot2().getResources().get(0);
+                if (playerBoard.getWareHouse().getExtraDepot2().getResources().size() == 2)
+                    res2 = playerBoard.getWareHouse().getExtraDepot2().getResources().get(1);
+            }
 
         resE2.append(" ");
         resE2.append("    ││  ").append(showResource(res1)).append("  │  │  ").append(showResource(res2)).append("  ││\n ");
@@ -319,6 +322,8 @@ public class VirtualModel {
         return resE2.toString();
 
     }
+
+
 
 
     /**
@@ -350,11 +355,11 @@ public class VirtualModel {
     private String showResDep1(DummyPlayerBoard playerBoard) {
         StringBuilder resD1 = new StringBuilder();
         String res1 = " ";
-        if (!playerBoard.getWareHouse().getDepot1().getResources().isEmpty())
-            res1 = playerBoard.getWareHouse().getDepot1().getResources().get(0);
+        if(!playerBoard.getWareHouse().getDepot1().getResources().isEmpty())
+             res1 = playerBoard.getWareHouse().getDepot1().getResources().get(0);
 
-        resD1.append(" ");
-        resD1.append("       │ │  ").append(showResource(res1)).append("  │ │\n");
+         resD1.append(" ");
+         resD1.append("       │ │  ").append(showResource(res1)).append("  │ │\n");
 
 
         return resD1.toString();
@@ -368,7 +373,7 @@ public class VirtualModel {
         StringBuilder resD2 = new StringBuilder();
         String res1 = " ";
         String res2 = " ";
-        if (!playerBoard.getWareHouse().getDepot2().getResources().isEmpty()) {
+        if(!playerBoard.getWareHouse().getDepot2().getResources().isEmpty()) {
             res1 = playerBoard.getWareHouse().getDepot2().getResources().get(0);
             if (playerBoard.getWareHouse().getDepot2().getResources().size() == 2)
                 res2 = playerBoard.getWareHouse().getDepot2().getResources().get(1);
@@ -388,7 +393,7 @@ public class VirtualModel {
         String res2 = " ";
         String res3 = " ";
         StringBuilder resD3 = new StringBuilder();
-        if (!playerBoard.getWareHouse().getDepot3().getResources().isEmpty()) {
+        if(!playerBoard.getWareHouse().getDepot3().getResources().isEmpty()) {
             res1 = playerBoard.getWareHouse().getDepot3().getResources().get(0);
             if (playerBoard.getWareHouse().getDepot3().getResources().size() == 2) {
                 res2 = playerBoard.getWareHouse().getDepot3().getResources().get(1);
@@ -485,7 +490,7 @@ public class VirtualModel {
             case ("STONE"):
                 resType = ANSI_WHITE + RES + ANSI_RESET;
                 break;
-            case (" "):
+            case(" "):
                 resType = " ";
                 break;
 
@@ -525,14 +530,13 @@ public class VirtualModel {
 
     /**
      * Displays the player's strongbox
-     *
      * @param otherPlayer
      */
     public void showStrongbox(DummyPlayerBoard otherPlayer) {
         int size = playerBoard.getStrongBox().getResources().size();
 
         for (int i = 0; i < size; i++) {
-            System.out.print(showResource(playerBoard.getStrongBox().getResources().get(i)) + " ");
+                System.out.print( showResource(playerBoard.getStrongBox().getResources().get(i))+ " "  );
 
         }
         System.out.println("\n");
@@ -544,12 +548,12 @@ public class VirtualModel {
         StringBuilder r2 = new StringBuilder();
         StringBuilder r3 = new StringBuilder();
         r1.append(" ");
-        r1.append("││  " + ANSI_BG_GREEN + 1 + ANSI_RESET + "  ││  " + ANSI_BG_BLUE + 2 + ANSI_RESET + "  ││  " + ANSI_BG_YELLOW + 3 + ANSI_RESET + "  ││  " + ANSI_BG_PURPLE + 4 + ANSI_RESET + "  ││\n ");
+        r1.append("││  " + ANSI_BG_GREEN + 1 + ANSI_RESET + "  ││  " + ANSI_BG_BLUE+ 2 +ANSI_RESET + "  ││  " +ANSI_BG_YELLOW + 3 + ANSI_RESET +  "  ││  " + ANSI_BG_PURPLE+  4 + ANSI_RESET+ "  ││\n ");
 
         r2.append(" ");
-        r2.append("││  " + ANSI_BG_GREEN + 5 + ANSI_RESET + "  ││  " + ANSI_BG_BLUE + 6 + ANSI_RESET + "  ││  " + ANSI_BG_YELLOW + 7 + ANSI_RESET + "  ││  " + ANSI_BG_PURPLE + 8 + ANSI_RESET + "  ││\n ");
+        r2.append("││  " + ANSI_BG_GREEN + 5 + ANSI_RESET+ "  ││  " + ANSI_BG_BLUE+ 6 +ANSI_RESET + "  ││  " + ANSI_BG_YELLOW + 7 + ANSI_RESET + "  ││  " + ANSI_BG_PURPLE + 8 + ANSI_RESET + "  ││\n ");
         r3.append(" ");
-        r3.append("││  " + ANSI_BG_GREEN + 9 + ANSI_RESET + "  ││  " + ANSI_BG_BLUE + 10 + ANSI_RESET + " ││  " + ANSI_BG_YELLOW + 11 + ANSI_RESET + " ││ " + ANSI_BG_PURPLE + 12 + ANSI_RESET + "  ││ \n ");
+        r3.append("││  " + ANSI_BG_GREEN + 9 + ANSI_RESET+ "  ││  " + ANSI_BG_BLUE+ 10 +ANSI_RESET + " ││  " + ANSI_BG_YELLOW + 11 + ANSI_RESET + " ││ " + ANSI_BG_PURPLE+  12 + ANSI_RESET + "  ││ \n ");
         r1.toString();
         r2.toString();
         r3.toString();
@@ -572,11 +576,11 @@ public class VirtualModel {
     }
 
 
-    /**
-     * This method prints a dummy dev from the board based on the number chosen
-     */
-    public void showDev(int num) {
-        DummyDev card = null;
+
+
+    /**This method prints a dummy dev from the board based on the number chosen*/
+    public void  showDev(int num) {
+       DummyDev card = null;
         switch (num) {
             case (1):
                 card = boardDevCard[0][0];
@@ -617,33 +621,36 @@ public class VirtualModel {
 
 
         }
-        String cards;
-        if (card != null) {
+         String cards;
+        if(card != null) {
             cards = " CardID: " + card.getId()
                     + "\n Color:" + card.getColor()
                     + "\n Level:" + card.getLevel()
                     + "\n Cost: " + card.getCost()
                     + "\n Production Power:" + card.getProductionPower();
-        } else {
+        }else{
             cards = "Empty deck";
         }
 
         System.out.println(cards + "\n");
     }
 
-    public void showOtherPlayerBoard() {
+public void showOtherPlayerBoard(){
         showLeaderCards(otherCards);
-        showFaithTrack(otherPlayer);
+        showFaithTrack(otherPlayer.getFaithMarker());
         showWarewouse(otherPlayer);
         showStrongbox(otherPlayer);
-    }
+}
 
+public void showBlackCross(int blackCross){
+       showFaithTrack(blackCross);
+    }
 
     public DummyPlayerBoard getOtherPlayer() {
         return this.otherPlayer;
     }
 
-    public void setOtherCards(DummyLeaderCard[] otherCards) {
+    public void setOtherCards( DummyLeaderCard[] otherCards) {
         this.otherCards = new ArrayList<>(Arrays.asList(otherCards));
     }
 
@@ -657,15 +664,14 @@ public class VirtualModel {
 
     public String getSlot1() {
         String s = "";
-        if (!playerBoard.getWareHouse().getDepot1().getResources().isEmpty())
+        if(!playerBoard.getWareHouse().getDepot1().getResources().isEmpty())
             return playerBoard.getWareHouse().getDepot1().getResources().get(0);
         else return s;
     }
-
     public String getSlot2() {
         String s = "";
-        if (!playerBoard.getWareHouse().getDepot2().getResources().isEmpty())
-            return playerBoard.getWareHouse().getDepot2().getResources().get(0);
+        if(!playerBoard.getWareHouse().getDepot2().getResources().isEmpty())
+          return playerBoard.getWareHouse().getDepot2().getResources().get(0);
         else return s;
     }
 
@@ -673,58 +679,48 @@ public class VirtualModel {
         String s = "";
         if (!playerBoard.getWareHouse().getDepot2().getResources().isEmpty()) {
             if (playerBoard.getWareHouse().getDepot2().getResources().size() >= 2) {
-                s = playerBoard.getWareHouse().getDepot2().getResources().get(1);
+                 s =playerBoard.getWareHouse().getDepot2().getResources().get(1);
             }
-        }
-        return s;
+        }return s;
     }
 
 
     public String getSlot4() {
         String s = "";
-        if (!playerBoard.getWareHouse().getDepot3().getResources().isEmpty()) {
-            s = playerBoard.getWareHouse().getDepot3().getResources().get(0);
+        if (!playerBoard.getWareHouse().getDepot3().getResources().isEmpty()){
+                s = playerBoard.getWareHouse().getDepot3().getResources().get(0);
 
-        }
-        return s;
+        }return s;
     }
 
     public String getSlot5() {
         String s = "";
-        if (!playerBoard.getWareHouse().getDepot3().getResources().isEmpty()) {
+        if (!playerBoard.getWareHouse().getDepot3().getResources().isEmpty()){
             if (playerBoard.getWareHouse().getDepot3().getResources().size() >= 2)
                 s = playerBoard.getWareHouse().getDepot3().getResources().get(1);
-        }
-        return s;
+        } return s;
     }
-
     public String getSlot6() {
         String s = "";
-        if (!playerBoard.getWareHouse().getDepot3().getResources().isEmpty()) {
+        if(!playerBoard.getWareHouse().getDepot3().getResources().isEmpty()) {
             if (playerBoard.getWareHouse().getDepot3().getResources().size() == 3)
-                s = playerBoard.getWareHouse().getDepot3().getResources().get(2);
+               s= playerBoard.getWareHouse().getDepot3().getResources().get(2);
         }
-        return s;
+         return s;
     }
 
     public int get1ActiveLeaderCard() {
-        if (leaderCards.get(0).isActive())
+        if(leaderCards.get(0).isActive())
             return 1;
         return 0;
     }
 
 
     public int get2ActiveLeaderCard() {
-        if (leaderCards.get(1).isActive())
+        if(leaderCards.get(1).isActive())
             return 2;
         return 0;
     }
-
-
-    public int getDevPlayer(int i) {
-            return playerBoard.getDevSections()[i].getId();
-    }
-
 
 
 

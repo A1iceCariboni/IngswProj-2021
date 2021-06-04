@@ -88,6 +88,7 @@ public class InputChecker implements Serializable {
                 l = gson.fromJson(message.getPayload(), int.class);
                 return checkIdDepot(l);
             case SEE_PLAYERBOARD:
+                if(gameController.getNumberOfPlayers() == 1) return true;
                nickname = gson.fromJson(message.getPayload(), String.class);
                 return checkNickname(nickname);
             default:

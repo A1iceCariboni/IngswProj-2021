@@ -141,8 +141,7 @@ public class ClientController implements ViewObserver,Observer {
 
             case OK:
             case ERROR:
-              //  executionQueue.execute(() -> view.checkResponse(message.getCode().name()));
-                executionQueue.execute(() -> view.showGenericMessage(message.getPayload()));
+                executionQueue.execute(() -> view.checkResponse(message.getCode().name()));
                 break;
 
             case PLACE_RESOURCE_WAREHOUSE:
@@ -218,6 +217,11 @@ public class ClientController implements ViewObserver,Observer {
             case OTHER_LEADER:
                 dummyLeaderCards = gson.fromJson(message.getPayload(), DummyLeaderCard[].class);
                 executionQueue.execute(() -> view.otherLeaderCardIn(dummyLeaderCards));
+                break;
+
+            case BLACK_CROSS:
+                int blackCross = gson.fromJson(message.getPayload(), int.class);
+                executionQueue.execute( () -> view.showBlackCross(blackCross));
                 break;
 
             default:

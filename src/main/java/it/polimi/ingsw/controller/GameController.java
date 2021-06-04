@@ -266,6 +266,8 @@ public class GameController implements Serializable {
            for(int c = 0; c < Constants.cols; c++){
                if(!game.getDeckDevelopment()[r][c].isEmpty()) {
                    dummyDevs[r][c] = game.getDeckDevelopment()[r][c].getCard().getDummy();
+               }else{
+                   dummyDevs[r][c] = null;
                }
            }
        }
@@ -577,13 +579,20 @@ public class GameController implements Serializable {
                     break;
                 case SEE_PLAYERBOARD:
                     String nickname = gson.fromJson(message.getPayload(), String.class);
+                    if(numberOfPlayers == 1){
+                        sendBlackCross();
+                        virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
+
+                    }else{
                     try {
                         sendOtherPlayerBoard(nickname);
                         virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
 
                     } catch (InvalidNickname invalidNickname) {
                         virtualView.update(new ErrorMessage("not a player"));
-                        virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));                    }
+                        virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
+                    }
+                    }
                     break;
                 default:
                     virtualView.update(new ErrorMessage("Invalid message for this state"));
@@ -675,7 +684,10 @@ public class GameController implements Serializable {
         }
    }
 
-
+   public void sendBlackCross(){
+       VirtualView vv = getVirtualView(turnController.getActivePlayer());
+       vv.update(new Message(MessageType.BLACK_CROSS, gson.toJson(game.getFakePlayer().getBlackCross())));
+   }
     /**
      * place the payed card in the chosen slot
      * @param slot

@@ -627,7 +627,7 @@ public class Cli extends ViewObservable implements View {
 
     public void modifyFaithMarker(int pos) {
         virtualModel.getPlayerBoard().moveFaithMarker(pos);
-        virtualModel.showFaithTrack(virtualModel.getPlayerBoard());
+        virtualModel.showFaithTrack(virtualModel.getPlayerBoard().getFaithMarker());
     }
 
     @Override
@@ -682,6 +682,11 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
+    public void showBlackCross(int blackCross) {
+        virtualModel.showBlackCross(blackCross);
+    }
+
+    @Override
 
     /**
      * sets the dummy strong box in the virtual model
@@ -710,7 +715,7 @@ public class Cli extends ViewObservable implements View {
 
     public void chooseName(){
         try {
-            String name = readLine("Type the name of the player you want to see the playerboard");
+            String name = readLine("Type the name of the player you want to see the playerboard, if it's a solo game type LorenzoIlMagnifico to see the black cross");
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.SEE_PLAYERBOARD, name)));
 
         } catch (ExecutionException | InterruptedException e) {

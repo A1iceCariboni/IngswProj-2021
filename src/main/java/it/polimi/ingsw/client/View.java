@@ -70,6 +70,5 @@ public interface View {
      void showGenericMessage(String message);
 
 
-
-
+    void showBlackCross(int blackCross);
 }

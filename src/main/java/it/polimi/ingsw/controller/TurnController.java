@@ -136,7 +136,7 @@ public class TurnController implements Serializable {
         gameController.fakePlayerMove();
         gameController.getVirtualView(activePlayer).update(new Message(MessageType.NOTIFY_TURN, ""));
         gameController.sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's "+activePlayer+" turn, wait!"), gameController.getVirtualView(activePlayer));
-        if(nickNamesQueue.size() > 1) {
+        if(nickNamesQueue.size() >= 1) {
             gameController.getVirtualView(nickNamesQueue.get(nickNamesQueue.size() - 1)).update(new Message(MessageType.END_TURN, ""));
         }
         Persistence persistence = new Persistence();
