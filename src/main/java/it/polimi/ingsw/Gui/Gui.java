@@ -127,17 +127,6 @@ public class Gui extends ViewObservable implements View {
         turnPhase = TurnPhase.FREE;
         bc = new Board();
         Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers).setVirtualModel(virtualModel));
-        System.out.println("If it's your first round you can:");
-        System.out.println("1. Discard a leader card");
-        System.out.println("If it's not you can also:");
-        System.out.println("2. Activate the production");
-        System.out.println("3. Activate a leader card");
-        System.out.println("4. Buy a development card");
-        System.out.println("5. Take resources from the market");
-        System.out.println("6. Rearrange the warehouse");
-        System.out.println("7. Discard a resource");
-        System.out.println("8. End your turn");
-        System.out.println("9. To see someone else's playerboard");
     }
 
 

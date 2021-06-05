@@ -24,6 +24,10 @@ public class PlayerBoard implements Serializable {
     private final int extraProductionId = 0;
     private ArrayList<Resource> unplacedResources;
 
+
+
+    private DevelopmentCard unplacedDevelopment;
+
     public PlayerBoard() {}
 
     public PlayerBoard(WareHouse wareHouse, StrongBox strongBox) {
@@ -194,5 +198,13 @@ public class PlayerBoard implements Serializable {
 
     public DevelopmentCard[] getDevCardSlots() {
         return this.devCardSlots;
+    }
+
+    public DevelopmentCard getUnplacedDevelopment() {
+        return unplacedDevelopment;
+    }
+
+    public void setUnplacedDevelopment(DevelopmentCard unplacedDevelopment) {
+        this.unplacedDevelopment = unplacedDevelopment;
     }
 }

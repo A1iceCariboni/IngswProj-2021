@@ -22,7 +22,9 @@ import java.util.stream.Collectors;
 public class InputChecker implements Serializable {
     private static final long serialVersionUID = -9074030847073411987L;
     private final GameController gameController;
-    private final Game game;
+
+
+    private  Game game;
 
 
     public InputChecker(GameController gameController, Game game) {
@@ -134,7 +136,7 @@ public class InputChecker implements Serializable {
         List<Integer> depotIds = Arrays.asList(ids);
         ArrayList<Resource> cost;
         if (gameController.getTurnPhase() == TurnPhase.BUY_DEV) {
-            cost = gameController.getVirtualView(nickname).getFreeDevelopment().get(0).getCost();
+            cost = game.getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment().getCost();
         } else {
             cost = gameController.getVirtualView(nickname).getResourcesToPay();
         }
@@ -316,4 +318,9 @@ public class InputChecker implements Serializable {
         return price.isEmpty();
 
     }
+
+    public void setGame(final Game game) {
+        this.game = game;
+    }
+
 }

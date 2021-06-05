@@ -18,8 +18,10 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.effects.ProductionPower;
+import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.VirtualView;
+import it.polimi.ingsw.utility.Persistence;
 import it.polimi.ingsw.utility.WarehouseConstructor;
 
 import java.io.Serializable;
@@ -33,6 +35,8 @@ import java.util.*;
  * @author Alice Cariboni
  */
 public class GameController implements Serializable {
+
+
     protected Game game;
     private static final long serialVersionUID = -4658746997554128681L;
     transient Gson gson ;
@@ -94,28 +98,42 @@ public class GameController implements Serializable {
     public void addDisconnectedClient(String nickname){
         connectedClients.remove(nickname);
         disconnectedClients.add(nickname);
+        sendAll(new Message(MessageType.GENERIC_MESSAGE, "Player " + nickname + " disconnected"));
     }
 
     /**
      * sends the depots new depots to the current player, regular depot and extra depots
      */
-    public void sendDepots(){
-        connectedClients.get(turnController.getActivePlayer()).update(new Message(MessageType.DEPOTS,gson.toJson(game.getCurrentPlayer().getPlayerBoard().getWareHouse().getDummy())));
+    public void sendDepots(VirtualView vv, String nickname){
+        try {
+            vv.update(new Message(MessageType.DEPOTS,gson.toJson(game.getPlayerByNickname(nickname).getPlayerBoard().getWareHouse().getDummy())));
+        } catch (InvalidNickname invalidNickname) {
+            invalidNickname.printStackTrace();
+        }
     }
-
+    public void removeAllDisconnectedClients(){
+        disconnectedClients.removeAll(disconnectedClients);
+    }
 
     /**
      *sends the new strongbox to the current player
      */
-    public void sendStrongBox(){
+    public void sendStrongBox(VirtualView vv, String nickname){
 
-        DummyStrongbox dummyStrongbox = game.getCurrentPlayer().getPlayerBoard().getStrongBox().getDummy();
-        connectedClients.get(turnController.getActivePlayer()).update(new Message(MessageType.DUMMY_STRONGBOX, gson.toJson(dummyStrongbox)));
+        DummyStrongbox dummyStrongbox = null;
+        try {
+            dummyStrongbox = game.getPlayerByNickname(nickname).getPlayerBoard().getStrongBox().getDummy();
+        } catch (InvalidNickname invalidNickname) {
+            invalidNickname.printStackTrace();
+        }
+        vv.update(new Message(MessageType.DUMMY_STRONGBOX, gson.toJson(dummyStrongbox)));
     }
+
 
     public void removeConnectedClient(String nickname){
         connectedClients.remove(nickname);
     }
+
     public void addAllConnectedClients(Map<String, VirtualView> clients){
         connectedClients = Collections.synchronizedMap(new HashMap<>());
         connectedClients.putAll(clients);
@@ -134,13 +152,15 @@ public class GameController implements Serializable {
     /**
      * sends the new dummy devs to the player
      */
-    public void sendDummyDevs(){
-        Gson gson = new Gson();
-        String name = game.getCurrentPlayer().getNickName();
-        VirtualView virtualView = getConnectedClients().get(name);
+    public void sendDummyDevs(VirtualView virtualView, String nickname){
 
         DummyDev[] dummyDevs = new DummyDev[3];
-        DevelopmentCard[] developmentCards = game.getCurrentPlayer().getPlayerBoard().getDevCardSlots();
+        DevelopmentCard[] developmentCards = new DevelopmentCard[0];
+        try {
+            developmentCards = game.getPlayerByNickname(nickname).getPlayerBoard().getDevCardSlots();
+        } catch (InvalidNickname invalidNickname) {
+            invalidNickname.printStackTrace();
+        }
         for(int i = 0; i < Constants.DEV_SLOTS; i++){
             if(developmentCards[i] != null) {
                 dummyDevs[i] = developmentCards[i].getDummy();
@@ -154,12 +174,15 @@ public class GameController implements Serializable {
     /**
      * sends the updated dummy leadercards to the player
      */
-    public void sendDummyLead(){
-        String name = game.getCurrentPlayer().getNickName();
-        VirtualView virtualView = getConnectedClients().get(name);
+    public void sendDummyLead(VirtualView virtualView, String nickname) {
 
         ArrayList<DummyLeaderCard> dummyLeaderCards = new ArrayList<>();
-        ArrayList<LeaderCard> leaderCards = game.getCurrentPlayer().getLeadercards();
+        ArrayList<LeaderCard> leaderCards = null;
+        try {
+            leaderCards = game.getPlayerByNickname(nickname).getLeadercards();
+        } catch (InvalidNickname invalidNickname) {
+            invalidNickname.printStackTrace();
+        }
         for(LeaderCard lc: leaderCards){
             dummyLeaderCards.add(lc.getDummy());
         }
@@ -171,43 +194,24 @@ public class GameController implements Serializable {
      */
     public void sendRestoredGame(){
         gson = new Gson();
-        try{
-            sendUpdateMarketDev();
-            sendUpdateMarketTray();
-            sendUpdateFaithTrack();
-            sendAllUpdateFaith();
-            for(VirtualView virtualView : connectedClients.values()){
-                ArrayList<DummyLeaderCard> dummyLeaderCards = new ArrayList<>();
-                ArrayList<LeaderCard> leaderCards = null;
-                    leaderCards = game.getPlayerByNickname(virtualView.getNickname()).getLeadercards();
+            removeAllDisconnectedClients();
+            for(String name : connectedClients.keySet()){
+                sendDummyLead(connectedClients.get(name), name);
+                sendDummyDevs(connectedClients.get(name), name);
 
-                for(LeaderCard lc: leaderCards){
-                    dummyLeaderCards.add(lc.getDummy());
-                }
-                virtualView.update(new Message(MessageType.DUMMY_LEADER_CARD,gson.toJson(dummyLeaderCards)));
+                sendDepots(connectedClients.get(name), name);
 
-                DummyDev[] dummyDevs = new DummyDev[3];
-                DevelopmentCard[] developmentCards = game.getPlayerByNickname(virtualView.getNickname()).getPlayerBoard().getDevCardSlots();
-                for(int i = 0; i < Constants.DEV_SLOTS; i++){
-                    if(developmentCards[i] != null) {
-                        dummyDevs[i] = developmentCards[i].getDummy();
-                    }else{
-                        dummyDevs[i] = null;
-                    }
-                }
-                virtualView.update(new Message(MessageType.DUMMY_DEVS,gson.toJson(dummyDevs)));
+                sendStrongBox(connectedClients.get(name), name);
 
-                virtualView.update(new Message(MessageType.DEPOTS,gson.toJson(game.getPlayerByNickname(virtualView.getNickname()).getPlayerBoard().getWareHouse().getDummy())));
-
-
-                DummyStrongbox dummyStrongbox = game.getPlayerByNickname(virtualView.getNickname()).getPlayerBoard().getStrongBox().getDummy();
-                virtualView.update(new Message(MessageType.DUMMY_STRONGBOX, gson.toJson(dummyStrongbox)));
+                sendUpdateMarketDev(connectedClients.get(name), name);
+                sendUpdateMarketTray(connectedClients.get(name), name);
+                sendUpdateFaithTrack(connectedClients.get(name), name);
+                updateFaith(connectedClients.get(name) , name);
             }
+            sendAll(new Message(MessageType.GENERIC_MESSAGE, "Game restored"));
             getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.NOTIFY_TURN, ""));
             sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's " + turnController.getActivePlayer() + " turn, wait"), getVirtualView(turnController.getActivePlayer()));
-        } catch (InvalidNickname invalidNickname) {
-            invalidNickname.printStackTrace();
-        }
+
     }
 
     public void sendUpdateMove(PlayerMove playerMove){
@@ -238,29 +242,26 @@ public class GameController implements Serializable {
     /**
      * sends the updated market tray to all players
      */
-    public void sendUpdateMarketTray(){
-        Gson gson = new Gson();
+    public void sendUpdateMarketTray(VirtualView virtualView, String nickname){
         DummyMarket dummyMarket = game.getMarketTray().getDummy();
 
-            sendAll(new Message(MessageType.MARKET_TRAY, gson.toJson(dummyMarket)));
+            virtualView.update(new Message(MessageType.MARKET_TRAY, gson.toJson(dummyMarket)));
 
     }
 
     /**
      * sends the updated faith track to all players
      */
-    public void sendUpdateFaithTrack(){
-        Gson gson = new Gson();
+    public void sendUpdateFaithTrack(VirtualView virtualView, String nickname){
         FaithTrack dummyFaithTrack = game.getFaithTrack();
-        sendAll(new Message(MessageType.FAITH_TRACK, gson.toJson(dummyFaithTrack)));
+        virtualView.update(new Message(MessageType.FAITH_TRACK, gson.toJson(dummyFaithTrack)));
 
     }
 
     /**
      * sends the update development card market to all players
      */
-    public void sendUpdateMarketDev(){
-        Gson gson = new Gson();
+    public void sendUpdateMarketDev(VirtualView virtualView, String nickname){
        DummyDev[][] dummyDevs = new DummyDev[Constants.rows][Constants.cols];
        for(int r = 0; r < Constants.rows; r++){
            for(int c = 0; c < Constants.cols; c++){
@@ -271,7 +272,7 @@ public class GameController implements Serializable {
                }
            }
        }
-           sendAll(new Message(MessageType.DEVELOPMENT_MARKET, gson.toJson(dummyDevs)));
+        virtualView.update(new Message(MessageType.DEVELOPMENT_MARKET, gson.toJson(dummyDevs)));
 
    }
 
@@ -318,6 +319,31 @@ public class GameController implements Serializable {
         }
     }
 
+
+    public void reconnectClient(String nickname,VirtualView virtualView){
+        sendAll(new Message(MessageType.GENERIC_MESSAGE, "Player " + nickname + " reconnected"));
+        disconnectedClients.remove(nickname);
+        connectedClients.put(nickname, virtualView);
+        VirtualView vv = getVirtualView(nickname);
+        sendStrongBox(vv, nickname);
+        sendDepots(vv, nickname);
+        sendDummyDevs(vv, nickname);
+        sendDummyLead(vv, nickname);
+        sendUpdateMarketDev(vv, nickname);
+        sendUpdateMarketTray(vv, nickname);
+        sendUpdateFaithTrack(vv, nickname);
+        updateFaith(vv, nickname);
+        try {
+            vv.update(new Message(MessageType.FAITH_MOVE, gson.toJson(game.getPlayerByNickname(nickname).getPlayerBoard().getFaithMarker())));
+        } catch (InvalidNickname invalidNickname) {
+            invalidNickname.printStackTrace();
+        }
+
+
+        connectedClients.get(nickname).update(new Message(MessageType.END_TURN, ""));
+        connectedClients.get(nickname).update(new Message(MessageType.GENERIC_MESSAGE, "It's " + turnController.getActivePlayer() + "'s turn, wait"));
+    }
+
     public void sendResourcesToPlace(){
         ArrayList<String> names = new ArrayList<>();
         VirtualView virtualView = getVirtualView(game.getCurrentPlayer().getNickName());
@@ -330,19 +356,30 @@ public class GameController implements Serializable {
     /**
      * sends the updated faithmarker, if there is a vatican report it sends the new faith track to all players
      */
-    public void updateFaith(){
-         VirtualView virtualView = connectedClients.get(turnController.getActivePlayer());
-        virtualView.update(new Message(MessageType.FAITH_MOVE,gson.toJson(game.getCurrentPlayer().getPlayerBoard().getFaithMarker())));
-         if(game.checkPopeSpace()){
-             sendUpdateFaithTrack();
+    public void updateFaith(VirtualView view, String nickname){
+        try {
+            view.update(new Message(MessageType.FAITH_MOVE,gson.toJson(game.getPlayerByNickname(nickname).getPlayerBoard().getFaithMarker())));
+        } catch (InvalidNickname invalidNickname) {
+            invalidNickname.printStackTrace();
+        }
+        if(game.checkPopeSpace()){
+             for(String name : connectedClients.keySet()) {
+                 sendUpdateFaithTrack(connectedClients.get(name), name);
+             }
          }
     }
 
     public void sendAllUpdateFaith(){
         for(VirtualView virtualView : connectedClients.values()) {
-            virtualView.update(new Message(MessageType.FAITH_MOVE, gson.toJson(game.getCurrentPlayer().getPlayerBoard().getFaithMarker())));
+            try {
+                virtualView.update(new Message(MessageType.FAITH_MOVE, gson.toJson(game.getPlayerByNickname(virtualView.getNickname()).getPlayerBoard().getFaithMarker())));
+            } catch (InvalidNickname invalidNickname) {
+                invalidNickname.printStackTrace();
+            }
             if (game.checkPopeSpace()) {
-                sendUpdateFaithTrack();
+                for(String name : connectedClients.keySet()) {
+                    sendUpdateFaithTrack(connectedClients.get(name) , name);
+                }
             }
         }
     }
@@ -480,7 +517,7 @@ public class GameController implements Serializable {
         ArrayList<String> names = new ArrayList<>();
         DevelopmentCard developmentCard;
         if(turnPhase == TurnPhase.BUY_DEV){
-            for (Resource res : virtualView.getFreeDevelopment().get(0).getCost()) {
+            for (Resource res : game.getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment().getCost()) {
                 names.add(res.getResourceType().name());
             }
         }
@@ -500,7 +537,7 @@ public class GameController implements Serializable {
                     if(inputChecker.checkReceivedMessage(message, turnController.getActivePlayer())) {
                         int[] ids = gson.fromJson(message.getPayload(), int[].class);
                         pay(ids);
-                        sendDepots();
+                        sendDepots(connectedClients.get(turnController.getActivePlayer()), turnController.getActivePlayer());
                         virtualView.doneGameAction(1);
                     }else {
                         virtualView.update(new ErrorMessage("Invalid message for this state"));
@@ -553,7 +590,7 @@ public class GameController implements Serializable {
                         Depot[] depots = WarehouseConstructor.parse(message.getPayload());
                         changeDepotsState(depots);
                         virtualView.update(new Message(MessageType.OK, ""));
-                        sendDepots();
+                        sendDepots(connectedClients.get(turnController.getActivePlayer()) , turnController.getActivePlayer());
                         virtualView.update(new Message(MessageType.NOTIFY_TURN, ""));
 
                     break;
@@ -672,10 +709,10 @@ public class GameController implements Serializable {
         String name = game.getCurrentPlayer().getNickName();
         VirtualView virtualView = getConnectedClients().get(name);
         if(game.getDeckDevelopment()[rig][col].getCard().isBuyable(game.getCurrentPlayer())){
-            virtualView.addFreeDevelopment(game.getDeckDevelopment()[rig][col].popCard());
+            game.getCurrentPlayer().getPlayerBoard().setUnplacedDevelopment(game.getDeckDevelopment()[rig][col].popCard());
             virtualView.doneGameAction(1);
             turnPhase = TurnPhase.BUY_DEV;
-            sendUpdateMarketDev();
+            sendUpdateMarketDev(virtualView, name);
             sendResourcesToPay();
             sendUpdateMove(PlayerMove.BUY_DEV_CARD);
         }else{
@@ -697,9 +734,9 @@ public class GameController implements Serializable {
        VirtualView virtualView = getConnectedClients().get(name);
        boolean success;
        try{
-           game.getCurrentPlayer().getPlayerBoard().addDevCard(virtualView.getFreeDevelopment().get(0),slot);
-           sendUpdateMarketDev();
-           sendDummyDevs();
+           game.getCurrentPlayer().getPlayerBoard().addDevCard(game.getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment(),slot);
+           sendUpdateMarketDev(virtualView, name);
+           sendDummyDevs(connectedClients.get(turnController.getActivePlayer()) , turnController.getActivePlayer());
            success = true;
        } catch (CannotAdd cannotAdd) {
            virtualView.update(new ErrorMessage(cannotAdd.getMessage()));
@@ -710,7 +747,7 @@ public class GameController implements Serializable {
            turnPhase = TurnPhase.FREE;
            virtualView.update(new OkMessage("Card has been placed successfully"));
            virtualView.update(new Message(MessageType.NOTIFY_TURN, " "));
-           virtualView.removeFreeDevelopment(0);
+           game.getCurrentPlayer().getPlayerBoard().setUnplacedDevelopment(null);
        }
 
    }
@@ -761,7 +798,7 @@ public class GameController implements Serializable {
        VirtualView virtualView = getConnectedClients().get(name);
        ArrayList<Resource> cost ;
        if(turnPhase == TurnPhase.BUY_DEV) {
-           cost = virtualView.getFreeDevelopment().get(0).getCost();
+           cost = game.getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment().getCost();
        }else{
            cost = virtualView.getResourcesToPay();
        }
@@ -794,7 +831,6 @@ public class GameController implements Serializable {
      */
     public void putResource(int[] id) throws NotPossibleToAdd {
         String name = game.getCurrentPlayer().getNickName();
-        VirtualView virtualView = getConnectedClients().get(name);
         for (int j : id) {
                 if (j == -1) {
                     for (Player player : game.getPlayers()) {
@@ -805,14 +841,14 @@ public class GameController implements Serializable {
                     sendAllUpdateFaith();
                 } else {
                     Depot d = game.getCurrentPlayer().getDepotById(j);
-                    game.getCurrentPlayer().getPlayerBoard().getWareHouse().addToDepot(game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().get(0), d);
+                    game.getCurrentPlayer().getPlayerBoard().getWareHouse().addToDepot(this.game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().get(0), d);
                 }
-            game.getCurrentPlayer().getPlayerBoard().removeUnplacedResource(0);
+            this.game.getCurrentPlayer().getPlayerBoard().removeUnplacedResource(0);
         }
-        sendDepots();
-        sendStrongBox();
-        setTurnPhase(TurnPhase.FREE);
-        sendUpdateMove(PlayerMove.BUY_RESOURCES);
+        this.sendDepots(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
+        this.sendStrongBox(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
+        this.setTurnPhase(TurnPhase.FREE);
+        this.sendUpdateMove(PlayerMove.BUY_RESOURCES);
     }
 
     /**
@@ -820,23 +856,23 @@ public class GameController implements Serializable {
      * by the player it transform all the non white marbles in resources
      * @param row the number of the row the player wants
      */
-    public void getFromMarketRow(int row){
-        String name = game.getCurrentPlayer().getNickName();
-        VirtualView virtualView = getConnectedClients().get(name);
-        ArrayList<Marble> marbles = game.getMarketTray().getRow(row);
-        for(Marble marble : marbles){
+    public void getFromMarketRow(final int row){
+        final String name = this.game.getCurrentPlayer().getNickName();
+        final VirtualView virtualView = this.getConnectedClients().get(name);
+        final ArrayList<Marble> marbles = this.game.getMarketTray().getRow(row);
+        for(final Marble marble : marbles){
             if(marble.getMarbleColor() != MarbleColor.WHITE){
-                marble.getMarbleEffect().giveResourceTo(game.getCurrentPlayer().getPlayerBoard());
+                marble.getMarbleEffect().giveResourceTo(this.game.getCurrentPlayer().getPlayerBoard());
             }
         }
         virtualView.addAllFreeMarbles(marbles);
-        updateFaith();
-        sendUpdateMarketTray();
-        if((!game.getCurrentPlayer().getPossibleWhiteMarbles().isEmpty())&&(!virtualView.getFreeMarble().isEmpty())){
-            virtualView.update(new Message(MessageType.WHITE_MARBLES,gson.toJson(virtualView.getFreeMarble().size())));
+        this.updateFaith(virtualView, name);
+        this.sendUpdateMarketTray(virtualView, name);
+        if((!this.game.getCurrentPlayer().getPossibleWhiteMarbles().isEmpty())&&(!virtualView.getFreeMarble().isEmpty())){
+            virtualView.update(new Message(MessageType.WHITE_MARBLES, this.gson.toJson(virtualView.getFreeMarble().size())));
         }else{
             virtualView.removeAllFreeMarbles();
-            sendResourcesToPlace();
+            this.sendResourcesToPlace();
         }
     }
 
@@ -845,26 +881,26 @@ public class GameController implements Serializable {
      * by the player it transform all the non white marbles in resources
      * @param col the number of the column the player wants
      */
-    public void getFromMarketCol(int col){
-        String name = game.getCurrentPlayer().getNickName();
-        VirtualView virtualView = getConnectedClients().get(name);
-        ArrayList<Marble> marbles = game.getMarketTray().getCol(col);
+    public void getFromMarketCol(final int col){
+        final String name = this.game.getCurrentPlayer().getNickName();
+        final VirtualView virtualView = this.getConnectedClients().get(name);
+        final ArrayList<Marble> marbles = this.game.getMarketTray().getCol(col);
 
-        for(Marble marble : marbles){
+        for(final Marble marble : marbles){
             if(marble.getMarbleColor() != MarbleColor.WHITE){
-                marble.getMarbleEffect().giveResourceTo(game.getCurrentPlayer().getPlayerBoard());
+                marble.getMarbleEffect().giveResourceTo(this.game.getCurrentPlayer().getPlayerBoard());
             }
         }
         virtualView.addAllFreeMarbles(marbles);
-        sendUpdateMarketDev();
+        this.sendUpdateMarketDev(virtualView, name);
 
-        updateFaith();
-        sendUpdateMarketTray();
-        if((!game.getCurrentPlayer().getPossibleWhiteMarbles().isEmpty())&&(!virtualView.getFreeMarble().isEmpty())){
+        this.updateFaith(virtualView, name);
+        this.sendUpdateMarketTray(virtualView, name);
+        if((!this.game.getCurrentPlayer().getPossibleWhiteMarbles().isEmpty())&&(!virtualView.getFreeMarble().isEmpty())){
             virtualView.update(new Message(MessageType.WHITE_MARBLES,""));
         }else{
             virtualView.removeAllFreeMarbles();
-            sendResourcesToPlace();
+            this.sendResourcesToPlace();
         }
     }
 
@@ -872,36 +908,36 @@ public class GameController implements Serializable {
      * if the playes has some white marbles and has some white marble effect, the effect is applied
      * @param marb array of marble effect the player wants to apply
      */
-    public void chooseWhiteMarbleEffect(String[ ] marb){
-        String name = game.getCurrentPlayer().getNickName();
-        VirtualView virtualView = getConnectedClients().get(name);
+    public void chooseWhiteMarbleEffect(final String[ ] marb){
+        final String name = this.game.getCurrentPlayer().getNickName();
+        final VirtualView virtualView = this.getConnectedClients().get(name);
         for(int i = 0; i < marb.length; i++){
-            Resource resource = new Resource(ResourceType.valueOf(marb[i]));
+            final Resource resource = new Resource(ResourceType.valueOf(marb[i]));
             virtualView.getFreeMarble().get(i).setMarbleEffect(playerBoard -> {
                 playerBoard.addUnplacedResource(resource);
             });
-            virtualView.getFreeMarble().get(i).getMarbleEffect().giveResourceTo(game.getCurrentPlayer().getPlayerBoard());
+            virtualView.getFreeMarble().get(i).getMarbleEffect().giveResourceTo(this.game.getCurrentPlayer().getPlayerBoard());
         }
         virtualView.removeAllFreeMarbles();
-        sendResourcesToPlace();
+        this.sendResourcesToPlace();
     }
 
     public TurnPhase getTurnPhase() {
-        return turnPhase;
+        return this.turnPhase;
     }
 
-    public void setTurnPhase(TurnPhase turnPhase) {
+    public void setTurnPhase(final TurnPhase turnPhase) {
         this.turnPhase = turnPhase;
     }
 
     /**
      * rearrange depots as requested by the player
      */
-    public void changeDepotsState(Depot[] depots){
-        String name = game.getCurrentPlayer().getNickName();
-        VirtualView virtualView = getConnectedClients().get(name);
-        for(Depot d: depots){
-            Depot toChange = game.getCurrentPlayer().getDepotById(d.getId());
+    public void changeDepotsState(final Depot[] depots){
+        final String name = this.game.getCurrentPlayer().getNickName();
+        final VirtualView virtualView = this.getConnectedClients().get(name);
+        for(final Depot d: depots){
+            final Depot toChange = this.game.getCurrentPlayer().getDepotById(d.getId());
             toChange.setDepot(d.getDepot());
         }
     }
@@ -910,11 +946,11 @@ public class GameController implements Serializable {
      * add a production power to the production powers that has to be activated in the virtual view
      * @param ids ids of the development cards
      */
-    public void addProductionPower(int [] ids ){
-        String name = game.getCurrentPlayer().getNickName();
-        VirtualView virtualView = getConnectedClients().get(name);
-    for(int j : ids){
-        for(DevelopmentCard developmentCard: game.getCurrentPlayer().getPlayerBoard().getDevelopmentCards()){
+    public void addProductionPower(final int [] ids ){
+        final String name = this.game.getCurrentPlayer().getNickName();
+        final VirtualView virtualView = this.getConnectedClients().get(name);
+    for(final int j : ids){
+        for(final DevelopmentCard developmentCard: this.game.getCurrentPlayer().getPlayerBoard().getDevelopmentCards()){
             if(developmentCard.getId() == j){
                 virtualView.addAllResourcesToPay(developmentCard.getProductionPower().getEntryResources());
             }
@@ -927,10 +963,10 @@ public class GameController implements Serializable {
      * add an extraproduction power to the production powers that has to be activated in the virtual view
      * @param id id of the production power
      */
-    public void addExtraProductionPower(int id, Resource resource){
-        String name = game.getCurrentPlayer().getNickName();
-        VirtualView virtualView = getConnectedClients().get(name);
-            for(ExtraProduction extraProduction : game.getCurrentPlayer().getExtraProductionPowers()){
+    public void addExtraProductionPower(final int id, final Resource resource){
+        final String name = this.game.getCurrentPlayer().getNickName();
+        final VirtualView virtualView = this.getConnectedClients().get(name);
+            for(final ExtraProduction extraProduction : this.game.getCurrentPlayer().getExtraProductionPowers()){
                 if(extraProduction.getId() == id){
                     virtualView.addAllResourcesToPay(extraProduction.getEntryResources());
                 }
@@ -945,11 +981,11 @@ public class GameController implements Serializable {
      * @param res2 second resource to pay
      * @param res3 resource to produce
      */
-    public void addBasicProduction(Resource res1, Resource res2, Resource res3){
-        String name = game.getCurrentPlayer().getNickName();
-        VirtualView virtualView = getConnectedClients().get(name);
+    public void addBasicProduction(final Resource res1, final Resource res2, final Resource res3){
+        final String name = this.game.getCurrentPlayer().getNickName();
+        final VirtualView virtualView = this.getConnectedClients().get(name);
         if(virtualView.getBasicProd() == null) {
-            ArrayList<Resource> toPay = new ArrayList<>();
+            final ArrayList<Resource> toPay = new ArrayList<>();
             toPay.add(res1);
             toPay.add(res2);
             virtualView.addAllResourcesToPay(toPay);
@@ -964,40 +1000,40 @@ public class GameController implements Serializable {
      * and the faithPoint are added to the fait marker
      */
     public void startProduction()  {
-        String name = game.getCurrentPlayer().getNickName();
-        VirtualView virtualView = getConnectedClients().get(name);
-        for(int j : virtualView.getCardsToActivate()){
-            for(DevelopmentCard dc: game.getCurrentPlayer().getPlayerBoard().getDevelopmentCards()){
+        final String name = this.game.getCurrentPlayer().getNickName();
+        final VirtualView virtualView = this.getConnectedClients().get(name);
+        for(final int j : virtualView.getCardsToActivate()){
+            for(final DevelopmentCard dc: this.game.getCurrentPlayer().getPlayerBoard().getDevelopmentCards()){
                 if(dc.getId() == j){
-                    dc.startProduction(game.getCurrentPlayer().getPlayerBoard(), game.getCurrentPlayer());
+                    dc.startProduction(this.game.getCurrentPlayer().getPlayerBoard(), this.game.getCurrentPlayer());
                 }
             }
         }
         virtualView.removeCardsToActivate();
-        game.getCurrentPlayer().getPlayerBoard().getStrongBox().addResources(virtualView.getBasicProd());
+        this.game.getCurrentPlayer().getPlayerBoard().getStrongBox().addResources(virtualView.getBasicProd());
 
-        for(int j : virtualView.getExtraProductionToActivate()){
-            for(ExtraProduction ep: game.getCurrentPlayer().getExtraProductionPowers()){
+        for(final int j : virtualView.getExtraProductionToActivate()){
+            for(final ExtraProduction ep: this.game.getCurrentPlayer().getExtraProductionPowers()){
                 if(ep.getId() == j){
-                    ep.startProduction(game.getCurrentPlayer().getPlayerBoard(), game.getCurrentPlayer(), virtualView.getResourcesToProduce().get(0));
+                    ep.startProduction(this.game.getCurrentPlayer().getPlayerBoard(), this.game.getCurrentPlayer(), virtualView.getResourcesToProduce().get(0));
                     virtualView.removeResourceToProduce(0);
                 }
             }
         }
         virtualView.removeAllExtraProduction();
-        sendDepots();
-        sendStrongBox();
-        updateFaith();
+        this.sendDepots(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
+        this.sendStrongBox(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
+        this.updateFaith(virtualView, name);
     }
 
     /**
      * activate the required leader card
      * @param id id of the leader card
      */
-    public  void activateLeaderCard(int id)  {
-        game.getCurrentPlayer().getLeaderCardById(id).active(game.getCurrentPlayer(), game.getCurrentPlayer().getPlayerBoard());
-        sendDummyLead();
-        sendDepots();
+    public  void activateLeaderCard(final int id)  {
+        this.game.getCurrentPlayer().getLeaderCardById(id).active(this.game.getCurrentPlayer(), this.game.getCurrentPlayer().getPlayerBoard());
+        this.sendDummyLead(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
+        this.sendDepots(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
     }
 
     /**
@@ -1012,49 +1048,49 @@ public class GameController implements Serializable {
      * @param id array of ids of the leadercard to discard form the hand of the player
      * @throws NullCardException if the player has not the card but this really shouldn't happen
      */
-    public  void discardLeaderCard(int id)  {
-        String name = game.getCurrentPlayer().getNickName();
-        VirtualView virtualView = getConnectedClients().get(name);
-            LeaderCard toDiscard = game.getCurrentPlayer().getLeaderCardById(id);
+    public  void discardLeaderCard(final int id)  {
+        final String name = this.game.getCurrentPlayer().getNickName();
+        final VirtualView virtualView = this.getConnectedClients().get(name);
+            final LeaderCard toDiscard = this.game.getCurrentPlayer().getLeaderCardById(id);
         try {
-            game.getCurrentPlayer().discardLeader(toDiscard);
-        } catch (NullCardException e) {
+            this.game.getCurrentPlayer().discardLeader(toDiscard);
+        } catch (final NullCardException e) {
             virtualView.update(new ErrorMessage(""));
         }
-        sendDummyLead();
+        this.sendDummyLead(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
 
-        if (game.getCurrentPlayer().getLeadercards().size() < 2) {
-                game.getCurrentPlayer().getPlayerBoard().moveFaithMarker(1);
-                updateFaith();
+        if (this.game.getCurrentPlayer().getLeadercards().size() < 2) {
+            this.game.getCurrentPlayer().getPlayerBoard().moveFaithMarker(1);
+            this.updateFaith(virtualView, name);
             }
 
         virtualView.update(new OkMessage("Card successfully discarded!"));
-        if(gamePhase == GamePhase.FIRST_ROUND){
+        if(this.gamePhase == GamePhase.FIRST_ROUND){
 
-            switch(players.indexOf(turnController.getActivePlayer())){
+            switch(this.players.indexOf(this.turnController.getActivePlayer())){
                 case 0:
                     virtualView.update(new Message(MessageType.NOTIFY_TURN,""));
                     break;
                 case 1:
-                    if(game.getCurrentPlayer().getLeadercards().size() == 2) {
+                    if(this.game.getCurrentPlayer().getLeadercards().size() == 2) {
                         virtualView.update(new Message(MessageType.CHOOSE_RESOURCES, "1"));
                     }else{
                         virtualView.update(new Message(MessageType.NOTIFY_TURN,""));
                     }
                     break;
                 case 2:
-                    if(game.getCurrentPlayer().getLeadercards().size() == 2) {
-                        game.getCurrentPlayer().getPlayerBoard().moveFaithMarker(1);
-                        updateFaith();
+                    if(this.game.getCurrentPlayer().getLeadercards().size() == 2) {
+                        this.game.getCurrentPlayer().getPlayerBoard().moveFaithMarker(1);
+                        this.updateFaith(virtualView, name);
                         virtualView.update(new Message(MessageType.CHOOSE_RESOURCES, "1"));
                     }else{
                         virtualView.update(new Message(MessageType.NOTIFY_TURN,""));
                     }
                     break;
                 case 3:
-                    if(game.getCurrentPlayer().getLeadercards().size() == 2) {
-                        game.getCurrentPlayer().getPlayerBoard().moveFaithMarker(1);
-                        updateFaith();
+                    if(this.game.getCurrentPlayer().getLeadercards().size() == 2) {
+                        this.game.getCurrentPlayer().getPlayerBoard().moveFaithMarker(1);
+                        this.updateFaith(virtualView, name);
                         virtualView.update(new Message(MessageType.CHOOSE_RESOURCES, "2"));
                     }else{
                         virtualView.update(new Message(MessageType.NOTIFY_TURN,""));
@@ -1062,7 +1098,7 @@ public class GameController implements Serializable {
                     break;
             }
         }else {
-            updateFaith();
+            this.updateFaith(virtualView, name);
         }
     }
 
@@ -1071,23 +1107,21 @@ public class GameController implements Serializable {
      *
      * @param id id of the depot
      */
-    public void removeResource(int id) {
-        Gson gson = new Gson();
-        if(game.getCurrentPlayer().getDepotById(id).isEmpty()){
-            getVirtualView(turnController.getActivePlayer()).update(new ErrorMessage("This depot is empty"));
+    public void removeResource(final int id) {
+        final Gson gson = new Gson();
+        if(this.game.getCurrentPlayer().getDepotById(id).isEmpty()){
+            this.getVirtualView(this.turnController.getActivePlayer()).update(new ErrorMessage("This depot is empty"));
         }else{
-            game.getCurrentPlayer().getDepotById(id).removeResource();
-            for(Player p: game.getPlayers()){
-                if(!p.equals(game.getCurrentPlayer())) {
+            this.game.getCurrentPlayer().getDepotById(id).removeResource();
+            for(final Player p: this.game.getPlayers()){
+                if(!p.equals(this.game.getCurrentPlayer())) {
                     p.getPlayerBoard().moveFaithMarker(1);
                 }
             }
-            sendAllUpdateFaith();
-            if(game.checkPopeSpace()){
-                sendUpdateFaithTrack();
-            }
-            sendDepots();
-            getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.NOTIFY_TURN,""));
+            this.sendAllUpdateFaith();
+
+            this.sendDepots(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
+            this.getVirtualView(this.turnController.getActivePlayer()).update(new Message(MessageType.NOTIFY_TURN,""));
 
         }
     }
@@ -1099,53 +1133,60 @@ public class GameController implements Serializable {
      */
     public void startGame()  {
         Server.LOGGER.info("instantiating game");
-        this.inputChecker = new InputChecker(this, game);
+        inputChecker = new InputChecker(this, this.game);
 
-        for(String name : players) {
-            game.addPlayer(new Player(false, name, 0, new PlayerBoard(new WareHouse(), new StrongBox())));
+        for(final String name : this.players) {
+            this.game.addPlayer(new Player(false, name, 0, new PlayerBoard(new WareHouse(), new StrongBox())));
         }
 
-        game.startGame();
+        this.game.startGame();
+        for(final String name : this.connectedClients.keySet()) {
 
-        sendUpdateMarketDev();
-        sendUpdateFaithTrack();
-        sendUpdateMarketTray();
-        ArrayList<String> nickNames = new ArrayList<>();
-        ArrayList<Player> players = game.getPlayers();
+            this.sendUpdateMarketDev(this.connectedClients.get(name), name);
+            this.sendUpdateFaithTrack(this.connectedClients.get(name), name);
+            this.sendUpdateMarketTray(this.connectedClients.get(name), name);
+        }
+        final ArrayList<String> nickNames = new ArrayList<>();
+        final ArrayList<Player> players = this.game.getPlayers();
 
-        for (Player player : players) {
+        for (final Player player : players) {
             Server.LOGGER.info("giving cards to player " + player.getNickName());
-            VirtualView vv = getVirtualView(player.getNickName());
+            final VirtualView vv = this.getVirtualView(player.getNickName());
             nickNames.add(player.getNickName());
-            ArrayList<DummyLeaderCard> dummyLeaderCards = new ArrayList<>();
-            for (LeaderCard leaderCard : player.getLeadercards()) {
+            final ArrayList<DummyLeaderCard> dummyLeaderCards = new ArrayList<>();
+            for (final LeaderCard leaderCard : player.getLeadercards()) {
                 dummyLeaderCards.add(leaderCard.getDummy());
             }
-            Message message = new Message(MessageType.DUMMY_LEADER_CARD,gson.toJson(dummyLeaderCards));
+            final Message message = new Message(MessageType.DUMMY_LEADER_CARD, this.gson.toJson(dummyLeaderCards));
             vv.update(message);
         }
-        turnController = new TurnController(this, nickNames, game.getCurrentPlayer().getNickName(), this.game);
-        setGamePhase(GamePhase.FIRST_ROUND);
+        this.turnController = new TurnController(this, nickNames, this.game.getCurrentPlayer().getNickName(), game);
+        this.setGamePhase(GamePhase.FIRST_ROUND);
 
-        getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.GENERIC_MESSAGE,"You are the first player, discard 2 leader cards from your hand"));
-        getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.NOTIFY_TURN,""));
-        sendAllExcept(new Message(MessageType.END_TURN,""),getVirtualView(game.getCurrentPlayer().getNickName()));
+        this.getVirtualView(this.turnController.getActivePlayer()).update(new Message(MessageType.GENERIC_MESSAGE,"You are the first player, discard 2 leader cards from your hand"));
+        this.getVirtualView(this.turnController.getActivePlayer()).update(new Message(MessageType.NOTIFY_TURN,""));
+        this.sendAllExcept(new Message(MessageType.END_TURN,""), this.getVirtualView(this.game.getCurrentPlayer().getNickName()));
 
-        sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's " + turnController.getActivePlayer() + "'s turn, wait for your turn!"), getVirtualView(turnController.getActivePlayer()));
+        this.sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's " + this.turnController.getActivePlayer() + "'s turn, wait for your turn!"), this.getVirtualView(this.turnController.getActivePlayer()));
 
     }
 
     public boolean isStartedAction() {
-        return startedAction;
+        return this.startedAction;
     }
 
-    public void setStartedAction(boolean startedAction) {
+    public void setStartedAction(final boolean startedAction) {
         this.startedAction = startedAction;
     }
 
 
     public void fakePlayerMove(){
 
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+        this.inputChecker.setGame(game);
     }
 }
 

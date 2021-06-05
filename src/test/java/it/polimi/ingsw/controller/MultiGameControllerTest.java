@@ -111,19 +111,19 @@ class MultiGameControllerTest {
       for(Resource resource: res) {
           gameController.getGame().getCurrentPlayer().getPlayerBoard().getStrongBox().addResources(resource);
       }
-      assertEquals(gameController.getConnectedClients().get(gameController.getGame().getCurrentPlayer().getNickName()).getFreeDevelopment().size(),0);
+      assertEquals(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment(),null);
 
       gameController.buyDevelopment(0, 0);
-      assertEquals(gameController.getConnectedClients().get(gameController.getGame().getCurrentPlayer().getNickName()).getFreeDevelopment().size(),1);
+      assertNotEquals(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment(),null);
       int[] id = new int[res.size()];
       for(int j = 0; j< res.size(); j++){
           id[j] = -1;
       }
       gameController.pay(id);
-      assertEquals(gameController.getConnectedClients().get(gameController.getGame().getCurrentPlayer().getNickName()).getFreeDevelopment().size(),1);
+      assertEquals(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment(),null);
       assertTrue(gameController.getGame().getCurrentPlayer().getPlayerBoard().getStrongBox().getRes().isEmpty());
       gameController.placeCard(0);
-      assertEquals(gameController.getConnectedClients().get(gameController.getGame().getCurrentPlayer().getNickName()).getFreeDevelopment().size(),0);
+      assertEquals(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment(),null);
   }
 
   @Test

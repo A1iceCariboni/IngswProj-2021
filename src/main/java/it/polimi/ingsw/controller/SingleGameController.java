@@ -51,7 +51,7 @@ public class SingleGameController extends GameController{
         switch(tokenDeck.getPickedTokens().get(tokenDeck.getPickedTokens().size() - 1).getTokenType()){
             case MOVE_2 :
             case MOVE_AND_SHUFFLE:
-                if(game.checkPopeSpace()) updateFaith();
+                if(game.checkPopeSpace()) updateFaith(getVirtualView(turnController.getActivePlayer()), turnController.getActivePlayer() );
                 sendAll(new Message(MessageType.GENERIC_MESSAGE, "Your opponent picked the " +
                         tokenDeck.getPickedTokens().get(tokenDeck.getPickedTokens().size() - 1).getTokenType() +
                         " token"));
@@ -60,7 +60,7 @@ public class SingleGameController extends GameController{
             case DRAW_GREEN:
             case DRAW_PURPLE:
             case DRAW_YELLOW:
-                sendUpdateMarketDev();
+                sendUpdateMarketDev(getVirtualView(turnController.getActivePlayer()), turnController.getActivePlayer());
                 sendAll(new Message(MessageType.GENERIC_MESSAGE, "Your opponent picked the " +
                         tokenDeck.getPickedTokens().get(tokenDeck.getPickedTokens().size() - 1).getTokenType() +
                         " token"));

@@ -48,7 +48,14 @@ public class Server {
             LOGGER.info("Client " + nickname + " registered" + clientHandler);
         } else {
             if (virtualClients.get(nickname) != null) {
-                virtualView.nickNameResult(false, false, false);
+                if(gameController.isStarted()){
+                    onReconnect(nickname,virtualView);
+                    clients.put(clientHandler, nickname);
+                    virtualClients.remove(nickname);
+                    virtualClients.put(nickname, virtualView);
+                }else {
+                    virtualView.nickNameResult(false, false, false);
+                }
                 ok = false;
             } else {
                 virtualView.nickNameResult(true, false, false);
@@ -144,17 +151,31 @@ public class Server {
         return gameController;
     }
 
-    public synchronized void onDisconnect(ClientHandler clientHandler){
+    /**
+     * handles a disconnection of a client saving his turn
+     * @param clientHandler clientHandler that has disconnected
+     */
+    public  void onDisconnect(ClientHandler clientHandler){
         if(!gameController.isStarted()){
             waiting.remove(clientHandler);
         }else{
             String name = clients.get(clientHandler);
+            clients.remove(clientHandler);
             gameController.addDisconnectedClient(name);
             if(gameController.getTurnController().getActivePlayer().equals(name)){
                 gameController.getTurnController().nextTurn();
             }
 
         }
+    }
+
+    /**
+     * handles the recconection of a client during the game
+     * @param nickname of the client who has reconnected
+     * @param virtualView of the client who has reconnected
+     */
+    public void onReconnect(String nickname, VirtualView virtualView){
+        gameController.reconnectClient(nickname, virtualView);
     }
 }
 

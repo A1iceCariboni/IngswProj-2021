@@ -25,7 +25,7 @@ public class TurnController implements Serializable {
 
     private  GameController gameController;
     private int gameActionPerTurn;
-    private final Game game;
+    private Game game;
 
 
 //TODO methods deleteTurn and randomFirstTurn
@@ -55,15 +55,23 @@ public class TurnController implements Serializable {
         switch(gameController.getGamePhase()){
             case IN_GAME:
                 if(gameController.getDisconnectedClients().contains(activePlayer)){
+                    Persistence persistence = new Persistence();
+                    GameController savedGameController = persistence.restore();
+                    gameController.setGame(savedGameController.getGame());
+                    for(String name : gameController.getConnectedClients().keySet()) {
+                        gameController.sendUpdateMarketDev(gameController.getVirtualView(name),name );
+                        gameController.sendUpdateFaithTrack(gameController.getVirtualView(name),name);
+                        gameController.sendUpdateMarketTray(gameController.getVirtualView(name),name);
+                    }
+                    game = savedGameController.getGame();
                     nextPlayer();
                 }else {
                     if (!((vv.isGameActionDone()) &&
                             (vv.getCardsToActivate().isEmpty()) &&
                             (vv.getExtraProductionToActivate().isEmpty()) &&
                             (vv.getFreeMarble().isEmpty()) &&
-                            (vv.getFreeResources().isEmpty()) &&
                             (vv.getResourcesToPay().isEmpty()) &&
-                            (vv.getFreeDevelopment().isEmpty()) &&
+                            (game.getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment() == null) &&
                             (vv.getResourcesToProduce().isEmpty()) &&
                             (gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedResources().isEmpty()))) {
 
@@ -126,7 +134,9 @@ public class TurnController implements Serializable {
             nickNamesQueue.add(activePlayer);
             activePlayer = nickNamesQueue.get(0);
             nickNamesQueue.remove(0);
-            gameController.getVirtualView(activePlayer).doneGameAction(0);
+            if(!gameController.getDisconnectedClients().contains(activePlayer)) {
+                gameController.getVirtualView(activePlayer).doneGameAction(0);
+            }
             if (gameController.getPlayers().get(0).equals(activePlayer)) {
                 changeGamePhase();
             }
@@ -136,7 +146,7 @@ public class TurnController implements Serializable {
         gameController.fakePlayerMove();
         gameController.getVirtualView(activePlayer).update(new Message(MessageType.NOTIFY_TURN, ""));
         gameController.sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's "+activePlayer+" turn, wait!"), gameController.getVirtualView(activePlayer));
-        if(nickNamesQueue.size() >= 1) {
+        if((nickNamesQueue.size() >= 1) && (! gameController.getDisconnectedClients().contains(nickNamesQueue.get(nickNamesQueue.size() - 1 )))){
             gameController.getVirtualView(nickNamesQueue.get(nickNamesQueue.size() - 1)).update(new Message(MessageType.END_TURN, ""));
         }
         Persistence persistence = new Persistence();

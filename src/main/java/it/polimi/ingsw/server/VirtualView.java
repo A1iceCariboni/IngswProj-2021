@@ -27,9 +27,7 @@ public class VirtualView implements Observer {
 
     private ClientHandler clientHandler;
     private String nickname;
-    private ArrayList<Resource> freeResources;
     private ArrayList<Marble> freeMarble;
-    private ArrayList<DevelopmentCard> freeDevelopment;
     private ArrayList<Resource> resourcesToPay;
     private ArrayList<Integer> cardsToActivate;
     private ArrayList<Integer> extraProductionToActivate;
@@ -43,13 +41,11 @@ public class VirtualView implements Observer {
     public VirtualView(ClientHandler clientHandler, String nickname) {
         this.clientHandler = clientHandler;
         this.nickname = nickname;
-        freeResources = new ArrayList<>();
-        freeDevelopment = new ArrayList<>();
         freeMarble = new ArrayList<>();
-        this.resourcesToPay = new ArrayList<>();
-        this.cardsToActivate = new ArrayList<>();
-        this.extraProductionToActivate = new ArrayList<>();
-        this.resourcesToProduce = new ArrayList<>();
+        resourcesToPay = new ArrayList<>();
+        cardsToActivate = new ArrayList<>();
+        extraProductionToActivate = new ArrayList<>();
+        resourcesToProduce = new ArrayList<>();
         gameActionPerTurn = 0;
     }
 
@@ -66,9 +62,6 @@ public class VirtualView implements Observer {
     }
 
 
-    public void addFreeResource(Resource resource) {
-        this.freeResources.add(resource);
-    }
 
     @Override
     public void update(Message message) {
@@ -79,21 +72,12 @@ public class VirtualView implements Observer {
         return nickname;
     }
 
-    public void removeFreeResources(int pos) {
-        freeResources.remove(pos);
-    }
 
-    public ArrayList<Resource> getFreeResources() {
-        return freeResources;
-    }
 
     public ArrayList<Marble> getFreeMarble() {
         return freeMarble;
     }
 
-    public ArrayList<DevelopmentCard> getFreeDevelopment() {
-        return freeDevelopment;
-    }
 
 
     public void sendInvalidActionMessage() {
@@ -104,9 +88,7 @@ public class VirtualView implements Observer {
         this.freeMarble = freeMarble;
     }
 
-    public void addFreeDevelopment(DevelopmentCard freeDevelopment) {
-        this.freeDevelopment.add(freeDevelopment);
-    }
+
 
     public void addAllFreeMarbles(ArrayList<Marble> marbles) {
         this.freeMarble.addAll(marbles);
@@ -116,9 +98,7 @@ public class VirtualView implements Observer {
         this.freeMarble.removeAll(this.freeMarble);
     }
 
-    public void removeFreeDevelopment(int pos) {
-        this.freeDevelopment.remove(pos);
-    }
+
 
 
     public void addCardToActivate(int id){
