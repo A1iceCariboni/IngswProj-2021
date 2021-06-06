@@ -31,23 +31,13 @@ public class RearrangeWarehouse extends ViewObservable {
     public ImageView r2;
     public ImageView r3;
     public ImageView r4, r5, r6;
-    DummyDepot dep1;
-    DummyDepot dep2;
-    DummyDepot dep3;
+
     ArrayList<String> res;
-    int i=0;
+    int i;
 
     public RearrangeWarehouse() {
-        this.res = new ArrayList<>();
-
-        try {
-            this.dummyWareHouse = DummyWarehouseConstructor.parseVoid();
-            dummyWareHouse.setDepot1(dep1);
-            dummyWareHouse.setDepot2(dep2);
-            dummyWareHouse.setDepot3(dep3);
-        } catch (JsonFileNotFoundException e) {
-            e.printStackTrace();
-        }
+        res = new ArrayList<>();
+        i = 0;
     }
 
 
@@ -67,8 +57,10 @@ public class RearrangeWarehouse extends ViewObservable {
 
     @FXML
     public void put1(ActionEvent actionEvent) {
-        dummyWareHouse.setDepot1(dep1);
-        dep1.addResource(res.get(i));
+        ArrayList<String> resources = new ArrayList<>();
+        resources.addAll(dummyWareHouse.getDepot1().getResources());
+        resources.add(res.get(i));
+        dummyWareHouse.getDepot1().setResources(resources);
         i++;
         Image il = new Image(getClass().getResourceAsStream("/PunchBoard/" + res.get(i) + ".png"));
         res1.setImage(il);
@@ -79,8 +71,10 @@ public class RearrangeWarehouse extends ViewObservable {
 
     @FXML
     public void put2(ActionEvent actionEvent) {
-        dummyWareHouse.setDepot1(dep2);
-        dep2.addResource(res.get(i));
+        ArrayList<String> resources = new ArrayList<>();
+        resources.addAll(dummyWareHouse.getDepot2().getResources());
+        resources.add(res.get(i));
+        dummyWareHouse.getDepot1().setResources(resources);
         i++;
         if(i == res.size()) {
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
@@ -90,8 +84,10 @@ public class RearrangeWarehouse extends ViewObservable {
 
     @FXML
     public void put3(ActionEvent actionEvent) {
-        dummyWareHouse.setDepot1(dep3);
-        dep3.addResource(res.get(i));
+        ArrayList<String> resources = new ArrayList<>();
+        resources.addAll(dummyWareHouse.getDepot3().getResources());
+        resources.add(res.get(i));
+        dummyWareHouse.getDepot1().setResources(resources);
         i++;
         if(i == res.size()) {
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
@@ -140,13 +136,19 @@ public class RearrangeWarehouse extends ViewObservable {
             res.add(virtualModel.getSlot6());
         }
 
-
-
-
-
-
-
-
+        try {
+            dummyWareHouse = DummyWarehouseConstructor.parseVoid();
+            DummyExtraDepot dummyExtraDepot1 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1();
+            if(dummyExtraDepot1.getId() != -1){
+                dummyWareHouse.setExtraDepot1(new DummyExtraDepot(dummyExtraDepot1.getId(),dummyExtraDepot1.getDimension(), new ArrayList<>(), dummyExtraDepot1.getResourceType()));
+            }
+            DummyExtraDepot dummyExtraDepot2 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1();
+            if(dummyExtraDepot2.getId() != -1){
+                dummyWareHouse.setExtraDepot2(new DummyExtraDepot(dummyExtraDepot2.getId(),dummyExtraDepot2.getDimension(), new ArrayList<>(), dummyExtraDepot2.getResourceType()));
+            }
+        } catch (JsonFileNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
