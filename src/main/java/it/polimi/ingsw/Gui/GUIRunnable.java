@@ -104,6 +104,7 @@ public class GUIRunnable extends Application {
             scene.setRoot(root);
             bc = loader.getController();
             bc.addAllObservers(observers);
+            bc.disable();
         } catch (IOException e) {
             SocketClient.LOGGER.severe(e.getMessage());
         }
@@ -211,12 +212,30 @@ public class GUIRunnable extends Application {
             scene.setRoot(root);
             f = loader.getController();
             f.addAllObservers(observers);
-
+            f.discScene();
         } catch (IOException e) {
             SocketClient.LOGGER.severe(e.getMessage());
         }
         return f;
     }
+
+
+    public static DiscardResource payRes(DiscardResource f, ArrayList<ViewObserver> observers) {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/DiscardResource_Scene.fxml"));
+            Parent root = loader.load();
+            scene.setRoot(root);
+            f = loader.getController();
+            f.addAllObservers(observers);
+            f.payScene();
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+        }
+        return f;
+    }
+
+
 
 
     public static Wait waitingscene(Wait m, ArrayList<ViewObserver> observers) {
@@ -230,6 +249,23 @@ public class GUIRunnable extends Application {
             SocketClient.LOGGER.severe(e.getMessage());
         }
         return m;
+    }
+
+
+    public static Board slotChoice(Board bc, ArrayList<ViewObserver> observers) {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Board_Scene.fxml"));
+            Parent root = loader.load();
+            scene.setRoot(root);
+            bc = loader.getController();
+            bc.addAllObservers(observers);
+            bc.setButtons();
+
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+        }
+        return bc;
     }
 
 

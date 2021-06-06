@@ -151,7 +151,7 @@ public class DevelopmentMarket extends ViewObservable {
 
 
     public void back(ActionEvent actionEvent) {
-        Board bc = new Board();
-        Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers).setVirtualModel(virtualModel));
+     //   Board bc = new Board();
+ //       Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers).setVirtualModel(virtualModel, turnPhase));
     }
 }

@@ -126,7 +126,7 @@ public class Gui extends ViewObservable implements View {
     public void chooseAction() {
         turnPhase = TurnPhase.FREE;
         bc = new Board();
-        Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers).setVirtualModel(virtualModel));
+        Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers).setVirtualModel(virtualModel, turnPhase));
     }
 
 
@@ -148,6 +148,7 @@ public class Gui extends ViewObservable implements View {
 
     }
 
+
     @Override
     public void addResourceToWareHouse(String[] resource) {
         AddtoWarehouse c = new AddtoWarehouse();
@@ -164,19 +165,11 @@ public class Gui extends ViewObservable implements View {
 
 
     @Override
-    public void buyDevelopmentCard() {
-
-    }
-
-    @Override
     public void activateProduction(String[] toPay) {
 
     }
 
-    @Override
-    public void checkResponse(String message) {
 
-    }
 
     @Override
     public void modifyFaithMarker(int pos) {
@@ -185,11 +178,16 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void payResources(String[] resources) {
+        System.out.println("paga");
+        DiscardResource f = new DiscardResource();
+        Platform.runLater(() -> GUIRunnable.payRes(f, observers).setRes(virtualModel));
 
     }
 
     @Override
     public void slotChoice() {
+        bc = new Board();
+        Platform.runLater(() -> GUIRunnable.slotChoice(bc, observers).setVirtualModel(virtualModel, turnPhase));
 
     }
 

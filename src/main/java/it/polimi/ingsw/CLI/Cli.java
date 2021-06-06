@@ -435,7 +435,7 @@ public class Cli extends ViewObservable implements View {
 
     }
 
-    @Override
+
 
     /**
      * method for buy a development card
@@ -610,7 +610,7 @@ public class Cli extends ViewObservable implements View {
        return res.toUpperCase();
     }
 
-    @Override
+
 
     public void checkResponse(String name) {
         switch(name){

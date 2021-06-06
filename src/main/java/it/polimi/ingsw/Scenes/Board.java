@@ -1,10 +1,12 @@
 package it.polimi.ingsw.Scenes;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.DummyModel.DummyDev;
 import it.polimi.ingsw.client.DummyModel.DummyLeaderCard;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.enumerations.Constants;
+import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.observers.ViewObservable;
@@ -23,6 +25,8 @@ public class Board extends ViewObservable {
     private VirtualModel virtualModel;
     public Button LeaderActiveButton;
     public ArrayList<ImageView> faithMarker;
+    Gson gson = new Gson();
+    TurnPhase turnPhase;
 
 
     @FXML
@@ -99,7 +103,7 @@ public class Board extends ViewObservable {
     public ImageView devb1, devb2, devb3;
 
     @FXML
-    Button DiscardButton;
+    Button DiscardButton, sl1, sl2, sl3;
 
     @FXML
     Button DevButton;
@@ -166,6 +170,41 @@ public class Board extends ViewObservable {
         faithMarker.add(p24);
     }
 
+    public void setButtons(){
+        sl1.setVisible(true);
+        sl2.setVisible(true);
+        sl3.setVisible(true);
+
+    }
+
+
+    public void disable(){
+        sl1.setVisible(false);
+        sl2.setVisible(false);
+        sl3.setVisible(false);
+
+    }
+
+    @FXML
+    public void devslot1() {
+        Message messageSlot = new Message(MessageType.SLOT_CHOICE, gson.toJson(0));
+        notifyObserver(obs -> obs.onReadyReply(messageSlot));
+    }
+
+
+    @FXML
+    public void devslot2() {
+        Message messageSlot = new Message(MessageType.SLOT_CHOICE, gson.toJson(1));
+        notifyObserver(obs -> obs.onReadyReply(messageSlot));
+    }
+
+
+    @FXML
+    public void devslot3() {
+        Message messageSlot = new Message(MessageType.SLOT_CHOICE, gson.toJson(3));
+        notifyObserver(obs -> obs.onReadyReply(messageSlot));
+    }
+
 
     @FXML
     public void updateFaithTrack() {
@@ -176,6 +215,7 @@ public class Board extends ViewObservable {
         faithMarker.get(p).setVisible(true);
     }
 
+    
     @FXML
     public void DiscardLeaderCards() {
         DiscarLeaderCards f = new DiscarLeaderCards();
@@ -185,6 +225,7 @@ public class Board extends ViewObservable {
 
     @FXML
     public void buyDev() {
+        turnPhase = TurnPhase.BUY_DEV;
         DevelopmentMarket deck = new DevelopmentMarket();
         Platform.runLater(() -> GUIRunnable.buyDevCard(deck, observers).setDevCards(virtualModel));
     }
@@ -226,9 +267,9 @@ public class Board extends ViewObservable {
 
 
 
-    public void setVirtualModel(VirtualModel virtualModel) {
+    public void setVirtualModel(VirtualModel virtualModel, TurnPhase turnPhase) {
         this.virtualModel = virtualModel;
-
+        this.turnPhase = turnPhase;
 
 
         //to set the warehouse

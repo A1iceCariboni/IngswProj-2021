@@ -47,11 +47,10 @@ public interface View {
 
      void askWhiteMarble(int num);
 
-     void buyDevelopmentCard();
 
      void activateProduction(String[] toPay);
 
-     void checkResponse(String message);
+  //   void checkResponse(String message);
 
      void modifyFaithMarker(int pos);
 

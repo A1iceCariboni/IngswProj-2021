@@ -9,10 +9,12 @@ import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class DiscardResource extends ViewObservable {
+    public Button d1, d2,d3, c1, c2, c3;
     Gson gson = new Gson();
     VirtualModel virtualModel;
 
@@ -35,6 +37,48 @@ public class DiscardResource extends ViewObservable {
         Board bc = new Board();
         Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers));
     }
+
+
+    public void ch1(){
+        Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(1));
+        notifyObserver(obs -> obs.onReadyReply(message));
+
+    }
+
+
+    public void ch2(){
+        Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(2));
+        notifyObserver(obs -> obs.onReadyReply(message));
+
+    }
+
+
+
+    public void ch3(){
+        Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(3));
+        notifyObserver(obs -> obs.onReadyReply(message));
+
+    }
+
+
+    public void discScene(){
+        c1.setOpacity(0);
+        c2.setOpacity(0);
+        c3.setOpacity(0);
+    }
+
+
+    public void payScene(){
+        d1.setOpacity(0);
+        d2.setOpacity(0);
+        d3.setOpacity(0);
+    }
+
+
+
+
+
+
 
     public void setRes(VirtualModel virtualModel){
         this.virtualModel = virtualModel;
