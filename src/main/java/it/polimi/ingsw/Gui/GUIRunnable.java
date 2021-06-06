@@ -266,6 +266,20 @@ public class GUIRunnable extends Application {
     }
 
 
+    public static RearrangeWarehouse moveFromDepot(RearrangeWarehouse r, ArrayList<ViewObserver> observers) {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Rearrange_Warehouse_Scene.fxml"));
+            Parent root = loader.load();
+            scene.setRoot(root);
+            r = loader.getController();
+            r.addAllObservers(observers);
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+        }
+        return r;
+    }
+
 
 
 }

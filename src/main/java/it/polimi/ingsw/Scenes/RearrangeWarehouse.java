@@ -31,6 +31,7 @@ public class RearrangeWarehouse extends ViewObservable {
     public ImageView r3;
     public ImageView r4, r5, r6;
     ArrayList<String> res = new ArrayList<>();
+    int i=0;
 
 
 
@@ -50,22 +51,32 @@ public class RearrangeWarehouse extends ViewObservable {
 
     @FXML
     public void put1(ActionEvent actionEvent) {
-
-        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
+        dummyWareHouse.getDepot1().addResource(res.get(i));
+        i++;
+        Image il = new Image(getClass().getResourceAsStream("/PunchBoard/" + res.get(i) + ".png"));
+        res1.setImage(il);
+        if(i == res.size()) {
+            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
+        }
     }
 
     @FXML
     public void put2(ActionEvent actionEvent) {
-
-        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
+        dummyWareHouse.getDepot2().addResource(res.get(i));
+        i++;
+        if(i == res.size()) {
+            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
+        }
 
     }
 
     @FXML
     public void put3(ActionEvent actionEvent) {
-
-        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
-
+        dummyWareHouse.getDepot3().addResource(res.get(i));
+        i++;
+        if(i == res.size()) {
+            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
+        }
     }
 
 
@@ -102,7 +113,9 @@ public class RearrangeWarehouse extends ViewObservable {
             r6.setImage(im6);
             r6.setOpacity(1);
         }
-
+        res.addAll(virtualModel.getPlayerBoard().getWareHouse().getDepot1().getResources());
+        res.addAll(virtualModel.getPlayerBoard().getWareHouse().getDepot2().getResources());
+        res.addAll(virtualModel.getPlayerBoard().getWareHouse().getDepot3().getResources());
 
 
 

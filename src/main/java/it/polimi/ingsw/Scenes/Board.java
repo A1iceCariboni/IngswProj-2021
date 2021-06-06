@@ -234,6 +234,13 @@ public class Board extends ViewObservable {
 
 
     @FXML
+    public void rearrangeWarehouse(){
+        RearrangeWarehouse r = new RearrangeWarehouse();
+        Platform.runLater(() -> GUIRunnable.moveFromDepot(r, observers).setWarehouse(virtualModel));
+    }
+
+
+    @FXML
     public void buyfromMarket(ActionEvent actionEvent) {
         Market market = new Market();
         Platform.runLater(() -> GUIRunnable.buyMarket(market, observers).setMarket(virtualModel));
@@ -315,17 +322,17 @@ public class Board extends ViewObservable {
         }
 
             if (virtualModel.getPlayerBoard().getDevSections()[0] != null) {
-                Image im1 = new Image(getClass().getResourceAsStream("/CardsFront/devCard" + virtualModel.getPlayerBoard().getDevSections()[0] + ".png"));
+                Image im1 = new Image(getClass().getResourceAsStream("/CardsFront/devCard" + virtualModel.getPlayerBoard().getDevSections()[0].getId() + ".png"));
                 devb1.setImage(im1);
                 devb1.setOpacity(1);
             }
             if (virtualModel.getPlayerBoard().getDevSections()[1] != null) {
-                Image im2 = new Image((getClass().getResourceAsStream("/CardsFront/devCard" + virtualModel.getPlayerBoard().getDevSections()[1] + ".png")));
+                Image im2 = new Image((getClass().getResourceAsStream("/CardsFront/devCard" + virtualModel.getPlayerBoard().getDevSections()[1].getId() + ".png")));
                 devb2.setImage(im2);
                 devb2.setOpacity(1);
             }
             if (virtualModel.getPlayerBoard().getDevSections()[2] != null) {
-                Image im3 = new Image((getClass().getResourceAsStream("/CardsFront/devCard" + virtualModel.getPlayerBoard().getDevSections()[2] + ".png")));
+                Image im3 = new Image((getClass().getResourceAsStream("/CardsFront/devCard" + virtualModel.getPlayerBoard().getDevSections()[2].getId() + ".png")));
                devb3.setImage(im3);
                 devb3.setOpacity(1);
             }

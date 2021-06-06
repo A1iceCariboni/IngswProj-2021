@@ -73,7 +73,7 @@ public class Market extends ViewObservable {
             b13.setImage(img13);
             Image img20 = new Image(getClass().getResourceAsStream("/PunchBoard/" + marbles[2][0] + ".png"));
             b20.setImage(img20);
-            Image img21 = new Image(getClass().getResourceAsStream("/PunchBoard/" + marbles[1][0] + ".png"));
+            Image img21 = new Image(getClass().getResourceAsStream("/PunchBoard/" + marbles[2][1] + ".png"));
             b21.setImage(img21);
             Image img22 = new Image(getClass().getResourceAsStream("/PunchBoard/" + marbles[2][2] + ".png"));
             b22.setImage(img22);
