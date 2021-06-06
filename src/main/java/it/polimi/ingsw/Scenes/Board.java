@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.DummyModel.DummyLeaderCard;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.enumerations.TurnPhase;
+import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.observers.ViewObservable;
@@ -236,7 +237,13 @@ public class Board extends ViewObservable {
     @FXML
     public void rearrangeWarehouse(){
         RearrangeWarehouse r = new RearrangeWarehouse();
-        Platform.runLater(() -> GUIRunnable.moveFromDepot(r, observers).setWarehouse(virtualModel));
+        Platform.runLater(() -> {
+            try {
+                GUIRunnable.moveFromDepot(r, observers).setWarehouse(virtualModel);
+            } catch (JsonFileNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 
