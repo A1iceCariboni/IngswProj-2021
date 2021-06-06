@@ -124,6 +124,9 @@ public class AddtoWarehouse extends ViewObservable {
         this.virtualModel = virtualModel;
         this.resource = resource;
         answer = new int[resource.length];
+        c1.setOpacity(0);
+        c2.setOpacity(0);
+        c3.setOpacity(0);
         Image i1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + resource[0] + ".png"));
         r1.setOpacity(1);
         r1.setImage(i1);
@@ -174,6 +177,49 @@ public class AddtoWarehouse extends ViewObservable {
             res6.setImage(im6);
             res6.setOpacity(1);
         }
+    }
+
+
+    public void setPay(String[] resource, VirtualModel virtualModel) {
+        wLabel.setText("Choose the resources you want to use to pay");
+        this.virtualModel = virtualModel;
+        this.resource = resource;
+        answer = new int[resource.length];
+        d1.setOpacity(0);
+        d2.setOpacity(0);
+        d3.setOpacity(0);
+        disc.setOpacity(0);
+        //sets warehouse
+        if(virtualModel.getSlot1()!= "") {
+            Image im1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot1() + ".png"));
+            res1.setImage(im1);
+            res1.setOpacity(1);
+        }
+        if(virtualModel.getSlot2()!= "") {
+            Image im2 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot2() + ".png"));
+            res2.setImage(im2);
+            res2.setOpacity(1);
+        }
+        if(virtualModel.getSlot3()!= "") {
+            Image im3 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot3() + ".png"));
+            res3.setImage(im3);
+            res3.setOpacity(1);
+        }
+        if(virtualModel.getSlot4()!= "") {
+            Image im4 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot4() + ".png"));
+            res4.setImage(im4);
+            res4.setOpacity(1);
+        }
+        if(virtualModel.getSlot5()!= "") {
+            Image im5 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot5() + ".png"));
+            res5.setImage(im5);
+            res5.setOpacity(1);
+        }
+        if(virtualModel.getSlot6()!= "") {
+            Image im6 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot6() + ".png"));
+            res6.setImage(im6);
+            res6.setOpacity(1);
+        }
 
 
     }
@@ -187,17 +233,42 @@ public class AddtoWarehouse extends ViewObservable {
         d1.setOpacity(0);
         d2.setOpacity(0);
         d3.setOpacity(0);
+        c1.setOpacity(0);
+        c2.setOpacity(0);
+        c3.setOpacity(0);
         disc.setOpacity(0);
 
     }
 
 
     @FXML
-    public void ch1(ActionEvent actionEvent) {}
-    @FXML
-    public void ch2(ActionEvent actionEvent) {}
-    @FXML
-    public void ch3(ActionEvent actionEvent) {}
+    public void pay1(ActionEvent actionEvent) {
+        answer[count] = 1;
+        count++;
+        if(count == resource.length) {
+            Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(answer));
+            notifyObserver(obs -> obs.onReadyReply(message));
+        }
+    }
 
+    @FXML
+    public void pay2(ActionEvent actionEvent) {
+        answer[count] = 2;
+        count++;
+        if(count == resource.length) {
+            Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(answer));
+            notifyObserver(obs -> obs.onReadyReply(message));
+        }
+    }
+
+    @FXML
+    public void pay3(ActionEvent actionEvent) {
+        answer[count] = 3;
+        count++;
+        if(count == resource.length) {
+         Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(answer));
+         notifyObserver(obs -> obs.onReadyReply(message));
+        }
+    }
 
 }

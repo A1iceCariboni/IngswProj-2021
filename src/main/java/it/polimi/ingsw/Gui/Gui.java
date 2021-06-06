@@ -179,8 +179,8 @@ public class Gui extends ViewObservable implements View {
     @Override
     public void payResources(String[] resources) {
         System.out.println("paga");
-        DiscardResource f = new DiscardResource();
-        Platform.runLater(() -> GUIRunnable.payRes(f, observers).setRes(virtualModel));
+        AddtoWarehouse c = new AddtoWarehouse();
+        Platform.runLater(() -> GUIRunnable.payWithRes(c, observers, resources, virtualModel));
 
     }
 

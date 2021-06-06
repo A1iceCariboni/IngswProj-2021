@@ -106,7 +106,7 @@ public class ClientController implements ViewObserver,Observer {
             case GENERIC_MESSAGE:
             case WINNER:
             case LOSER:
-                executionQueue.execute(() -> view.showGenericMessage(message.getPayload()));
+                 executionQueue.execute(() -> view.showGenericMessage(message.getPayload()));
                 break;
 
             case INVALID_NICKNAME:
@@ -129,7 +129,7 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case MARKET_TRAY:
-                DummyMarket dummyMarket = gson.fromJson(message.getPayload(), DummyMarket.class);
+                 DummyMarket dummyMarket = gson.fromJson(message.getPayload(), DummyMarket.class);
                 executionQueue.execute(() -> view.marketTrayNew(dummyMarket));
                 break;
 
@@ -145,7 +145,7 @@ public class ClientController implements ViewObserver,Observer {
 
             case OK:
             case ERROR:
-                executionQueue.execute(() -> view.showGenericMessage(message.getPayload()));
+             //   executionQueue.execute(() -> view.showGenericMessage(message.getPayload()));
                 break;
 
             case PLACE_RESOURCE_WAREHOUSE:

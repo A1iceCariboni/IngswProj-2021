@@ -203,6 +203,21 @@ public class GUIRunnable extends Application {
         return c;
     }
 
+    public static AddtoWarehouse payWithRes(AddtoWarehouse c, ArrayList<ViewObserver> observers, String[] resource, VirtualModel virtualModel) {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/ChooseResouce_Scene.fxml"));
+            Parent root = loader.load();
+            scene.setRoot(root);
+            c = loader.getController();
+            c.addAllObservers(observers);
+            c.setPay(resource, virtualModel);
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+        }
+        return c;
+    }
+
 
     public static DiscardResource discRes(DiscardResource f, ArrayList<ViewObserver> observers) {
         try {
@@ -212,29 +227,11 @@ public class GUIRunnable extends Application {
             scene.setRoot(root);
             f = loader.getController();
             f.addAllObservers(observers);
-            f.discScene();
         } catch (IOException e) {
             SocketClient.LOGGER.severe(e.getMessage());
         }
         return f;
     }
-
-
-    public static DiscardResource payRes(DiscardResource f, ArrayList<ViewObserver> observers) {
-        try {
-
-            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/DiscardResource_Scene.fxml"));
-            Parent root = loader.load();
-            scene.setRoot(root);
-            f = loader.getController();
-            f.addAllObservers(observers);
-            f.payScene();
-        } catch (IOException e) {
-            SocketClient.LOGGER.severe(e.getMessage());
-        }
-        return f;
-    }
-
 
 
 

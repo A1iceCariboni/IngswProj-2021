@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
-<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.DiscardResource">
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.RearrangeWarehouse">
    <children>
       <AnchorPane prefHeight="715.0" prefWidth="1264.0" styleClass="boardPane">
          <children>
@@ -16,12 +16,35 @@
                   <Image url="@../Board/MastersofRenaissance_PlayerBoard_back.png" />
                </image>
             </ImageView>
+            <Button fx:id="exitBtn" layoutX="1067.0" layoutY="633.0" mnemonicParsing="false" onAction="#exit" prefHeight="37.0" prefWidth="118.0" text="Exit">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="10.0" />
+               </font>
+               <effect>
+                  <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                     <bumpInput>
+                        <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                           <color>
+                              <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                           </color>
+                        </Shadow>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
             <ImageView fitHeight="346.0" fitWidth="300.0" layoutX="507.0" layoutY="324.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/warehouse.jpg" />
                </image>
             </ImageView>
-            <Button fx:id="d2" layoutX="799.0" layoutY="464.0" mnemonicParsing="false" onAction="#disc2" prefHeight="52.0" prefWidth="85.0" text="2">
+            <Button fx:id="d2" layoutX="790.0" layoutY="466.0" mnemonicParsing="false" onAction="#put2" prefHeight="47.0" prefWidth="175.0" text="Depot 2">
                <font>
                   <Font name="Lucida Calligraphy Italic" size="10.0" />
                </font>
@@ -44,7 +67,7 @@
                   </Lighting>
                </effect>
             </Button>
-            <Button fx:id="d1" layoutX="798.0" layoutY="375.0" mnemonicParsing="false" onAction="#disc1" prefHeight="55.0" prefWidth="84.0" text="1">
+            <Button fx:id="d1" layoutX="790.0" layoutY="393.0" mnemonicParsing="false" onAction="#put1" prefHeight="47.0" prefWidth="175.0" text="Depot 1">
                <font>
                   <Font name="Lucida Calligraphy Italic" size="10.0" />
                </font>
@@ -67,7 +90,7 @@
                   </Lighting>
                </effect>
             </Button>
-            <Button fx:id="d3" layoutX="796.0" layoutY="544.0" mnemonicParsing="false" onAction="#disc3" prefHeight="53.0" prefWidth="92.0" text="3">
+            <Button fx:id="d3" layoutX="790.0" layoutY="552.0" mnemonicParsing="false" onAction="#put3" prefHeight="47.0" prefWidth="175.0" text="Depot 3">
                <font>
                   <Font name="Lucida Calligraphy Italic" size="10.0" />
                </font>
@@ -90,62 +113,44 @@
                   </Lighting>
                </effect>
             </Button>
-            <Label fx:id="wLabel" layoutX="56.0" layoutY="156.0" prefHeight="168.0" prefWidth="1146.0" text="Pick the Depot from which you want to discard  the resource:" textFill="#590e0e">
+            <Label fx:id="wLabel" layoutX="254.0" layoutY="95.0" prefHeight="168.0" prefWidth="917.0" text="Rearrange the following resources :" textFill="#590e0e">
                <font>
                   <Font name="Lucida Calligraphy Italic" size="34.0" />
                </font>
             </Label>
-            <Button fx:id="Back" layoutX="1086.0" layoutY="90.0" mnemonicParsing="false" onAction="#back" prefHeight="39.0" prefWidth="139.0" text="Back">
-               <font>
-                  <Font name="Lucida Calligraphy Italic" size="12.0" />
-               </font>
-               <effect>
-                  <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
-                     <bumpInput>
-                        <Shadow height="40.96" radius="18.447499999999998" width="34.83">
-                           <color>
-                              <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
-                           </color>
-                        </Shadow>
-                     </bumpInput>
-                     <light>
-                        <Light.Distant>
-                           <color>
-                              <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
-                           </color>
-                        </Light.Distant>
-                     </light>
-                  </Lighting>
-               </effect>
-            </Button>
-            <ImageView fx:id="res4" fitHeight="55.0" fitWidth="63.0" layoutX="555.0" layoutY="546.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="r1" fitHeight="74.0" fitWidth="79.0" layoutX="317.0" layoutY="229.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/coin.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="res2" fitHeight="55.0" fitWidth="63.0" layoutX="585.0" layoutY="464.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="r2" fitHeight="67.0" fitWidth="63.0" layoutX="415.0" layoutY="229.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/shield.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="res3" fitHeight="55.0" fitWidth="63.0" layoutX="649.0" layoutY="465.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="r3" fitHeight="74.0" fitWidth="79.0" layoutX="492.0" layoutY="226.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/stone.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="res5" fitHeight="55.0" fitWidth="63.0" layoutX="612.0" layoutY="546.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="r4" fitHeight="67.0" fitWidth="63.0" layoutX="613.0" layoutY="229.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/shield.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="res6" fitHeight="55.0" fitWidth="63.0" layoutX="667.0" layoutY="546.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="r5" fitHeight="67.0" fitWidth="63.0" layoutX="707.0" layoutY="229.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/shield.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="res1" fitHeight="55.0" fitWidth="63.0" layoutX="617.0" layoutY="385.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="r6" fitHeight="67.0" fitWidth="63.0" layoutX="807.0" layoutY="230.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/shield.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="res1" fitHeight="55.0" fitWidth="53.0" layoutX="627.0" layoutY="389.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/shield.png" />
                </image>
             </ImageView>
          </children>

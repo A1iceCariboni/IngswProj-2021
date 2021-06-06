@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class Board extends ViewObservable {
@@ -26,6 +27,7 @@ public class Board extends ViewObservable {
     public Button LeaderActiveButton;
     public ArrayList<ImageView> faithMarker;
     Gson gson = new Gson();
+    int id;
 
 
     @FXML
@@ -110,6 +112,7 @@ public class Board extends ViewObservable {
     public Board() {
         this.virtualModel = new VirtualModel();
         this.faithMarker = new ArrayList<>();
+        id=0;
     }
 
 
@@ -200,7 +203,7 @@ public class Board extends ViewObservable {
 
     @FXML
     public void devslot3() {
-        Message messageSlot = new Message(MessageType.SLOT_CHOICE, gson.toJson(3));
+        Message messageSlot = new Message(MessageType.SLOT_CHOICE, gson.toJson(2));
         notifyObserver(obs -> obs.onReadyReply(messageSlot));
     }
 
@@ -271,32 +274,32 @@ public class Board extends ViewObservable {
 
 
         //to set the warehouse
-        if(virtualModel.getSlot1()!= "") {
+        if (virtualModel.getSlot1() != "") {
             Image i1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot1() + ".png"));
             res1.setImage(i1);
             res1.setOpacity(1);
         }
-        if(virtualModel.getSlot2()!= "") {
+        if (virtualModel.getSlot2() != "") {
             Image i2 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot2() + ".png"));
             res2.setImage(i2);
             res2.setOpacity(1);
         }
-        if(virtualModel.getSlot3()!= "") {
+        if (virtualModel.getSlot3() != "") {
             Image i3 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot3() + ".png"));
             res3.setImage(i3);
             res3.setOpacity(1);
         }
-        if(virtualModel.getSlot4()!= "") {
+        if (virtualModel.getSlot4() != "") {
             Image i4 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot4() + ".png"));
             res4.setImage(i4);
             res4.setOpacity(1);
         }
-        if(virtualModel.getSlot5()!= "") {
+        if (virtualModel.getSlot5() != "") {
             Image i5 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot5() + ".png"));
             res5.setImage(i5);
             res5.setOpacity(1);
         }
-        if(virtualModel.getSlot6()!= "") {
+        if (virtualModel.getSlot6() != "") {
             Image i6 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot6() + ".png"));
             res6.setImage(i6);
             res6.setOpacity(1);
@@ -311,8 +314,22 @@ public class Board extends ViewObservable {
             led2.setImage(aL2);
         }
 
-
-    }
+            if (virtualModel.getPlayerBoard().getDevSections()[0] != null) {
+                Image im1 = new Image(getClass().getResourceAsStream("/CardsFront/devCard" + virtualModel.getPlayerBoard().getDevSections()[0] + ".png"));
+                devb1.setImage(im1);
+                devb1.setOpacity(1);
+            }
+            if (virtualModel.getPlayerBoard().getDevSections()[1] != null) {
+                Image im2 = new Image((getClass().getResourceAsStream("/CardsFront/devCard" + virtualModel.getPlayerBoard().getDevSections()[1] + ".png")));
+                devb2.setImage(im2);
+                devb2.setOpacity(1);
+            }
+            if (virtualModel.getPlayerBoard().getDevSections()[2] != null) {
+                Image im3 = new Image((getClass().getResourceAsStream("/CardsFront/devCard" + virtualModel.getPlayerBoard().getDevSections()[2] + ".png")));
+               devb3.setImage(im3);
+                devb3.setOpacity(1);
+            }
+        }
 
 
 

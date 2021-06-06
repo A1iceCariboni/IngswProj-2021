@@ -169,6 +169,8 @@ public class VirtualModel {
 
 
 
+
+
     public void showPlayerDevCards(DummyPlayerBoard playerBoard){
         String cards = "";
          for (DummyDev dummyDev : playerBoard.getDevSections()) {
@@ -718,9 +720,11 @@ public void showBlackCross(int blackCross){
 
     public int get2ActiveLeaderCard() {
         if(leaderCards.get(1).isActive())
-            return 2;
+            return leaderCards.get(1).getId();
         return 0;
     }
+
+
 
 
 
