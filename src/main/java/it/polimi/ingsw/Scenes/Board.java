@@ -26,7 +26,6 @@ public class Board extends ViewObservable {
     public Button LeaderActiveButton;
     public ArrayList<ImageView> faithMarker;
     Gson gson = new Gson();
-    TurnPhase turnPhase;
 
 
     @FXML
@@ -225,7 +224,7 @@ public class Board extends ViewObservable {
 
     @FXML
     public void buyDev() {
-        turnPhase = TurnPhase.BUY_DEV;
+        notifyObserver(obs -> obs.setTurnPhase(TurnPhase.BUY_DEV));
         DevelopmentMarket deck = new DevelopmentMarket();
         Platform.runLater(() -> GUIRunnable.buyDevCard(deck, observers).setDevCards(virtualModel));
     }
@@ -267,9 +266,8 @@ public class Board extends ViewObservable {
 
 
 
-    public void setVirtualModel(VirtualModel virtualModel, TurnPhase turnPhase) {
+    public void setVirtualModel(VirtualModel virtualModel) {
         this.virtualModel = virtualModel;
-        this.turnPhase = turnPhase;
 
 
         //to set the warehouse

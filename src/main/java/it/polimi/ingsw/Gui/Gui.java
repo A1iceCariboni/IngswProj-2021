@@ -126,7 +126,7 @@ public class Gui extends ViewObservable implements View {
     public void chooseAction() {
         turnPhase = TurnPhase.FREE;
         bc = new Board();
-        Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers).setVirtualModel(virtualModel, turnPhase));
+        Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers).setVirtualModel(virtualModel));
     }
 
 
@@ -187,7 +187,7 @@ public class Gui extends ViewObservable implements View {
     @Override
     public void slotChoice() {
         bc = new Board();
-        Platform.runLater(() -> GUIRunnable.slotChoice(bc, observers).setVirtualModel(virtualModel, turnPhase));
+        Platform.runLater(() -> GUIRunnable.slotChoice(bc, observers).setVirtualModel(virtualModel));
 
     }
 

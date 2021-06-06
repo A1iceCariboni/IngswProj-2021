@@ -120,7 +120,7 @@ class MultiGameControllerTest {
           id[j] = -1;
       }
       gameController.pay(id);
-      assertEquals(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment(),null);
+      assertNotEquals(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment(),null);
       assertTrue(gameController.getGame().getCurrentPlayer().getPlayerBoard().getStrongBox().getRes().isEmpty());
       gameController.placeCard(0);
       assertEquals(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment(),null);

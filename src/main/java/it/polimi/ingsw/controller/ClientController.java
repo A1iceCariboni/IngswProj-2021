@@ -84,6 +84,10 @@ public class ClientController implements ViewObserver,Observer {
         client.sendMessage(message);
     }
 
+    @Override
+    public void setTurnPhase(TurnPhase turnPhase) {
+        view.setTurnPhase(turnPhase);
+    }
 
 
     /**
