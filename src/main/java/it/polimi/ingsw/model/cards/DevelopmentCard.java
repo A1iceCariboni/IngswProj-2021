@@ -74,7 +74,7 @@ public class DevelopmentCard extends Card{
 
 
 
-        p.addVictoryPoints((int) faithPoints);
+        b.moveFaithMarker((int) faithPoints);
         for (Resource productResourceElem : productResources) {
             b.getStrongBox().addResources(productResourceElem);
         }

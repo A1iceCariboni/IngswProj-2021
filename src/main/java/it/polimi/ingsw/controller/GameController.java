@@ -1010,7 +1010,9 @@ public class GameController implements Serializable {
             }
         }
         virtualView.removeCardsToActivate();
-        this.game.getCurrentPlayer().getPlayerBoard().getStrongBox().addResources(virtualView.getBasicProd());
+        if(virtualView.getBasicProd() != null) {
+            this.game.getCurrentPlayer().getPlayerBoard().getStrongBox().addResources(virtualView.getBasicProd());
+        }
 
         for(final int j : virtualView.getExtraProductionToActivate()){
             for(final ExtraProduction ep: this.game.getCurrentPlayer().getExtraProductionPowers()){
@@ -1024,6 +1026,7 @@ public class GameController implements Serializable {
         this.sendDepots(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
         this.sendStrongBox(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
         this.updateFaith(virtualView, name);
+        virtualView.update(new Message(MessageType.NOTIFY_TURN, " "));
     }
 
     /**
