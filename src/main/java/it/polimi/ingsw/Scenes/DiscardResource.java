@@ -35,7 +35,7 @@ public class DiscardResource extends ViewObservable {
 
     public void back(ActionEvent actionEvent) {
         Board bc = new Board();
-        Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers));
+        Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers, virtualModel));
     }
 
 

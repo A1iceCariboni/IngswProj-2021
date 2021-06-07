@@ -12,6 +12,13 @@ import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 
+import java.util.ArrayList;
+
+
+/** @author Alessandra Atria
+ *  * class that implements the method to answer to the server message in the client controller*/
+
+
 public class Gui extends ViewObservable implements View {
     private VirtualModel virtualModel;
 
@@ -19,7 +26,7 @@ public class Gui extends ViewObservable implements View {
     private TurnPhase turnPhase;
     private Scene scene;
     Board bc;
-
+    ArrayList<String> resources = new ArrayList<>();
 
     public Gui() {
         virtualModel = new VirtualModel();
@@ -50,7 +57,6 @@ public class Gui extends ViewObservable implements View {
     public void showBlackCross(int blackCross) {
 
     }
-
 
     @Override
     public void dummyLeaderCardIn(DummyLeaderCard[] dummyLeaderCards) {
@@ -126,7 +132,7 @@ public class Gui extends ViewObservable implements View {
     public void chooseAction() {
         turnPhase = TurnPhase.FREE;
         bc = new Board();
-        Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers).setVirtualModel(virtualModel));
+        Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers, virtualModel));
     }
 
 
@@ -166,6 +172,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void activateProduction(String[] toPay) {
+        Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers, virtualModel).setPay(toPay));
 
     }
 

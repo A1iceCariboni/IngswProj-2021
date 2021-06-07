@@ -156,7 +156,7 @@ public class Market extends ViewObservable {
 
     public void exit(ActionEvent actionEvent) {
         Board bc = new Board();
-        GUIRunnable.changetoStart(bc, observers);
+        GUIRunnable.changetoStart(bc, observers, virtualModel);
 
     }
 

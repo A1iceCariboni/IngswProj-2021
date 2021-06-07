@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Scenes;
 import com.google.gson.Gson;
+import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
@@ -76,6 +77,8 @@ public class AddtoWarehouse extends ViewObservable {
     }
 
     public void exit(ActionEvent actionEvent) {
+        Board bc = new Board();
+        GUIRunnable.changetoStart(bc, observers, virtualModel);
     }
 
     public void pickServant(MouseEvent mouseEvent) {
@@ -222,6 +225,8 @@ public class AddtoWarehouse extends ViewObservable {
         }
 
 
+
+
     }
 
     public void setQuantity(int quantity){
@@ -237,7 +242,6 @@ public class AddtoWarehouse extends ViewObservable {
         c2.setOpacity(0);
         c3.setOpacity(0);
         disc.setOpacity(0);
-
     }
 
 

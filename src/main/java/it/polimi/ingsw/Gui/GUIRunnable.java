@@ -96,7 +96,7 @@ public class GUIRunnable extends Application {
     }
 
 
-    public static Board changetoStart(Board bc, ArrayList<ViewObserver> observers) {
+    public static Board changetoStart(Board bc, ArrayList<ViewObserver> observers, VirtualModel virtualModel) {
         try {
 
             FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Board_Scene.fxml"));
@@ -105,6 +105,7 @@ public class GUIRunnable extends Application {
             bc = loader.getController();
             bc.addAllObservers(observers);
             bc.disable();
+            bc.setVirtualModel(virtualModel);
         } catch (IOException e) {
             SocketClient.LOGGER.severe(e.getMessage());
         }
@@ -279,6 +280,9 @@ public class GUIRunnable extends Application {
         }
         return r;
     }
+
+
+
 
 
 

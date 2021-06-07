@@ -711,18 +711,6 @@ public void showBlackCross(int blackCross){
          return s;
     }
 
-    public int get1ActiveLeaderCard() {
-        if(leaderCards.get(0).isActive())
-            return 1;
-        return 0;
-    }
-
-
-    public int get2ActiveLeaderCard() {
-        if(leaderCards.get(1).isActive())
-            return leaderCards.get(1).getId();
-        return 0;
-    }
 
 
 

@@ -21,6 +21,11 @@ public class DevelopmentMarket extends ViewObservable {
     Gson gson = new Gson();
     VirtualModel virtualModel;
     ArrayList<Integer> payloadDev = new ArrayList<>();
+    int id;
+
+ public  DevelopmentMarket(){
+     id=0;
+ }
 
  @FXML
  public ImageView img00, img01, img02, img03, img10,img11, img12, img13, img20, img21, img22, img23;
@@ -130,28 +135,41 @@ public class DevelopmentMarket extends ViewObservable {
             ArrayList<Image> images2 = new ArrayList<>();
             for(int i=0; i< Constants.rows; i++){
                 for (int j=0; j<Constants.cols; j++){
-                    int id = virtualModel.getBoardDevCard()[i][j].getId();
+                    if(virtualModel.getBoardDevCard()[i][j]!= null)
+                        id = virtualModel.getBoardDevCard()[i][j].getId();
                     Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/CardsFront/devCard" + id + ".png")));
                     images2.add(image);
                 }
             }
+            if(images2.get(0)!= null)
             img00.setImage(images2.get(0));
+            if(images2.get(1)!= null)
             img01.setImage(images2.get(1));
+            if(images2.get(2)!= null)
             img02.setImage(images2.get(2));
+            if(images2.get(3)!= null)
             img03.setImage(images2.get(3));
+            if(images2.get(4)!= null)
             img10.setImage(images2.get(4));
+            if(images2.get(5)!= null)
             img11.setImage(images2.get(5));
+            if(images2.get(6)!= null)
             img12.setImage(images2.get(6));
+            if(images2.get(7)!= null)
             img13.setImage(images2.get(7));
+            if(images2.get(8)!= null)
             img20.setImage(images2.get(8));
+            if(images2.get(9)!= null)
             img21.setImage(images2.get(9));
+            if(images2.get(10)!= null)
             img22.setImage(images2.get(10));
+            if(images2.get(11)!= null)
             img23.setImage(images2.get(11));
         }
 
 
     public void back(ActionEvent actionEvent) {
-     //   Board bc = new Board();
- //       Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers).setVirtualModel(virtualModel, turnPhase));
+       Board bc = new Board();
+       Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers, virtualModel));
     }
 }

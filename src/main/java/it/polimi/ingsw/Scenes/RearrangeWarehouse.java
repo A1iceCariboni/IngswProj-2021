@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Scenes;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.DummyModel.DummyDepot;
 import it.polimi.ingsw.client.DummyModel.DummyExtraDepot;
 import it.polimi.ingsw.client.DummyModel.DummyWareHouse;
@@ -61,9 +62,10 @@ public class RearrangeWarehouse extends ViewObservable {
         resources.addAll(dummyWareHouse.getDepot1().getResources());
         resources.add(res.get(i));
         dummyWareHouse.getDepot1().setResources(resources);
-        i++;
         Image il = new Image(getClass().getResourceAsStream("/PunchBoard/" + res.get(i) + ".png"));
         res1.setImage(il);
+        res1.setOpacity(1);
+        i++;
         if(i == res.size()) {
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
         }
@@ -74,7 +76,7 @@ public class RearrangeWarehouse extends ViewObservable {
         ArrayList<String> resources = new ArrayList<>();
         resources.addAll(dummyWareHouse.getDepot2().getResources());
         resources.add(res.get(i));
-        dummyWareHouse.getDepot1().setResources(resources);
+        dummyWareHouse.getDepot2().setResources(resources);
         i++;
         if(i == res.size()) {
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
@@ -87,7 +89,7 @@ public class RearrangeWarehouse extends ViewObservable {
         ArrayList<String> resources = new ArrayList<>();
         resources.addAll(dummyWareHouse.getDepot3().getResources());
         resources.add(res.get(i));
-        dummyWareHouse.getDepot1().setResources(resources);
+        dummyWareHouse.getDepot3().setResources(resources);
         i++;
         if(i == res.size()) {
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
@@ -154,5 +156,7 @@ public class RearrangeWarehouse extends ViewObservable {
 
 
     public void exit(ActionEvent actionEvent) {
+        Board bc = new Board();
+        GUIRunnable.changetoStart(bc, observers, virtualModel);
     }
 }

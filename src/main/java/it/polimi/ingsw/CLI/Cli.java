@@ -117,22 +117,12 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-
-    /**
-     * adds the leader card to the board of the player
-     * @param dummyLeaderCards cards of the player
-     */
     public void dummyLeaderCardIn(DummyLeaderCard[] dummyLeaderCards){
         virtualModel.setLeaderCard(dummyLeaderCards);
         virtualModel.showLeaderCards(virtualModel.getLeaderCards());
     }
 
     @Override
-
-    /**
-     * modifies the dummy faith track
-     * @param faithTrack new faith track
-     */
     public void faithTrackNew(DummyFaithTrack faithTrack){
         virtualModel.getPlayerBoard().setFaithTrack(faithTrack);
         virtualModel.getOtherPlayer().setFaithTrack(faithTrack);
@@ -140,10 +130,6 @@ public class Cli extends ViewObservable implements View {
 
     @Override
 
-    /**
-     * modifies the dummy market of the development cards
-     * @param devMarket new development cards market
-     */
     public void devMarketNew(DummyDev[][] devMarket){
         virtualModel.setBoardDevCard(devMarket);
         virtualModel.showBoard();
@@ -151,20 +137,12 @@ public class Cli extends ViewObservable implements View {
 
     @Override
 
-    /**
-     * modifies the dummy market tray
-     * @param market new market
-     */
     public void marketTrayNew(DummyMarket market){
         virtualModel.setDummyMarket(market);
         virtualModel.showMarket();
     }
 
     @Override
-
-    /**
-     * asks to the player which operations wants to do during the turn and to end the turn
-     */
     public void yourTurn(){
         System.out.println("It's your turn.");
         chooseAction();
@@ -200,7 +178,6 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-
     public void chooseAction() {
         turnPhase = TurnPhase.FREE;
         System.out.println("If it's your first round you can:");
@@ -319,10 +296,6 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-
-    /**
-     * asks the resources and notifies the server
-     */
     public void chooseResources(int quantity) {
         String[] chosenResources = new String[quantity];
         String resource = null;
@@ -337,12 +310,6 @@ public class Cli extends ViewObservable implements View {
 
 
     @Override
-
-    /**
-     * adds a resource where the player wants to add it
-     * adds the resources to the dummy warehouse
-     * notifies the server about the choice and sends -1 if the resource must be discarded
-     */
     public void addResourceToWareHouse(String[] resource) {
         int[] answer = new int[resource.length];
         virtualModel.showWarewouse(virtualModel.getPlayerBoard());
@@ -687,21 +654,11 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-
-    /**
-     * sets the dummy strong box in the virtual model
-     * @param strongBox the new dummy strongbox
-     */
     public void newDummyStrongBox(DummyStrongbox strongBox){
         virtualModel.getPlayerBoard().setStrongBox(strongBox);
     }
 
     @Override
-
-    /**
-     * adds the development cards in the dummy development section
-     * @param cards
-     */
     public void addDevCards(DummyDev[] cards){
         virtualModel.getPlayerBoard().setDevSections(cards);
     }

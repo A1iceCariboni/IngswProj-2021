@@ -1,11 +1,7 @@
 package it.polimi.ingsw.Scenes;
-
 import com.google.gson.Gson;
 import it.polimi.ingsw.Gui.GUIRunnable;
-import it.polimi.ingsw.client.DummyModel.DummyDev;
-import it.polimi.ingsw.client.DummyModel.DummyLeaderCard;
 import it.polimi.ingsw.client.VirtualModel;
-import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.messages.Message;
@@ -15,86 +11,42 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import java.util.ArrayList;
-import java.util.Objects;
 
 
+/** @author Alessandra Atria
+ * this class represents the player's board
+ */
 public class Board extends ViewObservable {
-
+    int coin;
+    int stone;
+    int servant;
+    int shield;
+    public Button payBtn;
+    public Button confirm;
+    public Button confirm3;
+    public Button confirm2;
     private VirtualModel virtualModel;
     public Button LeaderActiveButton;
     public ArrayList<ImageView> faithMarker;
     Gson gson = new Gson();
     int id;
-
-
-    @FXML
-    public ImageView res1;
-
-    @FXML
-    public ImageView res2;
+    ArrayList<Integer> ids;
+    ArrayList<Integer> ledid;
+    int i, j, count;
+    String[] res;
 
     @FXML
-    public ImageView res3;
+    Label ssh, sc, sv;
+
     @FXML
-    public ImageView res4;
+    public ImageView res1, res2, res3,res4,res5,res6;
+
     @FXML
-    public ImageView res5;
-    @FXML
-    public ImageView res6;
-    @FXML
-    public ImageView p0;
-    @FXML
-    public ImageView p1;
-    @FXML
-    public ImageView p2;
-    @FXML
-    public ImageView p3;
-    @FXML
-    public ImageView p4;
-    @FXML
-    public ImageView p5;
-    @FXML
-    public ImageView p6;
-    @FXML
-    public ImageView p7;
-    @FXML
-    public ImageView p8;
-    @FXML
-    public ImageView p9;
-    @FXML
-    public ImageView p10;
-    @FXML
-    public ImageView p11;
-    @FXML
-    public ImageView p12;
-    @FXML
-    public ImageView p13;
-    @FXML
-    public ImageView p14;
-    @FXML
-    public ImageView p15;
-    @FXML
-    public ImageView p16;
-    @FXML
-    public ImageView p17;
-    @FXML
-    public ImageView p18;
-    @FXML
-    public ImageView p19;
-    @FXML
-    public ImageView p20;
-    @FXML
-    public ImageView p21;
-    @FXML
-    public ImageView p22;
-    @FXML
-    public ImageView p23;
-    @FXML
-    public ImageView p24;
+    public ImageView p0, p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21,p22,p23,p24;
 
     @FXML
     public ImageView led1;
@@ -110,13 +62,25 @@ public class Board extends ViewObservable {
     @FXML
     Button DevButton;
 
+
     public Board() {
         this.virtualModel = new VirtualModel();
         this.faithMarker = new ArrayList<>();
+        this.ids= new ArrayList<>();
+        this.ledid = new ArrayList<>();
+        this.res = new String[count];
         id=0;
+        i=0;
+        j=0;
+        coin=0;
+        shield=0;
+        stone=0;
+        servant=0;
+
+
     }
 
-
+ /** this methods sets all the image positions of the player on the faith track */
     @FXML
     public void initialize() {
         p0.setVisible(false);
@@ -173,35 +137,24 @@ public class Board extends ViewObservable {
         faithMarker.add(p24);
     }
 
-    public void setButtons(){
-        sl1.setVisible(true);
-        sl2.setVisible(true);
-        sl3.setVisible(true);
-
-    }
 
 
-    public void disable(){
-        sl1.setVisible(false);
-        sl2.setVisible(false);
-        sl3.setVisible(false);
 
-    }
-
+    /** this method is used to choose where to insert the development cards bought from the market*/
     @FXML
     public void devslot1() {
         Message messageSlot = new Message(MessageType.SLOT_CHOICE, gson.toJson(0));
         notifyObserver(obs -> obs.onReadyReply(messageSlot));
     }
 
-
+    /** this method is used to choose where to insert the development cards bought from the market*/
     @FXML
     public void devslot2() {
         Message messageSlot = new Message(MessageType.SLOT_CHOICE, gson.toJson(1));
         notifyObserver(obs -> obs.onReadyReply(messageSlot));
     }
 
-
+    /** this method is used to choose where to insert the development cards bought from the market*/
     @FXML
     public void devslot3() {
         Message messageSlot = new Message(MessageType.SLOT_CHOICE, gson.toJson(2));
@@ -209,6 +162,9 @@ public class Board extends ViewObservable {
     }
 
 
+
+
+    /** this method is used to show the current position on the faith track*/
     @FXML
     public void updateFaithTrack() {
         for(int i=0; i<24; i++){
@@ -218,7 +174,9 @@ public class Board extends ViewObservable {
         faithMarker.get(p).setVisible(true);
     }
 
-    
+
+
+    /** opens a scene where the player can choose which leader cards he wants to discard */
     @FXML
     public void DiscardLeaderCards() {
         DiscarLeaderCards f = new DiscarLeaderCards();
@@ -226,6 +184,10 @@ public class Board extends ViewObservable {
 
     }
 
+
+
+
+    /** opens a scene where the player can choose which development cards he wants to buy */
     @FXML
     public void buyDev() {
         notifyObserver(obs -> obs.setTurnPhase(TurnPhase.BUY_DEV));
@@ -233,7 +195,25 @@ public class Board extends ViewObservable {
         Platform.runLater(() -> GUIRunnable.buyDevCard(deck, observers).setDevCards(virtualModel));
     }
 
+    /** sets slots choice buttons visible */
+    public void setButtons(){
+        sl1.setVisible(true);
+        sl2.setVisible(true);
+        sl3.setVisible(true);
 
+    }
+
+    /** sets slots choice buttons not visible*/
+    public void disable(){
+        sl1.setVisible(false);
+        sl2.setVisible(false);
+        sl3.setVisible(false);
+
+    }
+
+
+
+    /** opens a scene where the player can choose how to rearrange his warehouse */
     @FXML
     public void rearrangeWarehouse(){
         RearrangeWarehouse r = new RearrangeWarehouse();
@@ -247,6 +227,7 @@ public class Board extends ViewObservable {
     }
 
 
+    /** opens a scene where the player can choose which resources he wants to buy */
     @FXML
     public void buyfromMarket(ActionEvent actionEvent) {
         Market market = new Market();
@@ -254,26 +235,139 @@ public class Board extends ViewObservable {
     }
 
 
-    @FXML
-    public void ActivateProducion(ActionEvent actionEvent) {
-    }
 
+
+    /** opens a scene where the player can choose which leader cards he wants to activate*/
     @FXML
     public void ActivateLeader(ActionEvent actionEvent) {
         DiscarLeaderCards f = new DiscarLeaderCards();
         Platform.runLater(() -> GUIRunnable.FirstScene(f, observers).setLeaderCards(virtualModel));
     }
 
+
+
+
+    /** This method actives basic production  */
     @FXML
-    public void EndTurn(ActionEvent actionEvent) {
-        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.END_TURN, "")));
+    public void activateBasicProducion(ActionEvent actionEvent) {
+        confirm2.setOpacity(1);
+        confirm2.setDisable(false);
+        notifyObserver(obs -> obs.setTurnPhase(TurnPhase.ACTIVATE_PRODUCTION));
 
     }
 
+    /** This method actives development cards production  */
+    @FXML
+    public void activateDevProducion(ActionEvent actionEvent) {
+        notifyObserver(obs -> obs.setTurnPhase(TurnPhase.ACTIVATE_PRODUCTION));
+        confirm.setOpacity(1);
+        confirm.setDisable(false);
+        devb1.setDisable(false);
+        devb2.setDisable(false);
+        devb3.setDisable(false);}
+
+    /** This method actives leader cards production  */
+    @FXML
+    public void activateLeaderProducion(ActionEvent actionEvent) {
+        confirm3.setOpacity(1);
+        confirm3.setDisable(false);
+        notifyObserver(obs -> obs.setTurnPhase(TurnPhase.ACTIVATE_PRODUCTION));
+    }
+
+    /** on image click the player choose this development card to start the production*/
+    @FXML
+    public void pick1(){
+        ids.add(i, virtualModel.getPlayerBoard().getDevSections()[0].getId());
+        devb1.setDisable(true);
+        devb1.setOpacity(0.5);
+    }
+
+    /** on image click the player choose this development card to start the production*/
+    @FXML
+    public void pick2(){
+        ids.add(i, virtualModel.getPlayerBoard().getDevSections()[1].getId());
+        devb2.setDisable(true);
+        devb2.setOpacity(0.5);
+    }
+
+    /** on image click the player choose this development card to start the production*/
+    @FXML
+    public void pick3(){
+        ids.add(virtualModel.getPlayerBoard().getDevSections()[2].getId());
+        devb3.setDisable(true);
+        devb3.setOpacity(0.5);
+    }
+
+    /** on image click the player choose this leader card to start the production*/
+    @FXML
+    public void pickL1(){
+        ledid.add(j, virtualModel.getLeaderCards().get(0).getId());
+        led1.setDisable(true);
+        led1.setOpacity(0.5);
+    }
+
+    /** on image click the player choose this leader card to start the production*/
+    @FXML
+    public void pickL2(){
+        ledid.add(j, virtualModel.getLeaderCards().get(0).getId()) ;
+        led2.setDisable(true);
+        led2.setOpacity(0.5);
+    }
+
+
+    /** To confirm to activate basic production  */
+    @FXML
+    public void okbtnBp(){
+        Message message = new Message(MessageType.ACTIVATE_PRODUCTION, gson.toJson(ids));
+        notifyObserver(obs -> obs.onReadyReply(message));
+    }
+
+
+    /** To confirm to activate leader production  */
+    @FXML
+    public void okbtnL(){
+        Message message = new Message(MessageType.ACTIVATE_PRODUCTION, gson.toJson(ids));
+        notifyObserver(obs -> obs.onReadyReply(message));
+    }
+
+
+
+    /** To confirm to basic production  */
+    @FXML
+    public void okbtnDp(){
+
+        Message message = new Message(MessageType.ACTIVATE_PRODUCTION, gson.toJson(ids));
+        notifyObserver(obs -> obs.onReadyReply(message));
+    }
+
+
+    public void setPay(ActionEvent actionEvent) {
+        AddtoWarehouse c = new AddtoWarehouse();
+        Platform.runLater(() -> GUIRunnable.payWithRes(c, observers, res, virtualModel));
+    }
+
+   /** to pay everything the player wants to activate  */
+    public  void setPay(String[] toPay){
+        count = toPay.length;
+        res = toPay;
+        payBtn.setVisible(true);
+        payBtn.setDisable(false);
+    }
+
+    /** this method is used ends the player's turn */
+    @FXML
+    public void EndTurn(ActionEvent actionEvent) {
+        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.END_TURN, "")));
+    }
+
+
+    /** this method is used to see other players' boards*/
     @FXML
     public void SeeOthers(ActionEvent actionEvent) {
     }
 
+
+    /** opens a scene where the player can choose which resources he wants to discard */
     @FXML
     public void discardRes(ActionEvent actionEvent) {
         DiscardResource f = new DiscardResource();
@@ -282,7 +376,7 @@ public class Board extends ViewObservable {
 
 
 
-
+ /** this method sets the board with its current cards and resources */
     public void setVirtualModel(VirtualModel virtualModel) {
         this.virtualModel = virtualModel;
 
@@ -318,31 +412,56 @@ public class Board extends ViewObservable {
             res6.setImage(i6);
             res6.setOpacity(1);
         }
-        //to set active cards on the board
-        if (virtualModel.get1ActiveLeaderCard() != 0) {
-            Image aL1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.get1ActiveLeaderCard() + ".png"));
-            led1.setImage(aL1);
-        }
-        if (virtualModel.get2ActiveLeaderCard() != 0) {
-            Image aL2 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.get2ActiveLeaderCard() + ".png"));
-            led2.setImage(aL2);
-        }
 
-            if (virtualModel.getPlayerBoard().getDevSections()[0] != null) {
+
+        if (virtualModel.getPlayerBoard().getDevSections()[0] != null) {
                 Image im1 = new Image(getClass().getResourceAsStream("/CardsFront/devCard" + virtualModel.getPlayerBoard().getDevSections()[0].getId() + ".png"));
                 devb1.setImage(im1);
                 devb1.setOpacity(1);
-            }
-            if (virtualModel.getPlayerBoard().getDevSections()[1] != null) {
+        }
+        if (virtualModel.getPlayerBoard().getDevSections()[1] != null) {
                 Image im2 = new Image((getClass().getResourceAsStream("/CardsFront/devCard" + virtualModel.getPlayerBoard().getDevSections()[1].getId() + ".png")));
                 devb2.setImage(im2);
                 devb2.setOpacity(1);
-            }
-            if (virtualModel.getPlayerBoard().getDevSections()[2] != null) {
+        }
+        if (virtualModel.getPlayerBoard().getDevSections()[2] != null) {
                 Image im3 = new Image((getClass().getResourceAsStream("/CardsFront/devCard" + virtualModel.getPlayerBoard().getDevSections()[2].getId() + ".png")));
-               devb3.setImage(im3);
+                devb3.setImage(im3);
                 devb3.setOpacity(1);
-            }
+        }
+        if(virtualModel.getLeaderCards().get(0)!= null){
+              if(virtualModel.getLeaderCards().get(0).isActive()) {
+                  Image image1 = new Image((getClass().getResourceAsStream("/CardsFront/devCard" + virtualModel.getLeaderCards().get(0).getId() + ".png")));
+                  led1.setImage(image1);
+              }
+        }
+        if(virtualModel.getLeaderCards().get(1)!= null){
+              if(virtualModel.getLeaderCards().get(1).isActive()) {
+                Image image2 = new Image((getClass().getResourceAsStream("/CardsFront/devCard" + virtualModel.getLeaderCards().get(1).getId() + ".png")));
+                led2.setImage(image2);
+              }
+        }
+        confirm.setDisable(true);
+        confirm2.setDisable(true);
+        confirm3.setDisable(true);
+        devb1.setDisable(true);
+        devb2.setDisable(true);
+
+
+        for (int i=0; i<virtualModel.getPlayerBoard().getStrongBox().getResources().size(); i++) {
+            if (virtualModel.getPlayerBoard().getStrongBox().getResources().get(i).equals("COIN"))
+                    coin++;
+            if (virtualModel.getPlayerBoard().getStrongBox().getResources().get(i).equals("STONE"))
+                    stone++;
+            if (virtualModel.getPlayerBoard().getStrongBox().getResources().get(i).equals("SHIELD"))
+                    shield++;
+            if (virtualModel.getPlayerBoard().getStrongBox().getResources().get(i).equals("SERVANT"))
+                    servant++;
+        }
+        sc.setText("x"+ coin);
+        //sst.setText("x"+ stone);
+        ssh.setText("x"+ shield);
+        sv.setText("x"+ servant);
         }
 
 
