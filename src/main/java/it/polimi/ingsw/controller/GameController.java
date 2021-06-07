@@ -1030,10 +1030,15 @@ public class GameController implements Serializable {
      * activate the required leader card
      * @param id id of the leader card
      */
-    public  void activateLeaderCard(final int id)  {
-        this.game.getCurrentPlayer().getLeaderCardById(id).active(this.game.getCurrentPlayer(), this.game.getCurrentPlayer().getPlayerBoard());
-        this.sendDummyLead(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
-        this.sendDepots(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
+    public  void activateLeaderCard( int id)  {
+        if (game.getCurrentPlayer().getLeaderCardById(id).isActivableBy(game.getCurrentPlayer().getPlayerBoard())) {
+            this.game.getCurrentPlayer().getLeaderCardById(id).active(this.game.getCurrentPlayer(), this.game.getCurrentPlayer().getPlayerBoard());
+            this.sendDummyLead(this.connectedClients.get(this.turnController.getActivePlayer()), this.turnController.getActivePlayer());
+            this.sendDepots(this.connectedClients.get(this.turnController.getActivePlayer()), this.turnController.getActivePlayer());
+        }else{
+            getVirtualView(game.getCurrentPlayer().getNickName()).update(new ErrorMessage("You don't fit the requirements"));
+        }
+        getVirtualView(game.getCurrentPlayer().getNickName()).update(new Message(MessageType.NOTIFY_TURN, ""));
     }
 
     /**
@@ -1097,8 +1102,8 @@ public class GameController implements Serializable {
                     }
                     break;
             }
-        }else {
-            this.updateFaith(virtualView, name);
+        }else{
+            virtualView.update(new Message(MessageType.NOTIFY_TURN,""));
         }
     }
 
