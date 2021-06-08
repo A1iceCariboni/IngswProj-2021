@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 /** @author Alessandra Atria
@@ -37,7 +38,7 @@ public class Board extends ViewObservable {
     ArrayList<Integer> ids;
     ArrayList<Integer> ledid;
     int i, j, count;
-    String[] res;
+    ArrayList<String> res;
 
     @FXML
     Label ssh, sc, sv;
@@ -68,7 +69,6 @@ public class Board extends ViewObservable {
         this.faithMarker = new ArrayList<>();
         this.ids= new ArrayList<>();
         this.ledid = new ArrayList<>();
-        this.res = new String[count];
         id=0;
         i=0;
         j=0;
@@ -349,7 +349,8 @@ public class Board extends ViewObservable {
    /** to pay everything the player wants to activate  */
     public  void setPay(String[] toPay){
         count = toPay.length;
-        res = toPay;
+        res = new ArrayList<>();
+        res.addAll(Arrays.asList(toPay));
         payBtn.setVisible(true);
         payBtn.setDisable(false);
     }

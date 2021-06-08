@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 /** @author Alessandra Atria
@@ -187,7 +188,7 @@ public class Gui extends ViewObservable implements View {
     public void payResources(String[] resources) {
         System.out.println("paga");
         AddtoWarehouse c = new AddtoWarehouse();
-        Platform.runLater(() -> GUIRunnable.payWithRes(c, observers, resources, virtualModel));
+        Platform.runLater(() -> GUIRunnable.payWithRes(c, observers, new ArrayList<>(Arrays.asList(resources)), virtualModel));
 
     }
 

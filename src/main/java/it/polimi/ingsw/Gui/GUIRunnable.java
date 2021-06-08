@@ -204,7 +204,7 @@ public class GUIRunnable extends Application {
         return c;
     }
 
-    public static AddtoWarehouse payWithRes(AddtoWarehouse c, ArrayList<ViewObserver> observers, String[] resource, VirtualModel virtualModel) {
+    public static AddtoWarehouse payWithRes(AddtoWarehouse c, ArrayList<ViewObserver> observers, ArrayList<String> resource, VirtualModel virtualModel) {
         try {
 
             FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/ChooseResouce_Scene.fxml"));

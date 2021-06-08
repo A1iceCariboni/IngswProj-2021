@@ -13,6 +13,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class AddtoWarehouse extends ViewObservable {
@@ -28,7 +30,7 @@ public class AddtoWarehouse extends ViewObservable {
     private String[] chosenRes;
     private int i = 0;
     private int count = 0;
-    private String[] resource;
+    private ArrayList<String> resource;
     private int[] answer;
 
     @FXML
@@ -43,7 +45,7 @@ public class AddtoWarehouse extends ViewObservable {
     public void put1(ActionEvent actionEvent) {
         answer[count] = 1;
         count++;
-        if(count == resource.length) {
+        if(count == resource.size()) {
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
         }
     }
@@ -52,7 +54,7 @@ public class AddtoWarehouse extends ViewObservable {
     public void put2(ActionEvent actionEvent) {
         answer[count] = 2;
         count++;
-        if(count == resource.length) {
+        if(count == resource.size()) {
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
         }
     }
@@ -61,7 +63,7 @@ public class AddtoWarehouse extends ViewObservable {
     public void put3(ActionEvent actionEvent) {
         answer[count] = 3;
         count++;
-        if(count == resource.length) {
+        if(count == resource.size()) {
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
         }
     }
@@ -71,7 +73,7 @@ public class AddtoWarehouse extends ViewObservable {
     public void discard(ActionEvent actionEvent) {
         answer[count] = -1;
         count++;
-        if(count == resource.length) {
+        if(count == resource.size()) {
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
         }
     }
@@ -125,7 +127,8 @@ public class AddtoWarehouse extends ViewObservable {
     public void setResource(String[] resource, VirtualModel virtualModel) {
         wLabel.setText("Where do you want to put it?");
         this.virtualModel = virtualModel;
-        this.resource = resource;
+        this.resource = new ArrayList<>();
+        this.resource.addAll(Arrays.asList(resource));
         answer = new int[resource.length];
         c1.setOpacity(0);
         c2.setOpacity(0);
@@ -183,11 +186,12 @@ public class AddtoWarehouse extends ViewObservable {
     }
 
 
-    public void setPay(String[] resource, VirtualModel virtualModel) {
+    public void setPay(ArrayList<String> resource, VirtualModel virtualModel) {
         wLabel.setText("Choose the resources you want to use to pay");
         this.virtualModel = virtualModel;
-        this.resource = resource;
-        answer = new int[resource.length];
+        this.resource = new ArrayList<>();
+        this.resource.addAll(resource);
+        answer = new int[resource.size()];
         d1.setOpacity(0);
         d2.setOpacity(0);
         d3.setOpacity(0);
@@ -249,7 +253,7 @@ public class AddtoWarehouse extends ViewObservable {
     public void pay1(ActionEvent actionEvent) {
         answer[count] = 1;
         count++;
-        if(count == resource.length) {
+        if(count == resource.size()) {
             Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(answer));
             notifyObserver(obs -> obs.onReadyReply(message));
         }
@@ -259,7 +263,7 @@ public class AddtoWarehouse extends ViewObservable {
     public void pay2(ActionEvent actionEvent) {
         answer[count] = 2;
         count++;
-        if(count == resource.length) {
+        if(count == resource.size()) {
             Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(answer));
             notifyObserver(obs -> obs.onReadyReply(message));
         }
@@ -269,7 +273,7 @@ public class AddtoWarehouse extends ViewObservable {
     public void pay3(ActionEvent actionEvent) {
         answer[count] = 3;
         count++;
-        if(count == resource.length) {
+        if(count == resource.size()) {
          Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(answer));
          notifyObserver(obs -> obs.onReadyReply(message));
         }
