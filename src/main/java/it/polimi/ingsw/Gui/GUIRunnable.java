@@ -104,6 +104,24 @@ public class GUIRunnable extends Application {
             bc = loader.getController();
             bc.addAllObservers(observers);
             bc.disable();
+            bc.payBtn.setVisible(false);
+            bc.setVirtualModel(virtualModel);
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+        }
+        return bc;
+    }
+
+
+    public static Board changetoPay(Board bc, ArrayList<ViewObserver> observers, VirtualModel virtualModel) {
+        try {
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Board_Scene.fxml"));
+            Parent root = loader.load();
+            scene.setRoot(root);
+            bc = loader.getController();
+            bc.addAllObservers(observers);
+            bc.disable();
+            bc.setPayBtn();
             bc.setVirtualModel(virtualModel);
         } catch (IOException e) {
             SocketClient.LOGGER.severe(e.getMessage());

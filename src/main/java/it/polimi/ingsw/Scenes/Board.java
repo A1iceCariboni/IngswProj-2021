@@ -14,6 +14,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -22,14 +24,18 @@ import java.util.Arrays;
  * this class represents the player's board
  */
 public class Board extends ViewObservable {
-    int coin;
-    int stone;
-    int servant;
-    int shield;
+    @FXML
     public Button payBtn;
     public Button confirm;
     public Button confirm3;
     public Button confirm2;
+    public Button DiscardResource;
+    public Button ViewButton;
+    public Button EndTButton;
+    public Button MarketButton;
+    public Button rearrangew;
+
+
     private VirtualModel virtualModel;
     public Button LeaderActiveButton;
     public ArrayList<ImageView> faithMarker;
@@ -37,8 +43,19 @@ public class Board extends ViewObservable {
     int id;
     ArrayList<Integer> ids;
     ArrayList<Integer> ledid;
-    int i, j, count;
+    int i, j, count, z;
     ArrayList<String> res;
+    String [] command1;
+
+    @FXML
+    public ImageView servantbp, stonebp, shieldbp, coinbp;
+
+    @FXML
+    public Label bplabel;
+
+    @FXML
+    public ImageView bpback;
+
 
     @FXML
     Label ssh, sc, sv;
@@ -71,11 +88,8 @@ public class Board extends ViewObservable {
         id=0;
         i=0;
         j=0;
-        coin=0;
-        shield=0;
-        stone=0;
-        servant=0;
-
+        z=0;
+        command1 = new String[3];
 
     }
 
@@ -210,6 +224,20 @@ public class Board extends ViewObservable {
 
     }
 
+    /** when the players starts a production all the actions buttons are disabled*/
+    public void setPayBtn(){
+        payBtn.setVisible(true);
+        DiscardButton.setDisable(true);
+        DevButton.setDisable(true);
+        DiscardResource.setDisable(true);
+        ViewButton.setDisable(true);
+        EndTButton.setDisable(true);
+        MarketButton.setDisable(true);
+        LeaderActiveButton.setDisable(true);
+        rearrangew.setDisable(true);
+
+    }
+
 
 
     /** opens a scene where the player can choose how to rearrange his warehouse */
@@ -249,8 +277,16 @@ public class Board extends ViewObservable {
     /** This method actives basic production  */
     @FXML
     public void activateBasicProducion(ActionEvent actionEvent) {
-        confirm2.setOpacity(1);
-        confirm2.setDisable(false);
+        bpback.setOpacity(1);
+        bplabel.setOpacity(1);
+        stonebp.setOpacity(1);
+        stonebp.setDisable(false);
+        shieldbp.setOpacity(1);
+        shieldbp.setDisable(false);
+        servantbp.setDisable(false);
+        servantbp.setOpacity(1);
+        coinbp.setOpacity(1);
+        coinbp.setDisable(false);
         notifyObserver(obs -> obs.setTurnPhase(TurnPhase.ACTIVATE_PRODUCTION));
 
     }
@@ -313,12 +349,58 @@ public class Board extends ViewObservable {
         led2.setOpacity(0.5);
     }
 
+    /** on image click the player choose these resources to start the production*/
+    public void pickServant(MouseEvent mouseEvent) {
+        command1[z] = "SERVANT";
+        servantbp.setOpacity(0.5);
+        z++;
+        if(z == 3) {
+            confirm2.setDisable(false);
+            confirm2.setOpacity(1);
+        }
+    }
+
+    public void pickCoin(MouseEvent mouseEvent) {
+        command1[z] = "COIN";
+        coinbp.setOpacity(0.5);
+        z++;
+        if(z == 3) {
+            confirm2.setDisable(false);
+            confirm2.setOpacity(1);
+
+        }
+    }
+
+    public void pickShield(MouseEvent mouseEvent) {
+        command1[z] = "SHIELD";
+        shieldbp.setOpacity(0.5);
+        z++;
+        if(z == 3) {
+            confirm2.setDisable(false);
+            confirm2.setOpacity(1);
+        }
+    }
+
+    public void pickStone(MouseEvent mouseEvent) {
+        command1[z] = "STONE";
+        stonebp.setOpacity(0.5);
+        z++;
+        if(z == 3) {
+            confirm2.setDisable(false);
+            confirm2.setOpacity(1);
+        }
+    }
+
+
+
+
 
     /** To confirm to activate basic production  */
     @FXML
     public void okbtnBp(){
-        Message message = new Message(MessageType.ACTIVATE_PRODUCTION, gson.toJson(ids));
+        Message message = new Message(MessageType.BASE_PRODUCTION, gson.toJson(command1));
         notifyObserver(obs -> obs.onReadyReply(message));
+
     }
 
 
@@ -350,7 +432,6 @@ public class Board extends ViewObservable {
         count = toPay.length;
         res = new ArrayList<>();
         res.addAll(Arrays.asList(toPay));
-        payBtn.setVisible(true);
         payBtn.setDisable(false);
     }
 
@@ -448,8 +529,16 @@ public class Board extends ViewObservable {
         confirm3.setDisable(true);
         devb1.setDisable(true);
         devb2.setDisable(true);
-
-
+        bplabel.setDisable(true);
+        bpback.setDisable(true);
+        coinbp.setDisable(true);
+        servantbp.setDisable(true);
+        shieldbp.setDisable(true);
+        stonebp.setDisable(true);
+        int coin =0;
+        int stone =0;
+        int servant=0;
+        int shield=0;
         for (int i=0; i<virtualModel.getPlayerBoard().getStrongBox().getResources().size(); i++) {
             if (virtualModel.getPlayerBoard().getStrongBox().getResources().get(i).equals("COIN"))
                     coin++;

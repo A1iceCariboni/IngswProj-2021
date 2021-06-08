@@ -184,7 +184,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void activateProduction(String[] toPay) {
-        Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers, virtualModel).setPay(toPay));
+        Platform.runLater(() -> GUIRunnable.changetoPay(bc, observers, virtualModel).setPay(toPay));
 
     }
 
