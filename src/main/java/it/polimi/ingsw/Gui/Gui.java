@@ -101,7 +101,7 @@ public class Gui extends ViewObservable implements View {
     @Override
     public void otherLeaderCardIn(DummyLeaderCard[] dummyLeaderCards) {
         virtualModel.setOtherCards(dummyLeaderCards);
-        virtualModel.showOtherPlayerBoard();
+        turnPhase = TurnPhase.SEE_PLAYERBOARD;
     }
 
 
@@ -132,9 +132,15 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void chooseAction() {
-        turnPhase = TurnPhase.FREE;
-        bc = new Board();
-        Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers, virtualModel));
+        if(turnPhase == TurnPhase.SEE_PLAYERBOARD){
+            turnPhase = TurnPhase.FREE;
+            OtherBoard board = new OtherBoard();
+            Platform.runLater(() -> GUIRunnable.otherPlayerBoard(board, observers).setOtherBoard(virtualModel));
+        }else {
+            turnPhase = TurnPhase.FREE;
+            bc = new Board();
+            Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers, virtualModel));
+        }
     }
 
 

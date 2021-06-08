@@ -39,8 +39,7 @@ public class NamePlayerPlayerboard extends ViewObservable {
     }
 
     public void ok() {
+        name = namePlayer.getText();
         notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.SEE_PLAYERBOARD, name)));
-        OtherBoard board = new OtherBoard();
-        Platform.runLater(() -> GUIRunnable.otherPlayerBoard(board, observers).setOtherBoard(virtualModel));
     }
 }

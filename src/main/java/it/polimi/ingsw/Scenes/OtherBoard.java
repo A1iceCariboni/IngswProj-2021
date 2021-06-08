@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Scenes;
 
 import it.polimi.ingsw.Gui.GUIRunnable;
+import it.polimi.ingsw.client.DummyModel.DummyDepot;
 import it.polimi.ingsw.client.DummyModel.DummyDev;
 import it.polimi.ingsw.client.DummyModel.DummyStrongbox;
 import it.polimi.ingsw.client.VirtualModel;
@@ -123,35 +124,43 @@ public class OtherBoard extends ViewObservable {
 
         ArrayList<String> strongbox = virtualModel.getOtherPlayer().getStrongBox().getResources();
         for (int i=0; i<strongbox.size(); i++){
-            if (strongbox.get(i) != null) {
                 Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getStrongBox().getResources().get(i) + ".png")));
                 resStrongBox.get(i).setImage(image);
-            }
         }
 
-        if (virtualModel.getOtherPlayer().getWareHouse().getDepot1().getResources() != null) {
+
+        if (virtualModel.getOtherPlayer().getWareHouse().getDepot1().getResources().size() == 1) {
             Image image1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getWareHouse().getDepot1().getResources().get(0) + ".png")));
             res1.setImage(image1);
         }
-        if (virtualModel.getOtherPlayer().getWareHouse().getDepot2().getResources() != null) {
+        if (virtualModel.getOtherPlayer().getWareHouse().getDepot2().getResources().size() == 1) {
             Image image2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getWareHouse().getDepot2().getResources().get(0) + ".png")));
-            Image image3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getWareHouse().getDepot2().getResources().get(1) + ".png")));
             depot2.get(0).setImage(image2);
+        }
+        if (virtualModel.getOtherPlayer().getWareHouse().getDepot2().getResources().size() == 2) {
+            Image image3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getWareHouse().getDepot2().getResources().get(1) + ".png")));
             depot2.get(1).setImage(image3);
         }
-        if (virtualModel.getOtherPlayer().getWareHouse().getDepot3().getResources() != null) {
+
+        if (virtualModel.getOtherPlayer().getWareHouse().getDepot3().getResources().size() == 1) {
             Image image4 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getWareHouse().getDepot3().getResources().get(0) + ".png")));
-            Image image5 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getWareHouse().getDepot3().getResources().get(1) + ".png")));
-            Image image6 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getWareHouse().getDepot3().getResources().get(2) + ".png")));
             depot3.get(0).setImage(image4);
+        }
+        if (virtualModel.getOtherPlayer().getWareHouse().getDepot3().getResources().size() == 2) {
+            Image image5 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getWareHouse().getDepot3().getResources().get(1) + ".png")));
             depot3.get(1).setImage(image5);
+        }
+        if (virtualModel.getOtherPlayer().getWareHouse().getDepot3().getResources().size() == 3) {
+            Image image6 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getWareHouse().getDepot3().getResources().get(2) + ".png")));
             depot3.get(2).setImage(image6);
         }
 
-        if (virtualModel.getOtherCards() != null) {
+        if (virtualModel.getOtherCards().size() == 1) {
             Image imageLed1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getOtherCards().get(0))));
-            Image imageLed2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getOtherCards().get(1))));
             led1.setImage(imageLed1);
+        }
+        if (virtualModel.getOtherCards().size() == 2) {
+            Image imageLed2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getOtherCards().get(1))));
             led2.setImage(imageLed2);
         }
     }
