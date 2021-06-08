@@ -169,8 +169,6 @@ public class VirtualModel {
 
 
 
-
-
     public void showPlayerDevCards(DummyPlayerBoard playerBoard){
         String cards = "";
          for (DummyDev dummyDev : playerBoard.getDevSections()) {
@@ -654,6 +652,10 @@ public void showBlackCross(int blackCross){
 
     public void setOtherCards( DummyLeaderCard[] otherCards) {
         this.otherCards = new ArrayList<>(Arrays.asList(otherCards));
+    }
+
+    public ArrayList<DummyLeaderCard> getOtherCards() {
+        return this.otherCards;
     }
 
     public String[][] getDummyMarbles() {

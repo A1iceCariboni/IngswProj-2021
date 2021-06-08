@@ -63,7 +63,6 @@ public class Board extends ViewObservable {
     @FXML
     Button DevButton;
 
-
     public Board() {
         this.virtualModel = new VirtualModel();
         this.faithMarker = new ArrayList<>();
@@ -365,6 +364,8 @@ public class Board extends ViewObservable {
     /** this method is used to see other players' boards*/
     @FXML
     public void SeeOthers(ActionEvent actionEvent) {
+        QuestionGame q = new QuestionGame();
+        Platform.runLater(() -> GUIRunnable.questionGame(q, observers).setVirtualModel(virtualModel));
     }
 
 

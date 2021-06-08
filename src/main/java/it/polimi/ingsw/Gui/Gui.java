@@ -80,27 +80,28 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void otherWarehouseNew(DummyWareHouse dummyWareHouse) {
-
+        virtualModel.getOtherPlayer().setWareHouse(dummyWareHouse);
     }
 
     @Override
-    public void otherDummyStrongBox(DummyStrongbox dummyStrongbox) {
-
+    public void otherDummyStrongBox(DummyStrongbox strongBox) {
+        virtualModel.getOtherPlayer().setStrongBox(strongBox);
     }
 
     @Override
     public void otherFaithMarker(int pos) {
-
+        virtualModel.getOtherPlayer().moveFaithMarker(pos);
     }
 
     @Override
-    public void otherDevCards(DummyDev[] dummyDevs) {
-
+    public void otherDevCards(DummyDev[] cards) {
+        virtualModel.getOtherPlayer().setDevSections(cards);
     }
 
     @Override
     public void otherLeaderCardIn(DummyLeaderCard[] dummyLeaderCards) {
-
+        virtualModel.setOtherCards(dummyLeaderCards);
+        virtualModel.showOtherPlayerBoard();
     }
 
 
@@ -154,7 +155,6 @@ public class Gui extends ViewObservable implements View {
 
 
     }
-
 
     @Override
     public void addResourceToWareHouse(String[] resource) {

@@ -98,7 +98,6 @@ public class GUIRunnable extends Application {
 
     public static Board changetoStart(Board bc, ArrayList<ViewObserver> observers, VirtualModel virtualModel) {
         try {
-
             FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Board_Scene.fxml"));
             Parent root = loader.load();
             scene.setRoot(root);
@@ -280,6 +279,46 @@ public class GUIRunnable extends Application {
         }
         return r;
     }
+
+    public static OtherBoard otherPlayerBoard (OtherBoard board, ArrayList<ViewObserver> observers) {
+        try {
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Other_Board_Scene.fxml"));
+            Parent root = loader.load();
+            scene.setRoot(root);
+            board  = loader.getController();
+            board.addAllObservers(observers);
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+        }
+        return board;
+    }
+
+    public static QuestionGame questionGame (QuestionGame game, ArrayList<ViewObserver> observers) {
+        try {
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Question_Game_Scene.fxml"));
+            Parent root = loader.load();
+            scene.setRoot(root);
+            game  = loader.getController();
+            game.addAllObservers(observers);
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+        }
+        return game;
+    }
+
+    public static NamePlayerPlayerboard namePlayerPlayerboard (NamePlayerPlayerboard namePP, ArrayList<ViewObserver> observers) {
+        try {
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Name_PlayerPlayerboard_Scene.fxml"));
+            Parent root = loader.load();
+            scene.setRoot(root);
+            namePP  = loader.getController();
+            namePP.addAllObservers(observers);
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+        }
+        return namePP;
+    }
+
 
 
 
