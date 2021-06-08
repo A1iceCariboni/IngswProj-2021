@@ -80,6 +80,7 @@ public interface View {
       */
      void chooseResources(int quantity);
 
+     void showVictoryPoints(int victoryPoints);
 
      /**
       * adds a resource where the player wants to add it

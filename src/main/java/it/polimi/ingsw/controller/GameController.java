@@ -57,18 +57,20 @@ public class GameController implements Serializable {
     protected int numberOfPlayers;
 
     public GameController(){
-        gson = new Gson();
-        connectedClients = Collections.synchronizedMap(new HashMap<>());
-        disconnectedClients = new ArrayList<>();
-        isStarted = false;
-        numberOfPlayers = 0;
-        gamePhase = GamePhase.INIT;
-        players = new ArrayList<>();
-        startedAction = false;
+        initGameController();
     }
 
 
-
+public void initGameController(){
+    gson = new Gson();
+    connectedClients = Collections.synchronizedMap(new HashMap<>());
+    disconnectedClients = new ArrayList<>();
+    isStarted = false;
+    numberOfPlayers = 0;
+    gamePhase = GamePhase.INIT;
+    players = new ArrayList<>();
+    startedAction = false;
+}
 
     public void onMessageReceived(Message message, String nickname) {
         VirtualView virtualView = connectedClients.get(nickname);
@@ -1047,7 +1049,8 @@ public class GameController implements Serializable {
     /**
      * tells the players if they're winners or losers
      */
-    public  void endGame(){}
+    public void endGame(){
+    }
 
 
     /**
@@ -1115,13 +1118,13 @@ public class GameController implements Serializable {
      *
      * @param id id of the depot
      */
-    public void removeResource(final int id) {
+    public void removeResource(int id) {
         final Gson gson = new Gson();
         if(this.game.getCurrentPlayer().getDepotById(id).isEmpty()){
             this.getVirtualView(this.turnController.getActivePlayer()).update(new ErrorMessage("This depot is empty"));
         }else{
             this.game.getCurrentPlayer().getDepotById(id).removeResource();
-            for(final Player p: this.game.getPlayers()){
+            for(Player p: this.game.getPlayers()){
                 if(!p.equals(this.game.getCurrentPlayer())) {
                     p.getPlayerBoard().moveFaithMarker(1);
                 }

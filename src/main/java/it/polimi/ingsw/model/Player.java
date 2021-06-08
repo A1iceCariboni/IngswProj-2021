@@ -35,7 +35,7 @@ public class Player implements Serializable {
 
     public Player(){
         this.inkwell = false;
-        this.nickName = null;
+        this.nickName = "";
         this.victoryPoints = 0;
         this.leaderCards = new ArrayList<>();
         this.playerBoard = new PlayerBoard(new WareHouse(), new StrongBox());

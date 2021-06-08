@@ -23,6 +23,8 @@ public class LeaderCard extends Card {
     private final ArrayList<Requirement> requirements;
     private final int id;
 
+
+
     public LeaderCard(int id, LeaderEffect leaderEffect, int victoryPoints, ArrayList<Requirement> requirements) {
         this.isActive = false;
         this.id = id;
@@ -88,6 +90,9 @@ public class LeaderCard extends Card {
             req.add(requirement.toString());
         }
         return new DummyLeaderCard(id, req, isActive, leaderEffect.toString(), victoryPoints);
+    }
+    public int getVictoryPoints() {
+        return this.victoryPoints;
     }
 }
 

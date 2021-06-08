@@ -3,10 +3,12 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.MultiGameController;
 import it.polimi.ingsw.controller.SingleGameController;
+import it.polimi.ingsw.enumerations.GamePhase;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.answer.ErrorMessage;
 import it.polimi.ingsw.messages.answer.NumberOfPlayerRequest;
+import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.utility.Persistence;
 
 import java.io.IOException;
@@ -21,20 +23,24 @@ import java.util.logging.Logger;
  * @author Alice Cariboni
  */
 public class Server {
-    private final Map<ClientHandler, String> clients;
-    private final List<ClientHandler> waiting;
+    private  Map<ClientHandler, String> clients;
+    private  List<ClientHandler> waiting;
     private GameController gameController;
     public static final Logger LOGGER = Logger.getLogger(Server.class.getName());
-    private final Map<String, VirtualView> virtualClients;
+    private  Map<String, VirtualView> virtualClients;
 
 
     public Server() {
+        reset();
+    }
+
+
+    private void reset(){
         this.clients = new HashMap<>();
         this.waiting = new ArrayList<>();
         this.virtualClients = new HashMap<>();
         this.gameController = new GameController();
     }
-
     /**
      * add a new client to the game if the nickname is not already taken
      *
@@ -161,11 +167,16 @@ public class Server {
         }else{
             String name = clients.get(clientHandler);
             clients.remove(clientHandler);
-            gameController.addDisconnectedClient(name);
-            if(gameController.getTurnController().getActivePlayer().equals(name)){
-                gameController.getTurnController().nextTurn();
+            if(!gameController.getGamePhase().equals(GamePhase.END)) {
+                gameController.addDisconnectedClient(name);
+                if (gameController.getTurnController().getActivePlayer().equals(name)) {
+                    gameController.getTurnController().nextTurn();
+                }
+            }else{
+                if(clients.isEmpty()){
+                    reset();
+                }
             }
-
         }
     }
 
@@ -177,6 +188,8 @@ public class Server {
     public void onReconnect(String nickname, VirtualView virtualView){
         gameController.reconnectClient(nickname, virtualView);
     }
+
+
 }
 
 

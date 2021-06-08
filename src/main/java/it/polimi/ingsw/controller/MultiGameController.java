@@ -1,11 +1,17 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.enumerations.GamePhase;
+import it.polimi.ingsw.exceptions.InvalidNickname;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.answer.ErrorMessage;
 import it.polimi.ingsw.model.MultiGame;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.server.VirtualView;
+import it.polimi.ingsw.utility.Persistence;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,21 +40,37 @@ public class MultiGameController extends GameController {
 
 
     @Override
-    public void endGame() {
+    public synchronized void endGame() {
         ArrayList<Player> winners = game.getWinners();
-        if(winners.size() > 1){
             for(Player p: winners){
                 getVirtualView(p.getNickName()).update(new Message(MessageType.WINNER,""));
-                players.remove(p.getNickName());
+                try {
+                    getVirtualView(p.getNickName()).update(new Message(MessageType.VICTORY_POINTS,gson.toJson(game.getPlayerByNickname(p.getNickName()).getVictoryPoints())));
+                } catch (InvalidNickname invalidNickname) {
+                    invalidNickname.printStackTrace();
+                }
+
+
             }
-            for(String name: players){
-                getVirtualView(name).update(new Message(MessageType.LOSER, ""));
+            for(Player player: game.getPlayers()){
+                if(!winners.contains(player)) {
+                    getVirtualView(player.getNickName()).update(new Message(MessageType.LOSER, ""));
+                    try {
+                        getVirtualView(player.getNickName()).update(new Message(MessageType.VICTORY_POINTS, gson.toJson(game.getPlayerByNickname(player.getNickName()).getVictoryPoints())));
+                    } catch (InvalidNickname invalidNickname) {
+                        invalidNickname.printStackTrace();
+                    }
+                }
             }
-        }else{
-            getVirtualView(winners.get(0).getNickName()).update(new Message(MessageType.WINNER,""));
-            sendAllExcept(new Message(MessageType.LOSER, ""), getVirtualView(winners.get(0).getNickName()));
+
+        gamePhase = GamePhase.END;
+        for(VirtualView view: connectedClients.values()){
+            view.close();
         }
-    }
+        Persistence persistence = new Persistence();
+        persistence.delete();
+   }
+
 
 
 }

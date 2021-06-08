@@ -3,7 +3,9 @@ import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.exceptions.InvalidNickname;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.DevelopmentCardDeck;
+import it.polimi.ingsw.model.cards.LeaderCard;
 
 import java.util.ArrayList;
 
@@ -46,16 +48,16 @@ public class SingleGame extends Game{
      */
     @Override
     public boolean checkEndGame() {
-        boolean b = players.get(0).getBlackCross() == Constants.winFaith;
+        boolean b = players.get(0).getBlackCross() >= Constants.winFaith;
         for(int c=0; c<Constants.cols; c++){
             if(getColDevCards(c).isEmpty()){
                 b = true;
             }
         }
-        if (players.get(1).getPlayerBoard().getFaithMarker() == Constants.winFaith){
+        if (players.get(1).getPlayerBoard().getFaithMarker() >= Constants.winFaith){
             b = true;
         }
-        if(players.get(1).getPlayerBoard().getCountDevCards() == Constants.winDev){
+        if(players.get(1).getPlayerBoard().getCountDevCards() >= Constants.winDev){
             b = true;
         }
         return b;
@@ -115,6 +117,15 @@ public ArrayList<Player> getWinners(){
     if(!b){
         this.winners.add(players.get(1));
     }
+    Player p = players.get(0);
+    p.addVictoryPoints(faithTrack.getLastVictoryPoint(p.getPlayerBoard().getFaithMarker()));
+    for(DevelopmentCard developmentCard: p.getPlayerBoard().getAllDevelopmentCards()){
+        p.addVictoryPoints(developmentCard.getVictoryPoints());
+    }
+    for(LeaderCard leaderCard: p.getActiveLeaderCards()){
+        p.addVictoryPoints(leaderCard.getVictoryPoints());
+    }
+    p.addVictoryPoints(p.getPlayerBoard().getResources().size()/5);
     return winners;
 }
 

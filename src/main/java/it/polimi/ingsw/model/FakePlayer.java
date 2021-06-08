@@ -11,7 +11,6 @@ public class FakePlayer extends Player{
     private TokenDeck tokenDeck;
 
     public FakePlayer() throws JsonFileNotFoundException {
-        super();
         this.blackCross = 0;
         this.tokenDeck = new TokenDeck();
     }

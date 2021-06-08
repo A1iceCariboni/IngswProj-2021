@@ -130,6 +130,7 @@ public class TurnController implements Serializable {
      * check if the players have completed a round
      */
     private void nextPlayer(){
+        changeGamePhase();
         do{
             nickNamesQueue.add(activePlayer);
             activePlayer = nickNamesQueue.get(0);
@@ -137,9 +138,7 @@ public class TurnController implements Serializable {
             if(!gameController.getDisconnectedClients().contains(activePlayer)) {
                 gameController.getVirtualView(activePlayer).doneGameAction(0);
             }
-            if (gameController.getPlayers().get(0).equals(activePlayer)) {
-                changeGamePhase();
-            }
+
             game.nextPlayer();
         }while(gameController.getDisconnectedClients().contains(activePlayer)) ;
         gameController.setTurnPhase(TurnPhase.FREE);
@@ -157,7 +156,9 @@ public class TurnController implements Serializable {
     public void changeGamePhase(){
           switch(gameController.getGamePhase()){
               case FIRST_ROUND:
-                  gameController.setGamePhase(GamePhase.IN_GAME);
+                  if (gameController.getPlayers().get(0).equals(activePlayer)) {
+                      gameController.setGamePhase(GamePhase.IN_GAME);
+                  }
                   break;
               case IN_GAME:
                   if(gameController.getGame().checkEndGame()){
@@ -166,7 +167,9 @@ public class TurnController implements Serializable {
                   }
                   break;
               case LAST_ROUND:
-                  gameController.endGame();
+                  if (gameController.getPlayers().get(0).equals(activePlayer)) {
+                      gameController.endGame();
+                  }
                   break;
           }
     }

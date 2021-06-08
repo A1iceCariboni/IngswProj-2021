@@ -680,4 +680,7 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    public void showVictoryPoints(int victoryPoints){
+        System.out.println("Victory points : " + victoryPoints);
+    }
 }

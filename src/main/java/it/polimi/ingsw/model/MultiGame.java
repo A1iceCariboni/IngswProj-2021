@@ -42,6 +42,13 @@ public class MultiGame extends Game {
             int pointsFaithTrack = getFaithTrack().getLastVictoryPoint(player.getPlayerBoard().getFaithMarker());
             int pointsResources = player.getPlayerBoard().getResources().size() / 5;
             player.addVictoryPoints(pointsResources + pointsFaithTrack);
+
+            for(DevelopmentCard developmentCard: player.getPlayerBoard().getAllDevelopmentCards()){
+                player.addVictoryPoints(developmentCard.getVictoryPoints());
+            }
+            for(LeaderCard leaderCard: player.getActiveLeaderCards()){
+                player.addVictoryPoints(leaderCard.getVictoryPoints());
+            }
         }
 
         int winnerVictoryPoints = 0;

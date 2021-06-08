@@ -227,6 +227,10 @@ public class ClientController implements ViewObserver,Observer {
                 int blackCross = gson.fromJson(message.getPayload(), int.class);
                 executionQueue.execute( () -> view.showBlackCross(blackCross));
                 break;
+            case VICTORY_POINTS:
+                int victoryPoints = gson.fromJson(message.getPayload(), int.class);
+                executionQueue.execute(() -> view.showVictoryPoints(victoryPoints));
+                break;
 
             default:
                 System.out.println("Error reading from server");

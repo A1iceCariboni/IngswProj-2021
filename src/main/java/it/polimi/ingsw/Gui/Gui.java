@@ -163,6 +163,11 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
+    public void showVictoryPoints(int victoryPoints) {
+
+    }
+
+    @Override
     public void addResourceToWareHouse(String[] resource) {
         AddtoWarehouse c = new AddtoWarehouse();
         Platform.runLater(() -> GUIRunnable.putInWarehouse(c, observers, resource, virtualModel));

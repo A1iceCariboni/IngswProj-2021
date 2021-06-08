@@ -167,4 +167,8 @@ public class VirtualView implements Observer {
     public boolean isGameActionDone(){
         return gameActionPerTurn == 1;
     }
+
+    public void close(){
+        clientHandler.disconnect();
+    }
 }
