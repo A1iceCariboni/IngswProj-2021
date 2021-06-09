@@ -120,37 +120,37 @@
             </Label>
             <ImageView fx:id="r1" fitHeight="74.0" fitWidth="79.0" layoutX="317.0" layoutY="229.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/coin.png" />
+                  <Image url="@../PunchBoard/COIN.png" />
                </image>
             </ImageView>
             <ImageView fx:id="r2" fitHeight="67.0" fitWidth="63.0" layoutX="415.0" layoutY="229.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/shield.png" />
+                  <Image url="@../PunchBoard/SHIELD.png" />
                </image>
             </ImageView>
             <ImageView fx:id="r3" fitHeight="74.0" fitWidth="79.0" layoutX="492.0" layoutY="226.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/stone.png" />
+                  <Image url="@../PunchBoard/STONE.png" />
                </image>
             </ImageView>
             <ImageView fx:id="r4" fitHeight="67.0" fitWidth="63.0" layoutX="613.0" layoutY="229.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/shield.png" />
+                  <Image url="@../PunchBoard/SHIELD.png" />
                </image>
             </ImageView>
             <ImageView fx:id="r5" fitHeight="67.0" fitWidth="63.0" layoutX="707.0" layoutY="229.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/shield.png" />
+                  <Image url="@../PunchBoard/SHIELD.png" />
                </image>
             </ImageView>
             <ImageView fx:id="r6" fitHeight="67.0" fitWidth="63.0" layoutX="807.0" layoutY="230.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/shield.png" />
+                  <Image url="@../PunchBoard/SHIELD.png" />
                </image>
             </ImageView>
             <ImageView fx:id="res1" fitHeight="55.0" fitWidth="53.0" layoutX="627.0" layoutY="389.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/shield.png" />
+                  <Image url="@../PunchBoard/SHIELD.png" />
                </image>
             </ImageView>
          </children>

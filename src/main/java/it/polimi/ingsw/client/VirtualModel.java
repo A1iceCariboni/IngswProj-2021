@@ -714,6 +714,54 @@ public void showBlackCross(int blackCross){
     }
 
 
+    public String getOtherSlot1() {
+        String s = "";
+        if(!otherPlayer.getWareHouse().getDepot1().getResources().isEmpty())
+            return otherPlayer.getWareHouse().getDepot1().getResources().get(0);
+        else return s;
+    }
+    public String getOtherSlot2() {
+        String s = "";
+        if(!otherPlayer.getWareHouse().getDepot2().getResources().isEmpty())
+            return otherPlayer.getWareHouse().getDepot2().getResources().get(0);
+        else return s;
+    }
+
+    public String getOtherSlot3() {
+        String s = "";
+        if (!otherPlayer.getWareHouse().getDepot2().getResources().isEmpty()) {
+            if (otherPlayer.getWareHouse().getDepot2().getResources().size() >= 2) {
+                s =otherPlayer.getWareHouse().getDepot2().getResources().get(1);
+            }
+        }return s;
+    }
+
+
+    public String getOtherSlot4() {
+        String s = "";
+        if (!otherPlayer.getWareHouse().getDepot3().getResources().isEmpty()){
+            s = otherPlayer.getWareHouse().getDepot3().getResources().get(0);
+
+        }return s;
+    }
+
+    public String getOtherSlot5() {
+        String s = "";
+        if (!otherPlayer.getWareHouse().getDepot3().getResources().isEmpty()){
+            if (otherPlayer.getWareHouse().getDepot3().getResources().size() >= 2)
+                s = otherPlayer.getWareHouse().getDepot3().getResources().get(1);
+        } return s;
+    }
+    public String getOtherSlot6() {
+        String s = "";
+        if(!otherPlayer.getWareHouse().getDepot3().getResources().isEmpty()) {
+            if (otherPlayer.getWareHouse().getDepot3().getResources().size() == 3)
+                s= otherPlayer.getWareHouse().getDepot3().getResources().get(2);
+        }
+        return s;
+    }
+
+
 
 
 

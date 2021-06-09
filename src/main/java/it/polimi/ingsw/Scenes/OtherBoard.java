@@ -34,6 +34,9 @@ public class OtherBoard extends ViewObservable {
     @FXML
     public ImageView s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15;
 
+    @FXML
+    public ImageView pope2, pope3, pope4;
+
     private VirtualModel virtualModel;
     private final ArrayList<ImageView> faithTrack;
     private final ArrayList<ImageView> devSections;
@@ -115,54 +118,73 @@ public class OtherBoard extends ViewObservable {
         faithTrack.get(virtualModel.getOtherPlayer().getFaithMarker()).setVisible(true);
 
         DummyDev[] devCards = virtualModel.getOtherPlayer().getDevSections();
-        for (int i = 0; i < devSections.size(); i++) {
-            if (devCards[i] != null) {
-                Image image = new Image(getClass().getResourceAsStream("/CardsFront/devCard" + devCards[i].getId() + ".png"));
-                devSections.get(i).setImage(image);
+        if (devCards.length != 0) {
+            for (int i = 0; i < devSections.size(); i++) {
+                if (devCards[i] != null) {
+                    Image image = new Image(getClass().getResourceAsStream("/CardsFront/devCard" + devCards[i].getId() + ".png"));
+                    devSections.get(i).setImage(image);
+                    devSections.get(i).setOpacity(1);
+                }
             }
         }
 
         ArrayList<String> strongbox = virtualModel.getOtherPlayer().getStrongBox().getResources();
-        for (int i=0; i<strongbox.size(); i++){
+        if (strongbox.size() != 0) {
+            for (int i = 0; i < strongbox.size(); i++) {
                 Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getStrongBox().getResources().get(i) + ".png")));
                 resStrongBox.get(i).setImage(image);
+                resStrongBox.get(i).setOpacity(1);
+            }
         }
 
 
-        if (virtualModel.getOtherPlayer().getWareHouse().getDepot1().getResources().size() == 1) {
-            Image image1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getWareHouse().getDepot1().getResources().get(0) + ".png")));
+        if (virtualModel.getOtherSlot1() != "") {
+            Image image1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherSlot1()  + ".png")));
             res1.setImage(image1);
+            res1.setOpacity(1);
         }
-        if (virtualModel.getOtherPlayer().getWareHouse().getDepot2().getResources().size() == 1) {
-            Image image2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getWareHouse().getDepot2().getResources().get(0) + ".png")));
+        if (virtualModel.getOtherSlot2() != "") {
+            Image image2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherSlot2() + ".png")));
             depot2.get(0).setImage(image2);
+            depot2.get(0).setOpacity(1);
         }
-        if (virtualModel.getOtherPlayer().getWareHouse().getDepot2().getResources().size() == 2) {
-            Image image3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getWareHouse().getDepot2().getResources().get(1) + ".png")));
+        if (virtualModel.getOtherSlot3() != "") {
+            Image image3 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherSlot3() + ".png")));
             depot2.get(1).setImage(image3);
+            depot2.get(1).setOpacity(1);
         }
-
-        if (virtualModel.getOtherPlayer().getWareHouse().getDepot3().getResources().size() == 1) {
-            Image image4 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getWareHouse().getDepot3().getResources().get(0) + ".png")));
+        if (virtualModel.getOtherSlot4() != "") {
+            Image image4 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherSlot4() + ".png")));
             depot3.get(0).setImage(image4);
+            depot3.get(0).setOpacity(1);
         }
-        if (virtualModel.getOtherPlayer().getWareHouse().getDepot3().getResources().size() == 2) {
-            Image image5 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getWareHouse().getDepot3().getResources().get(1) + ".png")));
+        if (virtualModel.getOtherSlot5() != "") {
+            Image image5 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherSlot5() + ".png")));
             depot3.get(1).setImage(image5);
+            depot3.get(1).setOpacity(1);
         }
-        if (virtualModel.getOtherPlayer().getWareHouse().getDepot3().getResources().size() == 3) {
-            Image image6 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getWareHouse().getDepot3().getResources().get(2) + ".png")));
+        if (virtualModel.getOtherSlot6() != "") {
+            Image image6 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherSlot6() + ".png")));
             depot3.get(2).setImage(image6);
+            depot3.get(2).setOpacity(1);
         }
 
         if (virtualModel.getOtherCards().size() == 1) {
             Image imageLed1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getOtherCards().get(0))));
             led1.setImage(imageLed1);
+            led1.setOpacity(1);
         }
         if (virtualModel.getOtherCards().size() == 2) {
+            Image imageLed1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getOtherCards().get(0))));
+            led1.setImage(imageLed1);
+            led1.setOpacity(1);
             Image imageLed2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getOtherCards().get(1))));
             led2.setImage(imageLed2);
+            led2.setOpacity(1);
         }
+
+
+
     }
 
 

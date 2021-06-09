@@ -120,21 +120,21 @@
             </Label>
             <ImageView fx:id="r2" fitHeight="74.0" fitWidth="79.0" layoutX="530.0" layoutY="229.0" onMouseClicked="#pickServant" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/SERVANT.png" />
                </image>
             </ImageView>
             <ImageView fx:id="r1" fitHeight="74.0" fitWidth="79.0" layoutX="428.0" layoutY="229.0" onMouseClicked="#pickCoin" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/coin.png" />
+                  <Image url="@../PunchBoard/COIN.png" />
                </image>
             </ImageView>
             <ImageView fx:id="r4" fitHeight="74.0" fitWidth="79.0" layoutX="759.0" layoutY="229.0" onMouseClicked="#pickShield" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/shield.png" />
+                  <Image url="@../PunchBoard/SHIELD.png" />
                </image></ImageView>
             <ImageView fx:id="r3" fitHeight="74.0" fitWidth="79.0" layoutX="641.0" layoutY="229.0" onMouseClicked="#pickStone" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/stone.png" />
+                  <Image url="@../PunchBoard/STONE.png" />
                </image></ImageView>
             <Button fx:id="disc" layoutX="790.0" layoutY="324.0" mnemonicParsing="false" onAction="#discard" prefHeight="37.0" prefWidth="175.0" text="Discard this resource">
                <font>
@@ -161,32 +161,32 @@
             </Button>
             <ImageView fx:id="res6" fitHeight="55.0" fitWidth="53.0" layoutX="681.0" layoutY="548.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/shield.png" />
+                  <Image url="@../PunchBoard/SHIELD.png" />
                </image>
             </ImageView>
             <ImageView fx:id="res3" fitHeight="55.0" fitWidth="53.0" layoutX="650.0" layoutY="470.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/shield.png" />
+                  <Image url="@../PunchBoard/SHIELD.png" />
                </image>
             </ImageView>
             <ImageView fx:id="res1" fitHeight="55.0" fitWidth="53.0" layoutX="627.0" layoutY="389.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/shield.png" />
+                  <Image url="@../PunchBoard/SHIELD.png" />
                </image>
             </ImageView>
             <ImageView fx:id="res4" fitHeight="55.0" fitWidth="53.0" layoutX="570.0" layoutY="544.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/shield.png" />
+                  <Image url="@../PunchBoard/SHIELD.png" />
                </image>
             </ImageView>
             <ImageView fx:id="res5" fitHeight="55.0" fitWidth="53.0" layoutX="627.0" layoutY="548.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/shield.png" />
+                  <Image url="@../PunchBoard/SHIELD.png" />
                </image>
             </ImageView>
             <ImageView fx:id="res2" fitHeight="55.0" fitWidth="53.0" layoutX="593.0" layoutY="470.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/shield.png" />
+                  <Image url="@../PunchBoard/SHIELD.png" />
                </image>
             </ImageView>
             <Button fx:id="c1" layoutX="311.0" layoutY="398.0" mnemonicParsing="false" onAction="#pay1" prefHeight="47.0" prefWidth="175.0" text="Depot 1">

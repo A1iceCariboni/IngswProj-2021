@@ -120,32 +120,32 @@
             </Button>
             <ImageView fx:id="res4" fitHeight="55.0" fitWidth="63.0" layoutX="555.0" layoutY="546.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/SERVANT.png" />
                </image>
             </ImageView>
             <ImageView fx:id="res2" fitHeight="55.0" fitWidth="63.0" layoutX="585.0" layoutY="464.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/SERVANT.png" />
                </image>
             </ImageView>
             <ImageView fx:id="res3" fitHeight="55.0" fitWidth="63.0" layoutX="649.0" layoutY="465.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/SERVANT.png" />
                </image>
             </ImageView>
             <ImageView fx:id="res5" fitHeight="55.0" fitWidth="63.0" layoutX="612.0" layoutY="546.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/SERVANT.png" />
                </image>
             </ImageView>
             <ImageView fx:id="res6" fitHeight="55.0" fitWidth="63.0" layoutX="667.0" layoutY="546.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/SERVANT.png" />
                </image>
             </ImageView>
             <ImageView fx:id="res1" fitHeight="55.0" fitWidth="63.0" layoutX="617.0" layoutY="385.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/SERVANT.png" />
                </image>
             </ImageView>
          </children>

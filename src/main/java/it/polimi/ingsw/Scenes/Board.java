@@ -18,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 
 /** @author Alessandra Atria
@@ -79,6 +80,9 @@ public class Board extends ViewObservable {
 
     @FXML
     Button DevButton;
+
+    @FXML
+    public ImageView pope2, pope3, pope4;
 
     public Board() {
         this.virtualModel = new VirtualModel();
@@ -553,7 +557,10 @@ public class Board extends ViewObservable {
         //sst.setText("x"+ stone);
         ssh.setText("x"+ shield);
         sv.setText("x"+ servant);
-        }
+
+
+
+    }
 
 
 

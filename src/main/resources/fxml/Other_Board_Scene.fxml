@@ -164,7 +164,7 @@
                   <Image url="@../PunchBoard/croce.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="pope3" fitHeight="71.0" fitWidth="78.0" layoutX="472.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="pope3" fitHeight="71.0" fitWidth="78.0" layoutX="470.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/quadratoarancione.png" />
                </image>
@@ -198,32 +198,32 @@
             </GridPane>
             <ImageView fx:id="res6" fitHeight="46.0" fitWidth="48.0" layoutX="137.0" layoutY="411.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/SERVANT.png" />
                </image>
             </ImageView>
             <ImageView fx:id="res3" fitHeight="46.0" fitWidth="48.0" layoutX="122.0" layoutY="348.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/stone.png" />
+                  <Image url="@../PunchBoard/STONE.png" />
                </image>
             </ImageView>
             <ImageView fx:id="res2" fitHeight="46.0" fitWidth="48.0" layoutX="61.0" layoutY="348.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/stone.png" />
+                  <Image url="@../PunchBoard/STONE.png" />
                </image>
             </ImageView>
             <ImageView fx:id="res1" fitHeight="46.0" fitWidth="48.0" layoutX="98.0" layoutY="283.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/shield.png" />
+                  <Image url="@../PunchBoard/SHIELD.png" />
                </image>
             </ImageView>
             <ImageView fx:id="res4" fitHeight="46.0" fitWidth="48.0" layoutX="37.0" layoutY="411.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/SERVANT.png" />
                </image>
             </ImageView>
             <ImageView fx:id="res5" fitHeight="46.0" fitWidth="48.0" layoutX="85.0" layoutY="411.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/SERVANT.png" />
                </image>
             </ImageView>
             <ImageView fx:id="p24" fitHeight="40.0" fitWidth="30.0" layoutX="890.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
@@ -233,77 +233,77 @@
             </ImageView>
             <ImageView fx:id="s3" fitHeight="37.0" fitWidth="30.0" layoutX="83.0" layoutY="509.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/SERVANT.png" />
                </image>
             </ImageView>
             <ImageView fx:id="s4" fitHeight="27.0" fitWidth="39.0" layoutX="121.0" layoutY="509.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/SERVANT.png" />
                </image>
             </ImageView>
             <ImageView fx:id="s5" fitHeight="37.0" fitWidth="30.0" layoutX="155.0" layoutY="509.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/SERVANT.png" />
                </image>
             </ImageView>
             <ImageView fx:id="s2" fitHeight="37.0" fitWidth="30.0" layoutX="52.0" layoutY="509.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/SERVANT.png" />
                </image>
             </ImageView>
             <ImageView fx:id="s9" fitHeight="37.0" fitWidth="30.0" layoutX="121.0" layoutY="536.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/stone.png" />
+                  <Image url="@../PunchBoard/STONE.png" />
                </image>
             </ImageView>
             <ImageView fx:id="s10" fitHeight="37.0" fitWidth="30.0" layoutX="155.0" layoutY="536.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/shield.png" />
+                  <Image url="@../PunchBoard/SHIELD.png" />
                </image>
             </ImageView>
             <ImageView fx:id="s1" fitHeight="37.0" fitWidth="30.0" layoutX="22.0" layoutY="510.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/coin.png" />
+                  <Image url="@../PunchBoard/COIN.png" />
                </image>
             </ImageView>
             <ImageView fx:id="s15" fitHeight="37.0" fitWidth="30.0" layoutX="155.0" layoutY="572.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/stone.png" />
+                  <Image url="@../PunchBoard/STONE.png" />
                </image>
             </ImageView>
             <ImageView fx:id="s7" fitHeight="37.0" fitWidth="30.0" layoutX="52.0" layoutY="536.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/stone.png" />
+                  <Image url="@../PunchBoard/STONE.png" />
                </image>
             </ImageView>
             <ImageView fx:id="s8" fitHeight="37.0" fitWidth="30.0" layoutX="83.0" layoutY="536.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/stone.png" />
+                  <Image url="@../PunchBoard/STONE.png" />
                </image>
             </ImageView>
             <ImageView fx:id="s6" fitHeight="37.0" fitWidth="30.0" layoutX="22.0" layoutY="536.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/shield.png" />
+                  <Image url="@../PunchBoard/SHIELD.png" />
                </image>
             </ImageView>
             <ImageView fx:id="s13" fitHeight="27.0" fitWidth="39.0" layoutX="83.0" layoutY="573.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/SERVANT.png" />
                </image>
             </ImageView>
             <ImageView fx:id="s14" fitHeight="27.0" fitWidth="39.0" layoutX="122.0" layoutY="573.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/servant.png" />
+                  <Image url="@../PunchBoard/SERVANT.png" />
                </image>
             </ImageView>
             <ImageView fx:id="s12" fitHeight="37.0" fitWidth="30.0" layoutX="52.0" layoutY="573.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/coin.png" />
+                  <Image url="@../PunchBoard/COIN.png" />
                </image>
             </ImageView>
             <ImageView fx:id="s11" fitHeight="37.0" fitWidth="30.0" layoutX="22.0" layoutY="573.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/coin.png" />
+                  <Image url="@../PunchBoard/COIN.png" />
                </image>
             </ImageView>
             <Button fx:id="Back" layoutX="967.0" layoutY="100.0" mnemonicParsing="false" onAction="#back" prefHeight="36.0" prefWidth="101.0" text="Back">
