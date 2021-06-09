@@ -92,10 +92,32 @@ public class SingleGame extends Game{
      */
     @Override
     public void getPopePoints(){
-        if (faithTrack.isReportSection(players.get(1).getPlayerBoard().getFaithMarker())){
-            players.get(1).addVictoryPoints(faithTrack.getPointsForPope(players.get(1).getPlayerBoard().getFaithMarker()));
+        int cell;
+        if(players.get(0).getBlackCross() >= players.get(1).getPlayerBoard().getFaithMarker()) {
+            cell = players.get(0).getBlackCross();
+        }else {
+            cell = players.get(1).getPlayerBoard().getFaithMarker();
         }
-    }
+            for(int i = 0; i < cell + 1 ; i++) {
+                if (faithTrack.isReportSection(i)) {
+                    if(players.get(1).getPlayerBoard().getFaithMarker() >= i) {
+                        players.get(1).addVictoryPoints(faithTrack.getPointsForPope(i));
+                    }
+                    if(players.get(0).getBlackCross() >= i) {
+                        players.get(0).addVictoryPoints(faithTrack.getPointsForPope(i));
+                    }
+                    break;
+                }
+            }
+            for(int i = 0; i < cell + 1 ; i++) {
+                if (faithTrack.isPopeSpace(i)) {
+                    faithTrack.deactivatePopeSpace(i);
+                    faithTrack.deactivateSection(i);
+                    break;
+                }
+            }
+        }
+
 
 @Override
      public Player getCurrentPlayer(){
@@ -160,5 +182,22 @@ public ArrayList<Player> getWinners(){
     public Player getPlayerByNickname(String nickname) throws InvalidNickname {
         if(nickname.equals(players.get(1).getNickName())) return players.get(1);
         throw new InvalidNickname("Not a nickname");
+    }
+
+    @Override
+    public boolean checkPopeSpace(){
+        for(int i = 0; i < players.get(0).getBlackCross() + 1; i++) {
+            if (faithTrack.isPopeSpace(i)) {
+                getPopePoints();
+                return true;
+            }
+        }
+        for(int i = 0; i < players.get(1).getPlayerBoard().getFaithMarker() + 1; i++) {
+            if (faithTrack.isPopeSpace(i)) {
+                getPopePoints();
+                return true;
+            }
+        }
+        return false;
     }
 }

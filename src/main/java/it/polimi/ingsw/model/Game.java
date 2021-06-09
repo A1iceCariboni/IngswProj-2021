@@ -114,9 +114,11 @@ public class Game implements Serializable {
 
      public boolean checkPopeSpace(){
          for(Player player: players){
-             if(faithTrack.isPopeSpace(player.getPlayerBoard().getFaithMarker())){
-                 getPopePoints();
-                 return true;
+             for(int i = 0; i < player.getPlayerBoard().getFaithMarker() + 1; i++) {
+                 if (faithTrack.isPopeSpace(i)) {
+                     getPopePoints();
+                     return true;
+                 }
              }
          }
          return false;

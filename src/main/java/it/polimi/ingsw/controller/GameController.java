@@ -372,16 +372,16 @@ public void initGameController(){
     }
 
     public void sendAllUpdateFaith(){
+        if (game.checkPopeSpace()) {
+            for(String name : connectedClients.keySet()) {
+                sendUpdateFaithTrack(connectedClients.get(name) , name);
+            }
+        }
         for(VirtualView virtualView : connectedClients.values()) {
             try {
                 virtualView.update(new Message(MessageType.FAITH_MOVE, gson.toJson(game.getPlayerByNickname(virtualView.getNickname()).getPlayerBoard().getFaithMarker())));
             } catch (InvalidNickname invalidNickname) {
                 invalidNickname.printStackTrace();
-            }
-            if (game.checkPopeSpace()) {
-                for(String name : connectedClients.keySet()) {
-                    sendUpdateFaithTrack(connectedClients.get(name) , name);
-                }
             }
         }
     }
@@ -840,13 +840,14 @@ public void initGameController(){
                             player.getPlayerBoard().moveFaithMarker(1);
                         }
                     }
-                    sendAllUpdateFaith();
                 } else {
                     Depot d = game.getCurrentPlayer().getDepotById(j);
                     game.getCurrentPlayer().getPlayerBoard().getWareHouse().addToDepot(this.game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().get(0), d);
                 }
             this.game.getCurrentPlayer().getPlayerBoard().removeUnplacedResource(0);
         }
+
+        sendAllUpdateFaith();
         this.sendDepots(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
         this.sendStrongBox(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
         this.setTurnPhase(TurnPhase.FREE);

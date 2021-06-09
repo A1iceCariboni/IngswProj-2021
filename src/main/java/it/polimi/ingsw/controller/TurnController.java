@@ -54,6 +54,7 @@ public class TurnController implements Serializable {
         VirtualView vv = gameController.getVirtualView(activePlayer);
         switch(gameController.getGamePhase()){
             case IN_GAME:
+            case LAST_ROUND:
                 if(gameController.getDisconnectedClients().contains(activePlayer)){
                     Persistence persistence = new Persistence();
                     GameController savedGameController = persistence.restore();
@@ -148,15 +149,17 @@ public class TurnController implements Serializable {
         if((nickNamesQueue.size() >= 1) && (! gameController.getDisconnectedClients().contains(nickNamesQueue.get(nickNamesQueue.size() - 1 )))){
             gameController.getVirtualView(nickNamesQueue.get(nickNamesQueue.size() - 1)).update(new Message(MessageType.END_TURN, ""));
         }
-        Persistence persistence = new Persistence();
-        persistence.store(gameController);
+        if(!gameController.getGamePhase().equals(GamePhase.END)) {
+            Persistence persistence = new Persistence();
+            persistence.store(gameController);
+        }
     }
 
 
     public void changeGamePhase(){
           switch(gameController.getGamePhase()){
               case FIRST_ROUND:
-                  if (gameController.getPlayers().get(0).equals(activePlayer)) {
+                  if (gameController.getPlayers().get(gameController.getPlayers().size()-1).equals(activePlayer)) {
                       gameController.setGamePhase(GamePhase.IN_GAME);
                   }
                   break;
@@ -167,7 +170,7 @@ public class TurnController implements Serializable {
                   }
                   break;
               case LAST_ROUND:
-                  if (gameController.getPlayers().get(0).equals(activePlayer)) {
+                  if (gameController.getPlayers().get(gameController.getPlayers().size()-1).equals(activePlayer)) {
                       gameController.endGame();
                   }
                   break;

@@ -489,6 +489,7 @@ public class Cli extends ViewObservable implements View {
             case 4:
                 if(toPay.length == 0){
                     System.out.println("You have nothing to pay yet!");
+                    activateProduction(toPay);
                 }else {
                     payResources(toPay);
                 }
