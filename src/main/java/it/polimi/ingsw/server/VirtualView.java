@@ -1,23 +1,14 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.client.View;
-import it.polimi.ingsw.enumerations.MarbleColor;
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.answer.ErrorMessage;
-import it.polimi.ingsw.messages.answer.InvalidNickname;
-import it.polimi.ingsw.messages.answer.NumberOfPlayerRequest;
-import it.polimi.ingsw.messages.answer.OkMessage;
-import it.polimi.ingsw.messages.request.NumberOfPlayerReply;
-import it.polimi.ingsw.model.Depot;
+import it.polimi.ingsw.messages.ErrorMessage;
+import it.polimi.ingsw.messages.InvalidNickname;
+import it.polimi.ingsw.messages.OkMessage;
 import it.polimi.ingsw.model.Marble;
 import it.polimi.ingsw.model.Resource;
-import it.polimi.ingsw.model.StrongBox;
-import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.observers.Observer;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * class between network and the game controller on the server side , the controller call the methods of this class and this class communicate with the client
@@ -62,6 +53,10 @@ public class VirtualView implements Observer {
     }
 
 
+    @Override
+    public void update(String line) {
+
+    }
 
     @Override
     public void update(Message message) {

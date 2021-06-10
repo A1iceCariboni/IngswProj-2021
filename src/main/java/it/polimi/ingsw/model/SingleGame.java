@@ -6,6 +6,7 @@ import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.DevelopmentCardDeck;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.utility.StrongBoxParser;
 
 import java.util.ArrayList;
 
@@ -28,6 +29,7 @@ public class SingleGame extends Game{
     public void startGame() {
         for (int i = 0; i < Constants.smallDecks; i++) {
             players.get(1).addLeaderCard(deckLeader.popCard());
+            players.get(1).getPlayerBoard().getStrongBox().setStrongbox(StrongBoxParser.parseFull());
         }
     }
 

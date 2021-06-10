@@ -163,7 +163,7 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void showVictoryPoints(int victoryPoints) {
+    public void victoryPointsIn(int victoryPoints) {
 
     }
 

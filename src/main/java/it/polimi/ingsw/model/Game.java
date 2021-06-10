@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.exceptions.InvalidNickname;
@@ -10,6 +11,7 @@ import it.polimi.ingsw.model.cards.LeaderDeck;
 import it.polimi.ingsw.utility.DevelopentCardParser;
 import it.polimi.ingsw.utility.LeaderCardParser;
 import it.polimi.ingsw.utility.MarketTrayParser;
+import it.polimi.ingsw.utility.StrongBoxParser;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -67,6 +69,7 @@ public class Game implements Serializable {
           for(Player player: players) {
               for (int i = 0; i < Constants.smallDecks; i++) {
                   player.addLeaderCard(this.deckLeader.popCard());
+                  player.getPlayerBoard().getStrongBox().setStrongbox(StrongBoxParser.parseFull());
               }
               if(player.getInkwell()){
                   this.currentPlayer = players.indexOf(player);

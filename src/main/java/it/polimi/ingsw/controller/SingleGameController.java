@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.enumerations.GamePhase;
 import it.polimi.ingsw.enumerations.PlayerMove;
 import it.polimi.ingsw.enumerations.TurnPhase;
@@ -8,7 +7,7 @@ import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
-import it.polimi.ingsw.messages.answer.ErrorMessage;
+import it.polimi.ingsw.messages.ErrorMessage;
 import it.polimi.ingsw.model.Depot;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.SingleGame;

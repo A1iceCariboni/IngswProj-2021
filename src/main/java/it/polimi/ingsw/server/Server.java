@@ -6,9 +6,8 @@ import it.polimi.ingsw.controller.SingleGameController;
 import it.polimi.ingsw.enumerations.GamePhase;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
-import it.polimi.ingsw.messages.answer.ErrorMessage;
-import it.polimi.ingsw.messages.answer.NumberOfPlayerRequest;
-import it.polimi.ingsw.observers.Observer;
+import it.polimi.ingsw.messages.ErrorMessage;
+import it.polimi.ingsw.messages.NumberOfPlayerRequest;
 import it.polimi.ingsw.utility.Persistence;
 
 import java.io.IOException;
@@ -144,13 +143,13 @@ public class Server {
     }
 
 
-    public void onMessageReceived(Message message, ClientHandler clientHandler) {
+    public void onMessageReceived(String line, ClientHandler clientHandler) {
         if(clients.get(clientHandler) == null){
             System.out.println("Register first, please");
             clientHandler.disconnect();
             return;
         }
-      gameController.onMessageReceived(message,clients.get(clientHandler));
+      gameController.onMessageReceived(line,clients.get(clientHandler));
     }
 
     public GameController getGameController() {

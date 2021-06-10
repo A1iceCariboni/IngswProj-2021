@@ -7,7 +7,8 @@ import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.enumerations.GamePhase;
 import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.request.SetupMessage;
+import it.polimi.ingsw.messages.ResourceRequest;
+import it.polimi.ingsw.messages.SetupMessage;
 import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.observers.ViewObserver;
 import it.polimi.ingsw.utility.*;
@@ -26,7 +27,7 @@ import java.util.concurrent.Executors;
  */
 public class ClientController implements ViewObserver,Observer {
     private final View view;
-
+    Gson gson = new Gson();
     private SocketClient client;
     private String nickname;
     private final ExecutorService executionQueue;
@@ -93,10 +94,11 @@ public class ClientController implements ViewObserver,Observer {
     /**
      * takes decision and makes action based on the message code arrived from server
      *
-     * @param message arrived from server
+     * @param line arrived from server
      */
     @Override
-    public void update(Message message) {
+    public void update(String line) {
+        Message message = gson.fromJson(line, Message.class);
         Gson gson = new Gson();
         switch (message.getCode()) {
             case NUMBER_OF_PLAYERS:
@@ -134,12 +136,12 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case NOTIFY_TURN:
-                view.setTurnPhase(TurnPhase.FREE);
                 executionQueue.execute(view::yourTurn);
                 break;
 
             case CHOOSE_RESOURCES:
-                int quantity = gson.fromJson(message.getPayload(), int.class);
+                ResourceRequest resourceRequest = gson.fromJson(line, ResourceRequest.class);
+                int quantity = resourceRequest.getNum();
                 executionQueue.execute(() -> view.chooseResources(quantity));
                 break;
 
@@ -229,7 +231,7 @@ public class ClientController implements ViewObserver,Observer {
                 break;
             case VICTORY_POINTS:
                 int victoryPoints = gson.fromJson(message.getPayload(), int.class);
-                executionQueue.execute(() -> view.showVictoryPoints(victoryPoints));
+                executionQueue.execute(() -> view.victoryPointsIn(victoryPoints));
                 break;
 
             default:
@@ -238,6 +240,11 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
         }
+
+    }
+
+    @Override
+    public void update(Message message) {
 
     }
 }

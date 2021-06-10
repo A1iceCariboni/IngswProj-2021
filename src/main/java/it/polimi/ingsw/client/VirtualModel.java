@@ -28,7 +28,7 @@ public class VirtualModel {
     private final DummyPlayerBoard playerBoard;
     private ArrayList<DummyLeaderCard> leaderCards;
     private ArrayList<DummyLeaderCard> otherCards;
-
+    private int victoryPoints;
 
     private DummyDev[][] boardDevCard;
     private DummyMarket dummyMarket;
@@ -40,6 +40,7 @@ public class VirtualModel {
         leaderCards = new ArrayList<>();
         boardDevCard = new DummyDev[Constants.rows][Constants.cols];
         otherPlayer = new DummyPlayerBoard();
+        victoryPoints = 0;
     }
 
     public static void main(String[] args) throws JsonFileNotFoundException {
@@ -714,6 +715,9 @@ public void showBlackCross(int blackCross){
     }
 
 
+    public int getVictoryPoints() {
+        return this.victoryPoints;
+    }
     public String getOtherSlot1() {
         String s = "";
         if(!otherPlayer.getWareHouse().getDepot1().getResources().isEmpty())
@@ -764,6 +768,7 @@ public void showBlackCross(int blackCross){
 
 
 
-
-
+    public void setVictoryPoints(final int victoryPoints) {
+        this.victoryPoints = victoryPoints;
+    }
 }

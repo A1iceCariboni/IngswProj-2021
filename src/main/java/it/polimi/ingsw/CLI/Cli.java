@@ -9,15 +9,11 @@ import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
-import it.polimi.ingsw.messages.request.NumberOfPlayerReply;
-import it.polimi.ingsw.messages.request.SetupMessage;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.observers.ViewObservable;
 import it.polimi.ingsw.utility.DummyWarehouseConstructor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
@@ -109,7 +105,7 @@ public class Cli extends ViewObservable implements View {
                         ok = false;
                 }
             }
-            NumberOfPlayerReply message = new NumberOfPlayerReply(Integer.toString(number));
+            NumberOfPlayerReply message = new NumberOfPlayerReply(number);
             notifyObserver(obs -> obs.onReadyReply(message));
         } catch (ExecutionException|InterruptedException e) {
             System.out.println("Interrupted input");
@@ -304,7 +300,7 @@ public class Cli extends ViewObservable implements View {
 
             chosenResources[i] = resource;
         }
-        Message message = new Message(MessageType.CHOOSE_RESOURCES, gson.toJson(chosenResources));
+        Message message = new ResourcesReply(chosenResources);
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 
@@ -548,17 +544,21 @@ public class Cli extends ViewObservable implements View {
      */
     public int readAnyInt(String question) {
         int number = 0;
+        boolean ok = true;
+        do {
             try {
                 try {
                     number = Integer.parseInt(readLine(question));
                 } catch (NumberFormatException e) {
                     System.out.println("Not a number");
+                    ok = false;
                 }
-                } catch (ExecutionException|InterruptedException e) {
-                    System.out.println("Interrupted input");
-                }
+            } catch (ExecutionException | InterruptedException e) {
+                System.out.println("Interrupted input");
+                ok = false;
+            }
 
-
+        }while(!ok);
         return number;
     }
 
@@ -657,6 +657,7 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void newDummyStrongBox(DummyStrongbox strongBox){
         virtualModel.getPlayerBoard().setStrongBox(strongBox);
+        virtualModel.showStrongbox(virtualModel.getPlayerBoard());
     }
 
     @Override
@@ -680,8 +681,9 @@ public class Cli extends ViewObservable implements View {
             System.out.println("Interrupted input");
         }
     }
-
-    public void showVictoryPoints(int victoryPoints){
+@Override
+    public void victoryPointsIn(int victoryPoints){
+        virtualModel.setVictoryPoints(victoryPoints);
         System.out.println("Victory points : " + victoryPoints);
     }
 }

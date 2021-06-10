@@ -2,8 +2,7 @@ package it.polimi.ingsw.observers;
 
 import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.request.NumberOfPlayerReply;
-import it.polimi.ingsw.messages.request.SetupMessage;
+import it.polimi.ingsw.messages.SetupMessage;
 
 public interface ViewObserver {
 

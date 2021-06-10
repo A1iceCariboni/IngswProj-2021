@@ -1,4 +1,4 @@
-package it.polimi.ingsw.messages.request;
+package it.polimi.ingsw.messages;
 
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;

@@ -128,14 +128,14 @@ public class OtherBoard extends ViewObservable {
             }
         }
 
-        ArrayList<String> strongbox = virtualModel.getOtherPlayer().getStrongBox().getResources();
+       /* ArrayList<String> strongbox = virtualModel.getOtherPlayer().getStrongBox().getResources();
         if (strongbox.size() != 0) {
             for (int i = 0; i < strongbox.size(); i++) {
                 Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getStrongBox().getResources().get(i) + ".png")));
                 resStrongBox.get(i).setImage(image);
                 resStrongBox.get(i).setOpacity(1);
             }
-        }
+        }*/
 
 
         if (virtualModel.getOtherSlot1() != "") {

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.messages;
 
 public class Message {
-      private final MessageType code;
-      private final String payload;
+      private  MessageType code;
+      private  String payload;
 
       public Message(MessageType code, String payload){
           this.code = code;
@@ -15,6 +15,10 @@ public class Message {
 
     public String getPayload() {
         return payload;
+    }
+
+    public void setPayload(String payload){
+          this.payload = payload;
     }
 }
 

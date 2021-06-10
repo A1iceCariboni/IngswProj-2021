@@ -4,6 +4,7 @@ import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
+import it.polimi.ingsw.messages.ResourcesReply;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -87,7 +88,7 @@ public class AddtoWarehouse extends ViewObservable {
         chosenRes[i] = "SERVANT";
         i++;
         if(i == chosenRes.length) {
-            Message message = new Message(MessageType.CHOOSE_RESOURCES, gson.toJson(chosenRes));
+            Message message = new ResourcesReply(chosenRes);
             notifyObserver(obs -> obs.onReadyReply(message));
         }
     }
@@ -96,7 +97,7 @@ public class AddtoWarehouse extends ViewObservable {
         chosenRes[i] = "COIN";
         i++;
         if(i == chosenRes.length) {
-            Message message = new Message(MessageType.CHOOSE_RESOURCES, gson.toJson(chosenRes));
+            Message message = new ResourcesReply(chosenRes);
             notifyObserver(obs -> obs.onReadyReply(message));
 
         }
@@ -106,8 +107,7 @@ public class AddtoWarehouse extends ViewObservable {
         chosenRes[i] = "SHIELD";
         i++;
         if(i == chosenRes.length) {
-            Message message = new Message(MessageType.CHOOSE_RESOURCES, gson.toJson(chosenRes));
-            notifyObserver(obs -> obs.onReadyReply(message));
+            Message message = new ResourcesReply(chosenRes);
         }
     }
 
@@ -115,7 +115,7 @@ public class AddtoWarehouse extends ViewObservable {
         chosenRes[i] = "STONE";
         i++;
         if(i == chosenRes.length) {
-            Message message = new Message(MessageType.CHOOSE_RESOURCES, gson.toJson(chosenRes));
+            Message message = new ResourcesReply(chosenRes);
             notifyObserver(obs -> obs.onReadyReply(message));
         }
     }

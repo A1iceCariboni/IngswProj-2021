@@ -2,7 +2,7 @@ package it.polimi.ingsw.client;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.messages.*;
-import it.polimi.ingsw.messages.request.PingMessage;
+import it.polimi.ingsw.messages.PingMessage;
 import it.polimi.ingsw.observers.Observable;
 
 import java.io.BufferedReader;
@@ -58,7 +58,7 @@ public class SocketClient extends Observable {
                   do{
                       String line = in.readLine();
                       if(line == null )break;
-                      notifyObserver(gson.fromJson(line,Message.class));
+                      notifyObserver(line);
 
                   }while(active) ;
 

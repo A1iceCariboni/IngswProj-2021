@@ -2,18 +2,13 @@ package it.polimi.ingsw.server;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
-import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
-import it.polimi.ingsw.messages.answer.ErrorMessage;
-import it.polimi.ingsw.messages.answer.PongMessage;
-import it.polimi.ingsw.messages.request.PingMessage;
+import it.polimi.ingsw.messages.PongMessage;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
-import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -77,14 +72,11 @@ public class ClientHandler implements  Runnable{
             try {
                 while (connected) {
                         String line = in.readLine();
-                        Gson gson = new Gson();
-                        Message message = gson.fromJson(line, Message.class);
-                        if(message == null) throw new IOException();
-                        if (message.getCode() != MessageType.PING) {
+                        if(line == null) throw new IOException();
                             Server.LOGGER.info("Message received! " + line);
 
-                            handleMessage(message);
-                        }
+                            handleMessage(line);
+
 
                 }
             } catch (SocketTimeoutException ex) {
@@ -111,13 +103,16 @@ public class ClientHandler implements  Runnable{
 
     /**
      * make decision based on the message code arrived from the client
-     * @param message that is received from the client
+     * @param line that is received from the client
      */
-  public void handleMessage(Message message) throws IOException {
+  public void handleMessage(String line) throws IOException {
+      Gson gson = new Gson();
+
+      Message message = gson.fromJson(line, Message.class);
         if (message.getCode() == MessageType.SETUP) {
             socketServer.addClient(message.getPayload(), this);
         }else{
-            server.onMessageReceived(message, this);
+            server.onMessageReceived(line, this);
         }
   }
     /**

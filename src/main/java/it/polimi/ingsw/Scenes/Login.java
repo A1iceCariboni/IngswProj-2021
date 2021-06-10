@@ -1,5 +1,5 @@
 package it.polimi.ingsw.Scenes;
-import it.polimi.ingsw.messages.request.SetupMessage;
+import it.polimi.ingsw.messages.SetupMessage;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.event.Event;
 import javafx.fxml.FXML;

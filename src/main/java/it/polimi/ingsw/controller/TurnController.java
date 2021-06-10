@@ -6,17 +6,15 @@ import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
-import it.polimi.ingsw.messages.answer.ErrorMessage;
+import it.polimi.ingsw.messages.ErrorMessage;
+import it.polimi.ingsw.messages.VictoryPoints;
 import it.polimi.ingsw.model.Depot;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Resource;
-import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.utility.Persistence;
 
-import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TurnController implements Serializable {
@@ -80,6 +78,7 @@ public class TurnController implements Serializable {
                         vv.update(new Message(MessageType.NOTIFY_TURN, ""));
 
                     } else {
+                        vv.update(new VictoryPoints(game.getCurrentPlayer().getVictoryPoints()));
                         nextPlayer();
                     }
                 }
