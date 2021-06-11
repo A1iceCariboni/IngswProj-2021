@@ -3,8 +3,6 @@ package it.polimi.ingsw.messages;
 import com.google.gson.Gson;
 
 public class BuyMarket extends Message{
-    private String roc;
-    private int num;
 
     public BuyMarket( String roc,  int num) {
         super(MessageType.BUY_MARKET, "");
@@ -13,15 +11,18 @@ public class BuyMarket extends Message{
         command[0] = roc;
         command[1] = Integer.toString(num);
         setPayload(gson.toJson(command));
-        this.roc = roc;
-        this.num = num;
     }
 
     public String getRoc() {
-        return this.roc;
+
+        Gson gson = new Gson();
+
+        return gson.fromJson(getPayload(), String[].class)[0];
     }
 
     public int getNum() {
-        return this.num;
+        Gson gson = new Gson();
+
+        return Integer.parseInt(gson.fromJson(getPayload(), String[].class)[0]);
     }
 }

@@ -29,7 +29,7 @@ public class VirtualModel {
     private ArrayList<DummyLeaderCard> leaderCards;
     private ArrayList<DummyLeaderCard> otherCards;
     private int victoryPoints;
-
+    private int blackCross ;
     private DummyDev[][] boardDevCard;
     private DummyMarket dummyMarket;
 
@@ -41,6 +41,7 @@ public class VirtualModel {
         boardDevCard = new DummyDev[Constants.rows][Constants.cols];
         otherPlayer = new DummyPlayerBoard();
         victoryPoints = 0;
+        blackCross = 0;
     }
 
     public static void main(String[] args) throws JsonFileNotFoundException {
@@ -769,5 +770,13 @@ public void showBlackCross(int blackCross){
 
     public void setVictoryPoints(final int victoryPoints) {
         this.victoryPoints = victoryPoints;
+    }
+
+    public int getBlackCross() {
+        return this.blackCross;
+    }
+
+    public void setBlackCross(final int blackCross) {
+        this.blackCross = blackCross;
     }
 }

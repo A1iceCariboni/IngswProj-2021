@@ -56,8 +56,8 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void showBlackCross(int blackCross) {
-        LMfaithTrack lm = new LMfaithTrack();
-        Platform.runLater(() -> GUIRunnable.lmFaithTrack(lm, observers).setBlackCross(virtualModel, blackCross));
+        turnPhase = TurnPhase.SEE_PLAYERBOARD_SINGLE;
+        virtualModel.setBlackCross(blackCross);
     }
 
     @Override
@@ -138,9 +138,15 @@ public class Gui extends ViewObservable implements View {
             OtherBoard board = new OtherBoard();
             Platform.runLater(() -> GUIRunnable.otherPlayerBoard(board, observers).setOtherBoard(virtualModel));
         }else {
-            turnPhase = TurnPhase.FREE;
-            bc = new Board();
-            Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers, virtualModel));
+            if(turnPhase == TurnPhase.SEE_PLAYERBOARD_SINGLE){
+                turnPhase = TurnPhase.FREE;
+                LMfaithTrack lm = new LMfaithTrack();
+                Platform.runLater(() -> GUIRunnable.lmFaithTrack(lm, observers).setBlackCross(virtualModel, virtualModel.getBlackCross()));
+            }else {
+                turnPhase = TurnPhase.FREE;
+                bc = new Board();
+                Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers, virtualModel));
+            }
         }
     }
 

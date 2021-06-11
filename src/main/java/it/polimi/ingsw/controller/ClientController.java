@@ -224,7 +224,7 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case BLACK_CROSS:
-                int blackCross = gson.<Integer>fromJson(message.getPayload(), int.class).intValue();
+                int blackCross = gson.fromJson(message.getPayload(), int.class);
                 executionQueue.execute( () -> view.showBlackCross(blackCross));
                 break;
             case VICTORY_POINTS:

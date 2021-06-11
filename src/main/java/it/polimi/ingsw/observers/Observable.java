@@ -27,7 +27,7 @@ public abstract class Observable {
 
     /**
      * notify all the observers
-     * @param message massage to be processed
+     * @param line massage to be processed
      */
    public void notifyObserver(String line)  {
     for(Observer observer : observers){
