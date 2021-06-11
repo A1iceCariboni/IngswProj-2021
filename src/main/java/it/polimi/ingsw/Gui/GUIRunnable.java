@@ -337,6 +337,19 @@ public class GUIRunnable extends Application {
         return namePP;
     }
 
+    public static LMfaithTrack lmFaithTrack(LMfaithTrack lm, ArrayList<ViewObserver> observers) {
+        try {
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/LM_FaithTrack_Scene.fxml"));
+            Parent root = loader.load();
+            scene.setRoot(root);
+            lm  = loader.getController();
+            lm.addAllObservers(observers);
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+        }
+        return lm;
+    }
+
 
 
 

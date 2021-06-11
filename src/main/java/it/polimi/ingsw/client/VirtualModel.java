@@ -715,9 +715,7 @@ public void showBlackCross(int blackCross){
     }
 
 
-    public int getVictoryPoints() {
-        return this.victoryPoints;
-    }
+
     public String getOtherSlot1() {
         String s = "";
         if(!otherPlayer.getWareHouse().getDepot1().getResources().isEmpty())
@@ -765,8 +763,9 @@ public void showBlackCross(int blackCross){
         return s;
     }
 
-
-
+    public int getVictoryPoints() {
+        return this.victoryPoints;
+    }
 
     public void setVictoryPoints(final int victoryPoints) {
         this.victoryPoints = victoryPoints;

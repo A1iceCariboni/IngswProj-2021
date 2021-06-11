@@ -56,7 +56,8 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void showBlackCross(int blackCross) {
-
+        LMfaithTrack lm = new LMfaithTrack();
+        Platform.runLater(() -> GUIRunnable.lmFaithTrack(lm, observers).setBlackCross(virtualModel, blackCross));
     }
 
     @Override

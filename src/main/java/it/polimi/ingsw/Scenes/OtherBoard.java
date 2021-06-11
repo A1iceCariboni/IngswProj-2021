@@ -9,6 +9,7 @@ import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -32,7 +33,7 @@ public class OtherBoard extends ViewObservable {
     public ImageView devb1, devb2, devb3;
 
     @FXML
-    public ImageView s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15;
+    public Label nStone, nShield, nCoin, nServant;
 
     @FXML
     public ImageView pope2, pope3, pope4;
@@ -89,22 +90,6 @@ public class OtherBoard extends ViewObservable {
         devSections.add(devb2);
         devSections.add(devb3);
 
-        resStrongBox.add(s1);
-        resStrongBox.add(s2);
-        resStrongBox.add(s3);
-        resStrongBox.add(s4);
-        resStrongBox.add(s5);
-        resStrongBox.add(s6);
-        resStrongBox.add(s7);
-        resStrongBox.add(s8);
-        resStrongBox.add(s9);
-        resStrongBox.add(s10);
-        resStrongBox.add(s11);
-        resStrongBox.add(s12);
-        resStrongBox.add(s13);
-        resStrongBox.add(s14);
-        resStrongBox.add(s15);
-
         depot2.add(res2);
         depot2.add(res3);
         depot3.add(res4);
@@ -127,15 +112,6 @@ public class OtherBoard extends ViewObservable {
                 }
             }
         }
-
-       /* ArrayList<String> strongbox = virtualModel.getOtherPlayer().getStrongBox().getResources();
-        if (strongbox.size() != 0) {
-            for (int i = 0; i < strongbox.size(); i++) {
-                Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getOtherPlayer().getStrongBox().getResources().get(i) + ".png")));
-                resStrongBox.get(i).setImage(image);
-                resStrongBox.get(i).setOpacity(1);
-            }
-        }*/
 
 
         if (virtualModel.getOtherSlot1() != "") {
@@ -183,7 +159,24 @@ public class OtherBoard extends ViewObservable {
             led2.setOpacity(1);
         }
 
-
+        int coin =0;
+        int stone =0;
+        int servant=0;
+        int shield=0;
+        for (int i=0; i<virtualModel.getPlayerBoard().getStrongBox().getResources().size(); i++) {
+            if (virtualModel.getPlayerBoard().getStrongBox().getResources().get(i).equals("COIN"))
+                coin++;
+            if (virtualModel.getPlayerBoard().getStrongBox().getResources().get(i).equals("STONE"))
+                stone++;
+            if (virtualModel.getPlayerBoard().getStrongBox().getResources().get(i).equals("SHIELD"))
+                shield++;
+            if (virtualModel.getPlayerBoard().getStrongBox().getResources().get(i).equals("SERVANT"))
+                servant++;
+        }
+        nCoin.setText("x"+ coin);
+        nStone.setText("x"+ stone);
+        nShield.setText("x"+ shield);
+        nServant.setText("x"+ servant);
 
     }
 

@@ -32,6 +32,7 @@ public class QuestionGame extends ViewObservable {
 
     public void single() {
         notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.SEE_PLAYERBOARD, "LorenzoIlMagnifico")));
+
     }
 
     public void back() {

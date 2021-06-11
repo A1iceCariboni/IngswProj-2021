@@ -83,6 +83,10 @@ public class Board extends ViewObservable {
     @FXML
     public ImageView pope2, pope3, pope4;
 
+    @FXML
+    public Label victoryPoints;
+
+
     public Board() {
         this.virtualModel = new VirtualModel();
         this.faithMarker = new ArrayList<>();
@@ -563,7 +567,7 @@ public class Board extends ViewObservable {
         ssh.setText("x"+ shield);
         sv.setText("x"+ servant);
 
-
+        victoryPoints.setText(Integer.toString(virtualModel.getVictoryPoints()));
 
     }
 
