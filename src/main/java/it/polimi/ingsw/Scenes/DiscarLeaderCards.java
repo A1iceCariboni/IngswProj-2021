@@ -2,6 +2,8 @@ package it.polimi.ingsw.Scenes;
 import com.google.gson.Gson;
 import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.VirtualModel;
+import it.polimi.ingsw.messages.ActivateLeader;
+import it.polimi.ingsw.messages.DiscardLeader;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.observers.ViewObservable;
@@ -67,7 +69,7 @@ public class DiscarLeaderCards extends ViewObservable {
     }
     @FXML
     public void DiscardLeader1() {
-        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DISCARD_LEADER, Integer.toString(virtualModel.getLeaderCards().get(0).getId()))));
+        notifyObserver(obs -> obs.onReadyReply(new DiscardLeader(virtualModel.getLeaderCards().get(0).getId())));
         l1.setVisible(false);
 
     }
@@ -75,19 +77,19 @@ public class DiscarLeaderCards extends ViewObservable {
     @FXML
     public void DiscardLeader2() {
 
-        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DISCARD_LEADER, Integer.toString(virtualModel.getLeaderCards().get(1).getId()))));
+        notifyObserver(obs -> obs.onReadyReply(new DiscardLeader(virtualModel.getLeaderCards().get(1).getId())));
         l2.setVisible(false);
     }
 
     @FXML
     public void DiscardLeader3() {
-        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DISCARD_LEADER, Integer.toString(virtualModel.getLeaderCards().get(2).getId()))));
+        notifyObserver(obs -> obs.onReadyReply(new DiscardLeader(virtualModel.getLeaderCards().get(2).getId())));
         l3.setVisible(false);
     }
 
     @FXML
     public void DiscardLeader4() {
-        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DISCARD_LEADER, Integer.toString(virtualModel.getLeaderCards().get(3).getId()))));
+        notifyObserver(obs -> obs.onReadyReply(new DiscardLeader(virtualModel.getLeaderCards().get(3).getId())));
         l4.setVisible(false);
 
     }
@@ -95,24 +97,24 @@ public class DiscarLeaderCards extends ViewObservable {
 
     @FXML
     public void ActivateLeader1(){
-        Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(virtualModel.getLeaderCards().get(0).getId()));
+        Message message = new ActivateLeader(virtualModel.getLeaderCards().get(0).getId());
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 
     @FXML
     public void ActivateLeader2(){
-        Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(virtualModel.getLeaderCards().get(1).getId()));
+        Message message = new ActivateLeader(virtualModel.getLeaderCards().get(1).getId());
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 
     @FXML
     public void ActivateLeader3(){
-        Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(virtualModel.getLeaderCards().get(2).getId()));
+        Message message = new ActivateLeader(virtualModel.getLeaderCards().get(2).getId());
         notifyObserver(obs -> obs.onReadyReply(message));
     }
     @FXML
     public void ActivateLeader4(){
-        Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(virtualModel.getLeaderCards().get(3).getId()));
+        Message message = new ActivateLeader(virtualModel.getLeaderCards().get(3).getId());
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 

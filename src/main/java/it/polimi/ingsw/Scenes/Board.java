@@ -4,8 +4,7 @@ import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -59,7 +58,7 @@ public class Board extends ViewObservable {
 
 
     @FXML
-    Label ssh, sc, sv;
+    Label ssh, sc, sv, sst;
 
     @FXML
     public ImageView res1, res2, res3,res4,res5,res6;
@@ -402,7 +401,7 @@ public class Board extends ViewObservable {
     /** To confirm to activate basic production  */
     @FXML
     public void okbtnBp(){
-        Message message = new Message(MessageType.BASE_PRODUCTION, gson.toJson(command1));
+        Message message = new ActivateBaseProd(command1);
         notifyObserver(obs -> obs.onReadyReply(message));
 
     }
@@ -411,7 +410,8 @@ public class Board extends ViewObservable {
     /** To confirm to activate leader production  */
     @FXML
     public void okbtnL(){
-        Message message = new Message(MessageType.ACTIVATE_PRODUCTION, gson.toJson(ids));
+
+        Message message = new Message(MessageType.EXTRA_PRODUCTION, gson.toJson(ids));
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 
@@ -420,8 +420,13 @@ public class Board extends ViewObservable {
     /** To confirm to basic production  */
     @FXML
     public void okbtnDp(){
-
-        Message message = new Message(MessageType.ACTIVATE_PRODUCTION, gson.toJson(ids));
+        int i = 0;
+        int[] id = new int[ids.size()];
+        for(int j: ids){
+            id[i] = j;
+            i++;
+        }
+        Message message = new ActivateDevProd(id);
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 
@@ -442,7 +447,7 @@ public class Board extends ViewObservable {
     /** this method is used ends the player's turn */
     @FXML
     public void EndTurn(ActionEvent actionEvent) {
-        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.END_TURN, "")));
+        notifyObserver(obs -> obs.onReadyReply(new EndTurn()));
     }
 
 
@@ -554,7 +559,7 @@ public class Board extends ViewObservable {
                     servant++;
         }
         sc.setText("x"+ coin);
-        //sst.setText("x"+ stone);
+        sst.setText("x"+ stone);
         ssh.setText("x"+ shield);
         sv.setText("x"+ servant);
 

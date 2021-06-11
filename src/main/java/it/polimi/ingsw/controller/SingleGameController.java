@@ -8,6 +8,7 @@ import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.ErrorMessage;
+import it.polimi.ingsw.messages.NotifyTurn;
 import it.polimi.ingsw.model.Depot;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.SingleGame;
@@ -95,7 +96,7 @@ public class SingleGameController extends GameController{
 
             this.sendDepots(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
 
-        this.getVirtualView(this.turnController.getActivePlayer()).update(new Message(MessageType.NOTIFY_TURN,""));
+        this.getVirtualView(this.turnController.getActivePlayer()).update(new NotifyTurn());
 
 }
 

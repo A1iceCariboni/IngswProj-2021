@@ -3,6 +3,7 @@ package it.polimi.ingsw.Scenes;
 import com.google.gson.Gson;
 import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.VirtualModel;
+import it.polimi.ingsw.messages.BuyMarket;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.observers.ViewObservable;
@@ -87,69 +88,41 @@ public class Market extends ViewObservable {
 
 
     public void getrow1(ActionEvent actionEvent) {
-        String[] payload = new String[2];
-        String r = "row";
-        payload[0] = (r);
-        payload[1] = (Integer.toString(0));
 
-        Message message = new Message(MessageType.BUY_MARKET, gson.toJson(payload));
+        Message message = new BuyMarket("row", 0);
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 
     public void getrow2(ActionEvent actionEvent) {
-        String[] payload = new String[2];
-        String r = "row";
-        payload[0] = (r);
-        payload[1] = (Integer.toString(1));
+        Message message = new BuyMarket("row", 1);
 
-        Message message = new Message(MessageType.BUY_MARKET, gson.toJson(payload));
         notifyObserver(obs -> obs.onReadyReply(message));
     }
     public void getrow3(ActionEvent actionEvent) {
-        String[] payload = new String[2];
-        String r = "row";
-        payload[0] = (r);
-        payload[1] = (Integer.toString(2));
+        Message message = new BuyMarket("row", 2);
 
-        Message message = new Message(MessageType.BUY_MARKET, gson.toJson(payload));
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 
     public void getcol1(ActionEvent actionEvent) {
-        String[] payload = new String[2];
-        String c = "col";
-        payload[0] = (c);
-        payload[1] = (Integer.toString(0));
+        Message message = new BuyMarket("col", 0);
 
-        Message message = new Message(MessageType.BUY_MARKET, gson.toJson(payload));
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 
     public void getcol2(ActionEvent actionEvent) {
-        String[] payload = new String[2];
-        String c = "col";
-        payload[0] = (c);
-        payload[1] = (Integer.toString(1));
+        Message message = new BuyMarket("col", 1);
 
-        Message message = new Message(MessageType.BUY_MARKET, gson.toJson(payload));
         notifyObserver(obs -> obs.onReadyReply(message));
     }
     public void getcol3(ActionEvent actionEvent) {
-        String[] payload = new String[2];
-        String c = "col";
-        payload[0] = (c);
-        payload[1] = (Integer.toString(2));
+        Message message = new BuyMarket("col", 2);
 
-        Message message = new Message(MessageType.BUY_MARKET, gson.toJson(payload));
         notifyObserver(obs -> obs.onReadyReply(message));
     }
     public void getcol4(ActionEvent actionEvent) {
-        String[] payload = new String[2];
-        String c = "col";
-        payload[0] = (c);
-        payload[1] = (Integer.toString(3));
+        Message message = new BuyMarket("col", 3);
 
-        Message message = new Message(MessageType.BUY_MARKET, gson.toJson(payload));
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 

@@ -212,7 +212,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void newDummyStrongBox(DummyStrongbox dummyStrongbox) {
-
+    virtualModel.getPlayerBoard().setStrongBox(dummyStrongbox);
     }
 
     @Override

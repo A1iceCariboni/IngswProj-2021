@@ -6,9 +6,7 @@ import it.polimi.ingsw.client.SocketClient;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.enumerations.GamePhase;
 import it.polimi.ingsw.enumerations.TurnPhase;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.ResourceRequest;
-import it.polimi.ingsw.messages.SetupMessage;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.observers.Observer;
 import it.polimi.ingsw.observers.ViewObserver;
 import it.polimi.ingsw.utility.*;
@@ -126,8 +124,8 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case DEVELOPMENT_MARKET:
-                DummyDev[][] dummyDevs = gson.fromJson(message.getPayload(), DummyDev[][].class);
-                executionQueue.execute(() -> view.devMarketNew(dummyDevs));
+                DevelopmentMarket developmentMarket = gson.fromJson(line, DevelopmentMarket.class);
+                executionQueue.execute(() -> view.devMarketNew(developmentMarket.getDummyDevs()));
                 break;
 
             case MARKET_TRAY:
@@ -190,8 +188,8 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case DEPOTS:
-                DummyWareHouse dummyWareHouse = DummyWarehouseConstructor.parse(message.getPayload());
-                executionQueue.execute(() -> view.wareHouseNew(dummyWareHouse));
+                DepotMessage depotMessage = gson.fromJson(line, DepotMessage.class);
+                executionQueue.execute(() -> view.wareHouseNew(depotMessage.getDummyWarehouse()));
                 break;
 
             case END_TURN:
@@ -216,7 +214,7 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case OTHER_WAREHOUSE:
-                dummyWareHouse = DummyWarehouseConstructor.parse(message.getPayload());
+                DummyWareHouse dummyWareHouse = DummyWarehouseConstructor.parse(message.getPayload());
                 executionQueue.execute(() -> view.otherWarehouseNew(dummyWareHouse));
                 break;
 
@@ -226,7 +224,7 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case BLACK_CROSS:
-                int blackCross = gson.fromJson(message.getPayload(), int.class);
+                int blackCross = gson.<Integer>fromJson(message.getPayload(), int.class).intValue();
                 executionQueue.execute( () -> view.showBlackCross(blackCross));
                 break;
             case VICTORY_POINTS:

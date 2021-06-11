@@ -5,13 +5,15 @@ import com.sun.prism.Image;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
-import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.utility.WarehouseConstructor;
 
+import java.awt.*;
+import java.awt.image.DataBufferInt;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,8 +34,10 @@ public class InputChecker implements Serializable {
         this.game = game;
     }
 
-    public boolean checkReceivedMessage(Message message, String nickname) {
+    public boolean checkReceivedMessage(String line, String nickname) {
         Gson gson = new Gson();
+        Message message = gson.fromJson(line, Message.class);
+
         switch (message.getCode()) {
             case BUY_DEV:
                 return !gameController.connectedClients.get(nickname).isGameActionDone();
@@ -48,19 +52,19 @@ public class InputChecker implements Serializable {
                 }
                 return id.length == game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().size() ;
             case BUY_MARKET:
+                BuyMarket buyMarket = gson.fromJson(line, BuyMarket.class);
                 if (gameController.getVirtualView(nickname).isGameActionDone()) {
                     return false;
                 }
-                String[] dim = gson.fromJson(message.getPayload(), String[].class);
-                return (dim.length == 2) && ((dim[0].equalsIgnoreCase("row")) || (dim[0].equalsIgnoreCase("col")));
+                return ((buyMarket.getRoc().equalsIgnoreCase("row")) || (buyMarket.getRoc().equalsIgnoreCase("col")));
             case WHITE_MARBLES:
                 String[] marb = gson.fromJson(message.getPayload(), String[].class);
                 return (!gameController.getVirtualView(nickname).getFreeMarble().isEmpty()) && (marb.length >= gameController.getVirtualView(nickname).getFreeMarble().size()) && ((gameController.getTurnPhase() == TurnPhase.BUY_MARKET) || (checkWhiteMarble(marb)));
             case SLOT_CHOICE:
                 return gameController.getTurnPhase() == TurnPhase.BUY_DEV;
             case ACTIVATE_PRODUCTION:
-                int[] cards = gson.fromJson(message.getPayload(), int[].class);
-                return checkIdDev(cards) && (checkResources(cards));
+                ActivateDevProd activateDevProd = gson.fromJson(line, ActivateDevProd.class);
+                return checkIdDev(activateDevProd.getIds()) && (checkResources(activateDevProd.getIds()));
             case EXTRA_PRODUCTION:
                 String[] command = gson.fromJson(message.getPayload(),String[].class);
                 int id1 = Integer.parseInt(command[0]);
@@ -69,7 +73,8 @@ public class InputChecker implements Serializable {
                 resources.add(resource);
                 return checkIdExtraProduction(new int[]{id1}) && (checkResources(resources));
             case BASE_PRODUCTION:
-                command = gson.fromJson(message.getPayload(),String[].class);
+                ActivateBaseProd activateBaseProd = gson.fromJson(line, ActivateBaseProd.class);
+                command = activateBaseProd.getCommand();
                 Resource res1 = new Resource(ResourceType.valueOf(command[0]));
                 Resource res2 = new Resource(ResourceType.valueOf(command[1]));
                 ArrayList<Resource> resources1 = new ArrayList<>();
@@ -78,16 +83,16 @@ public class InputChecker implements Serializable {
                 return checkResources(resources1);
 
             case ACTIVATE_LEADER_CARD:
-                int l = gson.fromJson(message.getPayload(), int.class);
-                return checkLeaderCard(l);
+                ActivateLeader activateLeader = gson.fromJson(line,ActivateLeader.class);
+                return checkLeaderCard(activateLeader.getId());
             case DISCARD_LEADER:
-                int ca = gson.fromJson(message.getPayload(), int.class);
-                return checkOwnedLeaderCard(ca);
+                DiscardLeader discardLeader = gson.fromJson(line, DiscardLeader.class);
+                return checkOwnedLeaderCard(discardLeader.getIds());
             case DEPOTS:
-                Depot[] depots = WarehouseConstructor.parse(message.getPayload());
-                return checkDepotsState(nickname, depots) && validDepots( depots);
+                DepotMessage depotMessage = gson.fromJson(line, DepotMessage.class);
+                return checkDepotsState(nickname, depotMessage.getWareHouse()) && validDepots(depotMessage.getWareHouse());
             case REMOVE_RESOURCES:
-                l = gson.fromJson(message.getPayload(), int.class);
+                int l = gson.fromJson(message.getPayload(), int.class);
                 return checkIdDepot(l);
             case SEE_PLAYERBOARD:
                 if(gameController.getNumberOfPlayers() == 1) return true;

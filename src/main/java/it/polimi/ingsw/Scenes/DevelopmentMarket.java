@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.enumerations.Constants;
+import it.polimi.ingsw.messages.BuyDev;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.observers.ViewObservable;
@@ -35,7 +36,7 @@ public class DevelopmentMarket extends ViewObservable {
    public void select00(){
        payloadDev.add(0);
        payloadDev.add(0);
-       Message messageDev = new Message(MessageType.BUY_DEV, gson.toJson(payloadDev));
+       Message messageDev = new BuyDev(payloadDev);
        notifyObserver(obs -> obs.onReadyReply(messageDev));
         }
 
@@ -43,7 +44,7 @@ public class DevelopmentMarket extends ViewObservable {
     public void select01(){
         payloadDev.add(0);
         payloadDev.add(1);
-        Message messageDev = new Message(MessageType.BUY_DEV, gson.toJson(payloadDev));
+        Message messageDev = new BuyDev(payloadDev);
         notifyObserver(obs -> obs.onReadyReply(messageDev));
     }
 
@@ -51,7 +52,7 @@ public class DevelopmentMarket extends ViewObservable {
     public void select02(){
         payloadDev.add(0);
         payloadDev.add(2);
-        Message messageDev = new Message(MessageType.BUY_DEV, gson.toJson(payloadDev));
+        Message messageDev = new BuyDev(payloadDev);
         notifyObserver(obs -> obs.onReadyReply(messageDev));
     }
 
@@ -59,7 +60,7 @@ public class DevelopmentMarket extends ViewObservable {
     public void select03(){
         payloadDev.add(0);
         payloadDev.add(3);
-        Message messageDev = new Message(MessageType.BUY_DEV, gson.toJson(payloadDev));
+        Message messageDev = new BuyDev(payloadDev);
         notifyObserver(obs -> obs.onReadyReply(messageDev));
     }
 
@@ -68,7 +69,7 @@ public class DevelopmentMarket extends ViewObservable {
     public void select10(){
         payloadDev.add(1);
         payloadDev.add(0);
-        Message messageDev = new Message(MessageType.BUY_DEV, gson.toJson(payloadDev));
+        Message messageDev = new BuyDev(payloadDev);
         notifyObserver(obs -> obs.onReadyReply(messageDev));
     }
 
@@ -76,7 +77,7 @@ public class DevelopmentMarket extends ViewObservable {
     public void select11(){
         payloadDev.add(1);
         payloadDev.add(1);
-        Message messageDev = new Message(MessageType.BUY_DEV, gson.toJson(payloadDev));
+        Message messageDev = new BuyDev(payloadDev);
         notifyObserver(obs -> obs.onReadyReply(messageDev));
     }
 
@@ -84,7 +85,7 @@ public class DevelopmentMarket extends ViewObservable {
     public void select12(){
         payloadDev.add(1);
         payloadDev.add(2);
-        Message messageDev = new Message(MessageType.BUY_DEV, gson.toJson(payloadDev));
+        Message messageDev = new BuyDev(payloadDev);
         notifyObserver(obs -> obs.onReadyReply(messageDev));
     }
 
@@ -92,7 +93,7 @@ public class DevelopmentMarket extends ViewObservable {
     public void select13(){
         payloadDev.add(1);
         payloadDev.add(3);
-        Message messageDev = new Message(MessageType.BUY_DEV, gson.toJson(payloadDev));
+        Message messageDev = new BuyDev(payloadDev);
         notifyObserver(obs -> obs.onReadyReply(messageDev));
     }
 
@@ -100,7 +101,7 @@ public class DevelopmentMarket extends ViewObservable {
     public void select20(){
         payloadDev.add(2);
         payloadDev.add(0);
-        Message messageDev = new Message(MessageType.BUY_DEV, gson.toJson(payloadDev));
+        Message messageDev = new BuyDev(payloadDev);
         notifyObserver(obs -> obs.onReadyReply(messageDev));
     }
 
@@ -108,7 +109,7 @@ public class DevelopmentMarket extends ViewObservable {
     public void select21(){
         payloadDev.add(2);
         payloadDev.add(1);
-        Message messageDev = new Message(MessageType.BUY_DEV, gson.toJson(payloadDev));
+        Message messageDev = new BuyDev(payloadDev);
         notifyObserver(obs -> obs.onReadyReply(messageDev));
     }
 
@@ -116,7 +117,7 @@ public class DevelopmentMarket extends ViewObservable {
     public void select22(){
         payloadDev.add(2);
         payloadDev.add(2);
-        Message messageDev = new Message(MessageType.BUY_DEV, gson.toJson(payloadDev));
+        Message messageDev = new BuyDev(payloadDev);
         notifyObserver(obs -> obs.onReadyReply(messageDev));
     }
 
@@ -124,7 +125,7 @@ public class DevelopmentMarket extends ViewObservable {
     public void select23(){
         payloadDev.add(2);
         payloadDev.add(3);
-        Message messageDev = new Message(MessageType.BUY_DEV, gson.toJson(payloadDev));
+        Message messageDev = new BuyDev(payloadDev);
         notifyObserver(obs -> obs.onReadyReply(messageDev));
     }
 

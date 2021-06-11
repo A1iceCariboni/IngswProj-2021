@@ -222,7 +222,7 @@ public class Cli extends ViewObservable implements View {
 
             case 8:
                 turnPhase = TurnPhase.NOT_YOUR_TURN;
-                notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.END_TURN, "")));
+                notifyObserver(obs -> obs.onReadyReply(new EndTurn()));
                 break;
 
             case 9:
@@ -270,7 +270,7 @@ public class Cli extends ViewObservable implements View {
                     dummyDepot.setResources(res);
                 }
             }
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
+            notifyObserver(obs -> obs.onReadyReply(new DepotMessage(dummyWareHouse)));
         } catch (JsonFileNotFoundException e) {
             e.printStackTrace();
         }
@@ -287,7 +287,7 @@ public class Cli extends ViewObservable implements View {
     public void discardLeader() {
         virtualModel.showLeaderCards(virtualModel.getLeaderCards());
             int id = readAnyInt("Select one id");
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DISCARD_LEADER, Integer.toString(id))));
+            notifyObserver(obs -> obs.onReadyReply(new DiscardLeader(id)));
 
     }
 
@@ -330,7 +330,7 @@ public class Cli extends ViewObservable implements View {
     public void activateLeader() {
         virtualModel.showLeaderCards(virtualModel.getLeaderCards());
             int id = readAnyInt("Type the id of the leader card you want to activate");
-            Message message = new Message(MessageType.ACTIVATE_LEADER_CARD, gson.toJson(id));
+            Message message = new ActivateLeader(id);
             notifyObserver(obs -> obs.onReadyReply(message));
 
     }
@@ -390,10 +390,7 @@ public class Cli extends ViewObservable implements View {
                 }
 
             } while (!validInput);
-            String[] payload = new String[2];
-            payload[0] = (rOc);
-            payload[1] = (Integer.toString(n - 1));
-            Message message = new Message(MessageType.BUY_MARKET, gson.toJson(payload));
+            Message message = new BuyMarket(rOc, n);
             notifyObserver(obs -> obs.onReadyReply(message));
 
     }
@@ -422,7 +419,7 @@ public class Cli extends ViewObservable implements View {
         ArrayList<Integer> payloadDev = new ArrayList<>();
         payloadDev.add(r - 1);
         payloadDev.add(c - 1);
-        Message messageDev = new Message(MessageType.BUY_DEV, gson.toJson(payloadDev));
+        Message messageDev = new BuyDev(payloadDev);
         notifyObserver(obs -> obs.onReadyReply(messageDev));
 
     }
@@ -452,16 +449,22 @@ public class Cli extends ViewObservable implements View {
                         System.out.println("Are you done?[y , n]");
                         response = readYN();
                     }
-                    Message message = new Message(MessageType.ACTIVATE_PRODUCTION, gson.toJson(ids));
+                    i = 0;
+                    int[] id = new int[ids.size()];
+                    for(int j : ids){
+                       id[i] = j;
+                       i++;
+                    }
+                    Message message = new ActivateDevProd(id);
                     notifyObserver(obs -> obs.onReadyReply(message));
 
                 break;
             case 2:
-                    int id = readAnyInt("Type the extra production power id");
+                    int id1 = readAnyInt("Type the extra production power id");
                     System.out.println("Type the resource you want to produce");
                     String res = readResource();
                     String [] command = new String[2];
-                    command[0] = Integer.toString(id);
+                    command[0] = Integer.toString(id1);
                     command[1] = res;
                     Message message1 = new Message(MessageType.EXTRA_PRODUCTION, gson.toJson(command));
                     notifyObserver(obs -> obs.onReadyReply(message1));
@@ -478,7 +481,7 @@ public class Cli extends ViewObservable implements View {
                     command1[0] = res1;
                     command1[1] = res2;
                     command1[2] = res3;
-                    Message message2 = new Message(MessageType.BASE_PRODUCTION, gson.toJson(command1));
+                    Message message2 = new ActivateBaseProd(command1);
                     notifyObserver(obs -> obs.onReadyReply(message2));
 
                 break;
