@@ -30,7 +30,7 @@ public class ExtraProduction {
      * @param productResource the resources that the player wants to produce
      */
     public void startProduction(PlayerBoard b, Player p, Resource productResource) {
-        p.addVictoryPoints(1);
+        p.getPlayerBoard().moveFaithMarker(1);
         ArrayList<Resource> productResources = new ArrayList<>();
         productResources.add(productResource);
         for (Resource productResourceElem : productResources) {

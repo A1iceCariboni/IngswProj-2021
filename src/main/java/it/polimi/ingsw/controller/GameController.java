@@ -14,6 +14,7 @@ import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.effects.ExtraProductionPower;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.utility.WarehouseConstructor;
@@ -445,7 +446,6 @@ public void initGameController(){
                         pay(ids);
 
                         virtualView.doneGameAction(1);
-                        virtualView.update(new NotifyTurn());
                     }else {
                       virtualView.update(new ErrorMessage(""));
                       sendResourcesToPay();
@@ -821,11 +821,13 @@ public void initGameController(){
        if(turnPhase == TurnPhase.ACTIVATE_PRODUCTION){
            startProduction();
            virtualView.removeAllResourcesToProduce();
+           virtualView.removeResourcesToPay();
            turnPhase = TurnPhase.FREE;
        }else{
            virtualView.update(new Message(MessageType.SLOT_CHOICE, ""));
        }
        virtualView.update(new OkMessage("Payed successfully!"));
+       virtualView.update(new NotifyTurn());
    }
 
 
@@ -836,7 +838,6 @@ public void initGameController(){
      * @param id of the depot or strongbox if it's 0
      */
     public void putResource(int[] id) throws NotPossibleToAdd {
-        String name = game.getCurrentPlayer().getNickName();
         for (int j : id) {
                 if (j == -1) {
                     for (Player player : game.getPlayers()) {
@@ -970,15 +971,23 @@ public void initGameController(){
      * add an extraproduction power to the production powers that has to be activated in the virtual view
      * @param id id of the production power
      */
-    public void addExtraProductionPower(final int id, final Resource resource){
-        final String name = this.game.getCurrentPlayer().getNickName();
-        final VirtualView virtualView = this.getConnectedClients().get(name);
-            for(final ExtraProduction extraProduction : this.game.getCurrentPlayer().getExtraProductionPowers()){
-                if(extraProduction.getId() == id){
+    public void addExtraProductionPower( int id,  Resource resource){
+         String name = game.getCurrentPlayer().getNickName();
+         VirtualView virtualView = getConnectedClients().get(name);
+         int id1 = 0;
+        try {
+            ExtraProductionPower extraProductionPower = (ExtraProductionPower) game.getCurrentPlayer().getLeaderCardById(id).getLeaderEffect();
+            id1 = extraProductionPower.getId();
+        } catch (NullCardException e) {
+            e.printStackTrace();
+        }
+
+        for(ExtraProduction extraProduction : game.getCurrentPlayer().getExtraProductionPowers()){
+                if(extraProduction.getId() == id1){
                     virtualView.addAllResourcesToPay(extraProduction.getEntryResources());
                 }
             }
-            virtualView.addExtraProductionToActivate(id);
+            virtualView.addExtraProductionToActivate(id1);
             virtualView.addResourceToProduce(resource);
     }
 
@@ -1007,33 +1016,33 @@ public void initGameController(){
      * and the faithPoint are added to the fait marker
      */
     public void startProduction()  {
-        final String name = this.game.getCurrentPlayer().getNickName();
-        final VirtualView virtualView = this.getConnectedClients().get(name);
-        for(final int j : virtualView.getCardsToActivate()){
-            for(final DevelopmentCard dc: this.game.getCurrentPlayer().getPlayerBoard().getDevelopmentCards()){
+         String name = this.game.getCurrentPlayer().getNickName();
+         VirtualView virtualView = this.getConnectedClients().get(name);
+        for( int j : virtualView.getCardsToActivate()){
+            for(final DevelopmentCard dc: game.getCurrentPlayer().getPlayerBoard().getDevelopmentCards()){
                 if(dc.getId() == j){
-                    dc.startProduction(this.game.getCurrentPlayer().getPlayerBoard(), this.game.getCurrentPlayer());
+                    dc.startProduction(game.getCurrentPlayer().getPlayerBoard(), game.getCurrentPlayer());
                 }
             }
         }
         virtualView.removeCardsToActivate();
         if(virtualView.getBasicProd() != null) {
-            this.game.getCurrentPlayer().getPlayerBoard().getStrongBox().addResources(virtualView.getBasicProd());
+            game.getCurrentPlayer().getPlayerBoard().getStrongBox().addResources(virtualView.getBasicProd());
+            virtualView.setBasicProd(null);
         }
         for(final int j : virtualView.getExtraProductionToActivate()){
-            for(final ExtraProduction ep: this.game.getCurrentPlayer().getExtraProductionPowers()){
+            for(ExtraProduction ep: game.getCurrentPlayer().getExtraProductionPowers()){
                 if(ep.getId() == j){
-                    ep.startProduction(this.game.getCurrentPlayer().getPlayerBoard(), this.game.getCurrentPlayer(), virtualView.getResourcesToProduce().get(0));
+                    ep.startProduction(game.getCurrentPlayer().getPlayerBoard(), game.getCurrentPlayer(), virtualView.getResourcesToProduce().get(0));
                     virtualView.removeResourceToProduce(0);
                 }
             }
         }
         virtualView.removeAllExtraProduction();
-        this.sendDepots(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
-        this.sendStrongBox(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
-        this.updateFaith(virtualView, name);
+        sendDepots(connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
+        sendStrongBox(connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
+        updateFaith(virtualView, name);
         virtualView.doneGameAction(1);
-        virtualView.update(new NotifyTurn());
     }
 
     /**
@@ -1041,12 +1050,16 @@ public void initGameController(){
      * @param id id of the leader card
      */
     public  void activateLeaderCard( int id)  {
-        if (game.getCurrentPlayer().getLeaderCardById(id).isActivableBy(game.getCurrentPlayer().getPlayerBoard())) {
-            this.game.getCurrentPlayer().getLeaderCardById(id).active(this.game.getCurrentPlayer(), this.game.getCurrentPlayer().getPlayerBoard());
-            this.sendDummyLead(this.connectedClients.get(this.turnController.getActivePlayer()), this.turnController.getActivePlayer());
-            this.sendDepots(this.connectedClients.get(this.turnController.getActivePlayer()), this.turnController.getActivePlayer());
-        }else{
-            getVirtualView(game.getCurrentPlayer().getNickName()).update(new ErrorMessage("You don't fit the requirements"));
+        try {
+            if (game.getCurrentPlayer().getLeaderCardById(id).isActivableBy(game.getCurrentPlayer().getPlayerBoard())) {
+                this.game.getCurrentPlayer().getLeaderCardById(id).active(this.game.getCurrentPlayer(), this.game.getCurrentPlayer().getPlayerBoard());
+                this.sendDummyLead(this.connectedClients.get(this.turnController.getActivePlayer()), this.turnController.getActivePlayer());
+                this.sendDepots(this.connectedClients.get(this.turnController.getActivePlayer()), this.turnController.getActivePlayer());
+            }else{
+                getVirtualView(game.getCurrentPlayer().getNickName()).update(new ErrorMessage("You don't fit the requirements"));
+            }
+        } catch (NullCardException e) {
+            e.printStackTrace();
         }
         getVirtualView(game.getCurrentPlayer().getNickName()).update(new NotifyTurn());
     }
@@ -1064,22 +1077,23 @@ public void initGameController(){
      * @param id array of ids of the leadercard to discard form the hand of the player
      * @throws NullCardException if the player has not the card but this really shouldn't happen
      */
-    public  void discardLeaderCard(final int id)  {
+    public  void discardLeaderCard(final int id) {
         final String name = this.game.getCurrentPlayer().getNickName();
         final VirtualView virtualView = this.getConnectedClients().get(name);
-            final LeaderCard toDiscard = this.game.getCurrentPlayer().getLeaderCardById(id);
+        final LeaderCard toDiscard;
         try {
-            this.game.getCurrentPlayer().discardLeader(toDiscard);
-        } catch (final NullCardException e) {
-            virtualView.update(new ErrorMessage(""));
-        }
-        this.sendDummyLead(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
+            toDiscard = game.getCurrentPlayer().getLeaderCardById(id);
+        this.game.getCurrentPlayer().discardLeader(toDiscard);
+
+        this.sendDummyLead(this.connectedClients.get(this.turnController.getActivePlayer()), this.turnController.getActivePlayer());
 
         if (this.game.getCurrentPlayer().getLeadercards().size() < 2) {
             this.game.getCurrentPlayer().getPlayerBoard().moveFaithMarker(1);
             this.updateFaith(virtualView, name);
-            }
-
+        }
+        }catch (NullCardException e) {
+            e.printStackTrace();
+        }
         virtualView.update(new OkMessage("Card successfully discarded!"));
         if(this.gamePhase == GamePhase.FIRST_ROUND){
 

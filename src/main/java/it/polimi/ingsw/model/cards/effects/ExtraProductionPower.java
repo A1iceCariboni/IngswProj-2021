@@ -48,4 +48,8 @@ public class ExtraProductionPower implements LeaderEffect, Serializable {
                 ", quantity=" + quantity +
                 '}';
     }
+
+    public int getId() {
+        return this.id;
+    }
 }

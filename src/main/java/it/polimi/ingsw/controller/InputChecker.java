@@ -5,10 +5,12 @@ import com.sun.prism.Image;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
+import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.effects.ExtraProductionPower;
 import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.utility.WarehouseConstructor;
 
@@ -253,17 +255,20 @@ public class InputChecker implements Serializable {
      * @return true if he owns them
      */
     public boolean checkIdExtraProduction(int[] powers) {
-        ArrayList<Integer> owned = new ArrayList<>();
-        for (ExtraProduction extraProduction : game.getCurrentPlayer().getExtraProductionPowers()) {
-            owned.add(extraProduction.getId());
-        }
         for (int j : powers) {
-            if (!owned.contains(j)) {
+            try {
+                if ((!(game.getCurrentPlayer().getLeaderCardById(j).getLeaderEffect() instanceof ExtraProductionPower))||(!game.getCurrentPlayer().getLeaderCardById(j).isActive())) {
+                     return false;
+                }else{
+                    ExtraProductionPower extraProductionPower = (ExtraProductionPower) game.getCurrentPlayer().getLeaderCardById(j).getLeaderEffect();
+                    if(gameController.getVirtualView(game.getCurrentPlayer().getNickName()).getExtraProductionToActivate().contains(extraProductionPower.getId())){
+                        return false;
+                    }
+                }
+            } catch (NullCardException e) {
                 return false;
             }
-            if(gameController.getVirtualView(game.getCurrentPlayer().getNickName()).getExtraProductionToActivate().contains(j)){
-                return false;
-            }
+
         }
         return true;
     }
@@ -275,8 +280,13 @@ public class InputChecker implements Serializable {
      * @return true if it is owned
      */
     public boolean checkLeaderCard(int id) {
-        LeaderCard leaderCard = game.getCurrentPlayer().getLeaderCardById(id);
-        return leaderCard != null && !leaderCard.isActive();
+        LeaderCard leaderCard = null;
+        try {
+            leaderCard = game.getCurrentPlayer().getLeaderCardById(id);
+            return !leaderCard.isActive();
+        } catch (NullCardException e) {
+            return false;
+        }
     }
 
     /**
@@ -300,8 +310,12 @@ public class InputChecker implements Serializable {
      * @return true if he owns the cards false otherwise
      */
     public boolean checkOwnedLeaderCard(int ca) {
-            LeaderCard leaderCard = game.getCurrentPlayer().getLeaderCardById(ca);
-        return leaderCard != null;
+        try {
+            game.getCurrentPlayer().getLeaderCardById(ca);
+            return true;
+        } catch (NullCardException e) {
+            return false;
+        }
     }
 
     public boolean checkResources(int[] cards){

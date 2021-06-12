@@ -93,7 +93,7 @@ public class SingleGameController extends GameController{
             game.getFakePlayer().moveBlackCross(1);
 
             }
-
+            sendAllUpdateFaith();
             this.sendDepots(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
 
         this.getVirtualView(this.turnController.getActivePlayer()).update(new NotifyTurn());
@@ -112,6 +112,7 @@ public void putResource(int[] id) throws NotPossibleToAdd {
         }
         this.game.getCurrentPlayer().getPlayerBoard().removeUnplacedResource(0);
     }
+    sendAllUpdateFaith();
     this.sendDepots(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
     this.sendStrongBox(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
     this.setTurnPhase(TurnPhase.FREE);

@@ -179,13 +179,13 @@ public class Player implements Serializable {
         return player.getNickName().equals(nickName);
     }
 
-    public LeaderCard getLeaderCardById(int id){
+    public LeaderCard getLeaderCardById(int id) throws NullCardException {
         for(LeaderCard leaderCard: leaderCards){
             if(leaderCard.getId() == id){
                 return leaderCard;
             }
         }
-        return null;
+        throw new NullCardException();
     }
     @Override
     public int hashCode() {

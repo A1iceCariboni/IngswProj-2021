@@ -94,5 +94,9 @@ public class LeaderCard extends Card {
     public int getVictoryPoints() {
         return this.victoryPoints;
     }
+
+    public LeaderEffect getLeaderEffect() {
+        return this.leaderEffect;
+    }
 }
 

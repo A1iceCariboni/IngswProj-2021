@@ -460,7 +460,7 @@ public class Cli extends ViewObservable implements View {
 
                 break;
             case 2:
-                    int id1 = readAnyInt("Type the extra production power id");
+                    int id1 = readAnyInt("Type the leader card id");
                     System.out.println("Type the resource you want to produce");
                     String res = readResource();
                     String [] command = new String[2];
