@@ -8,6 +8,8 @@ import it.polimi.ingsw.client.DummyModel.*;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.enumerations.TurnPhase;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -183,11 +185,11 @@ public class Gui extends ViewObservable implements View {
 
 
 
-    @Override
     public void askWhiteMarble(int num) {
+        WhiteMarble w = new WhiteMarble();
+        Platform.runLater(() -> GUIRunnable.whiteScene(w, observers, num , virtualModel));
 
     }
-
 
     @Override
     public void activateProduction(String[] toPay) {

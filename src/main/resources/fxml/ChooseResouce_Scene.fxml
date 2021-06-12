@@ -16,7 +16,7 @@
                   <Image url="@../Board/MastersofRenaissance_PlayerBoard_back.png" />
                </image>
             </ImageView>
-            <Button fx:id="exitBtn" layoutX="1067.0" layoutY="633.0" mnemonicParsing="false" onAction="#exit" prefHeight="37.0" prefWidth="118.0" text="Exit">
+            <Button fx:id="exitBtn" layoutX="1088.0" layoutY="95.0" mnemonicParsing="false" onAction="#exit" prefHeight="37.0" prefWidth="118.0" text="Exit">
                <font>
                   <Font name="Lucida Calligraphy Italic" size="10.0" />
                </font>
@@ -236,6 +236,98 @@
                </effect>
             </Button>
             <Button fx:id="c3" layoutX="311.0" layoutY="552.0" mnemonicParsing="false" onAction="#pay3" prefHeight="47.0" prefWidth="175.0" text="Depot 3">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="10.0" />
+               </font>
+               <effect>
+                  <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                     <bumpInput>
+                        <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                           <color>
+                              <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                           </color>
+                        </Shadow>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
+            <Button fx:id="ex2" layoutX="651.0" layoutY="623.0" mnemonicParsing="false" onAction="#putex2" prefHeight="37.0" prefWidth="89.0" text="Extradepot 2">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="10.0" />
+               </font>
+               <effect>
+                  <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                     <bumpInput>
+                        <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                           <color>
+                              <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                           </color>
+                        </Shadow>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
+            <Button fx:id="ex1" layoutX="548.0" layoutY="623.0" mnemonicParsing="false" onAction="#putex1" prefHeight="37.0" prefWidth="89.0" text="Extradepot 1">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="10.0" />
+               </font>
+               <effect>
+                  <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                     <bumpInput>
+                        <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                           <color>
+                              <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                           </color>
+                        </Shadow>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
+            <Button fx:id="ex12" layoutX="651.0" layoutY="670.0" mnemonicParsing="false" onAction="#payex2" prefHeight="37.0" prefWidth="89.0" text="Extradepot 1">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="10.0" />
+               </font>
+               <effect>
+                  <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                     <bumpInput>
+                        <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                           <color>
+                              <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                           </color>
+                        </Shadow>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
+            <Button fx:id="ex11" layoutX="548.0" layoutY="670.0" mnemonicParsing="false" onAction="#payex1" prefHeight="37.0" prefWidth="89.0" text="Extradepot 1">
                <font>
                   <Font name="Lucida Calligraphy Italic" size="10.0" />
                </font>

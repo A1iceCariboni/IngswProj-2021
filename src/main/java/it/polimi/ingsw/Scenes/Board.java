@@ -17,7 +17,6 @@ import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 
 /** @author Alessandra Atria
@@ -35,17 +34,18 @@ public class Board extends ViewObservable {
     public Button MarketButton;
     public Button rearrangew;
 
-
+    private String type;
     private VirtualModel virtualModel;
     public Button LeaderActiveButton;
     public ArrayList<ImageView> faithMarker;
     Gson gson = new Gson();
     int id;
     ArrayList<Integer> ids;
-    ArrayList<Integer> ledid;
+    int ledid;
     int i, j, count, z;
     ArrayList<String> res;
     String [] command1;
+    String [] command;
 
     @FXML
     public ImageView servantbp, stonebp, shieldbp, coinbp;
@@ -72,6 +72,10 @@ public class Board extends ViewObservable {
     public ImageView led2;
 
     @FXML
+    public ImageView e1, e2, e3, e4;
+
+
+    @FXML
     public ImageView devb1, devb2, devb3;
 
     @FXML
@@ -91,13 +95,13 @@ public class Board extends ViewObservable {
         this.virtualModel = new VirtualModel();
         this.faithMarker = new ArrayList<>();
         this.ids= new ArrayList<>();
-        this.ledid = new ArrayList<>();
+        ledid = 0;
         id=0;
         i=0;
         j=0;
         z=0;
         command1 = new String[3];
-
+        command = new String[2];
     }
 
  /** this methods sets all the image positions of the player on the faith track */
@@ -313,6 +317,16 @@ public class Board extends ViewObservable {
     public void activateLeaderProducion(ActionEvent actionEvent) {
         confirm3.setOpacity(1);
         confirm3.setDisable(false);
+        bpback.setOpacity(1);
+        bplabel.setOpacity(1);
+        stonebp.setOpacity(1);
+        stonebp.setDisable(false);
+        shieldbp.setOpacity(1);
+        shieldbp.setDisable(false);
+        servantbp.setDisable(false);
+        servantbp.setOpacity(1);
+        coinbp.setOpacity(1);
+        coinbp.setDisable(false);
         notifyObserver(obs -> obs.setTurnPhase(TurnPhase.ACTIVATE_PRODUCTION));
     }
 
@@ -343,22 +357,27 @@ public class Board extends ViewObservable {
     /** on image click the player choose this leader card to start the production*/
     @FXML
     public void pickL1(){
-        ledid.add(j, virtualModel.getLeaderCards().get(0).getId());
+        ledid = virtualModel.getLeaderCards().get(0).getId();
+        command[0] = Integer.toString(ledid);
         led1.setDisable(true);
         led1.setOpacity(0.5);
+        led2.setDisable(true);
     }
 
     /** on image click the player choose this leader card to start the production*/
     @FXML
     public void pickL2(){
-        ledid.add(j, virtualModel.getLeaderCards().get(0).getId()) ;
+        ledid = virtualModel.getLeaderCards().get(1).getId() ;
+        command[0] = Integer.toString(ledid);
         led2.setDisable(true);
+        led1.setDisable(true);
         led2.setOpacity(0.5);
     }
 
     /** on image click the player choose these resources to start the production*/
     public void pickServant(MouseEvent mouseEvent) {
         command1[z] = "SERVANT";
+        command[1] = "SERVANT";
         servantbp.setOpacity(0.5);
         z++;
         if(z == 3) {
@@ -369,6 +388,7 @@ public class Board extends ViewObservable {
 
     public void pickCoin(MouseEvent mouseEvent) {
         command1[z] = "COIN";
+        command[1] = "COIN";
         coinbp.setOpacity(0.5);
         z++;
         if(z == 3) {
@@ -381,6 +401,7 @@ public class Board extends ViewObservable {
     public void pickShield(MouseEvent mouseEvent) {
         command1[z] = "SHIELD";
         shieldbp.setOpacity(0.5);
+        command[1] = "SHIELD";
         z++;
         if(z == 3) {
             confirm2.setDisable(false);
@@ -390,6 +411,7 @@ public class Board extends ViewObservable {
 
     public void pickStone(MouseEvent mouseEvent) {
         command1[z] = "STONE";
+        command[1] = "STONE";
         stonebp.setOpacity(0.5);
         z++;
         if(z == 3) {
@@ -414,8 +436,7 @@ public class Board extends ViewObservable {
     /** To confirm to activate leader production  */
     @FXML
     public void okbtnL(){
-
-        Message message = new Message(MessageType.EXTRA_PRODUCTION, gson.toJson(ids));
+        Message message = new Message(MessageType.EXTRA_PRODUCTION, gson.toJson(command));
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 
@@ -530,6 +551,63 @@ public class Board extends ViewObservable {
                   Image image1 = new Image((getClass().getResourceAsStream("/CardsFront/devCard" + virtualModel.getLeaderCards().get(0).getId() + ".png")));
                   led1.setImage(image1);
               }
+              if(!virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().isEmpty()){
+                  type =virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResourceType();
+                  switch(type){
+                      case("COIN"):
+                          Image ex1 = new Image((getClass().getResourceAsStream("/CardsFront/led8.png")));
+                          e1.setImage(ex1);
+                          if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().get(1)!= null)
+                              e2.setImage(ex1);
+                      case("STONE"):
+                          Image ex2 = new Image((getClass().getResourceAsStream("/CardsFront/led5.png")));
+                          e1.setImage(ex2);
+                          if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().get(1)!= null)
+                              e2.setImage(ex2);
+                      case("SERVANT"):
+                          Image ex3 = new Image((getClass().getResourceAsStream("/CardsFront/led6.png")));
+                          e1.setImage(ex3);
+                          if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().get(1)!= null)
+                          e2.setImage(ex3);
+
+                      case("SHIELD"):
+                          Image ex4 = new Image((getClass().getResourceAsStream("/CardsFront/led7.png")));
+                          e1.setImage(ex4);
+                          if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().get(1)!= null)
+                              e2.setImage(ex4);
+
+                          }
+
+              }
+
+            if(!virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getResources().isEmpty()){
+                type =virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getResourceType();
+                switch(type){
+                    case("COIN"):
+                        Image ex1 = new Image((getClass().getResourceAsStream("/PunchBoard/coin.png")));
+                        e3.setImage(ex1);
+                        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().get(1)!= null)
+                            e4.setImage(ex1);
+                    case("STONE"):
+                        Image ex2 = new Image((getClass().getResourceAsStream("/PunchBoard/stone.png")));
+                        e3.setImage(ex2);
+                        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().get(1)!= null)
+                            e4.setImage(ex2);
+                    case("SERVANT"):
+                        Image ex3 = new Image((getClass().getResourceAsStream("/PunchBoard/servant.png")));
+                        e3.setImage(ex3);
+                        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().get(1)!= null)
+                            e4.setImage(ex3);
+
+                    case("SHIELD"):
+                        Image ex4 = new Image((getClass().getResourceAsStream("/PunchBoard/shield.png")));
+                        e3.setImage(ex4);
+                        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().get(1)!= null)
+                            e4.setImage(ex4);
+
+                }
+
+            }
         }
         if(virtualModel.getLeaderCards().get(1)!= null){
               if(virtualModel.getLeaderCards().get(1).isActive()) {

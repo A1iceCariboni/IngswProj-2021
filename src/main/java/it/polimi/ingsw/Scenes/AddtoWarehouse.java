@@ -35,6 +35,13 @@ public class AddtoWarehouse extends ViewObservable {
     private int[] answer;
 
     @FXML
+    private Button ex1;
+    @FXML
+    private Button ex2;
+    @FXML
+    private Button ex11, ex12;
+
+    @FXML
     ImageView res1, res2, res3, res4, res5, res6;
 
     @FXML
@@ -63,6 +70,24 @@ public class AddtoWarehouse extends ViewObservable {
     @FXML
     public void put3(ActionEvent actionEvent) {
         answer[count] = 3;
+        count++;
+        if(count == resource.size()) {
+            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
+        }
+    }
+
+    @FXML
+    public void putex1(ActionEvent actionEvent) {
+        answer[count] = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId();
+        count++;
+        if(count == resource.size()) {
+            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
+        }
+    }
+
+    @FXML
+    public void putex2(ActionEvent actionEvent) {
+        answer[count] = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId();
         count++;
         if(count == resource.size()) {
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
@@ -133,6 +158,8 @@ public class AddtoWarehouse extends ViewObservable {
         c1.setOpacity(0);
         c2.setOpacity(0);
         c3.setOpacity(0);
+        ex12.setOpacity(0);
+        ex11.setOpacity(0);
         Image i1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + resource[0] + ".png"));
         r1.setOpacity(1);
         r1.setImage(i1);
@@ -183,6 +210,14 @@ public class AddtoWarehouse extends ViewObservable {
             res6.setImage(im6);
             res6.setOpacity(1);
         }
+
+        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId() == -1){
+            ex1.setDisable(true);
+        }
+
+        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId() == -1){
+            ex2.setDisable(true);
+        }
     }
 
 
@@ -195,7 +230,10 @@ public class AddtoWarehouse extends ViewObservable {
         d1.setOpacity(0);
         d2.setOpacity(0);
         d3.setOpacity(0);
+        ex1.setOpacity(0);
+        ex2.setOpacity(0);
         disc.setOpacity(0);
+
         //sets warehouse
         if(virtualModel.getSlot1()!= "") {
             Image im1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot1() + ".png"));
@@ -228,6 +266,14 @@ public class AddtoWarehouse extends ViewObservable {
             res6.setOpacity(1);
         }
 
+        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId() == -1){
+            ex11.setDisable(true);
+        }
+
+        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId() == -1){
+            ex12.setDisable(true);
+        }
+
 
 
 
@@ -245,6 +291,10 @@ public class AddtoWarehouse extends ViewObservable {
         c1.setOpacity(0);
         c2.setOpacity(0);
         c3.setOpacity(0);
+        ex11.setOpacity(0);
+        ex12.setOpacity(0);
+        ex1.setOpacity(0);
+        ex2.setOpacity(0);
         disc.setOpacity(0);
     }
 
@@ -276,6 +326,26 @@ public class AddtoWarehouse extends ViewObservable {
         if(count == resource.size()) {
          Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(answer));
          notifyObserver(obs -> obs.onReadyReply(message));
+        }
+    }
+
+    @FXML
+    public void payex1(ActionEvent actionEvent) {
+        answer[count] = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId();
+        count++;
+        if(count == resource.size()) {
+            Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(answer));
+            notifyObserver(obs -> obs.onReadyReply(message));
+        }
+    }
+
+    @FXML
+    public void payex2(ActionEvent actionEvent) {
+        answer[count] = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId();
+        count++;
+        if(count == resource.size()) {
+            Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(answer));
+            notifyObserver(obs -> obs.onReadyReply(message));
         }
     }
 

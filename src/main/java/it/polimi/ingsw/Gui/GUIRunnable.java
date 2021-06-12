@@ -351,6 +351,22 @@ public class GUIRunnable extends Application {
     }
 
 
+    public static WhiteMarble whiteScene(WhiteMarble w, ArrayList<ViewObserver> observers, int num, VirtualModel virtualModel) {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/WhiteMarble_Scene.fxml"));
+            Parent root = loader.load();
+            scene.setRoot(root);
+            w = loader.getController();
+            w.addAllObservers(observers);
+            w.setnumber(num, virtualModel);
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+        }
+        return w;
+    }
+
+
 
 
 

@@ -153,6 +153,62 @@
                   <Image url="@../PunchBoard/SHIELD.png" />
                </image>
             </ImageView>
+            <ImageView fx:id="ex1" fitHeight="158.0" fitWidth="145.0" layoutX="90.0" layoutY="270.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../CardsFront/led7.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="ex2" fitHeight="158.0" fitWidth="118.0" layoutX="90.0" layoutY="440.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../CardsFront/led7.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="extra1" layoutX="220.0" layoutY="344.0" mnemonicParsing="false" onAction="#putE1" prefHeight="37.0" prefWidth="153.0" text="Extra Depot 1">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="10.0" />
+               </font>
+               <effect>
+                  <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                     <bumpInput>
+                        <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                           <color>
+                              <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                           </color>
+                        </Shadow>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
+            <Button fx:id="extra2" layoutX="220.0" layoutY="500.0" mnemonicParsing="false" onAction="#putE2" prefHeight="37.0" prefWidth="153.0" text="Extra Depot 2">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="10.0" />
+               </font>
+               <effect>
+                  <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
+                     <bumpInput>
+                        <Shadow height="40.96" radius="18.447499999999998" width="34.83">
+                           <color>
+                              <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
+                           </color>
+                        </Shadow>
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
+            </Button>
          </children>
       </AnchorPane>
    </children>

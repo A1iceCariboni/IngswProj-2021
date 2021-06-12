@@ -31,7 +31,15 @@ public class RearrangeWarehouse extends ViewObservable {
     public ImageView r1;
     public ImageView r2;
     public ImageView r3;
+    public ImageView ex1, ex2;
     public ImageView r4, r5, r6;
+
+    @FXML
+    private Button extra1;
+
+    @FXML
+    private Button extra2;
+
 
     ArrayList<String> res;
     int i;
@@ -96,6 +104,31 @@ public class RearrangeWarehouse extends ViewObservable {
         }
     }
 
+    @FXML
+    public void putE1(ActionEvent actionEvent) {
+        ArrayList<String> resources = new ArrayList<>();
+        resources.addAll(dummyWareHouse.getExtraDepot1().getResources());
+        resources.add(res.get(i));
+        dummyWareHouse.getExtraDepot1().setResources(resources);
+        i++;
+        if(i == res.size()) {
+            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
+        }
+    }
+
+    @FXML
+    public void putE2(ActionEvent actionEvent) {
+        ArrayList<String> resources = new ArrayList<>();
+        resources.addAll(dummyWareHouse.getExtraDepot2().getResources());
+        resources.add(res.get(i));
+        dummyWareHouse.getExtraDepot2().setResources(resources);
+        i++;
+        if(i == res.size()) {
+            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
+        }
+    }
+
+
 
     public void setWarehouse(VirtualModel virtualModel) throws JsonFileNotFoundException {
         this.virtualModel = virtualModel;
@@ -143,11 +176,17 @@ public class RearrangeWarehouse extends ViewObservable {
             DummyExtraDepot dummyExtraDepot1 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1();
             if(dummyExtraDepot1.getId() != -1){
                 dummyWareHouse.setExtraDepot1(new DummyExtraDepot(dummyExtraDepot1.getId(),dummyExtraDepot1.getDimension(), new ArrayList<>(), dummyExtraDepot1.getResourceType()));
-            }
+                Image i1 = new Image(getClass().getResourceAsStream("/CardsFront/led" + dummyExtraDepot1.getId() + ".png"));
+                ex1.setImage(i1);
+            }else
+                extra1.setDisable(true);
             DummyExtraDepot dummyExtraDepot2 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1();
             if(dummyExtraDepot2.getId() != -1){
                 dummyWareHouse.setExtraDepot2(new DummyExtraDepot(dummyExtraDepot2.getId(),dummyExtraDepot2.getDimension(), new ArrayList<>(), dummyExtraDepot2.getResourceType()));
-            }
+                Image i2 = new Image(getClass().getResourceAsStream("/CardsFront/led" + dummyExtraDepot2.getId() + ".png"));
+                ex2.setImage(i2);
+            }else
+                extra2.setDisable(true);
         } catch (JsonFileNotFoundException e) {
             e.printStackTrace();
         }
