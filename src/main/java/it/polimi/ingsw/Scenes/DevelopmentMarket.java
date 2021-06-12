@@ -134,12 +134,16 @@ public class DevelopmentMarket extends ViewObservable {
         public void setDevCards(VirtualModel virtualModel){
             this.virtualModel= virtualModel;
             ArrayList<Image> images2 = new ArrayList<>();
-            for(int i=0; i< Constants.rows; i++){
-                for (int j=0; j<Constants.cols; j++){
-                    if(virtualModel.getBoardDevCard()[i][j]!= null)
+            for(int i=0; i< Constants.rows; i++) {
+                for (int j = 0; j < Constants.cols; j++) {
+                    if (virtualModel.getBoardDevCard()[i][j] != null) {
                         id = virtualModel.getBoardDevCard()[i][j].getId();
-                    Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/CardsFront/devCard" + id + ".png")));
-                    images2.add(image);
+                        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/CardsFront/devCard" + id + ".png")));
+                        images2.add(image);
+                    } else {
+                        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/CardsBack/MastersofRenaissance__Cards_BACK_3mmBleed-49-1.png")));
+                        images2.add(image);
+                    }
                 }
             }
             if(images2.get(0)!= null)

@@ -11,11 +11,9 @@ import java.util.ArrayList;
  */
 public class ResourceRequest extends Message{
 
-        private int num;
 
         public ResourceRequest(int num) {
             super(MessageType.CHOOSE_RESOURCES, Integer.toString(num));
-            this.num = num;
         }
 
         public int getNum(){

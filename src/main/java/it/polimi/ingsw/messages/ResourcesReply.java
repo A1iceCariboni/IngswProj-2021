@@ -12,24 +12,23 @@ import java.util.ArrayList;
  * message sent from the player with the chosen resources
  */
 public class ResourcesReply extends Message {
-     private String[] res;
 
     public ResourcesReply(String[] res) {
         super(MessageType.CHOOSE_RESOURCES, "");
-        this.res = res;
         Gson gson = new Gson();
         setPayload(gson.toJson(res));
     }
 
     public ArrayList<Resource> getRes(){
+        Gson gson = new Gson();
+
+        String[] names = gson.fromJson(getPayload(), String[].class);
         ArrayList<Resource> resources = new ArrayList<>();
-        for(int i = 0; i < res.length; i++){
-            if(res[i]!= null){
-                resources.add(new Resource(ResourceType.valueOf(res[i])));
+        for(int i = 0; i < names.length; i++){
+            if(names[i]!= null){
+                resources.add(new Resource(ResourceType.valueOf(names[i])));
             }
         }
         return resources;
     }
-
-
 }

@@ -23,6 +23,6 @@ public class BuyMarket extends Message{
     public int getNum() {
         Gson gson = new Gson();
 
-        return Integer.parseInt(gson.fromJson(getPayload(), String[].class)[0]);
+        return Integer.parseInt(gson.fromJson(getPayload(), String[].class)[1]);
     }
 }

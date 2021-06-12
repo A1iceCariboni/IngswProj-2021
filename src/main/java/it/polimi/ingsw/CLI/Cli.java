@@ -390,7 +390,7 @@ public class Cli extends ViewObservable implements View {
                 }
 
             } while (!validInput);
-            Message message = new BuyMarket(rOc, n);
+            Message message = new BuyMarket(rOc, n-1);
             notifyObserver(obs -> obs.onReadyReply(message));
 
     }
