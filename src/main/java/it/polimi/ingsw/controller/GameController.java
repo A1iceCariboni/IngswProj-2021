@@ -622,6 +622,7 @@ public void initGameController(){
                 case SEE_PLAYERBOARD:
                     String nickname = gson.fromJson(message.getPayload(), String.class);
                     if(numberOfPlayers == 1){
+                        virtualView.update(new OtherVictoryPoints(game.getFakePlayer().getVictoryPoints()));
                         sendBlackCross();
                         virtualView.update(new NotifyTurn());
 
@@ -766,7 +767,7 @@ public void initGameController(){
       Player p = game.getPlayerByNickname(nickname);
       VirtualView vv = getVirtualView(game.getCurrentPlayer().getNickName());
       vv.update(new Message(MessageType.OTHER_FAITHMARKER, gson.toJson(p.getPlayerBoard().getFaithMarker())));
-
+      vv.update(new OtherVictoryPoints(p.getVictoryPoints()));
         DummyDev[] dummyDevs = new DummyDev[3];
         DevelopmentCard[] developmentCards = p.getPlayerBoard().getDevCardSlots();
         for(int i = 0; i < Constants.DEV_SLOTS; i++){
@@ -827,7 +828,6 @@ public void initGameController(){
            virtualView.update(new Message(MessageType.SLOT_CHOICE, ""));
        }
        virtualView.update(new OkMessage("Payed successfully!"));
-       virtualView.update(new NotifyTurn());
    }
 
 

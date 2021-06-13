@@ -14,7 +14,7 @@ public class Constants {
     public static int cols = 4;
     public static int smallDecks = 4;
     public static int winDev = 7;
-    public static int winFaith = 23;
+    public static int winFaith = 24;
     public static String LOCAL_HOST = "127.0.0.1";
     public static int DEFAULT_PORT = 1234;
     public static final String ANSI_RESET = "\u001B[0m";

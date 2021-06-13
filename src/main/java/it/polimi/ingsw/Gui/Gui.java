@@ -63,6 +63,11 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
+    public void otherVictoryPointsIn(int victory) {
+        virtualModel.setOtherVictoryPoints(victory);
+    }
+
+    @Override
     public void dummyLeaderCardIn(DummyLeaderCard[] dummyLeaderCards) {
         virtualModel.setLeaderCard(dummyLeaderCards);
     }

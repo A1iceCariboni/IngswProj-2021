@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.exceptions.CannotAdd;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
@@ -63,6 +64,9 @@ public class PlayerBoard implements Serializable {
     /** moves the faithmaker of n pos*/
     public void moveFaithMarker(int pos){
         this.faithMarker = this.faithMarker + pos;
+        if(faithMarker > Constants.winFaith) {
+            faithMarker = Constants.winFaith;
+        }
     }
 
 

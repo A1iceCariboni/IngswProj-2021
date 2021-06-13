@@ -59,7 +59,7 @@ public class SocketClient extends Observable {
                       String line = in.readLine();
                       if(line == null )break;
                       notifyObserver(line);
-
+                      LOGGER.info("Message received " + line);
                   }while(active) ;
 
 

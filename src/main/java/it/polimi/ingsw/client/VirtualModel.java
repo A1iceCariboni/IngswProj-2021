@@ -29,6 +29,10 @@ public class VirtualModel {
     private ArrayList<DummyLeaderCard> leaderCards;
     private ArrayList<DummyLeaderCard> otherCards;
     private int victoryPoints;
+
+
+
+    private int otherVictoryPoints;
     private int blackCross ;
     private DummyDev[][] boardDevCard;
     private DummyMarket dummyMarket;
@@ -226,8 +230,8 @@ public class VirtualModel {
             }
         }
 
-        for (int i = 10; i < 25; i++) {
-            if (playerBoard.getFaithMarker() == i) {
+        for (int i = 10; i < winFaith; i++) {
+            if (pos == i) {
                 if (playerBoard.getFaithTrack().isPopeSpace(i)) {
                     color.append(" ");
                     color.append(ANSI_BG_RED + "│ " + PLAYER + "  │" + ANSI_RESET);
@@ -642,7 +646,17 @@ public void showOtherPlayerBoard(){
         showFaithTrack(otherPlayer.getFaithMarker());
         showWarewouse(otherPlayer);
         showStrongbox(otherPlayer);
+        System.out.println("Victory points: "+ otherVictoryPoints);
 }
+
+
+    public int getOtherVictoryPoints() {
+        return this.otherVictoryPoints;
+    }
+
+    public void setOtherVictoryPoints(final int otherVictoryPoints) {
+        this.otherVictoryPoints = otherVictoryPoints;
+    }
 
 public void showBlackCross(int blackCross){
        showFaithTrack(blackCross);

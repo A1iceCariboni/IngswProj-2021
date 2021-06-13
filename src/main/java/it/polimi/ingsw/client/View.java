@@ -129,4 +129,6 @@ public interface View {
 
 
     void showBlackCross(int blackCross);
+
+    void otherVictoryPointsIn(int victory);
 }

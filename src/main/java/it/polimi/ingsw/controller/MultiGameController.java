@@ -40,7 +40,7 @@ public class MultiGameController extends GameController {
     public synchronized void endGame() {
         ArrayList<Player> winners = game.getWinners();
             for(Player p: winners){
-                getVirtualView(p.getNickName()).update(new Message(MessageType.WINNER,""));
+                getVirtualView(p.getNickName()).update(new Message(MessageType.WINNER,"You're the winner!"));
                 try {
                     getVirtualView(p.getNickName()).update(new Message(MessageType.VICTORY_POINTS,gson.toJson(game.getPlayerByNickname(p.getNickName()).getVictoryPoints())));
                 } catch (InvalidNickname invalidNickname) {
@@ -51,7 +51,7 @@ public class MultiGameController extends GameController {
             }
             for(Player player: game.getPlayers()){
                 if(!winners.contains(player)) {
-                    getVirtualView(player.getNickName()).update(new Message(MessageType.LOSER, ""));
+                    getVirtualView(player.getNickName()).update(new Message(MessageType.LOSER, "You lose!"));
                     try {
                         getVirtualView(player.getNickName()).update(new Message(MessageType.VICTORY_POINTS, gson.toJson(game.getPlayerByNickname(player.getNickName()).getVictoryPoints())));
                     } catch (InvalidNickname invalidNickname) {

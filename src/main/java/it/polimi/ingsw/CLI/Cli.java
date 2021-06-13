@@ -552,6 +552,7 @@ public class Cli extends ViewObservable implements View {
             try {
                 try {
                     number = Integer.parseInt(readLine(question));
+                    ok = true;
                 } catch (NumberFormatException e) {
                     System.out.println("Not a number");
                     ok = false;
@@ -654,7 +655,13 @@ public class Cli extends ViewObservable implements View {
 
     @Override
     public void showBlackCross(int blackCross) {
+        System.out.println("Victory points: "+ virtualModel.getOtherVictoryPoints());
         virtualModel.showBlackCross(blackCross);
+    }
+
+    @Override
+    public void otherVictoryPointsIn(int victory) {
+        virtualModel.setOtherVictoryPoints(victory);
     }
 
     @Override
@@ -689,4 +696,6 @@ public class Cli extends ViewObservable implements View {
         virtualModel.setVictoryPoints(victoryPoints);
         System.out.println("Victory points : " + victoryPoints);
     }
+
+
 }

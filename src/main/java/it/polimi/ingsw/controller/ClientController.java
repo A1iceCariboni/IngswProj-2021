@@ -232,6 +232,11 @@ public class ClientController implements ViewObserver,Observer {
                 executionQueue.execute(() -> view.victoryPointsIn(victoryPoints));
                 break;
 
+            case OTHER_VICTORY_POINTS:
+                OtherVictoryPoints otherVictoryPoints = gson.fromJson(line, OtherVictoryPoints.class);
+                executionQueue.execute(() -> view.otherVictoryPointsIn(otherVictoryPoints.getVictory()));
+                break;
+
             default:
                 System.out.println("Error reading from server");
                 executionQueue.execute(() -> client.disconnect());

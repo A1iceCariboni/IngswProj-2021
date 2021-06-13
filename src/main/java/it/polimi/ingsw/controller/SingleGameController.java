@@ -47,9 +47,9 @@ public class SingleGameController extends GameController{
     public synchronized void endGame() {
         ArrayList<Player> winner = game.getWinners();
         if(winner.isEmpty()){
-            getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.LOSER, ""));
+            getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.LOSER,"You lose" ));
         }else{
-            getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.WINNER, ""));
+            getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.WINNER, "You're the winner"));
         }
         getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.VICTORY_POINTS, gson.toJson(game.getCurrentPlayer().getVictoryPoints())));
 

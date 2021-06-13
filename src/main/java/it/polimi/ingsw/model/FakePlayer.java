@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.model.cards.ActionToken;
 import it.polimi.ingsw.model.cards.TokenDeck;
@@ -26,6 +27,9 @@ public class FakePlayer extends Player{
      */
     public void moveBlackCross(int pos) {
         this.blackCross = this.blackCross + pos;
+        if(blackCross > Constants.winFaith) {
+            blackCross = Constants.winFaith;
+        }
     }
 
     public void shuffleToken() {

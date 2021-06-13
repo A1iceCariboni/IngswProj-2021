@@ -41,5 +41,6 @@ public enum MessageType {
     OTHER_DEV_SLOTS,
     OTHER_LEADER,
     BLACK_CROSS,
+    OTHER_VICTORY_POINTS,
     VICTORY_POINTS
 }
