@@ -12,13 +12,11 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 
 public class DepotMessage extends Message{
-     private DummyWareHouse wareHouse;
 
 
     public DepotMessage(DummyWareHouse wareHouse) {
         super(MessageType.DEPOTS, "");
         Gson gson = new Gson();
-        this.wareHouse = wareHouse;
         setPayload(gson.toJson(wareHouse));
     }
 

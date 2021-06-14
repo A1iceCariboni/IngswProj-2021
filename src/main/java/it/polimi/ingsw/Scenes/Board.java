@@ -436,7 +436,7 @@ public class Board extends ViewObservable {
     /** To confirm to activate leader production  */
     @FXML
     public void okbtnL(){
-        Message message = new Message(MessageType.EXTRA_PRODUCTION, gson.toJson(command));
+        Message message = new ExtraProductionToActivate(Integer.parseInt(command[0]) , command[1]);
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 

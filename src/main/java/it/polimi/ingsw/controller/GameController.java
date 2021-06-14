@@ -21,8 +21,7 @@ import it.polimi.ingsw.utility.WarehouseConstructor;
 
 import java.io.Serializable;
 import java.util.*;
-//TODO riconnessione client con gestione del turno da finire
-//TODO scegliere cosa fare dei client quando finisce la partita
+//TODO aggiorna bene resource payment, ogni volta rimanda tutte le risorse
 /**
  * class game controller and subclasses handles the evolution of the game based on
  * the messages from client
@@ -116,13 +115,13 @@ public void initGameController(){
      */
     public void sendStrongBox(VirtualView vv, String nickname){
 
-        DummyStrongbox dummyStrongbox = null;
+        StrongBox strongBox = null;
         try {
-            dummyStrongbox = game.getPlayerByNickname(nickname).getPlayerBoard().getStrongBox().getDummy();
+            strongBox = game.getPlayerByNickname(nickname).getPlayerBoard().getStrongBox();
         } catch (InvalidNickname invalidNickname) {
             invalidNickname.printStackTrace();
         }
-        vv.update(new Message(MessageType.DUMMY_STRONGBOX, gson.toJson(dummyStrongbox)));
+        vv.update(new DummyStrongBox(strongBox));
     }
 
 
@@ -150,39 +149,28 @@ public void initGameController(){
      */
     public void sendDummyDevs(VirtualView virtualView, String nickname){
 
-        DummyDev[] dummyDevs = new DummyDev[3];
         DevelopmentCard[] developmentCards = new DevelopmentCard[0];
         try {
             developmentCards = game.getPlayerByNickname(nickname).getPlayerBoard().getDevCardSlots();
         } catch (InvalidNickname invalidNickname) {
             invalidNickname.printStackTrace();
         }
-        for(int i = 0; i < Constants.DEV_SLOTS; i++){
-            if(developmentCards[i] != null) {
-                dummyDevs[i] = developmentCards[i].getDummy();
-            }else{
-                dummyDevs[i] = null;
-            }
-        }
-        virtualView.update(new Message(MessageType.DUMMY_DEVS,gson.toJson(dummyDevs)));
+
+        virtualView.update(new DevelopmentSlots(developmentCards));
     }
 
     /**
      * sends the updated dummy leadercards to the player
      */
     public void sendDummyLead(VirtualView virtualView, String nickname) {
-
-        ArrayList<DummyLeaderCard> dummyLeaderCards = new ArrayList<>();
-        ArrayList<LeaderCard> leaderCards = null;
+    ArrayList<LeaderCard> leaderCards = new ArrayList<>();
         try {
             leaderCards = game.getPlayerByNickname(nickname).getLeadercards();
         } catch (InvalidNickname invalidNickname) {
             invalidNickname.printStackTrace();
         }
-        for(LeaderCard lc: leaderCards){
-            dummyLeaderCards.add(lc.getDummy());
-        }
-        virtualView.update(new Message(MessageType.DUMMY_LEADER_CARD,gson.toJson(dummyLeaderCards)));
+
+        virtualView.update(new DummyLeader(leaderCards));
     }
 
     /**
@@ -444,7 +432,7 @@ public void initGameController(){
                     if(inputChecker.checkReceivedMessage(line, turnController.getActivePlayer())) {
                         int[] ids = gson.fromJson(message.getPayload(), int[].class);
                         pay(ids);
-
+                        virtualView.update(new NotifyTurn());
                         virtualView.doneGameAction(1);
                     }else {
                       virtualView.update(new ErrorMessage(""));
@@ -468,10 +456,8 @@ public void initGameController(){
                     break;
                 case EXTRA_PRODUCTION:
                     if(inputChecker.checkReceivedMessage(line, turnController.getActivePlayer())) {
-                        String[] command = gson.fromJson(message.getPayload(),String[].class);
-                        int id = Integer.parseInt(command[0]);
-                        Resource resource = new Resource(ResourceType.valueOf(command[1]));
-                        addExtraProductionPower(id, resource);
+                        ExtraProductionToActivate productionToActivate = gson.fromJson(line , ExtraProductionToActivate.class);
+                        addExtraProductionPower(productionToActivate.getId(), productionToActivate.getResource());
                         sendResourcesToPay();
                     }else{
                         turnPhase = TurnPhase.FREE;
@@ -538,6 +524,7 @@ public void initGameController(){
                         int[] ids = gson.fromJson(message.getPayload(), int[].class);
                         pay(ids);
                         sendDepots(connectedClients.get(turnController.getActivePlayer()), turnController.getActivePlayer());
+                        sendStrongBox(connectedClients.get(turnController.getActivePlayer()), turnController.getActivePlayer());
                         virtualView.doneGameAction(1);
                     }else {
                         virtualView.update(new ErrorMessage("Invalid message for this state"));
@@ -1183,11 +1170,8 @@ public void initGameController(){
             Server.LOGGER.info("giving cards to player " + player.getNickName());
             final VirtualView vv = this.getVirtualView(player.getNickName());
             nickNames.add(player.getNickName());
-            final ArrayList<DummyLeaderCard> dummyLeaderCards = new ArrayList<>();
-            for (final LeaderCard leaderCard : player.getLeadercards()) {
-                dummyLeaderCards.add(leaderCard.getDummy());
-            }
-            final Message message = new Message(MessageType.DUMMY_LEADER_CARD, this.gson.toJson(dummyLeaderCards));
+
+            final Message message = new DummyLeader(player.getLeadercards());
             vv.update(message);
         }
         this.turnController = new TurnController(this, nickNames, this.game.getCurrentPlayer().getNickName(), game);

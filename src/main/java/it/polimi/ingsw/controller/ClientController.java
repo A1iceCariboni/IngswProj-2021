@@ -114,8 +114,8 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case DUMMY_LEADER_CARD:
-                DummyLeaderCard[] dummyLeaderCards = gson.fromJson(message.getPayload(), DummyLeaderCard[].class);
-                executionQueue.execute(() -> view.dummyLeaderCardIn(dummyLeaderCards));
+                DummyLeader dummyLeader = gson.fromJson(line, DummyLeader.class);
+                executionQueue.execute(() -> view.dummyLeaderCardIn(dummyLeader.getDummyLeader()));
                 break;
 
             case FAITH_TRACK:
@@ -177,14 +177,14 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case DUMMY_STRONGBOX:
-                DummyStrongbox dummyStrongbox = gson.fromJson(message.getPayload(), DummyStrongbox.class);
-                executionQueue.execute(() -> view.newDummyStrongBox(dummyStrongbox));
+                DummyStrongBox dummyStrongbox = gson.fromJson(line, DummyStrongBox.class);
+                executionQueue.execute(() -> view.newDummyStrongBox(dummyStrongbox.getStrongBox()));
                 break;
 
 
             case DUMMY_DEVS:
-                DummyDev[] devCards = gson.fromJson(message.getPayload(), DummyDev[].class);
-                executionQueue.execute(() -> view.addDevCards(devCards));
+                DevelopmentSlots developmentSlots = gson.fromJson(line, DevelopmentSlots.class);
+                executionQueue.execute(() -> view.addDevCards(developmentSlots.getDummyDevs()));
                 break;
 
             case DEPOTS:
@@ -199,7 +199,7 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case OTHER_DEV_SLOTS:
-                devCards = gson.fromJson(message.getPayload(), DummyDev[].class);
+                DummyDev[] devCards = gson.fromJson(message.getPayload(), DummyDev[].class);
                 executionQueue.execute(() -> view.otherDevCards(devCards));
                 break;
 
@@ -209,8 +209,8 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case OTHER_STRONGBOX:
-                dummyStrongbox = gson.fromJson(message.getPayload(), DummyStrongbox.class);
-                executionQueue.execute(() -> view.otherDummyStrongBox(dummyStrongbox));
+                DummyStrongbox dummyStrongbox1 = gson.fromJson(message.getPayload(), DummyStrongbox.class);
+                executionQueue.execute(() -> view.otherDummyStrongBox(dummyStrongbox1));
                 break;
 
             case OTHER_WAREHOUSE:
@@ -219,7 +219,7 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case OTHER_LEADER:
-                dummyLeaderCards = gson.fromJson(message.getPayload(), DummyLeaderCard[].class);
+                DummyLeaderCard[] dummyLeaderCards = gson.fromJson(message.getPayload(), DummyLeaderCard[].class);
                 executionQueue.execute(() -> view.otherLeaderCardIn(dummyLeaderCards));
                 break;
 

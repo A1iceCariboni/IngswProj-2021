@@ -68,15 +68,13 @@ public class InputChecker implements Serializable {
                 ActivateDevProd activateDevProd = gson.fromJson(line, ActivateDevProd.class);
                 return checkIdDev(activateDevProd.getIds()) && (checkResources(activateDevProd.getIds()));
             case EXTRA_PRODUCTION:
-                String[] command = gson.fromJson(message.getPayload(),String[].class);
-                int id1 = Integer.parseInt(command[0]);
-                Resource resource = new Resource(ResourceType.valueOf(command[1]));
+                ExtraProductionToActivate productionToActivate = gson.fromJson(line, ExtraProductionToActivate.class);
                 ArrayList<Resource> resources = new ArrayList<>();
-                resources.add(resource);
-                return checkIdExtraProduction(new int[]{id1}) && (checkResources(resources));
+                resources.add(productionToActivate.getResource());
+                return checkIdExtraProduction(new int[]{productionToActivate.getId()}) && (checkResources(resources));
             case BASE_PRODUCTION:
                 ActivateBaseProd activateBaseProd = gson.fromJson(line, ActivateBaseProd.class);
-                command = activateBaseProd.getCommand();
+                String[] command = activateBaseProd.getCommand();
                 Resource res1 = new Resource(ResourceType.valueOf(command[0]));
                 Resource res2 = new Resource(ResourceType.valueOf(command[1]));
                 ArrayList<Resource> resources1 = new ArrayList<>();

@@ -463,10 +463,7 @@ public class Cli extends ViewObservable implements View {
                     int id1 = readAnyInt("Type the leader card id");
                     System.out.println("Type the resource you want to produce");
                     String res = readResource();
-                    String [] command = new String[2];
-                    command[0] = Integer.toString(id1);
-                    command[1] = res;
-                    Message message1 = new Message(MessageType.EXTRA_PRODUCTION, gson.toJson(command));
+                    Message message1 = new ExtraProductionToActivate(id1 , res);
                     notifyObserver(obs -> obs.onReadyReply(message1));
 
                 break;
@@ -626,6 +623,7 @@ public class Cli extends ViewObservable implements View {
 
     public void slotChoice() {
         int answer = 0;
+        virtualModel.showPlayerDevCards(virtualModel.getPlayerBoard());
             answer = readInt(3, 1, "In which slot do you want to put the card? [1/2/3]");
             Message messageSlot = new Message(MessageType.SLOT_CHOICE, gson.toJson(answer - 1));
         notifyObserver(obs -> obs.onReadyReply(messageSlot));
