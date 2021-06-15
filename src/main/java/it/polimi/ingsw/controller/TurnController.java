@@ -23,7 +23,7 @@ public class TurnController implements Serializable {
     private Game game;
 
 
-//TODO methods deleteTurn and randomFirstTurn
+
 
     private final List<String> nickNamesQueue;
 
@@ -137,17 +137,19 @@ public class TurnController implements Serializable {
             }
 
             game.nextPlayer();
-        }while(gameController.getDisconnectedClients().contains(activePlayer)) ;
-        gameController.setTurnPhase(TurnPhase.FREE);
-        gameController.fakePlayerMove();
-        gameController.getVirtualView(activePlayer).update(new NotifyTurn());
-        gameController.sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's "+activePlayer+" turn, wait!"), gameController.getVirtualView(activePlayer));
-        if((nickNamesQueue.size() >= 1) && (! gameController.getDisconnectedClients().contains(nickNamesQueue.get(nickNamesQueue.size() - 1 )))){
-            gameController.getVirtualView(nickNamesQueue.get(nickNamesQueue.size() - 1)).update(new EndTurn());
-        }
-        if(!gameController.getGamePhase().equals(GamePhase.END)) {
-            Persistence persistence = new Persistence();
-            persistence.store(gameController);
+        }while((gameController.getDisconnectedClients().contains(activePlayer)) && (gameController.getDisconnectedClients().size() < gameController.getNumberOfPlayers())) ;
+        if(gameController.getDisconnectedClients().size() < gameController.getNumberOfPlayers()) {
+            gameController.setTurnPhase(TurnPhase.FREE);
+            gameController.fakePlayerMove();
+            gameController.getVirtualView(activePlayer).update(new NotifyTurn());
+            gameController.sendAllExcept(new GenericMessage("It's " + activePlayer + " turn, wait!"), gameController.getVirtualView(activePlayer));
+            if ((nickNamesQueue.size() >= 1) && (!gameController.getDisconnectedClients().contains(nickNamesQueue.get(nickNamesQueue.size() - 1)))) {
+                gameController.getVirtualView(nickNamesQueue.get(nickNamesQueue.size() - 1)).update(new EndTurn());
+            }
+            if (!gameController.getGamePhase().equals(GamePhase.END)) {
+                Persistence persistence = new Persistence();
+                persistence.store(gameController);
+            }
         }
     }
 
@@ -162,7 +164,7 @@ public class TurnController implements Serializable {
               case IN_GAME:
                   if(gameController.getGame().checkEndGame()){
                       gameController.setGamePhase(GamePhase.LAST_ROUND);
-                      gameController.sendAll(new Message(MessageType.GENERIC_MESSAGE, "Last round!"));
+                      gameController.sendAll(new GenericMessage("Last round!"));
                   }
                   break;
               case LAST_ROUND:
@@ -171,6 +173,21 @@ public class TurnController implements Serializable {
                   }
                   break;
           }
+    }
+
+    /**
+     * skips the turn until arriving to the first player reconnected
+     * @param nickname nickname of the first player who has reconnected
+     */
+    public void goTo(String nickname){
+        while(!game.getCurrentPlayer().getNickName().equals(nickname)){
+            nickNamesQueue.add(activePlayer);
+            activePlayer = nickNamesQueue.get(0);
+            nickNamesQueue.remove(0);
+            game.nextPlayer();
+        }
+        gameController.setTurnPhase(TurnPhase.FREE);
+        gameController.getVirtualView(activePlayer).update(new NotifyTurn());
     }
 
 

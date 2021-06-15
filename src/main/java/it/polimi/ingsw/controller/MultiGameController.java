@@ -3,9 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.enumerations.GamePhase;
 import it.polimi.ingsw.exceptions.InvalidNickname;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
-import it.polimi.ingsw.messages.ErrorMessage;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.MultiGame;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.VirtualView;
@@ -40,7 +38,7 @@ public class MultiGameController extends GameController {
     public synchronized void endGame() {
         ArrayList<Player> winners = game.getWinners();
             for(Player p: winners){
-                getVirtualView(p.getNickName()).update(new Message(MessageType.WINNER,"You're the winner!"));
+                getVirtualView(p.getNickName()).update(new WinnerMessage());
                 try {
                     getVirtualView(p.getNickName()).update(new Message(MessageType.VICTORY_POINTS,gson.toJson(game.getPlayerByNickname(p.getNickName()).getVictoryPoints())));
                 } catch (InvalidNickname invalidNickname) {
@@ -51,7 +49,7 @@ public class MultiGameController extends GameController {
             }
             for(Player player: game.getPlayers()){
                 if(!winners.contains(player)) {
-                    getVirtualView(player.getNickName()).update(new Message(MessageType.LOSER, "You lose!"));
+                    getVirtualView(player.getNickName()).update(new LoserMessage());
                     try {
                         getVirtualView(player.getNickName()).update(new Message(MessageType.VICTORY_POINTS, gson.toJson(game.getPlayerByNickname(player.getNickName()).getVictoryPoints())));
                     } catch (InvalidNickname invalidNickname) {

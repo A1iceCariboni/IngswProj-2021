@@ -119,8 +119,8 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case FAITH_TRACK:
-                DummyFaithTrack dummyFaithTrack = gson.fromJson(message.getPayload(), DummyFaithTrack.class);
-                executionQueue.execute(() -> view.faithTrackNew(dummyFaithTrack));
+                FaithTrackMessage faithTrackMessage = gson.fromJson(line, FaithTrackMessage.class);
+                executionQueue.execute(() -> view.faithTrackNew(faithTrackMessage.getFaithTrack()));
                 break;
 
             case DEVELOPMENT_MARKET:
@@ -129,8 +129,8 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case MARKET_TRAY:
-                 DummyMarket dummyMarket = gson.fromJson(message.getPayload(), DummyMarket.class);
-                executionQueue.execute(() -> view.marketTrayNew(dummyMarket));
+                 MarketTrayMessage marketTrayMessage = gson.fromJson(line, MarketTrayMessage.class);
+                executionQueue.execute(() -> view.marketTrayNew(marketTrayMessage.getMarket()));
                 break;
 
             case NOTIFY_TURN:
@@ -154,8 +154,8 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case FAITH_MOVE:
-                int pos = gson.fromJson(message.getPayload(), int.class);
-                executionQueue.execute(() -> view.modifyFaithMarker(pos));
+                FaithMove faithMove = gson.fromJson(line, FaithMove.class);
+                executionQueue.execute(() -> view.modifyFaithMarker(faithMove.getPos()));
                 break;
 
             case RESOURCE_PAYMENT:
@@ -204,7 +204,7 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case OTHER_FAITHMARKER:
-               pos = gson.fromJson(message.getPayload(), int.class);
+               int pos = gson.fromJson(message.getPayload(), int.class);
                 executionQueue.execute(() -> view.otherFaithMarker(pos));
                 break;
 

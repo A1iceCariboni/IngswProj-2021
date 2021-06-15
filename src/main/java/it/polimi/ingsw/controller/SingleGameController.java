@@ -5,10 +5,7 @@ import it.polimi.ingsw.enumerations.PlayerMove;
 import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
-import it.polimi.ingsw.messages.ErrorMessage;
-import it.polimi.ingsw.messages.NotifyTurn;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.Depot;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.SingleGame;
@@ -47,9 +44,9 @@ public class SingleGameController extends GameController{
     public synchronized void endGame() {
         ArrayList<Player> winner = game.getWinners();
         if(winner.isEmpty()){
-            getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.LOSER,"You lose" ));
+            getVirtualView(turnController.getActivePlayer()).update(new LoserMessage());
         }else{
-            getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.WINNER, "You're the winner"));
+            getVirtualView(turnController.getActivePlayer()).update(new WinnerMessage());
         }
         getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.VICTORY_POINTS, gson.toJson(game.getCurrentPlayer().getVictoryPoints())));
 
@@ -68,7 +65,7 @@ public class SingleGameController extends GameController{
             case MOVE_2 :
             case MOVE_AND_SHUFFLE:
                 if(game.checkPopeSpace()) updateFaith(getVirtualView(turnController.getActivePlayer()), turnController.getActivePlayer() );
-                sendAll(new Message(MessageType.GENERIC_MESSAGE, "Your opponent picked the " +
+                sendAll(new GenericMessage("Your opponent picked the " +
                         tokenDeck.getPickedTokens().get(tokenDeck.getPickedTokens().size() - 1).getTokenType() +
                         " token"));
                 break;
@@ -77,7 +74,7 @@ public class SingleGameController extends GameController{
             case DRAW_PURPLE:
             case DRAW_YELLOW:
                 sendUpdateMarketDev(getVirtualView(turnController.getActivePlayer()), turnController.getActivePlayer());
-                sendAll(new Message(MessageType.GENERIC_MESSAGE, "Your opponent picked the " +
+                sendAll(new GenericMessage("Your opponent picked the " +
                         tokenDeck.getPickedTokens().get(tokenDeck.getPickedTokens().size() - 1).getTokenType() +
                         " token"));
                 break;

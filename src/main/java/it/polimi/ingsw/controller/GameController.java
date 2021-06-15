@@ -21,7 +21,7 @@ import it.polimi.ingsw.utility.WarehouseConstructor;
 
 import java.io.Serializable;
 import java.util.*;
-//TODO aggiorna bene resource payment, ogni volta rimanda tutte le risorse
+//TODO controlla resilienza disconnessioni con un solo player
 /**
  * class game controller and subclasses handles the evolution of the game based on
  * the messages from client
@@ -93,7 +93,7 @@ public void initGameController(){
     public void addDisconnectedClient(String nickname){
         connectedClients.remove(nickname);
         disconnectedClients.add(nickname);
-        sendAll(new Message(MessageType.GENERIC_MESSAGE, "Player " + nickname + " disconnected"));
+        sendAll(new GenericMessage("Player " + nickname + " disconnected"));
     }
 
     /**
@@ -192,14 +192,14 @@ public void initGameController(){
                 sendUpdateFaithTrack(connectedClients.get(name), name);
                 updateFaith(connectedClients.get(name) , name);
             }
-            sendAll(new Message(MessageType.GENERIC_MESSAGE, "Game restored"));
+            sendAll(new GenericMessage("Game restored"));
             getVirtualView(turnController.getActivePlayer()).update( new NotifyTurn());
-            sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's " + turnController.getActivePlayer() + " turn, wait"), getVirtualView(turnController.getActivePlayer()));
+            sendAllExcept(new GenericMessage("It's " + turnController.getActivePlayer() + " turn, wait"), getVirtualView(turnController.getActivePlayer()));
 
     }
 
     public void sendUpdateMove(PlayerMove playerMove){
-        sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "ACTION: " + playerMove.name() + " PLAYER: " + this.game.getCurrentPlayer().getNickName()), this.getVirtualView(this.game.getCurrentPlayer().getNickName()));
+        sendAllExcept(new GenericMessage( "ACTION: " + playerMove.name() + " PLAYER: " + this.game.getCurrentPlayer().getNickName()), this.getVirtualView(this.game.getCurrentPlayer().getNickName()));
     }
 
     public boolean isStarted() {
@@ -227,9 +227,8 @@ public void initGameController(){
      * sends the updated market tray to all players
      */
     public void sendUpdateMarketTray(VirtualView virtualView, String nickname){
-        DummyMarket dummyMarket = game.getMarketTray().getDummy();
 
-            virtualView.update(new Message(MessageType.MARKET_TRAY, gson.toJson(dummyMarket)));
+            virtualView.update(new MarketTrayMessage(game.getMarketTray()));
 
     }
 
@@ -237,8 +236,7 @@ public void initGameController(){
      * sends the updated faith track to all players
      */
     public void sendUpdateFaithTrack(VirtualView virtualView, String nickname){
-        FaithTrack dummyFaithTrack = game.getFaithTrack();
-        virtualView.update(new Message(MessageType.FAITH_TRACK, gson.toJson(dummyFaithTrack)));
+        virtualView.update(new FaithTrackMessage(game.getFaithTrack()));
 
     }
 
@@ -304,8 +302,8 @@ public void initGameController(){
     }
 
 
-    public void reconnectClient(String nickname,VirtualView virtualView){
-        sendAll(new Message(MessageType.GENERIC_MESSAGE, "Player " + nickname + " reconnected"));
+    public synchronized void reconnectClient(String nickname,VirtualView virtualView){
+        sendAll(new GenericMessage( "Player " + nickname + " reconnected"));
         disconnectedClients.remove(nickname);
         connectedClients.put(nickname, virtualView);
         VirtualView vv = getVirtualView(nickname);
@@ -318,14 +316,15 @@ public void initGameController(){
         sendUpdateFaithTrack(vv, nickname);
         updateFaith(vv, nickname);
         try {
-            vv.update(new Message(MessageType.FAITH_MOVE, gson.toJson(game.getPlayerByNickname(nickname).getPlayerBoard().getFaithMarker())));
+            vv.update(new FaithMove(game.getPlayerByNickname(nickname).getPlayerBoard().getFaithMarker()));
         } catch (InvalidNickname invalidNickname) {
             invalidNickname.printStackTrace();
         }
-
-
+        if(disconnectedClients.size() == numberOfPlayers - 1){
+           turnController.goTo(nickname);
+        }
         connectedClients.get(nickname).update(new EndTurn());
-        connectedClients.get(nickname).update(new Message(MessageType.GENERIC_MESSAGE, "It's " + turnController.getActivePlayer() + "'s turn, wait"));
+        connectedClients.get(nickname).update(new GenericMessage( "It's " + turnController.getActivePlayer() + "'s turn, wait"));
     }
 
     public void sendResourcesToPlace(){
@@ -342,7 +341,7 @@ public void initGameController(){
      */
     public void updateFaith(VirtualView view, String nickname){
         try {
-            view.update(new Message(MessageType.FAITH_MOVE,gson.toJson(game.getPlayerByNickname(nickname).getPlayerBoard().getFaithMarker())));
+            view.update(new FaithMove(game.getPlayerByNickname(nickname).getPlayerBoard().getFaithMarker()));
         } catch (InvalidNickname invalidNickname) {
             invalidNickname.printStackTrace();
         }
@@ -361,7 +360,7 @@ public void initGameController(){
         }
         for(VirtualView virtualView : connectedClients.values()) {
             try {
-                virtualView.update(new Message(MessageType.FAITH_MOVE, gson.toJson(game.getPlayerByNickname(virtualView.getNickname()).getPlayerBoard().getFaithMarker())));
+                virtualView.update(new FaithMove(game.getPlayerByNickname(virtualView.getNickname()).getPlayerBoard().getFaithMarker()));
             } catch (InvalidNickname invalidNickname) {
                 invalidNickname.printStackTrace();
             }
@@ -941,11 +940,11 @@ public void initGameController(){
      * add a production power to the production powers that has to be activated in the virtual view
      * @param ids ids of the development cards
      */
-    public void addProductionPower(final int [] ids ){
-        final String name = this.game.getCurrentPlayer().getNickName();
-        final VirtualView virtualView = this.getConnectedClients().get(name);
-    for(final int j : ids){
-        for(final DevelopmentCard developmentCard: this.game.getCurrentPlayer().getPlayerBoard().getDevelopmentCards()){
+    public void addProductionPower( int [] ids ){
+         String name = this.game.getCurrentPlayer().getNickName();
+         VirtualView virtualView = this.getConnectedClients().get(name);
+    for( int j : ids){
+        for( DevelopmentCard developmentCard: this.game.getCurrentPlayer().getPlayerBoard().getDevelopmentCards()){
             if(developmentCard.getId() == j){
                 virtualView.addAllResourcesToPay(developmentCard.getProductionPower().getEntryResources());
             }
@@ -988,7 +987,7 @@ public void initGameController(){
         final String name = this.game.getCurrentPlayer().getNickName();
         final VirtualView virtualView = this.getConnectedClients().get(name);
         if(virtualView.getBasicProd() == null) {
-            final ArrayList<Resource> toPay = new ArrayList<>();
+             ArrayList<Resource> toPay = new ArrayList<>();
             toPay.add(res1);
             toPay.add(res2);
             virtualView.addAllResourcesToPay(toPay);
@@ -1177,11 +1176,11 @@ public void initGameController(){
         this.turnController = new TurnController(this, nickNames, this.game.getCurrentPlayer().getNickName(), game);
         this.setGamePhase(GamePhase.FIRST_ROUND);
 
-        this.getVirtualView(this.turnController.getActivePlayer()).update(new Message(MessageType.GENERIC_MESSAGE,"You are the first player, discard 2 leader cards from your hand"));
+        this.getVirtualView(this.turnController.getActivePlayer()).update(new GenericMessage("You are the first player, discard 2 leader cards from your hand"));
         this.getVirtualView(this.turnController.getActivePlayer()).update(new NotifyTurn());
         this.sendAllExcept(new EndTurn(), this.getVirtualView(this.game.getCurrentPlayer().getNickName()));
 
-        this.sendAllExcept(new Message(MessageType.GENERIC_MESSAGE, "It's " + this.turnController.getActivePlayer() + "'s turn, wait for your turn!"), this.getVirtualView(this.turnController.getActivePlayer()));
+        this.sendAllExcept(new GenericMessage("It's " + this.turnController.getActivePlayer() + "'s turn, wait for your turn!"), this.getVirtualView(this.turnController.getActivePlayer()));
 
     }
 
