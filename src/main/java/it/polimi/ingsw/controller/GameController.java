@@ -1,10 +1,7 @@
 package it.polimi.ingsw.controller;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
 import it.polimi.ingsw.client.DummyModel.DummyDev;
-import it.polimi.ingsw.client.DummyModel.DummyLeaderCard;
-import it.polimi.ingsw.client.DummyModel.DummyMarket;
-import it.polimi.ingsw.client.DummyModel.DummyStrongbox;
 import it.polimi.ingsw.enumerations.*;
 import it.polimi.ingsw.exceptions.CannotAdd;
 import it.polimi.ingsw.exceptions.InvalidNickname;
@@ -17,10 +14,12 @@ import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.effects.ExtraProductionPower;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.VirtualView;
-import it.polimi.ingsw.utility.WarehouseConstructor;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 //TODO controlla resilienza disconnessioni con un solo player
 /**
  * class game controller and subclasses handles the evolution of the game based on
@@ -1153,7 +1152,7 @@ public void initGameController(){
 
         this.game.startGame();
         for(final String name : this.connectedClients.keySet()) {
-
+             this .sendStrongBox(this.connectedClients.get(name), name);
             this.sendUpdateMarketDev(this.connectedClients.get(name), name);
             this.sendUpdateFaithTrack(this.connectedClients.get(name), name);
             this.sendUpdateMarketTray(this.connectedClients.get(name), name);
