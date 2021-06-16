@@ -36,8 +36,10 @@ public class VirtualModel {
     private int blackCross ;
     private DummyDev[][] boardDevCard;
     private DummyMarket dummyMarket;
-
     private DummyPlayerBoard otherPlayer;
+
+
+
 
     public VirtualModel() {
         playerBoard = new DummyPlayerBoard();
@@ -793,4 +795,6 @@ public void showBlackCross(int blackCross){
     public void setBlackCross(final int blackCross) {
         this.blackCross = blackCross;
     }
+
+
 }

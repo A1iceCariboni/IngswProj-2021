@@ -9,12 +9,36 @@ public class DummyLeaderCard {
     String effect;
     int victoryPoints;
 
+    public void setExtraProduction(DummyExtraProduction extraProduction) {
+        this.extraProduction = extraProduction;
+    }
+
+    public DummyExtraProduction getExtraProduction() {
+        return extraProduction;
+    }
+
+    DummyExtraProduction extraProduction;
+    ArrayList<String> entry;
+
+    public void setEntry(ArrayList<String> entry) {
+        this.entry = entry;
+    }
+
+    public void setEid(int eid) {
+        this.eid = eid;
+    }
+
+    int eid;
+
     public DummyLeaderCard(int id, ArrayList<String> requirements, boolean isActive, String effect, int victoryPoints) {
         this.id = id;
         this.requirements = requirements;
         this.isActive = isActive;
         this.effect = effect;
         this.victoryPoints = victoryPoints;
+        this.extraProduction = new DummyExtraProduction(entry, eid);
+        this.entry = new ArrayList<>();
+        this.eid= 0;
     }
 
     public int getId() {

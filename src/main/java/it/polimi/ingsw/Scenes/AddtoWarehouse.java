@@ -26,6 +26,7 @@ public class AddtoWarehouse extends ViewObservable {
     public ImageView r2;
     public ImageView r3;
     public ImageView r4;
+    public Label sst, sc, ssh, sv;
     private String[] chosenRes;
     private int i = 0;
     private int count = 0;
@@ -102,10 +103,6 @@ public class AddtoWarehouse extends ViewObservable {
         }
     }
 
-    public void exit(ActionEvent actionEvent) {
-        Board bc = new Board();
-        GUIRunnable.changetoStart(bc, observers, virtualModel);
-    }
 
     public void pickServant(MouseEvent mouseEvent) {
         chosenRes[i] = "SERVANT";
@@ -131,6 +128,7 @@ public class AddtoWarehouse extends ViewObservable {
         i++;
         if(i == chosenRes.length) {
             Message message = new ResourcesReply(chosenRes);
+            notifyObserver(obs -> obs.onReadyReply(message));
         }
     }
 
@@ -231,6 +229,24 @@ public class AddtoWarehouse extends ViewObservable {
         ex1.setOpacity(0);
         ex2.setOpacity(0);
         disc.setOpacity(0);
+        int coin =0;
+        int stone =0;
+        int servant=0;
+        int shield=0;
+        for (int i=0; i<virtualModel.getPlayerBoard().getStrongBox().getResources().size(); i++) {
+            if (virtualModel.getPlayerBoard().getStrongBox().getResources().get(i).equals("COIN"))
+                coin++;
+            if (virtualModel.getPlayerBoard().getStrongBox().getResources().get(i).equals("STONE"))
+                stone++;
+            if (virtualModel.getPlayerBoard().getStrongBox().getResources().get(i).equals("SHIELD"))
+                shield++;
+            if (virtualModel.getPlayerBoard().getStrongBox().getResources().get(i).equals("SERVANT"))
+                servant++;
+        }
+        sc.setText("x"+ coin);
+        sst.setText("x"+ stone);
+        ssh.setText("x"+ shield);
+        sv.setText("x"+ servant);
 
         //sets warehouse
         if(virtualModel.getSlot1()!= "") {
@@ -326,6 +342,19 @@ public class AddtoWarehouse extends ViewObservable {
          notifyObserver(obs -> obs.onReadyReply(message));
         }
     }
+
+
+    @FXML
+    public void pays1(ActionEvent actionEvent) {
+        answer[count] = -1;
+        count++;
+        if(count == resource.size()) {
+            Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(answer));
+            notifyObserver(obs -> obs.onReadyReply(message));
+        }
+    }
+
+
 
     @FXML
     public void payex1(ActionEvent actionEvent) {
