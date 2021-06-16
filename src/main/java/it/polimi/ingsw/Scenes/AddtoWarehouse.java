@@ -2,9 +2,7 @@ package it.polimi.ingsw.Scenes;
 import com.google.gson.Gson;
 import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.VirtualModel;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
-import it.polimi.ingsw.messages.ResourcesReply;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -54,7 +52,7 @@ public class AddtoWarehouse extends ViewObservable {
         answer[count] = 1;
         count++;
         if(count == resource.size()) {
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
+            notifyObserver(obs -> obs.onReadyReply(new PlaceResources(answer)));
         }
     }
 
@@ -63,7 +61,7 @@ public class AddtoWarehouse extends ViewObservable {
         answer[count] = 2;
         count++;
         if(count == resource.size()) {
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
+            notifyObserver(obs -> obs.onReadyReply(new PlaceResources(answer)));
         }
     }
 
@@ -72,7 +70,7 @@ public class AddtoWarehouse extends ViewObservable {
         answer[count] = 3;
         count++;
         if(count == resource.size()) {
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
+            notifyObserver(obs -> obs.onReadyReply(new PlaceResources(answer)));
         }
     }
 
@@ -81,7 +79,7 @@ public class AddtoWarehouse extends ViewObservable {
         answer[count] = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId();
         count++;
         if(count == resource.size()) {
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
+            notifyObserver(obs -> obs.onReadyReply(new PlaceResources(answer)));
         }
     }
 
@@ -90,7 +88,7 @@ public class AddtoWarehouse extends ViewObservable {
         answer[count] = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId();
         count++;
         if(count == resource.size()) {
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
+            notifyObserver(obs -> obs.onReadyReply(new PlaceResources(answer)));
         }
     }
 
@@ -100,7 +98,7 @@ public class AddtoWarehouse extends ViewObservable {
         answer[count] = -1;
         count++;
         if(count == resource.size()) {
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
+            notifyObserver(obs -> obs.onReadyReply(new PlaceResources(answer)));
         }
     }
 
@@ -304,7 +302,7 @@ public class AddtoWarehouse extends ViewObservable {
         answer[count] = 1;
         count++;
         if(count == resource.size()) {
-            Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(answer));
+            Message message = new ResourcePayment(answer);
             notifyObserver(obs -> obs.onReadyReply(message));
         }
     }
@@ -314,7 +312,7 @@ public class AddtoWarehouse extends ViewObservable {
         answer[count] = 2;
         count++;
         if(count == resource.size()) {
-            Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(answer));
+            Message message = new ResourcePayment(answer);
             notifyObserver(obs -> obs.onReadyReply(message));
         }
     }
@@ -324,7 +322,7 @@ public class AddtoWarehouse extends ViewObservable {
         answer[count] = 3;
         count++;
         if(count == resource.size()) {
-         Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(answer));
+         Message message = new ResourcePayment(answer);
          notifyObserver(obs -> obs.onReadyReply(message));
         }
     }
@@ -334,7 +332,7 @@ public class AddtoWarehouse extends ViewObservable {
         answer[count] = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId();
         count++;
         if(count == resource.size()) {
-            Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(answer));
+            Message message = new ResourcePayment(answer);
             notifyObserver(obs -> obs.onReadyReply(message));
         }
     }
@@ -344,7 +342,7 @@ public class AddtoWarehouse extends ViewObservable {
         answer[count] = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId();
         count++;
         if(count == resource.size()) {
-            Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(answer));
+            Message message = new ResourcePayment(answer);
             notifyObserver(obs -> obs.onReadyReply(message));
         }
     }

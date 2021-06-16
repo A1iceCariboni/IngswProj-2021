@@ -237,7 +237,7 @@ public class Cli extends ViewObservable implements View {
         virtualModel.showWarewouse(virtualModel.getPlayerBoard());
             System.out.println("From which depot you want to discard the resource?");
             int id = readDepotId();
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.REMOVE_RESOURCES, gson.toJson(id))));
+            notifyObserver(obs -> obs.onReadyReply(new RemoveResource(id)));
     }
 
     @Override
@@ -316,7 +316,7 @@ public class Cli extends ViewObservable implements View {
                 answer[i] = readAnyInt("In which depot you want to put it? Type -1 if you want to discard and give 1 faith points to the other players");
                 i++;
             }
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(answer))));
+            notifyObserver(obs -> obs.onReadyReply(new PlaceResources(answer)));
 
 
     }
@@ -353,7 +353,7 @@ public class Cli extends ViewObservable implements View {
                 String resource = readResource();
                 powers[i] = resource;
             }
-            Message message = new Message(MessageType.WHITE_MARBLES, gson.toJson(powers));
+            Message message = new WhiteMarblesChoice(powers);
             notifyObserver(obs -> obs.onReadyReply(message));
 
     }
@@ -613,7 +613,7 @@ public class Cli extends ViewObservable implements View {
                int id = readAnyInt("From where do you want to take the resources? Type the depot id or -1 for strongbox");
                ids[i++] = id;
            }
-           Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(ids));
+           Message message = new ResourcePayment(ids);
            notifyObserver(obs -> obs.onReadyReply(message));
 
     }
@@ -625,7 +625,7 @@ public class Cli extends ViewObservable implements View {
         int answer = 0;
         virtualModel.showPlayerDevCards(virtualModel.getPlayerBoard());
             answer = readInt(3, 1, "In which slot do you want to put the card? [1/2/3]");
-            Message messageSlot = new Message(MessageType.SLOT_CHOICE, gson.toJson(answer - 1));
+            Message messageSlot = new SlotChoice(answer - 1);
         notifyObserver(obs -> obs.onReadyReply(messageSlot));
     }
 
@@ -683,7 +683,7 @@ public class Cli extends ViewObservable implements View {
     public void chooseName(){
         try {
             String name = readLine("Type the name of the player you want to see the playerboard, if it's a solo game type LorenzoIlMagnifico to see the black cross");
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.SEE_PLAYERBOARD, name)));
+            notifyObserver(obs -> obs.onReadyReply(new SeePlayerBoard( name)));
 
         } catch (ExecutionException | InterruptedException e) {
             System.out.println("Interrupted input");

@@ -149,8 +149,8 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case PLACE_RESOURCE_WAREHOUSE:
-                String[] resource = gson.fromJson(message.getPayload(),String[].class);
-                executionQueue.execute(() -> view.addResourceToWareHouse(resource));
+                PlaceResources placeResources = gson.fromJson(line, PlaceResources.class);
+                executionQueue.execute(() -> view.addResourceToWareHouse(placeResources.getRes()));
                 break;
 
             case FAITH_MOVE:
@@ -159,11 +159,11 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case RESOURCE_PAYMENT:
-                resource  = gson.fromJson(message.getPayload(), String[].class);
+                ResourcePayment resource = gson.fromJson(line, ResourcePayment.class);
                 if(view.getTurnPhase() == TurnPhase.BUY_DEV) {
-                    executionQueue.execute(() -> view.payResources(resource));
+                    executionQueue.execute(() -> view.payResources(resource.getRes()));
                 }else{
-                    executionQueue.execute(() -> view.activateProduction(resource));
+                    executionQueue.execute(() -> view.activateProduction(resource.getRes()));
                 }
                 break;
 
@@ -172,8 +172,8 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case WHITE_MARBLES:
-                int numWhite = gson.fromJson(message.getPayload(), int.class);
-                executionQueue.execute(() -> view.askWhiteMarble(numWhite));
+                WhiteMarblesChoice numWhite = gson.fromJson(line, WhiteMarblesChoice.class);
+                executionQueue.execute(() -> view.askWhiteMarble(numWhite.getNum()));
                 break;
 
             case DUMMY_STRONGBOX:
@@ -199,33 +199,33 @@ public class ClientController implements ViewObserver,Observer {
                 break;
 
             case OTHER_DEV_SLOTS:
-                DummyDev[] devCards = gson.fromJson(message.getPayload(), DummyDev[].class);
-                executionQueue.execute(() -> view.otherDevCards(devCards));
+                OtherDev otherDev = gson.fromJson(line, OtherDev.class);
+                executionQueue.execute(() -> view.otherDevCards(otherDev.getDummyDevs()));
                 break;
 
             case OTHER_FAITHMARKER:
-               int pos = gson.fromJson(message.getPayload(), int.class);
-                executionQueue.execute(() -> view.otherFaithMarker(pos));
+                OtherFaithMarker otherFaithMarker = gson.fromJson(line, OtherFaithMarker.class);
+                executionQueue.execute(() -> view.otherFaithMarker(otherFaithMarker.getPos()));
                 break;
 
             case OTHER_STRONGBOX:
-                DummyStrongbox dummyStrongbox1 = gson.fromJson(message.getPayload(), DummyStrongbox.class);
-                executionQueue.execute(() -> view.otherDummyStrongBox(dummyStrongbox1));
+                OtherStrongBox otherStrongBox = gson.fromJson(line, OtherStrongBox.class);
+                executionQueue.execute(() -> view.otherDummyStrongBox(otherStrongBox.getStrongBox()));
                 break;
 
             case OTHER_WAREHOUSE:
-                DummyWareHouse dummyWareHouse = DummyWarehouseConstructor.parse(message.getPayload());
-                executionQueue.execute(() -> view.otherWarehouseNew(dummyWareHouse));
+                OtherWareHouse otherWareHouse = gson.fromJson(line, OtherWareHouse.class);
+                executionQueue.execute(() -> view.otherWarehouseNew(otherWareHouse.getDummyWarehouse()));
                 break;
 
             case OTHER_LEADER:
-                DummyLeaderCard[] dummyLeaderCards = gson.fromJson(message.getPayload(), DummyLeaderCard[].class);
-                executionQueue.execute(() -> view.otherLeaderCardIn(dummyLeaderCards));
+                OtherLeader otherLeader = gson.fromJson(line, OtherLeader.class);
+                executionQueue.execute(() -> view.otherLeaderCardIn(otherLeader.getDummyLeader()));
                 break;
 
             case BLACK_CROSS:
-                int blackCross = gson.fromJson(message.getPayload(), int.class);
-                executionQueue.execute( () -> view.showBlackCross(blackCross));
+                BlackCross blackCross = gson.fromJson(line, BlackCross.class);
+                executionQueue.execute( () -> view.showBlackCross(blackCross.getPos()));
                 break;
             case VICTORY_POINTS:
                 int victoryPoints = gson.fromJson(message.getPayload(), int.class);

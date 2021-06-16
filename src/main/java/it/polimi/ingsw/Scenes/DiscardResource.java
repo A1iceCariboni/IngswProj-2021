@@ -5,6 +5,7 @@ import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
+import it.polimi.ingsw.messages.RemoveResource;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -22,15 +23,15 @@ public class DiscardResource extends ViewObservable {
     ImageView res1, res2, res3, res4, res5, res6;
 
     public void disc1(ActionEvent actionEvent) {
-        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.REMOVE_RESOURCES, gson.toJson(1))));
+        notifyObserver(obs -> obs.onReadyReply(new RemoveResource(1)));
     }
 
     public void disc2(ActionEvent actionEvent) {
-        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.REMOVE_RESOURCES, gson.toJson(2))));
+        notifyObserver(obs -> obs.onReadyReply(new RemoveResource(2)));
     }
 
     public void disc3(ActionEvent actionEvent) {
-        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.REMOVE_RESOURCES, gson.toJson(3))));
+        notifyObserver(obs -> obs.onReadyReply(new RemoveResource(3)));
     }
 
     public void back(ActionEvent actionEvent) {

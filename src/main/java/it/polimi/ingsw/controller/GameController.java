@@ -333,7 +333,7 @@ public void initGameController(){
         for (Resource res : game.getCurrentPlayer().getPlayerBoard().getUnplacedResources()) {
             names.add(res.getResourceType().name());
         }
-        virtualView.update(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(names)));
+        virtualView.update(new PlaceResources(names));
     }
 
     /**
@@ -390,18 +390,18 @@ public void initGameController(){
             switch (message.getCode()) {
                 case WHITE_MARBLES:
                     if(inputChecker.checkReceivedMessage(line, turnController.getActivePlayer())) {
-                        String[] marb = gson.fromJson(message.getPayload(), String[].class);
-                        chooseWhiteMarbleEffect(marb);
+                        WhiteMarblesChoice whiteMarblesChoice = gson.fromJson(line, WhiteMarblesChoice.class);
+                        chooseWhiteMarbleEffect(whiteMarblesChoice.getPowers());
                     }else {
                         virtualView.update(new ErrorMessage(""));
-                        virtualView.update(new Message(MessageType.WHITE_MARBLES,gson.toJson(virtualView.getFreeMarble().size())));
+                        virtualView.update(new WhiteMarblesChoice(virtualView.getFreeMarble().size()));
                     }
                     break;
                 case PLACE_RESOURCE_WAREHOUSE:
                     if(inputChecker.checkReceivedMessage(line, turnController.getActivePlayer())) {
-                        int[] id = gson.fromJson(message.getPayload(), int[].class);
+                        PlaceResources placeResources = gson.fromJson(line, PlaceResources.class);
                         try {
-                            putResource(id);
+                            putResource(placeResources.getIds());
                             virtualView.update(new NotifyTurn());
                             virtualView.doneGameAction(1);
 
@@ -429,8 +429,8 @@ public void initGameController(){
         switch (message.getCode()) {
                     case RESOURCE_PAYMENT:
                     if(inputChecker.checkReceivedMessage(line, turnController.getActivePlayer())) {
-                        int[] ids = gson.fromJson(message.getPayload(), int[].class);
-                        pay(ids);
+                        ResourcePayment resourcePayment = gson.fromJson(line, ResourcePayment.class);
+                        pay(resourcePayment.getIds());
                         virtualView.update(new NotifyTurn());
                         virtualView.doneGameAction(1);
                     }else {
@@ -502,7 +502,12 @@ public void initGameController(){
         ArrayList<String> names = new ArrayList<>();
         DevelopmentCard developmentCard;
         if(turnPhase == TurnPhase.BUY_DEV){
-            for (Resource res : game.getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment().getCost()) {
+            ArrayList<Resource> cost = new ArrayList<>();
+            cost.addAll(game.getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment().getCost());
+            for(Resource res : game.getCurrentPlayer().getDiscountedResource()){
+                cost.remove(res);
+            }
+            for (Resource res : cost) {
                 names.add(res.getResourceType().name());
             }
         }
@@ -512,7 +517,7 @@ public void initGameController(){
             }
         }
 
-        virtualView.update(new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(names)));
+        virtualView.update(new ResourcePayment(names.toArray(new String[names.size()])));
     }
 
     public  void buyDevHandler(String line, VirtualView virtualView) {
@@ -520,8 +525,8 @@ public void initGameController(){
             switch (message.getCode()) {
                 case RESOURCE_PAYMENT:
                     if(inputChecker.checkReceivedMessage(line, turnController.getActivePlayer())) {
-                        int[] ids = gson.fromJson(message.getPayload(), int[].class);
-                        pay(ids);
+                        ResourcePayment resourcePayment = gson.fromJson(line, ResourcePayment.class);
+                        pay(resourcePayment.getIds());
                         sendDepots(connectedClients.get(turnController.getActivePlayer()), turnController.getActivePlayer());
                         sendStrongBox(connectedClients.get(turnController.getActivePlayer()), turnController.getActivePlayer());
                         virtualView.doneGameAction(1);
@@ -532,11 +537,11 @@ public void initGameController(){
                     break;
                 case SLOT_CHOICE:
                     if(inputChecker.checkReceivedMessage(line, turnController.getActivePlayer())) {
-                        int slot = gson.fromJson(message.getPayload(), int.class);
-                        placeCard(slot);
+                        SlotChoice slot = gson.fromJson(line, SlotChoice.class);
+                        placeCard(slot.getSlot());
                     }else{
                         virtualView.update(new ErrorMessage("Invalid message for this state"));
-                        virtualView.update(new Message(MessageType.SLOT_CHOICE, ""));
+                        virtualView.update(new SlotChoice(0));
                     }
                     break;
                 default:
@@ -602,11 +607,11 @@ public void initGameController(){
                     turnController.nextTurn();
                     break;
                 case REMOVE_RESOURCES:
-                    int id = gson.fromJson(message.getPayload(), int.class);
-                    removeResource(id);
+                    RemoveResource resource = gson.fromJson(line, RemoveResource.class);
+                    removeResource(resource.getId());
                     break;
                 case SEE_PLAYERBOARD:
-                    String nickname = gson.fromJson(message.getPayload(), String.class);
+                    SeePlayerBoard seePlayerBoard = gson.fromJson(line, SeePlayerBoard.class);
                     if(numberOfPlayers == 1){
                         virtualView.update(new OtherVictoryPoints(game.getFakePlayer().getVictoryPoints()));
                         sendBlackCross();
@@ -614,7 +619,7 @@ public void initGameController(){
 
                     }else{
                     try {
-                        sendOtherPlayerBoard(nickname);
+                        sendOtherPlayerBoard(seePlayerBoard.getNickname());
                         virtualView.update(new NotifyTurn());
 
                     } catch (InvalidNickname invalidNickname) {
@@ -667,9 +672,9 @@ public void initGameController(){
                     break;
                 case PLACE_RESOURCE_WAREHOUSE:
                     if(inputChecker.checkReceivedMessage(line, turnController.getActivePlayer())) {
-                        int[] id = gson.fromJson(message.getPayload(), int[].class);
+                        PlaceResources placeResources = gson.fromJson(line, PlaceResources.class);
                         try {
-                            putResource(id);
+                            putResource(placeResources.getIds());
                             virtualView.update(new NotifyTurn());
 
                         } catch (NotPossibleToAdd notPossibleToAdd) {
@@ -678,7 +683,7 @@ public void initGameController(){
                         }
                     }else{
                         virtualView.sendInvalidActionMessage();
-                        virtualView.update(new Message(MessageType.PLACE_RESOURCE_WAREHOUSE, gson.toJson(game.getCurrentPlayer().getPlayerBoard().getUnplacedResources())));
+                        sendResourcesToPlace();
                     }
                     break;
                 case END_TURN:
@@ -716,7 +721,7 @@ public void initGameController(){
 
    public void sendBlackCross(){
        VirtualView vv = getVirtualView(turnController.getActivePlayer());
-       vv.update(new Message(MessageType.BLACK_CROSS, gson.toJson(game.getFakePlayer().getBlackCross())));
+       vv.update(new BlackCross(game.getFakePlayer().getBlackCross()));
    }
     /**
      * place the payed card in the chosen slot
@@ -733,7 +738,7 @@ public void initGameController(){
            success = true;
        } catch (CannotAdd cannotAdd) {
            virtualView.update(new ErrorMessage(cannotAdd.getMessage()));
-           virtualView.update(new Message(MessageType.SLOT_CHOICE, ""));
+           virtualView.update(new SlotChoice(0));
            success = false;
        }
        if(success){
@@ -752,33 +757,24 @@ public void initGameController(){
     public void sendOtherPlayerBoard(String nickname) throws InvalidNickname {
       Player p = game.getPlayerByNickname(nickname);
       VirtualView vv = getVirtualView(game.getCurrentPlayer().getNickName());
-      vv.update(new Message(MessageType.OTHER_FAITHMARKER, gson.toJson(p.getPlayerBoard().getFaithMarker())));
+      vv.update(new OtherFaithMarker(p.getPlayerBoard().getFaithMarker()));
       vv.update(new OtherVictoryPoints(p.getVictoryPoints()));
-        DummyDev[] dummyDevs = new DummyDev[3];
+
         DevelopmentCard[] developmentCards = p.getPlayerBoard().getDevCardSlots();
-        for(int i = 0; i < Constants.DEV_SLOTS; i++){
-            if(developmentCards[i] != null) {
-                dummyDevs[i] = developmentCards[i].getDummy();
-            }else{
-                dummyDevs[i] = null;
-            }
-        }
-        vv.update(new Message(MessageType.OTHER_DEV_SLOTS ,gson.toJson(dummyDevs)));
 
-       vv.update(new Message(MessageType.OTHER_WAREHOUSE,gson.toJson(p.getPlayerBoard().getWareHouse().getDummy())));
+        vv.update(new OtherDev(developmentCards));
+
+       vv.update(new OtherWareHouse(p.getPlayerBoard().getWareHouse().getDummy()));
 
 
 
-        DummyStrongbox dummyStrongbox = p.getPlayerBoard().getStrongBox().getDummy();
-        vv.update(new Message(MessageType.OTHER_STRONGBOX, gson.toJson(dummyStrongbox)));
+        StrongBox strongbox = p.getPlayerBoard().getStrongBox();
+        vv.update(new OtherStrongBox(strongbox));
 
 
-        ArrayList<DummyLeaderCard> dummyLeaderCards = new ArrayList<>();
         ArrayList<LeaderCard> leaderCards = p.getActiveLeaderCards();
-        for(LeaderCard lc: leaderCards){
-            dummyLeaderCards.add(lc.getDummy());
-        }
-        vv.update(new Message(MessageType.OTHER_LEADER,gson.toJson(dummyLeaderCards)));
+
+        vv.update(new OtherLeader(leaderCards));
 
     }
 
@@ -811,7 +807,7 @@ public void initGameController(){
            virtualView.removeResourcesToPay();
            turnPhase = TurnPhase.FREE;
        }else{
-           virtualView.update(new Message(MessageType.SLOT_CHOICE, ""));
+           virtualView.update(new SlotChoice(0));
        }
        virtualView.update(new OkMessage("Payed successfully!"));
    }
@@ -863,7 +859,7 @@ public void initGameController(){
         this.updateFaith(virtualView, name);
         this.sendUpdateMarketTray(virtualView, name);
         if((!this.game.getCurrentPlayer().getPossibleWhiteMarbles().isEmpty())&&(!virtualView.getFreeMarble().isEmpty())){
-            virtualView.update(new Message(MessageType.WHITE_MARBLES, this.gson.toJson(virtualView.getFreeMarble().size())));
+            virtualView.update(new WhiteMarblesChoice(virtualView.getFreeMarble().size()));
         }else{
             virtualView.removeAllFreeMarbles();
             this.sendResourcesToPlace();
@@ -891,7 +887,7 @@ public void initGameController(){
         this.updateFaith(virtualView, name);
         this.sendUpdateMarketTray(virtualView, name);
         if((!this.game.getCurrentPlayer().getPossibleWhiteMarbles().isEmpty())&&(!virtualView.getFreeMarble().isEmpty())){
-            virtualView.update(new Message(MessageType.WHITE_MARBLES,""));
+            virtualView.update(new WhiteMarblesChoice(game.getCurrentPlayer().getPossibleWhiteMarbles().size()));
         }else{
             virtualView.removeAllFreeMarbles();
             this.sendResourcesToPlace();

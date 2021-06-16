@@ -4,6 +4,7 @@ import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
+import it.polimi.ingsw.messages.SeePlayerBoard;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -31,7 +32,7 @@ public class QuestionGame extends ViewObservable {
     }
 
     public void single() {
-        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.SEE_PLAYERBOARD, "LorenzoIlMagnifico")));
+        notifyObserver(obs -> obs.onReadyReply(new SeePlayerBoard("LorenzoIlMagnifico")));
 
     }
 

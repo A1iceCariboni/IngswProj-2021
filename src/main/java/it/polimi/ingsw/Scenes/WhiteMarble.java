@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
+import it.polimi.ingsw.messages.WhiteMarblesChoice;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
@@ -26,7 +27,7 @@ public class WhiteMarble extends ViewObservable {
             powers[i] = resource;
         }
         stone.setOpacity(0.5);
-        Message message = new Message(MessageType.WHITE_MARBLES, gson.toJson(powers));
+        Message message = new WhiteMarblesChoice(powers);
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 
@@ -37,7 +38,7 @@ public class WhiteMarble extends ViewObservable {
             powers[i] = resource;
         }
         servant.setOpacity(0.5);
-        Message message = new Message(MessageType.WHITE_MARBLES, gson.toJson(powers));
+        Message message = new WhiteMarblesChoice(powers);
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 
@@ -47,7 +48,7 @@ public class WhiteMarble extends ViewObservable {
         String resource = "SHIELD";
         powers[i] = resource;
     }
-        Message message = new Message(MessageType.WHITE_MARBLES, gson.toJson(powers));
+        Message message = new WhiteMarblesChoice(powers);
         notifyObserver(obs -> obs.onReadyReply(message));
         shield.setOpacity(0.5);
     }
@@ -59,7 +60,7 @@ public class WhiteMarble extends ViewObservable {
             powers[i] = resource;
         }
         coin.setOpacity(0.5);
-        Message message = new Message(MessageType.WHITE_MARBLES, gson.toJson(powers));
+        Message message = new WhiteMarblesChoice(powers);
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 

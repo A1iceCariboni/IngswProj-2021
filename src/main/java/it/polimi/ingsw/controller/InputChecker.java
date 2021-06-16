@@ -44,11 +44,12 @@ public class InputChecker implements Serializable {
             case BUY_DEV:
                 return !gameController.connectedClients.get(nickname).isGameActionDone();
             case RESOURCE_PAYMENT:
-                Integer[] ids = gson.fromJson(message.getPayload(), Integer[].class);
+                ResourcePayment resourcePayment = gson.fromJson(line, ResourcePayment.class);
 
-                return (checkPayment(ids, nickname)) && ((gameController.getTurnPhase() == TurnPhase.BUY_DEV) || (gameController.getTurnPhase() == TurnPhase.ACTIVATE_PRODUCTION));
+                return (checkPayment(resourcePayment.getIds(), nickname)) && ((gameController.getTurnPhase() == TurnPhase.BUY_DEV) || (gameController.getTurnPhase() == TurnPhase.ACTIVATE_PRODUCTION));
             case PLACE_RESOURCE_WAREHOUSE:
-                int[] id = gson.fromJson(message.getPayload(), int[].class);
+                PlaceResources placeResources = gson.fromJson(line, PlaceResources.class);
+                int id[] = placeResources.getIds();
                 for(int j = 0; j < id.length; j++){
                     if((id[j] != -1) && (!checkIdDepot(id[j])||(!canAddToDepot(game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().get(j), game.getCurrentPlayer().getDepotById(id[j]))))) return false;
                 }
@@ -60,8 +61,8 @@ public class InputChecker implements Serializable {
                 }
                 return ((buyMarket.getRoc().equalsIgnoreCase("row")) || (buyMarket.getRoc().equalsIgnoreCase("col")));
             case WHITE_MARBLES:
-                String[] marb = gson.fromJson(message.getPayload(), String[].class);
-                return (!gameController.getVirtualView(nickname).getFreeMarble().isEmpty()) && (marb.length >= gameController.getVirtualView(nickname).getFreeMarble().size()) && ((gameController.getTurnPhase() == TurnPhase.BUY_MARKET) || (checkWhiteMarble(marb)));
+                WhiteMarblesChoice whiteMarblesChoice = gson.fromJson(line, WhiteMarblesChoice.class);
+                return (!gameController.getVirtualView(nickname).getFreeMarble().isEmpty()) && (whiteMarblesChoice.getPowers().length >= gameController.getVirtualView(nickname).getFreeMarble().size()) && ((gameController.getTurnPhase() == TurnPhase.BUY_MARKET) || (checkWhiteMarble(whiteMarblesChoice.getPowers())));
             case SLOT_CHOICE:
                 return gameController.getTurnPhase() == TurnPhase.BUY_DEV;
             case ACTIVATE_PRODUCTION:
@@ -92,12 +93,12 @@ public class InputChecker implements Serializable {
                 DepotMessage depotMessage = gson.fromJson(line, DepotMessage.class);
                 return checkDepotsState(nickname, depotMessage.getWareHouse()) && validDepots(depotMessage.getWareHouse());
             case REMOVE_RESOURCES:
-                int l = gson.fromJson(message.getPayload(), int.class);
-                return checkIdDepot(l);
+                RemoveResource resource = gson.fromJson(line, RemoveResource.class);
+                return checkIdDepot(resource.getId());
             case SEE_PLAYERBOARD:
                 if(gameController.getNumberOfPlayers() == 1) return true;
-               nickname = gson.fromJson(message.getPayload(), String.class);
-                return checkNickname(nickname);
+                SeePlayerBoard seePlayerBoard = gson.fromJson(line, SeePlayerBoard.class);
+                return checkNickname(seePlayerBoard.getNickname());
             default:
                 return true;
         }
@@ -137,8 +138,8 @@ public class InputChecker implements Serializable {
      * @param nickname nickname of the player
      * @return true if the payment can be done, false otherwise
      */
-    public boolean checkPayment(Integer[] ids, String nickname) {
-        List<Integer> depotIds = Arrays.asList(ids);
+    public boolean checkPayment(int[] ids, String nickname) {
+        List<Integer> depotIds = Arrays.stream(ids).boxed().collect(Collectors.toList());
         ArrayList<Resource> cost;
         if (gameController.getTurnPhase() == TurnPhase.BUY_DEV) {
             cost = game.getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment().getCost();

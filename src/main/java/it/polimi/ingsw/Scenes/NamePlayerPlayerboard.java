@@ -4,6 +4,7 @@ import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
+import it.polimi.ingsw.messages.SeePlayerBoard;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -40,6 +41,6 @@ public class NamePlayerPlayerboard extends ViewObservable {
 
     public void ok() {
         name = namePlayer.getText();
-        notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.SEE_PLAYERBOARD, name)));
+        notifyObserver(obs -> obs.onReadyReply(new SeePlayerBoard(name)));
     }
 }

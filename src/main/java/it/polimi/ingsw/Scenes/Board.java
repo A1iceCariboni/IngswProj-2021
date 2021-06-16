@@ -167,21 +167,21 @@ public class Board extends ViewObservable {
     /** this method is used to choose where to insert the development cards bought from the market*/
     @FXML
     public void devslot1() {
-        Message messageSlot = new Message(MessageType.SLOT_CHOICE, gson.toJson(0));
+        Message messageSlot = new SlotChoice(0);
         notifyObserver(obs -> obs.onReadyReply(messageSlot));
     }
 
     /** this method is used to choose where to insert the development cards bought from the market*/
     @FXML
     public void devslot2() {
-        Message messageSlot = new Message(MessageType.SLOT_CHOICE, gson.toJson(1));
+        Message messageSlot = new SlotChoice(1);
         notifyObserver(obs -> obs.onReadyReply(messageSlot));
     }
 
     /** this method is used to choose where to insert the development cards bought from the market*/
     @FXML
     public void devslot3() {
-        Message messageSlot = new Message(MessageType.SLOT_CHOICE, gson.toJson(2));
+        Message messageSlot = new SlotChoice(2);
         notifyObserver(obs -> obs.onReadyReply(messageSlot));
     }
 

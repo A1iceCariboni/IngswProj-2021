@@ -554,12 +554,12 @@ public class VirtualModel {
         StringBuilder r2 = new StringBuilder();
         StringBuilder r3 = new StringBuilder();
         r1.append(" ");
-        r1.append("││  " + ANSI_BG_GREEN + 1 + ANSI_RESET + "  ││  " + ANSI_BG_BLUE+ 2 +ANSI_RESET + "  ││  " +ANSI_BG_PURPLE + 3 + ANSI_RESET +  "  ││  " + ANSI_BG_YELLOW+  4 + ANSI_RESET+ "  ││\n ");
+        r1.append("││  " + ANSI_BG_GREEN + 1 + ANSI_RESET + "  ││  " + ANSI_BG_YELLOW+ 2 +ANSI_RESET + "  ││  " +ANSI_BG_PURPLE + 3 + ANSI_RESET +  "  ││  " + ANSI_BG_BLUE+  4 + ANSI_RESET+ "  ││\n ");
 
         r2.append(" ");
-        r2.append("││  " + ANSI_BG_GREEN + 5 + ANSI_RESET+ "  ││  " + ANSI_BG_BLUE+ 6 +ANSI_RESET + "  ││  " + ANSI_BG_PURPLE + 7 + ANSI_RESET + "  ││  " + ANSI_BG_YELLOW + 8 + ANSI_RESET + "  ││\n ");
+        r2.append("││  " + ANSI_BG_GREEN + 5 + ANSI_RESET+ "  ││  " + ANSI_BG_YELLOW+ 6 +ANSI_RESET + "  ││  " + ANSI_BG_PURPLE + 7 + ANSI_RESET + "  ││  " + ANSI_BG_BLUE + 8 + ANSI_RESET + "  ││\n ");
         r3.append(" ");
-        r3.append("││  " + ANSI_BG_GREEN + 9 + ANSI_RESET+ "  ││  " + ANSI_BG_BLUE+ 10 +ANSI_RESET + " ││  " + ANSI_BG_PURPLE + 11 + ANSI_RESET + " ││ " + ANSI_BG_YELLOW+  12 + ANSI_RESET + "  ││ \n ");
+        r3.append("││  " + ANSI_BG_GREEN + 9 + ANSI_RESET+ "  ││  " + ANSI_BG_YELLOW+ 10 +ANSI_RESET + " ││  " + ANSI_BG_PURPLE + 11 + ANSI_RESET + " ││ " + ANSI_BG_BLUE+  12 + ANSI_RESET + "  ││ \n ");
         r1.toString();
         r2.toString();
         r3.toString();
