@@ -62,7 +62,7 @@ public class InputChecker implements Serializable {
                 return ((buyMarket.getRoc().equalsIgnoreCase("row")) || (buyMarket.getRoc().equalsIgnoreCase("col")));
             case WHITE_MARBLES:
                 WhiteMarblesChoice whiteMarblesChoice = gson.fromJson(line, WhiteMarblesChoice.class);
-                return (!gameController.getVirtualView(nickname).getFreeMarble().isEmpty()) && (whiteMarblesChoice.getPowers().length >= gameController.getVirtualView(nickname).getFreeMarble().size()) && ((gameController.getTurnPhase() == TurnPhase.BUY_MARKET) || (checkWhiteMarble(whiteMarblesChoice.getPowers())));
+                return (!gameController.getVirtualView(nickname).getFreeMarble().isEmpty()) && (whiteMarblesChoice.getPowers().length == gameController.getVirtualView(nickname).getFreeMarble().size()) && ((gameController.getTurnPhase() == TurnPhase.BUY_MARKET) && (checkWhiteMarble(whiteMarblesChoice.getPowers())));
             case SLOT_CHOICE:
                 return gameController.getTurnPhase() == TurnPhase.BUY_DEV;
             case ACTIVATE_PRODUCTION:

@@ -854,6 +854,7 @@ public void initGameController(){
                 marble.getMarbleEffect().giveResourceTo(this.game.getCurrentPlayer().getPlayerBoard());
             }
         }
+        marbles.removeIf(marble -> marble.getMarbleColor() != MarbleColor.WHITE);
         virtualView.addAllFreeMarbles(marbles);
         this.updateFaith(virtualView, name);
         this.sendUpdateMarketTray(virtualView, name);
@@ -880,6 +881,8 @@ public void initGameController(){
                 marble.getMarbleEffect().giveResourceTo(this.game.getCurrentPlayer().getPlayerBoard());
             }
         }
+        marbles.removeIf(marble -> marble.getMarbleColor() != MarbleColor.WHITE);
+
         virtualView.addAllFreeMarbles(marbles);
         this.sendUpdateMarketDev(virtualView, name);
 

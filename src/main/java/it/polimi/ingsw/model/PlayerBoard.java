@@ -99,37 +99,38 @@ public class PlayerBoard implements Serializable {
             if(card.getLevel()==1) {
                 if (devCardSlots[slot] == null) {
                     this.devCardSlots[slot] = card;
-                    this.countDevCards ++;
+                    this.countDevCards++;
+                } else {
+                    throw new CannotAdd();
                 }
-            }else{
+            }
             if(card.getLevel()==2) {
                 if (devCardSlots[slot] == null) {
                     throw new CannotAdd();
                 } else {
-                    if (devCardSlots[slot].getLevel() < 1) {
-                        throw new CannotAdd();
-                    } else {
+                    if (devCardSlots[slot].getLevel() == 1) {
                         this.coveredDevCards.add(devCardSlots[slot]);
                         this.devCardSlots[slot] = card;
-                        this.countDevCards ++;
+                        this.countDevCards++;
+                    } else {
+                        throw new CannotAdd();
                     }
                 }
-            }else{
+            }
             if(card.getLevel()==3){
                 if (devCardSlots[slot] == null) {
                     throw new CannotAdd();
                 }else{
-                    if (devCardSlots[slot].getLevel() < 2) {
-                        throw new CannotAdd();
-                    } else {
+                    if (devCardSlots[slot].getLevel() == 2) {
                         this.coveredDevCards.add(devCardSlots[slot]);
                         this.devCardSlots[slot] = card;
                         this.countDevCards ++;
+                    } else {
+                        throw new CannotAdd();
                     }
                 }
             }
-            }
-            }
+
     }
 
     /**

@@ -48,6 +48,8 @@ public class VirtualModel {
         otherPlayer = new DummyPlayerBoard();
         victoryPoints = 0;
         blackCross = 0;
+        otherCards = new ArrayList<>();
+        otherVictoryPoints = 0;
     }
 
     public static void main(String[] args) throws JsonFileNotFoundException {
@@ -288,22 +290,27 @@ public class VirtualModel {
                 "     └────────────────┘\n";
         if (playerBoard.getWareHouse().getExtraDepot1().getId() != -1){
             System.out.println(track1 + E1 + track2);
-            System.out.println("This extra Depot can only contain "+ playerBoard.getWareHouse().getExtraDepot1().getResourceType() + " resources ");}
+            System.out.println("This extra Depot can only contain "+ playerBoard.getWareHouse().getExtraDepot1().getResourceType() + " resources ");
+            System.out.println("Depot id: " +playerBoard.getWareHouse().getExtraDepot1().getId());
+        }
         if (playerBoard.getWareHouse().getExtraDepot2().getId() != -1){
             System.out.println(track1 + E2 + track2);
-            System.out.println("This extra Depot can only contain "+ playerBoard.getWareHouse().getExtraDepot2().getResourceType() + " resources ");}
+            System.out.println("This extra Depot can only contain "+ playerBoard.getWareHouse().getExtraDepot2().getResourceType() + " resources ");
+            System.out.println("Depot id: " +playerBoard.getWareHouse().getExtraDepot2().getId());
+
+        }
 
     }
 
 
     private String showResExtraDepot1(DummyPlayerBoard playerBoard) {
         StringBuilder resE1 = new StringBuilder();
-        String res1= " ";
+        String res1 = " ";
         String res2 = " ";
         if( !playerBoard.getWareHouse().getExtraDepot1().getResources().isEmpty()) {
             res1 = playerBoard.getWareHouse().getExtraDepot1().getResources().get(0);
             if (playerBoard.getWareHouse().getExtraDepot1().getResources().size() == 2)
-                res2 = playerBoard.getWareHouse().getDepot1().getResources().get(1);
+                res2 = playerBoard.getWareHouse().getExtraDepot1().getResources().get(1);
 
         }
         resE1.append(" ");

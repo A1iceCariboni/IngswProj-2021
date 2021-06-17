@@ -1,5 +1,43 @@
 [
   {
+    "id" : 9,
+    "isActive": false,
+    "leaderEffect": {
+      "name": "JOLLY_MARBLE",
+      "resourceType": "SERVANT"
+    },
+    "victoryPoints": 5,
+    "requirements": [
+      {
+        "name": "COLORREQ",
+        "color": "YELLOW",
+        "quantity": 2
+      },
+      {
+        "name": "COLORREQ",
+        "color": "BLUE",
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "id" : 5,
+    "isActive": false,
+    "leaderEffect": {
+      "name": "EXTRA_SLOT",
+      "resourceType": "STONE",
+      "quantity": 2
+    },
+    "victoryPoints": 3,
+    "requirements": [
+      {
+        "name": "RESOURCEREQ",
+        "resourceType": "COIN",
+        "quantity": 5
+      }
+    ]
+  },
+  {
     "id" : 13,
     "isActive": false,
     "leaderEffect": {
@@ -105,23 +143,7 @@
       }
     ]
   },
-  {
-    "id" : 5,
-    "isActive": false,
-    "leaderEffect": {
-      "name": "EXTRA_SLOT",
-      "resourceType": "STONE",
-      "quantity": 2
-    },
-    "victoryPoints": 3,
-    "requirements": [
-      {
-        "name": "RESOURCEREQ",
-        "resourceType": "COIN",
-        "quantity": 5
-      }
-    ]
-  },
+
   {
     "id" : 6,
     "isActive": false,
@@ -173,27 +195,7 @@
       }
     ]
   },
-  {
-    "id" : 9,
-    "isActive": false,
-    "leaderEffect": {
-      "name": "JOLLY_MARBLE",
-      "resourceType": "SERVANT"
-    },
-    "victoryPoints": 5,
-    "requirements": [
-      {
-        "name": "COLORREQ",
-        "color": "YELLOW",
-        "quantity": 2
-      },
-      {
-        "name": "COLORREQ",
-        "color": "BLUE",
-        "quantity": 1
-      }
-    ]
-  },
+
   {
     "id" : 10,
     "isActive": false,

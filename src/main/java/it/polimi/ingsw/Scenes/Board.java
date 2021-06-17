@@ -559,7 +559,7 @@ public class Board extends ViewObservable {
                           Image ex1 = new Image((getClass().getResourceAsStream("/PunchBoard/COIN.png")));
                           e1.setImage(ex1);
                           e1.setVisible(true);
-                          if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().get(1) != null) {
+                          if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2) {
                               e2.setImage(ex1);
                               e2.setVisible(true);
                           }
@@ -567,7 +567,7 @@ public class Board extends ViewObservable {
                           Image ex2 = new Image((getClass().getResourceAsStream("/PunchBoard/STONE.png")));
                           e1.setImage(ex2);
                           e1.setVisible(true);
-                          if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().get(1) != null) {
+                          if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2) {
                               e2.setImage(ex2);
                               e2.setVisible(true);
                           }
@@ -575,7 +575,7 @@ public class Board extends ViewObservable {
                           Image ex3 = new Image((getClass().getResourceAsStream("/PunchBoard/SERVANT.png")));
                           e1.setImage(ex3);
                           e1.setVisible(true);
-                          if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().get(1) != null) {
+                          if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2) {
                               e2.setImage(ex3);
                               e2.setVisible(true);
                           }
@@ -584,7 +584,7 @@ public class Board extends ViewObservable {
                           Image ex4 = new Image((getClass().getResourceAsStream("/PunchBoard/SHIELD.png")));
                           e1.setImage(ex4);
                           e1.setVisible(true);
-                          if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().get(1) != null) {
+                          if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2) {
                               e2.setImage(ex4);
                               e2.setVisible(true);
                           }
@@ -600,14 +600,14 @@ public class Board extends ViewObservable {
                         Image ex1 = new Image((getClass().getResourceAsStream("/PunchBoard/coin.png")));
                         e3.setImage(ex1);
                         e3.setVisible(true);
-                        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().get(1)!= null)
+                        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2)
                         { e4.setImage(ex1);
                             e4.setVisible(true);}
                     case("STONE"):
                         Image ex2 = new Image((getClass().getResourceAsStream("/PunchBoard/stone.png")));
                         e3.setImage(ex2);
                         e3.setVisible(true);
-                        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().get(1)!= null)
+                        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2)
                         {   e4.setImage(ex2);
                             e4.setVisible(true);}
 
@@ -615,7 +615,7 @@ public class Board extends ViewObservable {
                         Image ex3 = new Image((getClass().getResourceAsStream("/PunchBoard/servant.png")));
                         e3.setImage(ex3);
                         e3.setVisible(true);
-                        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().get(1)!= null)
+                        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2)
                         {e4.setImage(ex3);
                             e4.setVisible(true);}
 
@@ -623,7 +623,7 @@ public class Board extends ViewObservable {
                         Image ex4 = new Image((getClass().getResourceAsStream("/PunchBoard/shield.png")));
                         e3.setImage(ex4);
                         e3.setVisible(true);
-                        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().get(1)!= null)
+                        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2)
                         {  e4.setImage(ex4);
                             e4.setVisible(true);}
 

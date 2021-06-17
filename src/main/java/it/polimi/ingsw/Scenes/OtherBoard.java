@@ -146,15 +146,12 @@ public class OtherBoard extends ViewObservable {
         }
 
         if (virtualModel.getOtherCards().size() == 1) {
-            Image imageLed1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getOtherCards().get(0))));
+            Image imageLed1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getOtherCards().get(0).getId() +".png")));
             led1.setImage(imageLed1);
             led1.setOpacity(1);
         }
         if (virtualModel.getOtherCards().size() == 2) {
-            Image imageLed1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getOtherCards().get(0))));
-            led1.setImage(imageLed1);
-            led1.setOpacity(1);
-            Image imageLed2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getOtherCards().get(1))));
+            Image imageLed2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getOtherCards().get(1).getId()+ ".png")));
             led2.setImage(imageLed2);
             led2.setOpacity(1);
         }
