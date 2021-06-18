@@ -42,10 +42,9 @@ class MultiGameControllerTest {
       gameController.addPlayer("Sofia");
       gameController.addPlayer("Alessandra");
       clientHandler = new FakeClientHandler();
-      FakeVirtualView virtualView = new FakeVirtualView();
-      gameController.addConnectedClient("Alice", virtualView);
-      gameController.addConnectedClient("Sofia", virtualView);
-      gameController.addConnectedClient("Alessandra", virtualView);
+      gameController.addConnectedClient("Alice", new FakeVirtualView("Alice"));
+      gameController.addConnectedClient("Sofia", new FakeVirtualView("Sofia"));
+      gameController.addConnectedClient("Alessandra", new FakeVirtualView("Alessandra"));
   }
 
   @BeforeEach
@@ -161,6 +160,7 @@ class MultiGameControllerTest {
 }
 
 class FakeVirtualView extends VirtualView {
+    private String nickname;
     private final ArrayList<Resource> freeResources;
     private ArrayList<Marble> freeMarble;
     private final ArrayList<DevelopmentCard> freeDevelopment;
@@ -173,7 +173,8 @@ class FakeVirtualView extends VirtualView {
     private Resource basicProd;
 
 
-    public FakeVirtualView() {
+    public FakeVirtualView(String nickname) {
+        this.nickname = nickname;
         freeResources = new ArrayList<>();
         freeDevelopment = new ArrayList<>();
         freeMarble = new ArrayList<>();
@@ -210,7 +211,7 @@ class FakeVirtualView extends VirtualView {
     }
 
     public String getNickname(){
-        return "Ciao";
+        return nickname;
     }
     public void sendInvalidActionMessage() {
 

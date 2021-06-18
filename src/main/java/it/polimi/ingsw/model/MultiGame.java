@@ -36,8 +36,8 @@ public class MultiGame extends Game {
      *  (winners have same victory points and same number of resources)
      * @return winners: the player who has won
      */
-
-    public ArrayList<Player> addWinner(){
+@Override
+    public ArrayList<Player> getWinners(){
         for (Player player : players) {
             int pointsFaithTrack = getFaithTrack().getLastVictoryPoint(player.getPlayerBoard().getFaithMarker());
             int pointsResources = player.getPlayerBoard().getResources().size() / 5;

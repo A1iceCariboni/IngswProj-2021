@@ -655,6 +655,7 @@ public void showOtherPlayerBoard(){
         showFaithTrack(otherPlayer.getFaithMarker());
         showWarewouse(otherPlayer);
         showStrongbox(otherPlayer);
+        showPlayerDevCards(otherPlayer);
         System.out.println("Victory points: "+ otherVictoryPoints);
 }
 

@@ -228,8 +228,8 @@ public class ClientController implements ViewObserver,Observer {
                 executionQueue.execute( () -> view.showBlackCross(blackCross.getPos()));
                 break;
             case VICTORY_POINTS:
-                int victoryPoints = gson.fromJson(message.getPayload(), int.class);
-                executionQueue.execute(() -> view.victoryPointsIn(victoryPoints));
+                VictoryPoints victoryPoints = gson.fromJson(line, VictoryPoints.class);
+                executionQueue.execute(() -> view.victoryPointsIn(victoryPoints.getPoints()));
                 break;
 
             case OTHER_VICTORY_POINTS:

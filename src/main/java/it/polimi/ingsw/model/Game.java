@@ -101,6 +101,18 @@ public class Game implements Serializable {
      */
      public  Player nextPlayer(){return null;}
 
+    /**
+     * it returns the player who has the inkwell
+     * @return
+     */
+    public Player getFirstPlayer(){
+         for(Player p: players){
+             if(p.getInkwell() == true){
+                 return p;
+             }
+         }
+         return players.get(0);
+    }
 
     public LeaderDeck getDeckLeader() { return deckLeader;}
 

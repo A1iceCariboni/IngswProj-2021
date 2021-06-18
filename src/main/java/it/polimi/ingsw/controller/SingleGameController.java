@@ -48,7 +48,7 @@ public class SingleGameController extends GameController{
         }else{
             getVirtualView(turnController.getActivePlayer()).update(new WinnerMessage());
         }
-        getVirtualView(turnController.getActivePlayer()).update(new Message(MessageType.VICTORY_POINTS, gson.toJson(game.getCurrentPlayer().getVictoryPoints())));
+        getVirtualView(turnController.getActivePlayer()).update(new VictoryPoints(game.getCurrentPlayer().getVictoryPoints()));
 
         gamePhase = GamePhase.END;
         for(VirtualView view: connectedClients.values()){

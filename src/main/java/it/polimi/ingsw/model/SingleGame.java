@@ -131,7 +131,7 @@ public class SingleGame extends Game{
      * @return the arraylist of winners
      */
     @Override
-public ArrayList<Player> getWinners(){
+   public ArrayList<Player> getWinners(){
     boolean b = players.get(0).getBlackCross() == Constants.winFaith;
     for(int c=0; c<Constants.cols; c++){
         if(getColDevCards(c).isEmpty()){
@@ -141,7 +141,7 @@ public ArrayList<Player> getWinners(){
     if(!b){
         this.winners.add(players.get(1));
     }
-    Player p = players.get(0);
+    Player p = players.get(1);
     p.addVictoryPoints(faithTrack.getLastVictoryPoint(p.getPlayerBoard().getFaithMarker()));
     for(DevelopmentCard developmentCard: p.getPlayerBoard().getAllDevelopmentCards()){
         p.addVictoryPoints(developmentCard.getVictoryPoints());

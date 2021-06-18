@@ -146,6 +146,13 @@ public class InputChecker implements Serializable {
         } else {
             cost = gameController.getVirtualView(nickname).getResourcesToPay();
         }
+        for(int j = 0; j < ids.length; j++){
+            if(ids[j]!=-1){
+                if(!game.getCurrentPlayer().getDepotById(ids[j]).getDepot().isEmpty() && game.getCurrentPlayer().getDepotById(ids[j]).getDepot().get(0).getResourceType() != cost.get(j).getResourceType()){
+                    return false;
+                }
+            }
+        }
         ArrayList<Resource> payment = cost;
         Map<Integer, Long> couterMap = depotIds.stream().collect(Collectors.groupingBy(p -> p, Collectors.counting()));
         for (int j : couterMap.keySet()) {

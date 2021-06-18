@@ -168,7 +168,7 @@ public class TurnController implements Serializable {
                   }
                   break;
               case LAST_ROUND:
-                  if (gameController.getPlayers().get(gameController.getPlayers().size()-1).equals(activePlayer)) {
+                  if (activePlayer.equals(game.getFirstPlayer().getNickName())) {
                       gameController.endGame();
                   }
                   break;

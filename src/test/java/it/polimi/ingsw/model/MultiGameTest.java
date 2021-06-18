@@ -130,16 +130,16 @@ public class MultiGameTest {
      * it controls that the class return the right players as winners
      */
     @Test
-    void addWinnerTest() throws JsonFileNotFoundException {
+    void getWinnersTest() throws JsonFileNotFoundException {
         MultiGame multiGame = new MultiGame();
         multiGame.addPlayer(players1.get(0));
         multiGame.addPlayer(players1.get(1));
         multiGame.addPlayer(players1.get(2));
         multiGame.addPlayer(players1.get(3));
-        multiGame.addWinner();
-        assertEquals(multiGame.addWinner(), multiGame.getWinners());
-        assertEquals(multiGame.addWinner().size(), 1);
-        assertEquals(players1.get(3).getNickName(),(multiGame.addWinner().get(0).getNickName()));
+        multiGame.getWinners();
+        assertEquals(multiGame.getWinners(), multiGame.getWinners());
+        assertEquals(multiGame.getWinners().size(), 1);
+        assertEquals(players1.get(3).getNickName(),(multiGame.getWinners().get(0).getNickName()));
 
         ArrayList<Player> players2 = new ArrayList<>();
         String player_1 = "player1";
@@ -155,9 +155,9 @@ public class MultiGameTest {
 
         multiGame2.addPlayer(players2.get(0));
         multiGame2.addPlayer(players2.get(1));
-        assertEquals(multiGame2.addWinner().size(), 2);
-        assertEquals(players2.get(0), multiGame2.addWinner().get(0));
-        assertEquals(players2.get(1), multiGame2.addWinner().get(1));
+        assertEquals(multiGame2.getWinners().size(), 2);
+        assertEquals(players2.get(0), multiGame2.getWinners().get(0));
+        assertEquals(players2.get(1), multiGame2.getWinners().get(1));
 
         MultiGame multiGame3 = new MultiGame();
         Resource res = new Resource(ResourceType.COIN);
@@ -168,12 +168,12 @@ public class MultiGameTest {
         players2.get(1).getPlayerBoard().getStrongBox().addResources(res);
         multiGame3.addPlayer(players2.get(0));
         multiGame3.addPlayer(players2.get(1));
-        assertEquals(multiGame3.addWinner().size(), 1);
-        assertEquals(players2.get(1), multiGame3.addWinner().get(0));
+        assertEquals(multiGame3.getWinners().size(), 1);
+        assertEquals(players2.get(1), multiGame3.getWinners().get(0));
 
         players2.get(0).getPlayerBoard().moveFaithMarker(20);
-        assertEquals(multiGame3.addWinner().size(), 1);
-        assertEquals(players2.get(0), multiGame3.addWinner().get(0));
+        assertEquals(multiGame3.getWinners().size(), 1);
+        assertEquals(players2.get(0), multiGame3.getWinners().get(0));
     }
 
     /**
