@@ -13,7 +13,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1069.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.OtherBoard">
    <children>
@@ -293,6 +297,34 @@
             <Label fx:id="nShield" layoutX="141.0" layoutY="601.0" prefHeight="26.0" prefWidth="21.0" text="x0" textFill="WHITE">
                <font>
                   <Font name="System Bold Italic" size="16.0" />
+               </font>
+            </Label>
+            <Rectangle fx:id="rectangleVP" arcHeight="5.0" arcWidth="5.0" height="99.0" layoutX="970.0" layoutY="170.0" stroke="BLACK" strokeType="INSIDE" width="96.0">
+               <fill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="1.0" green="0.7733390927314758" blue="0.11999999731779099" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Rectangle>
+            <Text fx:id="victoryPointsText" layoutX="972.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Victory Points" wrappingWidth="91.90196228027332">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="21.0" />
+               </font>
+            </Text>
+            <Label fx:id="victoryPoints" layoutX="1010.0" layoutY="230.0" prefHeight="28.0" prefWidth="30.0" text="0" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
                </font>
             </Label>
          </children>

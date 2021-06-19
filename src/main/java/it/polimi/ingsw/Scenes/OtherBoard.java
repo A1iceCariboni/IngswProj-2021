@@ -45,6 +45,9 @@ public class OtherBoard extends ViewObservable {
     private final ArrayList<ImageView> depot2;
     private final ArrayList<ImageView> depot3;
 
+    @FXML
+    public Label victoryPoints;
+
 
     public OtherBoard(){
         this.faithTrack = new ArrayList<>();
@@ -175,6 +178,7 @@ public class OtherBoard extends ViewObservable {
         nShield.setText("x"+ shield);
         nServant.setText("x"+ servant);
 
+        victoryPoints.setText(Integer.toString(virtualModel.getOtherVictoryPoints()));
     }
 
 

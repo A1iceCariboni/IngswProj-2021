@@ -11,13 +11,13 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="760.0" prefWidth="1300.0" styleClass="anchor" stylesheets="@../css/Menu_scene.css" xmlns="http://javafx.com/javafx/14.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.Menu">
+<StackPane prefHeight="760.0" prefWidth="1300.0" styleClass="anchor" stylesheets="@../css/Menu_scene.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.Menu">
    <children>
       <Group scaleX="1.5" scaleY="1.5">
          <children>
          <AnchorPane layoutX="-43.0" layoutY="2.0" prefHeight="545.0" prefWidth="712.0" styleClass="anchor" xmlns="http://javafx.com/javafx/14.0.1" xmlns:fx="http://javafx.com/fxml/1">
         <children>
-         <Label layoutX="364.0" layoutY="438.0" prefHeight="17.0" prefWidth="279.0" text="By Alice Cariboni, Alessandra Atria, Sofia Canestaci" textFill="WHITE">
+         <Label layoutX="364.0" layoutY="438.0" prefHeight="17.0" prefWidth="279.0" text="By Alice Cariboni, Alessandra Atria, Sofia Canestraci" textFill="WHITE">
             <font>
                <Font size="11.0" />
             </font>
