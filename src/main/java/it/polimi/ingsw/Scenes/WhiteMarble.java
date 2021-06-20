@@ -15,7 +15,7 @@ public class WhiteMarble extends ViewObservable {
     VirtualModel virtualModel;
     Gson gson;
     private String[] powers;
-
+    private String resource;
 
     @FXML
     ImageView stone, coin, servant, shield;
@@ -47,7 +47,7 @@ public class WhiteMarble extends ViewObservable {
         System.out.println("Choose one of your active powers, type the resource you want from this white marble");
         String resource = "SHIELD";
         powers[i] = resource;
-    }
+        }
         Message message = new WhiteMarblesChoice(powers);
         notifyObserver(obs -> obs.onReadyReply(message));
         shield.setOpacity(0.5);

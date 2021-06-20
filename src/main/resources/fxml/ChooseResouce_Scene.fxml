@@ -367,7 +367,7 @@
                   <Font name="System Bold Italic" size="16.0" />
                </font>
             </Label>
-            <Button fx:id="coinstrong" layoutX="320.0" layoutY="561.0" mnemonicParsing="false" onAction="#pays1" prefHeight="47.0" prefWidth="175.0" text="Strongbox">
+            <Button fx:id="strongbox" layoutX="320.0" layoutY="561.0" mnemonicParsing="false" onAction="#pays1" prefHeight="47.0" prefWidth="175.0" text="Strongbox">
                <font>
                   <Font name="Lucida Calligraphy Italic" size="11.0" />
                </font>

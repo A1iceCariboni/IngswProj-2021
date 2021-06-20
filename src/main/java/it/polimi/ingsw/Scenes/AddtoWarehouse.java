@@ -38,7 +38,7 @@ public class AddtoWarehouse extends ViewObservable {
     @FXML
     private Button ex2;
     @FXML
-    private Button ex11, ex12;
+    private Button ex11, ex12, strongbox;
 
     @FXML
     ImageView res1, res2, res3, res4, res5, res6;
@@ -156,6 +156,9 @@ public class AddtoWarehouse extends ViewObservable {
         c3.setOpacity(0);
         ex12.setOpacity(0);
         ex11.setOpacity(0);
+        strongbox.setOpacity(0);
+        strongbox.setDisable(true);
+
         Image i1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + resource[0] + ".png"));
         r1.setOpacity(1);
         r1.setImage(i1);
@@ -229,6 +232,7 @@ public class AddtoWarehouse extends ViewObservable {
         ex1.setOpacity(0);
         ex2.setOpacity(0);
         disc.setOpacity(0);
+
         int coin =0;
         int stone =0;
         int servant=0;

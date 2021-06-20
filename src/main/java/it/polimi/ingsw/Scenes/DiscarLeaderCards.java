@@ -22,6 +22,9 @@ public class DiscarLeaderCards extends ViewObservable {
 
     private VirtualModel virtualModel;
     Gson gson = new Gson();
+    private int[] answer;
+    int i=0;
+
 
 
 

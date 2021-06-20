@@ -49,7 +49,8 @@ public class Board extends ViewObservable {
 
     @FXML
     public ImageView servantbp, stonebp, shieldbp, coinbp;
-
+    @FXML
+    public ImageView servantbp1, stonebp1, shieldbp1, coinbp1;
     @FXML
     public Label bplabel;
 
@@ -84,6 +85,8 @@ public class Board extends ViewObservable {
     @FXML
     Button DevButton;
 
+    @FXML
+    Button activeLp, activatedp, activateB ;
     @FXML
     public ImageView pope2, pope3, pope4;
 
@@ -249,6 +252,21 @@ public class Board extends ViewObservable {
 
     }
 
+    public void setPBtn(){
+        DiscardButton.setDisable(true);
+        DevButton.setDisable(true);
+        DiscardResource.setDisable(true);
+        ViewButton.setDisable(true);
+        EndTButton.setDisable(true);
+        MarketButton.setDisable(true);
+        activateB.setDisable(true);
+        activeLp.setDisable(true);
+        activatedp.setDisable(true);
+        LeaderActiveButton.setDisable(true);
+        rearrangew.setDisable(true);
+
+    }
+
 
 
     /** opens a scene where the player can choose how to rearrange his warehouse */
@@ -299,6 +317,7 @@ public class Board extends ViewObservable {
         coinbp.setOpacity(1);
         coinbp.setDisable(false);
         notifyObserver(obs -> obs.setTurnPhase(TurnPhase.ACTIVATE_PRODUCTION));
+        setPBtn();
 
     }
 
@@ -310,24 +329,15 @@ public class Board extends ViewObservable {
         confirm.setDisable(false);
         devb1.setDisable(false);
         devb2.setDisable(false);
-        devb3.setDisable(false);}
+        devb3.setDisable(false);
+        setPBtn();
+    }
 
     /** This method actives leader cards production  */
     @FXML
     public void activateLeaderProducion(ActionEvent actionEvent) {
-        confirm3.setOpacity(1);
-        confirm3.setDisable(false);
-        bpback.setOpacity(1);
-        bplabel.setOpacity(1);
-        stonebp.setOpacity(1);
-        stonebp.setDisable(false);
-        shieldbp.setOpacity(1);
-        shieldbp.setDisable(false);
-        servantbp.setDisable(false);
-        servantbp.setOpacity(1);
-        coinbp.setOpacity(1);
-        coinbp.setDisable(false);
         notifyObserver(obs -> obs.setTurnPhase(TurnPhase.ACTIVATE_PRODUCTION));
+        setPBtn();
     }
 
     /** on image click the player choose this development card to start the production*/
@@ -357,38 +367,57 @@ public class Board extends ViewObservable {
     /** on image click the player choose this leader card to start the production*/
     @FXML
     public void pickL1(){
-        ledid = virtualModel.getLeaderCards().get(0).getExtraProduction().getId();
+        ledid = virtualModel.getLeaderCards().get(0).getId();
         command[0] = Integer.toString(ledid);
         led1.setDisable(true);
         led1.setOpacity(0.5);
         led2.setDisable(true);
+        bpback.setOpacity(1);
+        bplabel.setOpacity(1);
+        stonebp1.setOpacity(1);
+        stonebp1.setDisable(false);
+        shieldbp1.setOpacity(1);
+        shieldbp1.setDisable(false);
+        servantbp1.setDisable(false);
+        servantbp1.setOpacity(1);
+        coinbp1.setOpacity(1);
+        coinbp1.setDisable(false);
     }
 
     /** on image click the player choose this leader card to start the production*/
     @FXML
     public void pickL2(){
-        ledid = virtualModel.getLeaderCards().get(1).getExtraProduction().getId() ;
+        ledid = virtualModel.getLeaderCards().get(1).getId() ;
         command[0] = Integer.toString(ledid);
         led2.setDisable(true);
         led1.setDisable(true);
         led2.setOpacity(0.5);
+        bpback.setOpacity(1);
+        bplabel.setOpacity(1);
+        stonebp1.setOpacity(1);
+        stonebp1.setDisable(false);
+        shieldbp1.setOpacity(1);
+        shieldbp1.setDisable(false);
+        servantbp1.setDisable(false);
+        servantbp1.setOpacity(1);
+        coinbp1.setOpacity(1);
+        coinbp1.setDisable(false);
     }
 
     /** on image click the player choose these resources to start the production*/
     public void pickServant(MouseEvent mouseEvent) {
         command1[z] = "SERVANT";
-        command[1] = "SERVANT";
         servantbp.setOpacity(0.5);
         z++;
         if(z == 3) {
             confirm2.setDisable(false);
             confirm2.setOpacity(1);
+
         }
     }
 
     public void pickCoin(MouseEvent mouseEvent) {
         command1[z] = "COIN";
-        command[1] = "COIN";
         coinbp.setOpacity(0.5);
         z++;
         if(z == 3) {
@@ -401,7 +430,6 @@ public class Board extends ViewObservable {
     public void pickShield(MouseEvent mouseEvent) {
         command1[z] = "SHIELD";
         shieldbp.setOpacity(0.5);
-        command[1] = "SHIELD";
         z++;
         if(z == 3) {
             confirm2.setDisable(false);
@@ -411,13 +439,58 @@ public class Board extends ViewObservable {
 
     public void pickStone(MouseEvent mouseEvent) {
         command1[z] = "STONE";
-        command[1] = "STONE";
         stonebp.setOpacity(0.5);
         z++;
         if(z == 3) {
             confirm2.setDisable(false);
             confirm2.setOpacity(1);
         }
+    }
+
+
+
+    /** on image click the player choose these resources to start the production*/
+    public void pickServantL(MouseEvent mouseEvent) {
+        command[1] = "SERVANT";
+        servantbp1.setOpacity(0.5);
+        confirm3.setOpacity(1);
+        confirm3.setDisable(false);
+        coinbp1.setDisable(true);
+        shieldbp1.setDisable(true);
+        stonebp1.setDisable(true);
+    }
+
+    public void pickCoinL(MouseEvent mouseEvent) {
+        command[1] = "COIN";
+        coinbp1.setOpacity(0.5);
+        confirm3.setOpacity(1);
+        confirm3.setDisable(false);
+        servantbp1.setDisable(true);
+        shieldbp1.setDisable(true);
+        stonebp1.setDisable(true);
+    }
+
+    public void pickShieldL(MouseEvent mouseEvent) {
+        shieldbp1.setOpacity(0.5);
+        command[1] = "SHIELD";
+        confirm3.setOpacity(1);
+        confirm3.setDisable(false);
+        coinbp1.setDisable(true);
+        servantbp1.setDisable(true);
+        stonebp1.setDisable(true);
+
+    }
+
+    public void pickStoneL(MouseEvent mouseEvent) {
+        command[1] = "STONE";
+        stonebp1.setOpacity(0.5);
+        coinbp1.setDisable(true);
+        servantbp1.setDisable(true);
+        shieldbp1.setDisable(true);
+        confirm3.setOpacity(1);
+        confirm3.setDisable(false);
+
+
     }
 
 
@@ -558,35 +631,35 @@ public class Board extends ViewObservable {
                       case ("COIN"):
                           Image ex1 = new Image((getClass().getResourceAsStream("/PunchBoard/COIN.png")));
                           e1.setImage(ex1);
-                          e1.setVisible(true);
+                          e1.setOpacity(1);
                           if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2) {
                               e2.setImage(ex1);
-                              e2.setVisible(true);
+                              e2.setOpacity(1);
                           }
                       case ("STONE"):
                           Image ex2 = new Image((getClass().getResourceAsStream("/PunchBoard/STONE.png")));
                           e1.setImage(ex2);
-                          e1.setVisible(true);
+                          e1.setOpacity(1);
                           if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2) {
                               e2.setImage(ex2);
-                              e2.setVisible(true);
+                              e2.setOpacity(1);
                           }
                       case ("SERVANT"):
                           Image ex3 = new Image((getClass().getResourceAsStream("/PunchBoard/SERVANT.png")));
                           e1.setImage(ex3);
-                          e1.setVisible(true);
+                          e1.setOpacity(1);
                           if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2) {
                               e2.setImage(ex3);
-                              e2.setVisible(true);
+                              e2.setOpacity(1);
                           }
 
                       case ("SHIELD"):
                           Image ex4 = new Image((getClass().getResourceAsStream("/PunchBoard/SHIELD.png")));
                           e1.setImage(ex4);
-                          e1.setVisible(true);
+                          e1.setOpacity(1);
                           if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2) {
                               e2.setImage(ex4);
-                              e2.setVisible(true);
+                              e2.setOpacity(1);
                           }
 
                   }
@@ -597,35 +670,35 @@ public class Board extends ViewObservable {
                 type =virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getResourceType();
                 switch(type){
                     case("COIN"):
-                        Image ex1 = new Image((getClass().getResourceAsStream("/PunchBoard/coin.png")));
-                        e3.setImage(ex1);
-                        e3.setVisible(true);
+                        Image ex21 = new Image((getClass().getResourceAsStream("/PunchBoard/COIN.png")));
+                        e3.setImage(ex21);
+                        e3.setOpacity(1);
                         if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2)
-                        { e4.setImage(ex1);
-                            e4.setVisible(true);}
+                        { e4.setImage(ex21);
+                            e4.setOpacity(1);}
                     case("STONE"):
-                        Image ex2 = new Image((getClass().getResourceAsStream("/PunchBoard/stone.png")));
-                        e3.setImage(ex2);
-                        e3.setVisible(true);
+                        Image ex22 = new Image((getClass().getResourceAsStream("/PunchBoard/STONE.png")));
+                        e3.setImage(ex22);
+                        e3.setOpacity(1);
                         if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2)
-                        {   e4.setImage(ex2);
-                            e4.setVisible(true);}
+                        {   e4.setImage(ex22);
+                            e4.setOpacity(1);}
 
                     case("SERVANT"):
-                        Image ex3 = new Image((getClass().getResourceAsStream("/PunchBoard/servant.png")));
-                        e3.setImage(ex3);
-                        e3.setVisible(true);
+                        Image ex23 = new Image((getClass().getResourceAsStream("/PunchBoard/SERVANT.png")));
+                        e3.setImage(ex23);
+                        e3.setOpacity(1);
                         if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2)
-                        {e4.setImage(ex3);
-                            e4.setVisible(true);}
+                        {e4.setImage(ex23);
+                            e4.setOpacity(1);}
 
                     case("SHIELD"):
-                        Image ex4 = new Image((getClass().getResourceAsStream("/PunchBoard/shield.png")));
-                        e3.setImage(ex4);
-                        e3.setVisible(true);
+                        Image ex24 = new Image((getClass().getResourceAsStream("/PunchBoard/SHIELD.png")));
+                        e3.setImage(ex24);
+                        e3.setOpacity(1);
                         if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2)
-                        {  e4.setImage(ex4);
-                            e4.setVisible(true);}
+                        {  e4.setImage(ex24);
+                            e4.setOpacity(1);}
 
                 }
 
@@ -648,6 +721,10 @@ public class Board extends ViewObservable {
         servantbp.setDisable(true);
         shieldbp.setDisable(true);
         stonebp.setDisable(true);
+        coinbp1.setDisable(true);
+        servantbp1.setDisable(true);
+        shieldbp1.setDisable(true);
+        stonebp1.setDisable(true);
         int coin =0;
         int stone =0;
         int servant=0;
