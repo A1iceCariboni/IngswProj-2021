@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.LMfaithTrack">
+   <children>
+      <AnchorPane prefHeight="715.0" prefWidth="1264.0" styleClass="boardPane">
+         <children>
+            <ImageView fitHeight="920.0" fitWidth="1311.0" layoutX="44.0" layoutY="-117.0" opacity="0.43" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Board/MastersofRenaissance_PlayerBoard_back.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="back" layoutX="582.0" layoutY="579.0" mnemonicParsing="false" onAction="#back" prefHeight="57.0" prefWidth="219.0" text="Back">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="21.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="210.0" fitWidth="1018.0" layoutX="164.0" layoutY="286.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Board/FaithTrack.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="56.0" fitWidth="366.0" layoutX="715.0" layoutY="235.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/border1.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p0" fitHeight="45.0" fitWidth="60.0" layoutX="205.0" layoutY="428.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="210.0" fitWidth="49.0" layoutX="127.0" layoutY="288.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../PunchBoard/border.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="210.0" fitWidth="49.0" layoutX="1158.0" layoutY="290.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../PunchBoard/border.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="56.0" fitWidth="366.0" layoutX="647.0" layoutY="496.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/border1.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="56.0" fitWidth="303.0" layoutX="911.0" layoutY="234.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/border1.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="56.0" fitWidth="366.0" layoutX="355.0" layoutY="496.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/border1.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="56.0" fitWidth="267.0" layoutX="940.0" layoutY="496.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../PunchBoard/border1.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="56.0" fitWidth="289.0" layoutX="124.0" layoutY="496.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../PunchBoard/border1.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="57.0" fitWidth="334.0" layoutX="128.0" layoutY="234.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/border1.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="56.0" fitWidth="366.0" layoutX="424.0" layoutY="234.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/border1.jpg" />
+               </image>
+            </ImageView>
+            <Label layoutX="420.0" layoutY="139.0" prefHeight="96.0" prefWidth="535.0" text="Lorenzo's Faith Track" textFill="#600e0e">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="45.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="p3" fitHeight="45.0" fitWidth="60.0" layoutX="306.0" layoutY="379.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p2" fitHeight="45.0" fitWidth="60.0" layoutX="306.0" layoutY="428.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p1" fitHeight="45.0" fitWidth="60.0" layoutX="261.0" layoutY="428.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p4" fitHeight="45.0" fitWidth="60.0" layoutX="306.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p5" fitHeight="45.0" fitWidth="60.0" layoutX="355.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p9" fitHeight="45.0" fitWidth="60.0" layoutX="548.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p8" fitHeight="45.0" fitWidth="60.0" layoutX="498.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p7" fitHeight="45.0" fitWidth="60.0" layoutX="450.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p6" fitHeight="45.0" fitWidth="60.0" layoutX="402.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p10" fitHeight="45.0" fitWidth="60.0" layoutX="548.0" layoutY="379.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p11" fitHeight="45.0" fitWidth="60.0" layoutX="548.0" layoutY="428.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p16" fitHeight="45.0" fitWidth="60.0" layoutX="796.0" layoutY="428.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p15" fitHeight="45.0" fitWidth="60.0" layoutX="749.0" layoutY="428.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p14" fitHeight="45.0" fitWidth="60.0" layoutX="697.0" layoutY="428.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p13" fitHeight="45.0" fitWidth="60.0" layoutX="647.0" layoutY="428.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p12" fitHeight="45.0" fitWidth="60.0" layoutX="602.0" layoutY="428.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p17" fitHeight="45.0" fitWidth="60.0" layoutX="796.0" layoutY="379.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p20" fitHeight="45.0" fitWidth="60.0" layoutX="893.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p19" fitHeight="45.0" fitWidth="60.0" layoutX="845.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p18" fitHeight="45.0" fitWidth="60.0" layoutX="796.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p21" fitHeight="45.0" fitWidth="60.0" layoutX="945.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p22" fitHeight="45.0" fitWidth="60.0" layoutX="994.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p23" fitHeight="45.0" fitWidth="60.0" layoutX="1041.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="p24" fitHeight="45.0" fitWidth="60.0" layoutX="1088.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/croce.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

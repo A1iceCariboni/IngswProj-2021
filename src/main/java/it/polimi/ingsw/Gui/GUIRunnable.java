@@ -325,7 +325,7 @@ public class GUIRunnable extends Application {
 
     public static QuestionGame questionGame (QuestionGame game, ArrayList<ViewObserver> observers) {
         try {
-            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Question_Game_Scene.fxml"));
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Con_Scene.fxml"));
             Parent root = loader.load();
             scene.setRoot(root);
             game  = loader.getController();
@@ -351,7 +351,7 @@ public class GUIRunnable extends Application {
 
     public static LMfaithTrack lmFaithTrack(LMfaithTrack lm, ArrayList<ViewObserver> observers) {
         try {
-            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/LM_FaithTrack_Scene.fxml"));
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Lorenzo_FaithTrack_Scene.fxml"));
             Parent root = loader.load();
             scene.setRoot(root);
             lm  = loader.getController();

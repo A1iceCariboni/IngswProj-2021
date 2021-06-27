@@ -636,7 +636,7 @@ public class Board extends ViewObservable {
               if(!virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().isEmpty()) {
                   type = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResourceType();
                   switch (type) {
-                      case ("COIN"):
+                      case ("COIN") -> {
                           Image ex1 = new Image((getClass().getResourceAsStream("/PunchBoard/COIN.png")));
                           e1.setImage(ex1);
                           e1.setOpacity(1);
@@ -644,7 +644,8 @@ public class Board extends ViewObservable {
                               e2.setImage(ex1);
                               e2.setOpacity(1);
                           }
-                      case ("STONE"):
+                      }
+                      case ("STONE") -> {
                           Image ex2 = new Image((getClass().getResourceAsStream("/PunchBoard/STONE.png")));
                           e1.setImage(ex2);
                           e1.setOpacity(1);
@@ -652,7 +653,8 @@ public class Board extends ViewObservable {
                               e2.setImage(ex2);
                               e2.setOpacity(1);
                           }
-                      case ("SERVANT"):
+                      }
+                      case ("SERVANT") -> {
                           Image ex3 = new Image((getClass().getResourceAsStream("/PunchBoard/SERVANT.png")));
                           e1.setImage(ex3);
                           e1.setOpacity(1);
@@ -660,8 +662,8 @@ public class Board extends ViewObservable {
                               e2.setImage(ex3);
                               e2.setOpacity(1);
                           }
-
-                      case ("SHIELD"):
+                      }
+                      case ("SHIELD") -> {
                           Image ex4 = new Image((getClass().getResourceAsStream("/PunchBoard/SHIELD.png")));
                           e1.setImage(ex4);
                           e1.setOpacity(1);
@@ -669,45 +671,50 @@ public class Board extends ViewObservable {
                               e2.setImage(ex4);
                               e2.setOpacity(1);
                           }
-
+                      }
                   }
 
               }
 
             if(!virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getResources().isEmpty()){
                 type =virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getResourceType();
-                switch(type){
-                    case("COIN"):
+                switch (type) {
+                    case ("COIN") -> {
                         Image ex21 = new Image((getClass().getResourceAsStream("/PunchBoard/COIN.png")));
                         e3.setImage(ex21);
                         e3.setOpacity(1);
-                        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2)
-                        { e4.setImage(ex21);
-                            e4.setOpacity(1);}
-                    case("STONE"):
+                        if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2) {
+                            e4.setImage(ex21);
+                            e4.setOpacity(1);
+                        }
+                    }
+                    case ("STONE") -> {
                         Image ex22 = new Image((getClass().getResourceAsStream("/PunchBoard/STONE.png")));
                         e3.setImage(ex22);
                         e3.setOpacity(1);
-                        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2)
-                        {   e4.setImage(ex22);
-                            e4.setOpacity(1);}
-
-                    case("SERVANT"):
+                        if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2) {
+                            e4.setImage(ex22);
+                            e4.setOpacity(1);
+                        }
+                    }
+                    case ("SERVANT") -> {
                         Image ex23 = new Image((getClass().getResourceAsStream("/PunchBoard/SERVANT.png")));
                         e3.setImage(ex23);
                         e3.setOpacity(1);
-                        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2)
-                        {e4.setImage(ex23);
-                            e4.setOpacity(1);}
-
-                    case("SHIELD"):
+                        if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2) {
+                            e4.setImage(ex23);
+                            e4.setOpacity(1);
+                        }
+                    }
+                    case ("SHIELD") -> {
                         Image ex24 = new Image((getClass().getResourceAsStream("/PunchBoard/SHIELD.png")));
                         e3.setImage(ex24);
                         e3.setOpacity(1);
-                        if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2)
-                        {  e4.setImage(ex24);
-                            e4.setOpacity(1);}
-
+                        if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2) {
+                            e4.setImage(ex24);
+                            e4.setOpacity(1);
+                        }
+                    }
                 }
 
             }
