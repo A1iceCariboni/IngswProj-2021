@@ -41,7 +41,7 @@ import java.util.Objects;
         }
 
         public boolean possibleToAdd(Resource res){
-            return resources.isEmpty() || res.getResourceType() == resources.get(0).getResourceType();
+            return (resources.isEmpty() || res.getResourceType() == resources.get(0).getResourceType()) && resources.size() < dimension;
         }
 
     /**

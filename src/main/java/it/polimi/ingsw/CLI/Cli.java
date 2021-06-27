@@ -403,6 +403,7 @@ public class Cli extends ViewObservable implements View {
      * and in which slot he wants to put the card
      */
     public void buyDevelopmentCard(){
+        virtualModel.showPlayerDevCards(virtualModel.getPlayerBoard());
         virtualModel.showBoard();
         String yn = "n";
         while(yn.equalsIgnoreCase("n")){

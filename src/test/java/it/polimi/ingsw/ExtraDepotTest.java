@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
+import it.polimi.ingsw.model.Depot;
 import it.polimi.ingsw.model.ExtraDepot;
 import it.polimi.ingsw.model.Resource;
 import org.junit.Before;
@@ -70,11 +71,41 @@ public class ExtraDepotTest {
             Resource r2 = new Resource(ResourceType.SERVANT);
             extraDepot1 = new ExtraDepot( 3,1,(COIN));
             extraDepot2 = new ExtraDepot( 3,1,(SERVANT));
-            assertEquals(r1.getResourceType(), COIN);
-        assertNotEquals(r1.getResourceType(), SERVANT);
+            assertEquals(extraDepot1.getType(),COIN);
             assertThrows(NotPossibleToAdd.class, () -> extraDepot1.addResource(r2));
             extraDepot1.addResource(r1);
             extraDepot2.addResource(r2);
+    }
+
+    @Test
+    public void possibleToAddTest() throws NotPossibleToAdd {
+        Resource r1 = new Resource(ResourceType.COIN);
+        Resource r2 = new Resource(ResourceType.COIN);
+        extraDepot1 = new ExtraDepot( 2, 1,(COIN));
+
+        assertFalse(extraDepot1.possibleToAdd(new Resource(ResourceType.SHIELD)));
+        assertTrue(extraDepot1.possibleToAdd(new Resource(ResourceType.COIN)));
+
+        extraDepot1.addResource(new Resource(ResourceType.COIN));
+        extraDepot1.addResource(new Resource(ResourceType.COIN));
+
+        assertFalse(extraDepot1.possibleToAdd(new Resource(ResourceType.COIN)));
+        assertThrows(NotPossibleToAdd.class , () -> extraDepot1.addResource(new Resource(COIN)));
+
+    }
+
+    @Test
+    public void equalsTest(){
+        ArrayList<Resource> resources = new ArrayList<>();
+        extraDepot1 = new ExtraDepot( 3, 1,SHIELD);
+        assertTrue(extraDepot1.possibleResource(new Resource(ResourceType.SHIELD)));
+        assertFalse(extraDepot1.possibleResource(new Resource(ResourceType.COIN)));
+        assertFalse(extraDepot1.possibleResource(new Resource(ResourceType.SERVANT)));
+        assertFalse(extraDepot1.possibleResource(new Resource(ResourceType.STONE)));
+        extraDepot2 = new ExtraDepot(3, 1, SHIELD);
+        assertTrue(extraDepot1.equals(extraDepot2));
+
+
 
     }
 

@@ -51,7 +51,11 @@ public class InputChecker implements Serializable {
                 PlaceResources placeResources = gson.fromJson(line, PlaceResources.class);
                 int id[] = placeResources.getIds();
                 for(int j = 0; j < id.length; j++){
-                    if((id[j] != -1) && (!checkIdDepot(id[j])||(!canAddToDepot(game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().get(j), game.getCurrentPlayer().getDepotById(id[j]))))) return false;
+                    try {
+                        if((id[j] != -1) && (!checkIdDepot(id[j])||(!canAddToDepot(game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().get(j), game.getCurrentPlayer().getDepotById(id[j]))))) return false;
+                    } catch (NotPossibleToAdd notPossibleToAdd) {
+                        return false;
+                    }
                 }
                 return id.length == game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().size() ;
             case BUY_MARKET:
@@ -148,7 +152,11 @@ public class InputChecker implements Serializable {
         }
         for(int j = 0; j < ids.length; j++){
             if(ids[j]!=-1){
-                if(!game.getCurrentPlayer().getDepotById(ids[j]).getDepot().isEmpty() && game.getCurrentPlayer().getDepotById(ids[j]).getDepot().get(0).getResourceType() != cost.get(j).getResourceType()){
+                try {
+                    if(!game.getCurrentPlayer().getDepotById(ids[j]).getDepot().isEmpty() && game.getCurrentPlayer().getDepotById(ids[j]).getDepot().get(0).getResourceType() != cost.get(j).getResourceType()){
+                        return false;
+                    }
+                } catch (NotPossibleToAdd notPossibleToAdd) {
                     return false;
                 }
             }
@@ -158,12 +166,16 @@ public class InputChecker implements Serializable {
         for (int j : couterMap.keySet()) {
             if (j != -1) {
                 if(!checkIdDepot(j))return false;
-                if (game.getCurrentPlayer().getDepotById(j).getDepot().size() < couterMap.get(j)) {
-                    return false;
-                } else {
-                    for (int i = 0; i < couterMap.get(j); i++) {
-                        payment.remove(game.getCurrentPlayer().getDepotById(j).getDepot().get(0));
+                try {
+                    if (game.getCurrentPlayer().getDepotById(j).getDepot().size() < couterMap.get(j)) {
+                        return false;
+                    } else {
+                        for (int i = 0; i < couterMap.get(j); i++) {
+                            payment.remove(game.getCurrentPlayer().getDepotById(j).getDepot().get(0));
+                        }
                     }
+                } catch (NotPossibleToAdd notPossibleToAdd) {
+                    return false;
                 }
             }
         }

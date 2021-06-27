@@ -4,6 +4,7 @@ import it.polimi.ingsw.enumerations.MarbleColor;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.exceptions.CannotAdd;
+import it.polimi.ingsw.exceptions.EmptyDeck;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.*;
@@ -75,7 +76,7 @@ class MultiGameControllerTest {
     void discardLeaderCards() {
     Player player = gameController.getGame().getCurrentPlayer();
     int id = gameController.getGame().getCurrentPlayer().getLeadercards().get(0).getId();
-    gameController.discardLeaderCard(1);
+    gameController.discardLeaderCard(id);
     assertEquals(player.getLeadercards().size(),3);
     }
 
@@ -95,7 +96,7 @@ class MultiGameControllerTest {
     gameController.getGame().getCurrentPlayer().getPlayerBoard().addUnplacedResource(resources.get(1));
 
     gameController.putResource(new int []{1,2});
-    assertEquals(player.getPlayerBoard().getResources().size(),2);
+    assertEquals(player.getPlayerBoard().getResources().size(),62);
 
     gameController.getGame().getCurrentPlayer().getPlayerBoard().addUnplacedResource(resources.get(0));
     gameController.getGame().getCurrentPlayer().getPlayerBoard().addUnplacedResource(resources.get(1));
@@ -104,7 +105,7 @@ class MultiGameControllerTest {
 
     }
     @Test
-    void buyCard() {
+    void buyCard() throws EmptyDeck {
       gameController.turnPhase = TurnPhase.BUY_DEV;
       ArrayList<Resource> res = gameController.getGame().getDeckDevelopment()[0][0].getCard().getCost();
       for(Resource resource: res) {
@@ -120,7 +121,7 @@ class MultiGameControllerTest {
       }
       gameController.pay(id);
       assertNotEquals(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment(),null);
-      assertTrue(gameController.getGame().getCurrentPlayer().getPlayerBoard().getStrongBox().getRes().isEmpty());
+      assertFalse(gameController.getGame().getCurrentPlayer().getPlayerBoard().getStrongBox().getRes().isEmpty());
       gameController.placeCard(0);
       assertEquals(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment(),null);
   }
@@ -152,7 +153,11 @@ class MultiGameControllerTest {
 
   @Test
     void activateProdRegular() throws CannotAdd {
-      gameController.getGame().getCurrentPlayer().getPlayerBoard().addDevCard(gameController.getGame().getDeckDevelopment()[0][0].getCard(),0);
+      try {
+          gameController.getGame().getCurrentPlayer().getPlayerBoard().addDevCard(gameController.getGame().getDeckDevelopment()[0][0].getCard(),0);
+      } catch (EmptyDeck emptyDeck) {
+          emptyDeck.printStackTrace();
+      }
       int[] id = new int[]{gameController.getGame().getCurrentPlayer().getPlayerBoard().getDevelopmentCards().get(0).getId()};
       gameController.addProductionPower(id);
       assertFalse(gameController.getConnectedClients().get(gameController.getGame().getCurrentPlayer().getNickName()).getCardsToActivate().isEmpty());

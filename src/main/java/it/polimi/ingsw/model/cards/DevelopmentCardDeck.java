@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.enumerations.CardColor;
+import it.polimi.ingsw.exceptions.EmptyDeck;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,7 +27,8 @@ public class DevelopmentCardDeck extends Deck{
      *
      * @return the first card of the deck without removing it
      */
-    public DevelopmentCard getCard(){
+    public DevelopmentCard getCard() throws EmptyDeck {
+        if(developmentCards.isEmpty()) throw new EmptyDeck();
         return developmentCards.get(0);
     }
     /**

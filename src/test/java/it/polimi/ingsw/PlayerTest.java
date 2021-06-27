@@ -1,14 +1,20 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.enumerations.ResourceType;
+import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
+import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.LeaderDeck;
 import it.polimi.ingsw.model.cards.effects.JollyMarble;
 import it.polimi.ingsw.model.cards.effects.LeaderEffect;
 import it.polimi.ingsw.model.cards.requirements.Requirement;
+import it.polimi.ingsw.utility.LeaderCardParser;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,31 +25,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {
 
-    private static Player player1;
-    private static Player player2;
+     static Player player1;
+     static Player player2;
+     static LeaderDeck leaderDeck;
+
 
     @Before
-    public void setUp() {
-        PlayerBoard pb = new PlayerBoard();
-        ArrayList<LeaderCard> lcard = new ArrayList<>();
-        player1 = new Player(true, "Ale", 10, pb);
-        player2 = new Player(false, "Sofi", 5, pb);
-        ArrayList<Resource> entry = new ArrayList<>();
-        ArrayList<Resource> prod = new ArrayList<>();
-        ArrayList<Resource> res = new ArrayList<>();
-        Resource e1 = new Resource(ResourceType.COIN);
-        Resource e2 = new Resource(ResourceType.COIN);
-        Resource e3 = new Resource(ResourceType.COIN);
-        Resource e4 = new Resource(ResourceType.SERVANT);
-        Resource p1 = new Resource(ResourceType.SHIELD);
-        Resource p2 = new Resource(ResourceType.STONE);
-        entry.add(e1);
-        entry.add(e2);
-        entry.add(e3);
-        entry.add(e4);
-        prod.add(p1);
-        prod.add(p2);
+    public void setUp() throws JsonFileNotFoundException {
+        leaderDeck = new LeaderDeck(LeaderCardParser.parseLeadCards());
 
+        player1 = new Player(true, "Ale", 10, new PlayerBoard(new WareHouse(), new StrongBox()));
+        player2 = new Player(false, "Sofi", 5, new PlayerBoard(new WareHouse(), new StrongBox()));
 
     }
 
@@ -54,28 +46,39 @@ public class PlayerTest {
     }
 
     /**
-     * checks if players can get victory points, leader cards, and player boards
+     * checks getter and setter methods
      */
     @Test
-    public void getterTest() {
-        ArrayList<LeaderCard> l1 = new ArrayList<>();
-        ArrayList<LeaderCard> l2 = new ArrayList<>();
-        PlayerBoard pb1 = new PlayerBoard(new WareHouse(), new StrongBox());
-        PlayerBoard pb2 = new PlayerBoard(new WareHouse(), new StrongBox());
-        player1 = new Player(true, "Ale", 10, pb1);
-        player2 = new Player(false, "Sofi", 5,  pb2);
+    public void getterAndSetterTest() throws NullCardException {
 
 
         assertEquals(player1.getVictoryPoints(), 10);
         assertEquals(player2.getVictoryPoints(), 5);
 
-        assertEquals(pb1, player1.getPlayerBoard());
-        assertEquals(pb2, player2.getPlayerBoard());
-        assertEquals(false, pb1.equals(pb2));
+        player1.addLeaderCard(leaderDeck.popCard());
+        player1.addLeaderCard(leaderDeck.popCard());
+        player2.addLeaderCard(leaderDeck.popCard());
 
+        assertEquals(2, player1.getLeadercards().size());
+        assertEquals(1, player2.getLeadercards().size());
 
-        assertEquals(l1, player1.getActiveLeaderCards());
-        assertEquals(l2, player2.getActiveLeaderCards());
+        assertEquals(0, player1.getActiveLeaderCards().size());
+        assertEquals(0, player2.getActiveLeaderCards().size());
+        int id = player1.getLeadercards().get(0).getId();
+
+        assertEquals(player1.getLeaderCardById(id), player1.getLeadercards().get(0));
+        assertThrows(NullCardException.class,() -> player1.getLeaderCardById(-1));
+
+        assertTrue(player1.getInkwell());
+        assertFalse(player2.getInkwell());
+        assertTrue(player1.getPossibleWhiteMarbles().isEmpty());
+        assertTrue(player1.getDiscountedResource().isEmpty());
+        assertTrue(player1.getExtraProductionPowers().isEmpty());
+
+        LeaderCard card = player1.getLeadercards().get(0);
+        player1.discardLeader(card);
+        assertFalse(player1.getLeadercards().contains(card));
+        assertThrows(NullCardException.class, () -> player1.discardLeader(card));
 
     }
 
@@ -95,27 +98,24 @@ public class PlayerTest {
     }
 
 
-    /**
-     * checks if the card is correctly removed
-     * @throws NullCardException when the player doesn't have the leader card
-     */
+
+
     @Test
-    public void discLcard() throws NullCardException {
-        ArrayList<LeaderCard> leaderCards = new ArrayList<>();
-        Resource r1 = new Resource(ResourceType.SHIELD);
-        LeaderEffect effect = new JollyMarble(r1);
-        ArrayList<Requirement> req = new ArrayList<>();
-        LeaderCard card = new LeaderCard(1,effect, 10, req);
-        PlayerBoard p = new PlayerBoard(new WareHouse(), new StrongBox());
-        leaderCards.add(card);
-        assertTrue(leaderCards.contains(card));
-        player1 = new Player(false, "Bob", 5, p);
-        player1.addLeaderCard(card);
-        player1.discardLeader(card);
-        assertFalse(player1.getLeadercards().contains(card));
-        assertThrows(NullCardException.class, () -> player1.discardLeader(card));
+    public void addTest(){
+        player1.addPossibleWhiteMarbles(new Resource(ResourceType.COIN));
+        player1.addDiscountedResource(new Resource(ResourceType.SERVANT));
+        player1.addExtraProductionPowers(new ExtraProduction(new ArrayList<>(), 2));
+        assertTrue(player1.getDiscountedResource().contains(new Resource(ResourceType.SERVANT)));
+        assertTrue(player1.getPossibleWhiteMarbles().contains(new Resource(ResourceType.COIN)));
+        assertEquals(player1.getExtraProductionPowers().size(), 1);
     }
 
+    @Test
+    public void getDepotById() throws NotPossibleToAdd {
+        assertEquals(player1.getDepotById(1), player1.getPlayerBoard().getWareHouse().getDepots().get(0));
+        assertThrows(NotPossibleToAdd.class, () -> player1.getDepotById(6));
+
+    }
 
 
 }

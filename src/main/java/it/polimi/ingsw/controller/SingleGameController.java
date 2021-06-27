@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.enumerations.GamePhase;
 import it.polimi.ingsw.enumerations.PlayerMove;
 import it.polimi.ingsw.enumerations.TurnPhase;
+import it.polimi.ingsw.exceptions.InvalidNickname;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.messages.*;
@@ -60,7 +61,12 @@ public class SingleGameController extends GameController{
 
     @Override
     public void fakePlayerMove(){
-        TokenDeck tokenDeck = game.getFakePlayer().getTokenDeck();
+        TokenDeck tokenDeck = null;
+        try {
+            tokenDeck = game.getFakePlayer().getTokenDeck();
+        } catch (InvalidNickname invalidNickname) {
+            invalidNickname.printStackTrace();
+        }
         switch(tokenDeck.getPickedTokens().get(tokenDeck.getPickedTokens().size() - 1).getTokenType()){
             case MOVE_2 :
             case MOVE_AND_SHUFFLE:
@@ -83,14 +89,18 @@ public class SingleGameController extends GameController{
 
     @Override
     public void removeResource(int id) {
-        if(this.game.getCurrentPlayer().getDepotById(id).isEmpty()){
-            this.getVirtualView(this.turnController.getActivePlayer()).update(new ErrorMessage("This depot is empty"));
-        }else{
-            this.game.getCurrentPlayer().getDepotById(id).removeResource();
-            game.getFakePlayer().moveBlackCross(1);
+        try {
+            if(this.game.getCurrentPlayer().getDepotById(id).isEmpty()){
+                this.getVirtualView(this.turnController.getActivePlayer()).update(new ErrorMessage("This depot is empty"));
+            }else{
+                this.game.getCurrentPlayer().getDepotById(id).removeResource();
+                game.getFakePlayer().moveBlackCross(1);
 
-            }
-            sendAllUpdateFaith();
+                }
+        } catch (NotPossibleToAdd | InvalidNickname notPossibleToAdd) {
+
+        }
+        sendAllUpdateFaith();
             this.sendDepots(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
 
         this.getVirtualView(this.turnController.getActivePlayer()).update(new NotifyTurn());
@@ -98,10 +108,14 @@ public class SingleGameController extends GameController{
 }
 
 @Override
-public void putResource(int[] id) throws NotPossibleToAdd {
+public void putResource(int[] id) throws NotPossibleToAdd{
     for (int j : id) {
         if (j == -1) {
-                    game.getFakePlayer().moveBlackCross(1);
+            try {
+                game.getFakePlayer().moveBlackCross(1);
+            } catch (InvalidNickname invalidNickname) {
+                invalidNickname.printStackTrace();
+            }
 
         } else {
             Depot d = game.getCurrentPlayer().getDepotById(j);

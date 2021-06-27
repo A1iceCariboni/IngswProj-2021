@@ -58,21 +58,14 @@ public class DepotTest {
      */
     @Test
     public void removeRes(){
-        int nRes;
         ArrayList<Resource> resources = new ArrayList<>();
         Resource r1 = new Resource(ResourceType.COIN);
-        Resource r2 = new Resource(ResourceType.SERVANT);
-        depot1 = new Depot( 3,1, resources);
         resources.add(r1);
-        resources.add(r2);
-        nRes = resources.size();
-        assertEquals(2, nRes);
+        depot1 = new Depot( 3,1, resources);
         assertTrue(depot1.getDepot().contains(r1));
         depot1.removeResource();
         assertFalse(depot1.getDepot().contains(r1));
-        nRes = resources.size();
-        assertEquals(1, nRes);
-        assertNotEquals(2, nRes);
+        assertTrue(depot1.isEmpty());
     }
 
     /**
@@ -89,6 +82,12 @@ public class DepotTest {
         Resource r4 = new Resource(ResourceType.COIN);
         Resource r5 = new Resource(ResourceType.COIN);
         depot1 = new Depot( 3, 1,resources);
+        ArrayList<Resource> res = new ArrayList<>();
+        depot2 = new Depot(2, 2, res);
+        res.add(r1);
+        res.add(r2);
+        depot2.setDepot(res);
+        assertTrue(depot2.getDepot().containsAll(res));
         depot1.addResource(r1);
         assertTrue(depot1.getDepot().contains(r1));
         depot1.addResource(r2);
@@ -97,6 +96,38 @@ public class DepotTest {
         depot1.addResource(r4);
         assertTrue(depot1.getDepot().contains(r4));
         assertThrows(NotPossibleToAdd.class, () -> depot1.addResource(r5));
+
+    }
+
+    @Test
+    public void possibleToAddTest() throws NotPossibleToAdd {
+        ArrayList<Resource> resources = new ArrayList<>();
+        Resource r1 = new Resource(ResourceType.COIN);
+        Resource r2 = new Resource(ResourceType.COIN);
+        resources.add(r1);
+        resources.add(r2);
+        depot1 = new Depot( 3, 1,resources);
+
+        assertFalse(depot1.possibleToAdd(new Resource(ResourceType.SHIELD)));
+        assertTrue(depot1.possibleToAdd(new Resource(ResourceType.COIN)));
+
+        depot1.addResource(new Resource(ResourceType.COIN));
+        assertFalse(depot1.possibleToAdd(new Resource(ResourceType.COIN)));
+
+    }
+
+    @Test
+    public void equalsTest(){
+        ArrayList<Resource> resources = new ArrayList<>();
+        depot1 = new Depot( 3, 1,resources);
+        assertTrue(depot1.possibleResource(new Resource(ResourceType.SHIELD)));
+        assertTrue(depot1.possibleResource(new Resource(ResourceType.COIN)));
+        assertTrue(depot1.possibleResource(new Resource(ResourceType.SERVANT)));
+        assertTrue(depot1.possibleResource(new Resource(ResourceType.STONE)));
+        depot2 = new Depot(3, 1, resources);
+        assertTrue(depot1.equals(depot2));
+
+
 
     }
 
@@ -115,6 +146,9 @@ public class DepotTest {
         depot1.removeResource();
         assertTrue(depot1.isEmpty());
     }
+
+    @Test
+    public void removeResourceTest(){}
 
 
 }

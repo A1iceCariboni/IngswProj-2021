@@ -167,6 +167,8 @@ class LeaderCardTest {
         leaderCard.active(p, p.getPlayerBoard());
         assertTrue(leaderCard.isActive());
     }
+
+
    @Test
     public void equalsTest() throws JsonFileNotFoundException {
         ArrayList<LeaderCard> leaderCards = LeaderCardParser.parseLeadCards();

@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.exceptions.CannotAdd;
+import it.polimi.ingsw.exceptions.InvalidNickname;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.DevelopmentCardDeck;
@@ -21,42 +22,34 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 
 class SingleGameTest {
-    private static Player player;
-    private static FaithTrack faithTrack;
-    private static LeaderDeck LeaderDeck;
-    private static FakePlayer fakePlayer;
-    private static MarketTray marketTray;
-    private static DevelopmentCardDeck[][] deckDevelopment;
-    private static Player winner;
+    static SingleGame game;
 
     @BeforeAll
-    static void init(){
-        String playersing = "player1";
-        ArrayList<LeaderCard> leaderCards = new ArrayList<>();
-        PlayerBoard playerBoard = new PlayerBoard(new WareHouse(), new StrongBox());
-        player = new Player(true, playersing, 0, playerBoard);
+    static void init() throws JsonFileNotFoundException {
+        game = new SingleGame();
+        game.addPlayer(new Player(true, "p1", 0, new PlayerBoard(new WareHouse(), new StrongBox())));
+        game.startGame();
+        assertEquals(1, game.getPlayers().size());
     }
 
     /**
      * it controls if the method assign rightly player to winner
-     * @throws JsonFileNotFoundException
      */
     @Test
-    void endGameTest() throws JsonFileNotFoundException {
-        SingleGame singleGame = new SingleGame();
-        singleGame.addPlayer(player);
-        assertEquals(singleGame.getWinners().get(0), player);
+    void endGameTest() {
+        game.getCurrentPlayer().getPlayerBoard().moveFaithMarker(Constants.winFaith);
+        assertEquals(game.getWinners().get(0), game.getPlayers().get(0));
     }
 
     /**
-     * it controls if the method add the player correctly
-     * @throws JsonFileNotFoundException
+     * it controls if the method add accurately the victory points to the player when is report section is true
      */
     @Test
-    void addPlayerTest() throws JsonFileNotFoundException {
-        SingleGame singleGame = new SingleGame();
-        singleGame.addPlayer(player);
-        assertEquals(player, singleGame.getPlayers().get(0));
+    void getPopePointsTest()  {
+        game.getCurrentPlayer().getPlayerBoard().moveFaithMarker(13);
+
+        game.getPopePoints();
+        assertEquals(game.getCurrentPlayer().getVictoryPoints(), 2);
     }
 
     /**
@@ -65,43 +58,33 @@ class SingleGameTest {
      * @throws CannotAdd
      */
     @Test
-    void checkEndGameTest() throws JsonFileNotFoundException, CannotAdd {
-        SingleGame singleGame = new SingleGame();
-        singleGame.addPlayer(player);
-        singleGame.getPlayers().get(0).getPlayerBoard().moveFaithMarker(Constants.winFaith);
-        assertTrue(singleGame.checkEndGame());
+    void checkEndGameTest() throws JsonFileNotFoundException {
+        game.getPlayers().get(0).getPlayerBoard().moveFaithMarker(Constants.winFaith);
+        assertTrue(game.checkEndGame());
 
-        SingleGame singleGame2 = new SingleGame();
-        singleGame2.addPlayer(player);
-        singleGame2.getFakePlayer().moveBlackCross(23);
-        assertTrue(singleGame2.checkEndGame());
 
-        SingleGame singleGame3 = new SingleGame();
-        singleGame3.addPlayer(player);
-        ArrayList<Resource> cost = new ArrayList<>();
+    }
+
+    @Test
+    void checkEndGame2() throws CannotAdd {
         ProductionPower productionPower = new ProductionPower();
-        DevelopmentCard developmentCard1 = new DevelopmentCard(0, cost, 1, CardColor.PURPLE, productionPower, 0 );
-        DevelopmentCard developmentCard2 = new DevelopmentCard(1, cost, 2, CardColor.PURPLE, productionPower, 0 );
-        DevelopmentCard developmentCard3 = new DevelopmentCard(2, cost, 3, CardColor.PURPLE, productionPower, 0 );
-        DevelopmentCard developmentCard4 = new DevelopmentCard(3, cost, 1, CardColor.YELLOW, productionPower, 0 );
-        DevelopmentCard developmentCard5 = new DevelopmentCard(4, cost, 2, CardColor.YELLOW, productionPower, 0 );
-        DevelopmentCard developmentCard6 = new DevelopmentCard(5, cost, 3, CardColor.YELLOW, productionPower, 0 );
-        DevelopmentCard developmentCard7 = new DevelopmentCard(6, cost, 1, CardColor.GREEN, productionPower, 0 );
+        DevelopmentCard developmentCard1 = new DevelopmentCard(0, new ArrayList<>(), 1, CardColor.PURPLE, productionPower, 0 );
+        DevelopmentCard developmentCard2 = new DevelopmentCard(1, new ArrayList<>(), 2, CardColor.PURPLE, productionPower, 0 );
+        DevelopmentCard developmentCard3 = new DevelopmentCard(2, new ArrayList<>(), 3, CardColor.PURPLE, productionPower, 0 );
+        DevelopmentCard developmentCard4 = new DevelopmentCard(3, new ArrayList<>(), 1, CardColor.YELLOW, productionPower, 0 );
+        DevelopmentCard developmentCard5 = new DevelopmentCard(4, new ArrayList<>(), 2, CardColor.YELLOW, productionPower, 0 );
+        DevelopmentCard developmentCard6 = new DevelopmentCard(5, new ArrayList<>(), 3, CardColor.YELLOW, productionPower, 0 );
+        DevelopmentCard developmentCard7 = new DevelopmentCard(6, new ArrayList<>(), 1, CardColor.GREEN, productionPower, 0 );
 
-        player.getPlayerBoard().addDevCard(developmentCard1, 0);
-        player.getPlayerBoard().addDevCard(developmentCard2, 0);
-        player.getPlayerBoard().addDevCard(developmentCard3, 0);
-        player.getPlayerBoard().addDevCard(developmentCard4, 1);
-        player.getPlayerBoard().addDevCard(developmentCard5, 1);
-        player.getPlayerBoard().addDevCard(developmentCard6, 1);
-        player.getPlayerBoard().addDevCard(developmentCard7, 2);
+        game.getCurrentPlayer().getPlayerBoard().addDevCard(developmentCard1, 0);
+        game.getCurrentPlayer().getPlayerBoard().addDevCard(developmentCard2, 0);
+        game.getCurrentPlayer().getPlayerBoard().addDevCard(developmentCard3, 0);
+        game.getCurrentPlayer().getPlayerBoard().addDevCard(developmentCard4, 1);
+        game.getCurrentPlayer().getPlayerBoard().addDevCard(developmentCard5, 1);
+        game.getCurrentPlayer().getPlayerBoard().addDevCard(developmentCard6, 1);
+        game.getCurrentPlayer().getPlayerBoard().addDevCard(developmentCard7, 2);
 
-        assertTrue(singleGame3.checkEndGame());
-
-        SingleGame singleGame4 = new SingleGame();
-        singleGame4.addPlayer(player);
-        singleGame4.discardCard(CardColor.PURPLE, 12);
-        assertTrue(singleGame4.checkEndGame());
+        assertTrue(game.checkEndGame());
     }
 
     /**
@@ -109,66 +92,46 @@ class SingleGameTest {
      * @throws JsonFileNotFoundException
      */
     @Test
-    void getColDevCardsTest() throws JsonFileNotFoundException {
-        SingleGame singleGame = new SingleGame();
-        ArrayList<DevelopmentCardDeck> developmentCardDeckA = new ArrayList<>();
-        DevelopmentCardDeck[][] developmentCardDecksM;
-        developmentCardDecksM = singleGame.getDeckDevelopment();
-        developmentCardDeckA.add(developmentCardDecksM[0][0]);
-        developmentCardDeckA.add(developmentCardDecksM[1][0]);
-        developmentCardDeckA.add(developmentCardDecksM[2][0]);
-
-        assertEquals(developmentCardDeckA.get(0), singleGame.getColDevCards(0).get(0));
-        assertEquals(developmentCardDeckA.get(1), singleGame.getColDevCards(0).get(1));
-        assertEquals(developmentCardDeckA.get(2), singleGame.getColDevCards(0).get(2));
+    void getColDevCardsTest()  {
+        game.discardCard(CardColor.BLUE, 12);
+        assertTrue(game.getColDevCards(3).get(0).isEmpty());
+        assertTrue(game.getColDevCards(3).get(1).isEmpty());
+        assertTrue(game.getColDevCards(3).get(2).isEmpty());
+        assertTrue(game.checkEndGame());
     }
 
     /**
      * it controls if the method return accurately the nexy player, that is always the single player
-     * @throws JsonFileNotFoundException
      */
     @Test
-    void nextPlayerTest() throws JsonFileNotFoundException {
-        SingleGame singleGame = new SingleGame();
-        singleGame.addPlayer(player);
-        assertEquals(singleGame.getPlayers().get(0), player);
-    }
-
-    /**
-     * it controls if the method add accurately the victory points to the player when is report section is true
-     * @throws JsonFileNotFoundException
-     */
-    @Test
-    void getPopePointsTest() throws JsonFileNotFoundException {
-        SingleGame singleGame = new SingleGame();
-        ArrayList<LeaderCard> leaderCards = new ArrayList<>();
-        PlayerBoard playerBoard = new PlayerBoard(new WareHouse(), new StrongBox());
-        Player player1 = new Player(true, "player", 0, playerBoard);
-        singleGame.addPlayer(player1);
-        player1.getPlayerBoard().moveFaithMarker(13);
-        FaithTrack faithTrack = new FaithTrack();
-        assertEquals(player1.getPlayerBoard().getFaithMarker(), 13);
-        assertTrue(faithTrack.isReportSection(player1.getPlayerBoard().getFaithMarker()));
-        singleGame.getPopePoints();
-        assertEquals(player1.getVictoryPoints(), 2);
+    void nextPlayerTest() {
+        game.nextPlayer();
+        assertEquals(game.getCurrentPlayer(), game.getPlayers().get(0));
+        assertEquals(game.getFirstPlayer(), game.getPlayers().get(0));
     }
 
 
-    @Test
-    void discardCard() throws JsonFileNotFoundException {
-        SingleGame singleGame= new SingleGame();
-        singleGame.discardCard(CardColor.GREEN,4);
-        assertTrue(singleGame.getDeckDevelopment()[0][0].isEmpty());
-        assertFalse(singleGame.getDeckDevelopment()[1][0].isEmpty());
-        assertFalse(singleGame.getDeckDevelopment()[2][0].isEmpty());
-        singleGame.discardCard(CardColor.GREEN,4);
-        assertTrue(singleGame.getDeckDevelopment()[0][0].isEmpty());
-        assertTrue(singleGame.getDeckDevelopment()[1][0].isEmpty());
-        assertFalse(singleGame.getDeckDevelopment()[2][0].isEmpty());
-        singleGame.discardCard(CardColor.GREEN,4);
-        assertTrue(singleGame.getDeckDevelopment()[0][0].isEmpty());
-        assertTrue(singleGame.getDeckDevelopment()[1][0].isEmpty());
-        assertTrue(singleGame.getDeckDevelopment()[2][0].isEmpty());
 
+
+    @Test
+    void discardCard(){
+        game.discardCard(CardColor.GREEN,4);
+        assertTrue(game.getDeckDevelopment()[0][0].isEmpty());
+        assertFalse(game.getDeckDevelopment()[1][0].isEmpty());
+        assertFalse(game.getDeckDevelopment()[2][0].isEmpty());
+        game.discardCard(CardColor.GREEN,4);
+        assertTrue(game.getDeckDevelopment()[0][0].isEmpty());
+        assertTrue(game.getDeckDevelopment()[1][0].isEmpty());
+        assertFalse(game.getDeckDevelopment()[2][0].isEmpty());
+        game.discardCard(CardColor.GREEN,4);
+        assertTrue(game.getDeckDevelopment()[0][0].isEmpty());
+        assertTrue(game.getDeckDevelopment()[1][0].isEmpty());
+        assertTrue(game.getDeckDevelopment()[2][0].isEmpty());
+
+    }
+
+    @Test
+    void fakePlayerGetter(){
+        assertDoesNotThrow(() -> game.getFakePlayer());
     }
 }

@@ -10,6 +10,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FaithTrackTest {
 
+
+    @Test
+    void lastVictoryPoints(){
+        FaithTrack faithTrack = new FaithTrack();
+        assertEquals(faithTrack.getLastVictoryPoint(8),2);
+    }
     /**
      * it tests if the method works accurately
      */
@@ -59,6 +65,8 @@ class FaithTrackTest {
         assertEquals(faithTrack.getPointsForPope(15), 3);
         assertEquals(faithTrack.getPointsForPope(20), 4);
         assertEquals(faithTrack.getPointsForPope(24), 4);
+        faithTrack.deactivatePopeSpace(8);
+        assertFalse(faithTrack.isPopeSpace(8));
     }
 
 }

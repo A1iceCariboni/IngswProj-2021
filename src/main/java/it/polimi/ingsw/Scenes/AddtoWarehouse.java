@@ -39,7 +39,7 @@ public class AddtoWarehouse extends ViewObservable {
     @FXML
     private Button ex2;
     @FXML
-    private Button ex11, ex12, strongbox;
+    private Button ex11, ex12;
 
     @FXML
     ImageView res1, res2, res3, res4, res5, res6;
@@ -152,14 +152,29 @@ public class AddtoWarehouse extends ViewObservable {
         this.resource = new ArrayList<>();
         this.resource.addAll(Arrays.asList(resource));
         answer = new int[resource.length];
+        int coin =0;
+        int stone =0;
+        int servant=0;
+        int shield=0;
+        for (String res: virtualModel.getPlayerBoard().getStrongBox().getResources()) {
+            if (res.equals("COIN"))
+                coin++;
+            if (res.equals("STONE"))
+                stone++;
+            if (res.equals("SHIELD"))
+                shield++;
+            if (res.equals("SERVANT"))
+                servant++;
+        }
+        sc.setText("x"+ coin);
+        sst.setText("x"+ stone);
+        ssh.setText("x"+ shield);
+        sv.setText("x"+ servant);
         c1.setOpacity(0);
         c2.setOpacity(0);
         c3.setOpacity(0);
         ex12.setOpacity(0);
         ex11.setOpacity(0);
-        strongbox.setOpacity(0);
-        strongbox.setDisable(true);
-
         Image i1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + resource[0] + ".png"));
         r1.setOpacity(1);
         r1.setImage(i1);
@@ -233,19 +248,18 @@ public class AddtoWarehouse extends ViewObservable {
         ex1.setOpacity(0);
         ex2.setOpacity(0);
         disc.setOpacity(0);
-
         int coin =0;
         int stone =0;
         int servant=0;
         int shield=0;
-        for (int i=0; i<virtualModel.getPlayerBoard().getStrongBox().getResources().size(); i++) {
-            if (virtualModel.getPlayerBoard().getStrongBox().getResources().get(i).equals("COIN"))
+        for (String res: virtualModel.getPlayerBoard().getStrongBox().getResources()) {
+            if (res.equals("COIN"))
                 coin++;
-            if (virtualModel.getPlayerBoard().getStrongBox().getResources().get(i).equals("STONE"))
+            if (res.equals("STONE"))
                 stone++;
-            if (virtualModel.getPlayerBoard().getStrongBox().getResources().get(i).equals("SHIELD"))
+            if (res.equals("SHIELD"))
                 shield++;
-            if (virtualModel.getPlayerBoard().getStrongBox().getResources().get(i).equals("SERVANT"))
+            if (res.equals("SERVANT"))
                 servant++;
         }
         sc.setText("x"+ coin);
@@ -292,10 +306,6 @@ public class AddtoWarehouse extends ViewObservable {
         if(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId() == -1){
             ex12.setDisable(true);
         }
-
-
-
-
     }
 
     public void setQuantity(int quantity){

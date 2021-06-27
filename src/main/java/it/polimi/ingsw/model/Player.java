@@ -27,7 +27,6 @@ public class Player implements Serializable {
     private int victoryPoints;
     private final ArrayList<LeaderCard> leaderCards;
     private final PlayerBoard playerBoard;
-    private PlayerMove playerMove;
     private final ArrayList<Resource> discountedResource;
     private final ArrayList<ExtraProduction> extraProductionPowers;
     private final ArrayList<Resource> possibleWhiteMarbles;
@@ -107,13 +106,6 @@ public class Player implements Serializable {
     }
 
 
-    public PlayerMove getPlayerMove() {
-        return playerMove;
-    }
-
-    public void setPlayerMove(PlayerMove playerMove) {
-        this.playerMove = playerMove;
-    }
 
     /**
      *
@@ -160,8 +152,7 @@ public class Player implements Serializable {
         this.inkwell = b;
     }
 
-    public void setYourTurn(boolean b) {
-    }
+
 
     public boolean getInkwell() {
         return inkwell;
@@ -189,15 +180,15 @@ public class Player implements Serializable {
     }
     @Override
     public int hashCode() {
-        return Objects.hash(inkwell, nickName, victoryPoints, leaderCards, playerBoard, playerMove, discountedResource, extraProductionPowers, possibleWhiteMarbles);
+        return Objects.hash(inkwell, nickName, victoryPoints, leaderCards, playerBoard,  discountedResource, extraProductionPowers, possibleWhiteMarbles);
     }
-    public Depot getDepotById(int id) {
+    public Depot getDepotById(int id) throws NotPossibleToAdd {
         for(Depot depot: playerBoard.getWareHouse().getDepots()){
             if(depot.getId() == id){
                 return depot;
             }
         }
-        return null;
+        throw new NotPossibleToAdd();
     }
 
     public int getBlackCross(){

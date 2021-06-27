@@ -3,10 +3,8 @@ package it.polimi.ingsw.controller;
 import com.google.gson.*;
 import it.polimi.ingsw.client.DummyModel.DummyDev;
 import it.polimi.ingsw.enumerations.*;
-import it.polimi.ingsw.exceptions.CannotAdd;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.exceptions.InvalidNickname;
-import it.polimi.ingsw.exceptions.NotPossibleToAdd;
-import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
@@ -246,9 +244,9 @@ public void initGameController(){
        DummyDev[][] dummyDevs = new DummyDev[Constants.rows][Constants.cols];
        for(int r = 0; r < Constants.rows; r++){
            for(int c = 0; c < Constants.cols; c++){
-               if(!game.getDeckDevelopment()[r][c].isEmpty()) {
+               try {
                    dummyDevs[r][c] = game.getDeckDevelopment()[r][c].getCard().getDummy();
-               }else{
+               }catch (EmptyDeck ex){
                    dummyDevs[r][c] = null;
                }
            }
@@ -392,7 +390,7 @@ public void initGameController(){
                         WhiteMarblesChoice whiteMarblesChoice = gson.fromJson(line, WhiteMarblesChoice.class);
                         chooseWhiteMarbleEffect(whiteMarblesChoice.getPowers());
                     }else {
-                        virtualView.update(new ErrorMessage(""));
+                        virtualView.update(new ErrorMessage("You don't have this power"));
                         virtualView.update(new WhiteMarblesChoice(virtualView.getFreeMarble().size()));
                     }
                     break;
@@ -549,7 +547,7 @@ public void initGameController(){
 
                     break;
             }
-        }
+}
 
 
 
@@ -612,7 +610,11 @@ public void initGameController(){
                 case SEE_PLAYERBOARD:
                     SeePlayerBoard seePlayerBoard = gson.fromJson(line, SeePlayerBoard.class);
                     if(numberOfPlayers == 1){
-                        virtualView.update(new OtherVictoryPoints(game.getFakePlayer().getVictoryPoints()));
+                        try {
+                            virtualView.update(new OtherVictoryPoints(game.getFakePlayer().getVictoryPoints()));
+                        } catch (InvalidNickname invalidNickname) {
+                            invalidNickname.printStackTrace();
+                        }
                         sendBlackCross();
                         virtualView.update(new NotifyTurn());
 
@@ -705,22 +707,31 @@ public void initGameController(){
    public void buyDevelopment( int rig,  int col){
         String name = game.getCurrentPlayer().getNickName();
         VirtualView virtualView = getConnectedClients().get(name);
-        if(game.getDeckDevelopment()[rig][col].getCard().isBuyable(game.getCurrentPlayer())){
-            game.getCurrentPlayer().getPlayerBoard().setUnplacedDevelopment(game.getDeckDevelopment()[rig][col].popCard());
-            virtualView.doneGameAction(1);
-            turnPhase = TurnPhase.BUY_DEV;
-            sendUpdateMarketDev(virtualView, name);
-            sendResourcesToPay();
-            sendUpdateMove(PlayerMove.BUY_DEV_CARD);
-        }else{
-            virtualView.update(new ErrorMessage("You don't have enough resources to buy this card, choose another one"));
-            virtualView.update(new NotifyTurn());
-        }
+       try {
+           if(game.getDeckDevelopment()[rig][col].getCard().isBuyable(game.getCurrentPlayer())){
+               game.getCurrentPlayer().getPlayerBoard().setUnplacedDevelopment(game.getDeckDevelopment()[rig][col].popCard());
+               virtualView.doneGameAction(1);
+               turnPhase = TurnPhase.BUY_DEV;
+               sendUpdateMarketDev(virtualView, name);
+               sendResourcesToPay();
+               sendUpdateMove(PlayerMove.BUY_DEV_CARD);
+           }else{
+               virtualView.update(new ErrorMessage("You don't have enough resources to buy this card, choose another one"));
+               virtualView.update(new NotifyTurn());
+           }
+       } catch (EmptyDeck emptyDeck) {
+           virtualView.update(new ErrorMessage("You choose an empty deck"));
+           virtualView.update(new NotifyTurn());
+       }
    }
 
    public void sendBlackCross(){
        VirtualView vv = getVirtualView(turnController.getActivePlayer());
-       vv.update(new BlackCross(game.getFakePlayer().getBlackCross()));
+       try {
+           vv.update(new BlackCross(game.getFakePlayer().getBlackCross()));
+       } catch (InvalidNickname invalidNickname) {
+           invalidNickname.printStackTrace();
+       }
    }
     /**
      * place the payed card in the chosen slot
@@ -792,8 +803,11 @@ public void initGameController(){
        }
        for(int j: ids){
            if(j != -1) {
-               cost.remove(game.getCurrentPlayer().getDepotById(j).getDepot().get(0));
-               game.getCurrentPlayer().getDepotById(j).removeResource();
+               try {
+                   cost.remove(game.getCurrentPlayer().getDepotById(j).getDepot().get(0));
+                   game.getCurrentPlayer().getDepotById(j).removeResource();
+               } catch (NotPossibleToAdd notPossibleToAdd) {
+               }
            }
        }
 
@@ -929,7 +943,12 @@ public void initGameController(){
         final String name = this.game.getCurrentPlayer().getNickName();
         final VirtualView virtualView = this.getConnectedClients().get(name);
         for( Depot d: depots){
-             Depot toChange = this.game.getCurrentPlayer().getDepotById(d.getId());
+            Depot toChange = null;
+            try {
+                toChange = this.game.getCurrentPlayer().getDepotById(d.getId());
+            } catch (NotPossibleToAdd notPossibleToAdd) {
+
+            }
             toChange.setDepot(d.getDepot());
         }
     }
@@ -1123,19 +1142,23 @@ public void initGameController(){
      */
     public void removeResource(int id) {
         final Gson gson = new Gson();
-        if(this.game.getCurrentPlayer().getDepotById(id).isEmpty()){
-            this.getVirtualView(this.turnController.getActivePlayer()).update(new ErrorMessage("This depot is empty"));
-        }else{
-            this.game.getCurrentPlayer().getDepotById(id).removeResource();
-            for(Player p: this.game.getPlayers()){
-                if(!p.equals(this.game.getCurrentPlayer())) {
-                    p.getPlayerBoard().moveFaithMarker(1);
+        try {
+            if(this.game.getCurrentPlayer().getDepotById(id).isEmpty()){
+                this.getVirtualView(this.turnController.getActivePlayer()).update(new ErrorMessage("This depot is empty"));
+            }else{
+                this.game.getCurrentPlayer().getDepotById(id).removeResource();
+                for(Player p: this.game.getPlayers()){
+                    if(!p.equals(this.game.getCurrentPlayer())) {
+                        p.getPlayerBoard().moveFaithMarker(1);
+                    }
                 }
-            }
-            this.sendAllUpdateFaith();
+                this.sendAllUpdateFaith();
 
-            this.sendDepots(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
-            this.getVirtualView(this.turnController.getActivePlayer()).update(new NotifyTurn());
+                this.sendDepots(this.connectedClients.get(this.turnController.getActivePlayer()) , this.turnController.getActivePlayer());
+                this.getVirtualView(this.turnController.getActivePlayer()).update(new NotifyTurn());
+
+            }
+        } catch (NotPossibleToAdd notPossibleToAdd) {
 
         }
     }

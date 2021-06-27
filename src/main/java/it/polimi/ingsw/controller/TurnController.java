@@ -112,7 +112,12 @@ public class TurnController implements Serializable {
         int i = 1;
         while(!game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().isEmpty()) {
             Resource res = game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().get(0);
-            Depot d = game.getCurrentPlayer().getDepotById(i);
+            Depot d = null;
+            try {
+                d = game.getCurrentPlayer().getDepotById(i);
+            } catch (NotPossibleToAdd notPossibleToAdd) {
+
+            }
             try{
                game.getCurrentPlayer().getPlayerBoard().getWareHouse().addToDepot(res, d);
                game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().remove(res);

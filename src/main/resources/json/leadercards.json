@@ -1,5 +1,26 @@
 [
   {
+    "id" : 10,
+    "isActive": false,
+    "leaderEffect": {
+      "name": "JOLLY_MARBLE",
+      "resourceType": "SHIELD"
+    },
+    "victoryPoints": 5,
+    "requirements": [
+      {
+        "name": "COLORREQ",
+        "color": "GREEN",
+        "quantity": 2
+      },
+      {
+        "name": "COLORREQ",
+        "color": "PURPLE",
+        "quantity": 1
+      }
+    ]
+  },
+  {
     "id" : 9,
     "isActive": false,
     "leaderEffect": {
@@ -196,27 +217,7 @@
     ]
   },
 
-  {
-    "id" : 10,
-    "isActive": false,
-    "leaderEffect": {
-      "name": "JOLLY_MARBLE",
-      "resourceType": "SHIELD"
-    },
-    "victoryPoints": 5,
-    "requirements": [
-      {
-        "name": "COLORREQ",
-        "color": "GREEN",
-        "quantity": 2
-      },
-      {
-        "name": "COLORREQ",
-        "color": "PURPLE",
-        "quantity": 1
-      }
-    ]
-  },
+
   {
     "id" : 11,
     "isActive": false,

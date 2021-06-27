@@ -38,15 +38,14 @@ public class WareHouse implements Serializable {
      * @param res is the resource moved
      */
     public void moveResouces(Depot from, Depot to, Resource res) throws NotPossibleToAdd {
-        from.removeResource();
-        to.addResource(res);
+        if(from.getDepot().contains(res)) {
+            from.removeResource();
+            to.addResource(res);
+        }else{
+            throw new NotPossibleToAdd();
+        }
     }
 
-    /**  adds a depot to warehouse
-     */
-    public void addDepot(Depot d){
-          this.depots.add(d);
-    }
 
 
     public ArrayList<Depot> getDepots(){
@@ -79,14 +78,16 @@ public class WareHouse implements Serializable {
 
 
     /** This method removes the resource to the depot **/
-    public void remove(Resource res){
+    public void remove(Resource res) throws NotPossibleToAdd {
         for(Depot d : this.depots){
             if(d.getId() != -1) {
                 if(d.getDepot().contains(res)) {
                     d.removeResource();
+                    return;
                 }
             }
         }
+        throw new NotPossibleToAdd();
     }
 
     public void setExtraDepot(ExtraDepot extraDepot){
@@ -122,6 +123,10 @@ public class WareHouse implements Serializable {
      * @throws NotPossibleToAdd if the depot is full or if there is another depot with the same resource
      */
     public void addToDepot(Resource res, Depot d) throws NotPossibleToAdd {
+        if((d.getId() != 1) && (d.getId() != 2) && (d.getId() != 3)){
+            depots.get(depots.indexOf(d)).addResource(res);
+            return;
+        }
         for(Depot dep : depots){
             if((!dep.equals(d))&&((dep.getId() == 1)||(dep.getId() == 2)||(dep.getId() == 3))){
                 if((!dep.getDepot().isEmpty())&&(dep.getDepot().contains(res))){
@@ -139,7 +144,10 @@ public class WareHouse implements Serializable {
      * @return true if the resoure can be placed i that depot, false otherwise
      */
     public boolean canAddToDepot(Resource res, Depot d) {
-        for(Depot dep : depots){
+        if((d.getId() != 1) && (d.getId() != 2) && (d.getId() != 3))    {
+            return true;
+        }
+            for(Depot dep : depots){
             if((!dep.equals(d))&&((dep.getId() == 1)||(dep.getId() == 2)||(dep.getId() == 3))){
                 if((!dep.getDepot().isEmpty())&&(dep.getDepot().contains(res))){
                     return false;

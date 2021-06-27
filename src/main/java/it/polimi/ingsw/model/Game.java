@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * @author Sofia Canestraci
  * the class controls the game and makes possible that it starts and ends
  */
-public class Game implements Serializable {
+public abstract class Game implements Serializable {
     private static final long serialVersionUID = -1219837309023544815L;
 
     protected LeaderDeck deckLeader;
@@ -87,7 +87,9 @@ public class Game implements Serializable {
      * it adds a Player for the game
      * @param p player to add
      */
-    public void addPlayer(Player p){}
+    public void addPlayer(Player p){
+        players.add(p);
+    }
 
     /**
      * it checks if the Game has to end
@@ -149,8 +151,8 @@ public class Game implements Serializable {
          throw new InvalidNickname("That's not a player");
      }
 
-    public FakePlayer getFakePlayer(){
-         return null;
+    public FakePlayer getFakePlayer() throws InvalidNickname {
+        throw new InvalidNickname("it's not  a single game");
     }
 }
 
