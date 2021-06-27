@@ -1,73 +1,80 @@
 package it.polimi.ingsw.Scenes;
-
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.WhiteMarblesChoice;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+/**@author Alessandra Atria*/
+
 public class WhiteMarble extends ViewObservable {
-    private int num;
+    int i;
+    int n;
     VirtualModel virtualModel;
-    Gson gson;
     private String[] powers;
-    private String resource;
+
 
     @FXML
     ImageView stone, coin, servant, shield;
 
+    public WhiteMarble() {
+        this.virtualModel = new VirtualModel();
+        i=0;
+
+    }
+
     public void pickStone(MouseEvent mouseEvent){
-        for (int i = 0; i < num; i++) {
-            System.out.println("Choose one of your active powers, type the resource you want from this white marble");
-            String resource = "STONE";
-            powers[i] = resource;
+        String resource = "STONE";
+        powers[i] = resource;
+        i++;
+        if(i==n) {
+            Message message = new WhiteMarblesChoice(powers);
+            notifyObserver(obs -> obs.onReadyReply(message));
         }
-        stone.setOpacity(0.5);
-        Message message = new WhiteMarblesChoice(powers);
-        notifyObserver(obs -> obs.onReadyReply(message));
     }
 
     public void pickServant(MouseEvent mouseEvent){
-        for (int i = 0; i < num; i++) {
-            System.out.println("Choose one of your active powers, type the resource you want from this white marble");
-            String resource = "SERVANT";
-            powers[i] = resource;
+        System.out.println("Choose one of your active powers, type the resource you want from this white marble");
+        String resource = "SERVANT";
+        powers[i] = resource;
+        i++;
+        if(i==n) {
+            Message message = new WhiteMarblesChoice(powers);
+            notifyObserver(obs -> obs.onReadyReply(message));
         }
-        servant.setOpacity(0.5);
-        Message message = new WhiteMarblesChoice(powers);
-        notifyObserver(obs -> obs.onReadyReply(message));
+
     }
 
     public void pickShield(MouseEvent mouseEvent){
-        for (int i = 0; i < num; i++) {
         System.out.println("Choose one of your active powers, type the resource you want from this white marble");
         String resource = "SHIELD";
         powers[i] = resource;
+        i++;
+        if(i==n) {
+            Message message = new WhiteMarblesChoice(powers);
+            notifyObserver(obs -> obs.onReadyReply(message));
         }
-        Message message = new WhiteMarblesChoice(powers);
-        notifyObserver(obs -> obs.onReadyReply(message));
-        shield.setOpacity(0.5);
     }
 
     public void pickCoin(MouseEvent mouseEvent) {
-        for (int i = 0; i < num; i++) {
-            System.out.println("Choose one of your active powers, type the resource you want from this white marble");
-            String resource = "COIN";
-            powers[i] = resource;
+        System.out.println("Choose one of your active powers, type the resource you want from this white marble");
+        String resource = "COIN";
+        powers[i] = resource;
+        i++;
+        if(i==n) {
+            Message message = new WhiteMarblesChoice(powers);
+            notifyObserver(obs -> obs.onReadyReply(message));
         }
-        coin.setOpacity(0.5);
-        Message message = new WhiteMarblesChoice(powers);
-        notifyObserver(obs -> obs.onReadyReply(message));
     }
 
 
     public void setnumber(int num, VirtualModel virtualModel){
         this.virtualModel= virtualModel;
         powers = new String[num];
+        n = num;
 
     }
 

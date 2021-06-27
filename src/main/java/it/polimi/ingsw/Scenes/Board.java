@@ -222,11 +222,19 @@ public class Board extends ViewObservable {
         Platform.runLater(() -> GUIRunnable.buyDevCard(deck, observers).setDevCards(virtualModel));
     }
 
-    /** sets slots choice buttons visible */
+    /** sets slots choice buttons visible and disables the other buttons */
     public void setButtons(){
         sl1.setVisible(true);
         sl2.setVisible(true);
         sl3.setVisible(true);
+        DiscardButton.setDisable(true);
+        DevButton.setDisable(true);
+        DiscardResource.setDisable(true);
+        ViewButton.setDisable(true);
+        EndTButton.setDisable(true);
+        MarketButton.setDisable(true);
+        LeaderActiveButton.setDisable(true);
+        rearrangew.setDisable(true);
 
     }
 

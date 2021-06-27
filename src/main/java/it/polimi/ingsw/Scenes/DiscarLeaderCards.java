@@ -21,15 +21,7 @@ import javafx.scene.input.MouseEvent;
 public class DiscarLeaderCards extends ViewObservable {
 
     private VirtualModel virtualModel;
-    Gson gson = new Gson();
-    private int[] answer;
-    int i=0;
 
-
-
-
-    @FXML
-    private Button okBtn;
     @FXML
     public ImageView l1;
     @FXML

@@ -1,23 +1,21 @@
 package it.polimi.ingsw.Scenes;
-
 import com.google.gson.Gson;
 import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.messages.BuyDev;
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
+
+/** @author Alessandra Atria */
 public class DevelopmentMarket extends ViewObservable {
     Gson gson = new Gson();
     VirtualModel virtualModel;

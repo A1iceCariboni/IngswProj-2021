@@ -14,6 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+
+
+/** @author Alessandra Atria */
 public class DiscardResource extends ViewObservable {
     public Button d1, d2,d3;
     Gson gson = new Gson();

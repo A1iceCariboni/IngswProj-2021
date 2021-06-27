@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**@author Alessandra Atria*/
 
 public class AddtoWarehouse extends ViewObservable {
     public Button d1,d2,d3, c1, c2,c3 ;
