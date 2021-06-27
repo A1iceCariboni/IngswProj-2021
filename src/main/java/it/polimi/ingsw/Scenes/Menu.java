@@ -1,4 +1,5 @@
 package it.polimi.ingsw.Scenes;
+import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.event.Event;
@@ -24,9 +25,8 @@ public class Menu extends ViewObservable {
 
        @FXML
        public void GotoLoggerScene(Event event){
-           int port = Constants.DEFAULT_PORT;
-           String ip = Constants.LOCAL_HOST;
-           notifyObserver(obs -> obs.onConnectionRequest(ip,port));
+           ConnectScene connectScene = new ConnectScene();
+           GUIRunnable.changetoConnect(connectScene, observers);
        }
 
       @FXML

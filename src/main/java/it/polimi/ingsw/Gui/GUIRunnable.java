@@ -112,6 +112,18 @@ public class GUIRunnable extends Application {
         return bc;
     }
 
+    public static ConnectScene changetoConnect(ConnectScene c, ArrayList<ViewObserver> observers) {
+        try {
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Connect_Scene.fxml"));
+            Parent root = loader.load();
+            scene.setRoot(root);
+            c = loader.getController();
+            c.addAllObservers(observers);
+        } catch (IOException e) {
+            SocketClient.LOGGER.severe(e.getMessage());
+        }
+        return c;
+    }
 
     public static Board changetoPay(Board bc, ArrayList<ViewObserver> observers, VirtualModel virtualModel) {
         try {
