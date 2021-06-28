@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
-<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/14.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.Market">
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.Market">
    <children>
       <AnchorPane prefHeight="715.0" prefWidth="1264.0" styleClass="boardPane">
          <children>
-            <ImageView fitHeight="920.0" fitWidth="1311.0" layoutX="14.0" layoutY="-140.0" opacity="0.43" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="920.0" fitWidth="1311.0" layoutX="7.0" layoutY="-140.0" opacity="0.43" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Board/MastersofRenaissance_PlayerBoard_back.png" />
                </image>
@@ -31,96 +38,52 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="chooseC1" mnemonicParsing="false" onAction="#getcol1" prefHeight="55.0" prefWidth="367.0" text="Column 1">
+                  <Button fx:id="chooseC1" mnemonicParsing="false" onAction="#getcol1" prefHeight="55.0" prefWidth="147.0" text="Column 1">
                      <font>
                         <Font name="Lucida Calligraphy Italic" size="10.0" />
                      </font>
                      <effect>
-                        <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
-                           <bumpInput>
-                              <Shadow height="40.96" radius="18.447499999999998" width="34.83">
-                                 <color>
-                                    <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
-                                 </color>
-                              </Shadow>
-                           </bumpInput>
-                           <light>
-                              <Light.Distant>
-                                 <color>
-                                    <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
-                                 </color>
-                              </Light.Distant>
-                           </light>
-                        </Lighting>
+                        <DropShadow height="49.42" radius="26.0" spread="0.38" width="56.58">
+                           <color>
+                              <Color red="1.0" green="0.6509804129600525" />
+                           </color>
+                        </DropShadow>
                      </effect>
                   </Button>
-                  <Button fx:id="chooseC2" mnemonicParsing="false" onAction="#getcol2" prefHeight="55.0" prefWidth="367.0" text="Column 2" GridPane.columnIndex="1">
+                  <Button fx:id="chooseC4" mnemonicParsing="false" onAction="#getcol4" prefHeight="55.0" prefWidth="147.0" text="Column 4" GridPane.columnIndex="3">
                      <font>
                         <Font name="Lucida Calligraphy Italic" size="10.0" />
                      </font>
                      <effect>
-                        <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
-                           <bumpInput>
-                              <Shadow height="40.96" radius="18.447499999999998" width="34.83">
-                                 <color>
-                                    <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
-                                 </color>
-                              </Shadow>
-                           </bumpInput>
-                           <light>
-                              <Light.Distant>
-                                 <color>
-                                    <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
-                                 </color>
-                              </Light.Distant>
-                           </light>
-                        </Lighting>
+                        <DropShadow height="49.42" radius="26.0" spread="0.38" width="56.58">
+                           <color>
+                              <Color red="1.0" green="0.6509804129600525" />
+                           </color>
+                        </DropShadow>
                      </effect>
                   </Button>
-                  <Button fx:id="chooseC3" mnemonicParsing="false" onAction="#getcol3" prefHeight="55.0" prefWidth="367.0" text="Column 3" GridPane.columnIndex="2">
+                  <Button fx:id="chooseC3" mnemonicParsing="false" onAction="#getcol3" prefHeight="55.0" prefWidth="147.0" text="Column 3" GridPane.columnIndex="2">
                      <font>
                         <Font name="Lucida Calligraphy Italic" size="10.0" />
                      </font>
                      <effect>
-                        <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
-                           <bumpInput>
-                              <Shadow height="40.96" radius="18.447499999999998" width="34.83">
-                                 <color>
-                                    <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
-                                 </color>
-                              </Shadow>
-                           </bumpInput>
-                           <light>
-                              <Light.Distant>
-                                 <color>
-                                    <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
-                                 </color>
-                              </Light.Distant>
-                           </light>
-                        </Lighting>
+                        <DropShadow height="49.42" radius="26.0" spread="0.38" width="56.58">
+                           <color>
+                              <Color red="1.0" green="0.6509804129600525" />
+                           </color>
+                        </DropShadow>
                      </effect>
                   </Button>
-                  <Button fx:id="chooseC4" mnemonicParsing="false" onAction="#getcol4" prefHeight="55.0" prefWidth="367.0" text="Column 4" GridPane.columnIndex="3">
+                  <Button fx:id="chooseC2" mnemonicParsing="false" onAction="#getcol2" prefHeight="55.0" prefWidth="147.0" text="Column 2" GridPane.columnIndex="1">
                      <font>
                         <Font name="Lucida Calligraphy Italic" size="10.0" />
                      </font>
                      <effect>
-                        <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
-                           <bumpInput>
-                              <Shadow height="40.96" radius="18.447499999999998" width="34.83">
-                                 <color>
-                                    <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
-                                 </color>
-                              </Shadow>
-                           </bumpInput>
-                           <light>
-                              <Light.Distant>
-                                 <color>
-                                    <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
-                                 </color>
-                              </Light.Distant>
-                           </light>
-                        </Lighting>
+                        <DropShadow height="49.42" radius="26.0" spread="0.38" width="56.58">
+                           <color>
+                              <Color red="1.0" green="0.6509804129600525" />
+                           </color>
+                        </DropShadow>
                      </effect>
                   </Button>
                </children>
@@ -135,100 +98,44 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button fx:id="chooseR1" mnemonicParsing="false" onAction="#getrow1" prefHeight="151.0" prefWidth="108.0" text="Row 1">
+                  <Button fx:id="chooseR1" mnemonicParsing="false" onAction="#getrow1" prefHeight="55.0" prefWidth="147.0" text="Row 1">
                      <font>
                         <Font name="Lucida Calligraphy Italic" size="10.0" />
                      </font>
                      <effect>
-                        <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
-                           <bumpInput>
-                              <Shadow height="40.96" radius="18.447499999999998" width="34.83">
-                                 <color>
-                                    <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
-                                 </color>
-                              </Shadow>
-                           </bumpInput>
-                           <light>
-                              <Light.Distant>
-                                 <color>
-                                    <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
-                                 </color>
-                              </Light.Distant>
-                           </light>
-                        </Lighting>
+                        <DropShadow height="49.42" radius="26.0" spread="0.38" width="56.58">
+                           <color>
+                              <Color red="1.0" green="0.6509804129600525" />
+                           </color>
+                        </DropShadow>
                      </effect>
                   </Button>
-                  <Button fx:id="chooseR2" mnemonicParsing="false" onAction="#getrow2" prefHeight="113.0" prefWidth="108.0" text="Row 2" GridPane.rowIndex="1">
+                  <Button fx:id="chooseR2" mnemonicParsing="false" onAction="#getrow2" prefHeight="55.0" prefWidth="147.0" text="Row 2" GridPane.rowIndex="1">
                      <font>
                         <Font name="Lucida Calligraphy Italic" size="10.0" />
                      </font>
                      <effect>
-                        <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
-                           <bumpInput>
-                              <Shadow height="40.96" radius="18.447499999999998" width="34.83">
-                                 <color>
-                                    <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
-                                 </color>
-                              </Shadow>
-                           </bumpInput>
-                           <light>
-                              <Light.Distant>
-                                 <color>
-                                    <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
-                                 </color>
-                              </Light.Distant>
-                           </light>
-                        </Lighting>
+                        <DropShadow height="49.42" radius="26.0" spread="0.38" width="56.58">
+                           <color>
+                              <Color red="1.0" green="0.6509804129600525" />
+                           </color>
+                        </DropShadow>
                      </effect>
                   </Button>
-                  <Button fx:id="chooseR3" mnemonicParsing="false" onAction="#getrow3" prefHeight="137.0" prefWidth="108.0" text="Row 3" GridPane.rowIndex="2">
+                  <Button fx:id="chooseR3" mnemonicParsing="false" onAction="#getrow3" prefHeight="55.0" prefWidth="147.0" text="Row 3" GridPane.rowIndex="2">
                      <font>
                         <Font name="Lucida Calligraphy Italic" size="10.0" />
                      </font>
                      <effect>
-                        <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
-                           <bumpInput>
-                              <Shadow height="40.96" radius="18.447499999999998" width="34.83">
-                                 <color>
-                                    <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
-                                 </color>
-                              </Shadow>
-                           </bumpInput>
-                           <light>
-                              <Light.Distant>
-                                 <color>
-                                    <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
-                                 </color>
-                              </Light.Distant>
-                           </light>
-                        </Lighting>
+                        <DropShadow height="49.42" radius="26.0" spread="0.38" width="56.58">
+                           <color>
+                              <Color red="1.0" green="0.6509804129600525" />
+                           </color>
+                        </DropShadow>
                      </effect>
                   </Button>
                </children>
             </GridPane>
-            <Button fx:id="exitBtn" layoutX="1067.0" layoutY="633.0" mnemonicParsing="false" onAction="#exit" prefHeight="37.0" prefWidth="118.0" text="Back">
-               <font>
-                  <Font name="Lucida Calligraphy Italic" size="10.0" />
-               </font>
-               <effect>
-                  <Lighting diffuseConstant="1.79" specularConstant="0.0" specularExponent="2.95" surfaceScale="5.76">
-                     <bumpInput>
-                        <Shadow height="40.96" radius="18.447499999999998" width="34.83">
-                           <color>
-                              <Color red="0.9800000190734863" green="0.5496813058853149" blue="0.21559999883174896" />
-                           </color>
-                        </Shadow>
-                     </bumpInput>
-                     <light>
-                        <Light.Distant>
-                           <color>
-                              <Color red="0.9824561476707458" green="0.6219189763069153" blue="0.23651722073554993" />
-                           </color>
-                        </Light.Distant>
-                     </light>
-                  </Lighting>
-               </effect>
-            </Button>
             <Label layoutX="343.0" layoutY="59.0" prefHeight="132.0" prefWidth="539.0" text="Choose Row or Column :" textFill="#530000">
                <font>
                   <Font name="Lucida Calligraphy Italic" size="38.0" />
@@ -314,6 +221,18 @@
                   <Image url="@../PunchBoard/BLUE.png" />
                </image>
             </ImageView>
+            <Button fx:id="exitBtn" layoutX="1076.0" layoutY="105.0" mnemonicParsing="false" onAction="#exit" prefHeight="32.0" prefWidth="175.0" text="Back">
+               <font>
+                  <Font name="Lucida Calligraphy Italic" size="12.0" />
+               </font>
+               <effect>
+                  <DropShadow height="70.42" radius="33.2275" spread="0.2" width="64.49">
+                     <color>
+                        <Color red="1.0" green="0.6509804129600525" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Button>
          </children>
       </AnchorPane>
    </children>

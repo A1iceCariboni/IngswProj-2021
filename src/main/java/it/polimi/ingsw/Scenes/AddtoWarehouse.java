@@ -238,10 +238,12 @@ public class AddtoWarehouse extends ViewObservable {
 
         if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId() == -1) {
             ex1.setDisable(true);
+            ex1.setOpacity(0);
         }
 
         if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId() == -1) {
             ex2.setDisable(true);
+            ex1.setOpacity(0);
         }
         type = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResourceType();
         Image ex1 = null;

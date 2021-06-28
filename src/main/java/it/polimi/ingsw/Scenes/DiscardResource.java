@@ -88,10 +88,12 @@ public class DiscardResource extends ViewObservable {
 
         if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId() == -1) {
             ex1.setDisable(true);
+            ex1.setOpacity(0);
         }
 
         if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId() == -1) {
             ex2.setDisable(true);
+            ex2.setOpacity(0);
         }
 
         String type = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResourceType();

@@ -31,14 +31,14 @@ public class RearrangeWarehouse extends ViewObservable {
     public ImageView r1;
     public ImageView r2;
     public ImageView r3;
-    public ImageView ex1, ex2;
-    public ImageView r4, r5, r6;
+    public ImageView led1, led2;
+    public ImageView r4, r5, r6, re1, re2, re3, re4;
 
     @FXML
-    private Button extra1;
+    private Button ex1;
 
     @FXML
-    private Button extra2;
+    private Button ex2;
 
 
     ArrayList<String> res;
@@ -56,10 +56,6 @@ public class RearrangeWarehouse extends ViewObservable {
     @FXML
     public void initialize(){
 
-    }
-
-    @FXML
-    public void pick1(){
     }
 
 
@@ -116,6 +112,8 @@ public class RearrangeWarehouse extends ViewObservable {
         }
     }
 
+
+
     @FXML
     public void putE2(ActionEvent actionEvent) {
         ArrayList<String> resources = new ArrayList<>();
@@ -170,28 +168,103 @@ public class RearrangeWarehouse extends ViewObservable {
             r6.setOpacity(1);
             res.add(virtualModel.getSlot6());
         }
+        if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId() != -1) {
+            if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() >= 1) {
+                String type = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResourceType();
+                Image iE1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + type + ".png"));
+                re1.setImage(iE1);
+                re1.setOpacity(1);
+                if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2) {
+                    re2.setImage(iE1);
+                    re2.setOpacity(1);
+                }
+            }
+        }
+        if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId() != -1) {
+            if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getResources().size() >= 1) {
+                String type1 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getResourceType();
+                Image iE1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + type1 + ".png"));
+                re3.setImage(iE1);
+                re3.setOpacity(1);
+                if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2) {
+                    re4.setImage(iE1);
+                    re4.setOpacity(1);
+                }
+            }
+        }
+
+
+
 
         try {
             dummyWareHouse = DummyWarehouseConstructor.parseVoid();
             DummyExtraDepot dummyExtraDepot1 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1();
-            if(dummyExtraDepot1.getId() != -1){
+            if(dummyExtraDepot1.getId() != -1)
                 dummyWareHouse.setExtraDepot1(new DummyExtraDepot(dummyExtraDepot1.getId(),dummyExtraDepot1.getDimension(), new ArrayList<>(), dummyExtraDepot1.getResourceType()));
-                Image i1 = new Image(getClass().getResourceAsStream("/CardsFront/led" + dummyExtraDepot1.getId() + ".png"));
-                ex1.setImage(i1);
-            }else
-                extra1.setDisable(true);
             DummyExtraDepot dummyExtraDepot2 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1();
-            if(dummyExtraDepot2.getId() != -1){
+            if(dummyExtraDepot2.getId() != -1)
                 dummyWareHouse.setExtraDepot2(new DummyExtraDepot(dummyExtraDepot2.getId(),dummyExtraDepot2.getDimension(), new ArrayList<>(), dummyExtraDepot2.getResourceType()));
-                Image i2 = new Image(getClass().getResourceAsStream("/CardsFront/led" + dummyExtraDepot2.getId() + ".png"));
-                ex2.setImage(i2);
-            }else
-                extra2.setDisable(true);
         } catch (JsonFileNotFoundException e) {
             e.printStackTrace();
         }
 
+        if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId() == -1) {
+            ex1.setDisable(true);
+            ex1.setOpacity(0);
+        }
+
+        if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId() == -1) {
+            ex2.setDisable(true);
+            ex2.setOpacity(0);
+        }
+
+        String type = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResourceType();
+        Image i = null;
+        switch (type) {
+            case ("COIN"):
+                i = new Image((getClass().getResourceAsStream("/CardsFront/led8.png")));
+                break;
+            case ("STONE"):
+                i = new Image((getClass().getResourceAsStream("/CardsFront/led5.png")));
+                break;
+            case ("SERVANT"):
+                i = new Image((getClass().getResourceAsStream("/CardsFront/led6.png")));
+                break;
+            case ("SHIELD"):
+                i = new Image((getClass().getResourceAsStream("/CardsFront/led7.png")));
+                break;
+        }
+
+        if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId() != -1) {
+            led1.setImage(i);
+            led1.setOpacity(1);
+        }
+
+        String type1 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getResourceType();
+        Image i2 = null;
+        switch (type1) {
+            case ("COIN"):
+                i2 = new Image((getClass().getResourceAsStream("/CardsFront/led8.png")));
+                break;
+            case ("STONE"):
+                i2 = new Image((getClass().getResourceAsStream("/CardsFront/led5.png")));
+                break;
+            case ("SERVANT"):
+                i2 = new Image((getClass().getResourceAsStream("/CardsFront/led6.png")));
+                break;
+            case ("SHIELD"):
+                i2 = new Image((getClass().getResourceAsStream("/CardsFront/led7.png")));
+                break;
+        }
+
+        if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId() != -1) {
+            led2.setOpacity(1);
+            led2.setImage(i2);
+        }
+
     }
+
+
 
 
     public void exit(ActionEvent actionEvent) {
