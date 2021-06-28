@@ -26,6 +26,16 @@ public class ExtraSlot implements LeaderEffect, Serializable {
         b.getWareHouse().setExtraDepot(extraDepot);
     }
 
+    @Override
+    public String getEffectName() {
+        return "EXTRA_SLOT";
+    }
+
+    @Override
+    public String getType() {
+        return resourceType.name();
+    }
+
     public ResourceType getResourceType() {
         return resourceType;
     }

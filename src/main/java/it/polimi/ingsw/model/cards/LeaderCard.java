@@ -89,7 +89,7 @@ public class LeaderCard extends Card {
         for (Requirement requirement : requirements) {
             req.add(requirement.toString());
         }
-        return new DummyLeaderCard(id, req, isActive, leaderEffect.toString(), victoryPoints);
+        return new DummyLeaderCard(id, req, isActive, leaderEffect.toString(), victoryPoints, leaderEffect.getEffectName(), leaderEffect.getType());
     }
     public int getVictoryPoints() {
         return this.victoryPoints;

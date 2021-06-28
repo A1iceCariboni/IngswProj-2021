@@ -62,6 +62,11 @@ public void initGameController(){
     startedAction = false;
 }
 
+    /**
+     * sends the line in the right method based on the game phase
+     * @param line the json line received by the client
+     * @param nickname of the player who sends the message
+     */
     public void onMessageReceived(String line , String nickname) {
         VirtualView virtualView = connectedClients.get(nickname);
         if (!turnController.getActivePlayer().equals(nickname)) {
@@ -74,6 +79,8 @@ public void initGameController(){
             }
         }
     }
+
+
 
     public ArrayList<String> getDisconnectedClients() {
         return disconnectedClients;
@@ -1055,14 +1062,13 @@ public void initGameController(){
     public  void activateLeaderCard( int id)  {
         try {
             if (game.getCurrentPlayer().getLeaderCardById(id).isActivableBy(game.getCurrentPlayer().getPlayerBoard())) {
-                this.game.getCurrentPlayer().getLeaderCardById(id).active(this.game.getCurrentPlayer(), this.game.getCurrentPlayer().getPlayerBoard());
+                this.game.getCurrentPlayer().activateLeader(game.getCurrentPlayer().getLeaderCardById(id), game.getCurrentPlayer().getPlayerBoard(), game.getCurrentPlayer() );
                 this.sendDummyLead(this.connectedClients.get(this.turnController.getActivePlayer()), this.turnController.getActivePlayer());
                 this.sendDepots(this.connectedClients.get(this.turnController.getActivePlayer()), this.turnController.getActivePlayer());
             }else{
                 getVirtualView(game.getCurrentPlayer().getNickName()).update(new ErrorMessage("You don't fit the requirements"));
             }
         } catch (NullCardException e) {
-            e.printStackTrace();
         }
         getVirtualView(game.getCurrentPlayer().getNickName()).update(new NotifyTurn());
     }
@@ -1085,7 +1091,7 @@ public void initGameController(){
         final VirtualView virtualView = this.getConnectedClients().get(name);
         final LeaderCard toDiscard;
         try {
-            toDiscard = game.getCurrentPlayer().getLeaderCardById(id);
+        toDiscard = game.getCurrentPlayer().getLeaderCardById(id);
         this.game.getCurrentPlayer().discardLeader(toDiscard);
 
         this.sendDummyLead(this.connectedClients.get(this.turnController.getActivePlayer()), this.turnController.getActivePlayer());
@@ -1159,7 +1165,6 @@ public void initGameController(){
 
             }
         } catch (NotPossibleToAdd notPossibleToAdd) {
-
         }
     }
 
@@ -1202,16 +1207,10 @@ public void initGameController(){
         this.sendAllExcept(new EndTurn(), this.getVirtualView(this.game.getCurrentPlayer().getNickName()));
 
         this.sendAllExcept(new GenericMessage("It's " + this.turnController.getActivePlayer() + "'s turn, wait for your turn!"), this.getVirtualView(this.turnController.getActivePlayer()));
+        setStarted(true);
 
     }
 
-    public boolean isStartedAction() {
-        return this.startedAction;
-    }
-
-    public void setStartedAction(final boolean startedAction) {
-        this.startedAction = startedAction;
-    }
 
 
     public void fakePlayerMove(){

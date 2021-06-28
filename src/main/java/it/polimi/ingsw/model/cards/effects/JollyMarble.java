@@ -26,6 +26,16 @@ public class JollyMarble implements LeaderEffect, Serializable {
     p.addPossibleWhiteMarbles(resourceType);
     }
 
+    @Override
+    public String getEffectName() {
+        return "JOLLY_MARBLE";
+    }
+
+    @Override
+    public String getType() {
+        return resourceType.getResourceType().name();
+    }
+
     public Resource getResourceType() {
         return resourceType;
     }

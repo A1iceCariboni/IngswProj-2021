@@ -90,24 +90,28 @@
                   <Font name="Lucida Calligraphy Italic" size="34.0" />
                </font>
             </Label>
-            <ImageView fx:id="r2" fitHeight="74.0" fitWidth="79.0" layoutX="447.0" layoutY="143.0" onMouseClicked="#pickServant" opacity="0.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../PunchBoard/SERVANT.png" />
-               </image>
-            </ImageView>
+
             <ImageView fx:id="r1" fitHeight="74.0" fitWidth="79.0" layoutX="271.0" layoutY="145.0" onMouseClicked="#pickCoin" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/COIN.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="r4" fitHeight="74.0" fitWidth="79.0" layoutX="626.0" layoutY="142.0" onMouseClicked="#pickShield" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="r2" fitHeight="74.0" fitWidth="79.0" layoutX="447.0" layoutY="143.0" onMouseClicked="#pickServant" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../PunchBoard/SHIELD.png" />
-               </image></ImageView>
+                  <Image url="@../PunchBoard/SERVANT.png" />
+               </image>
+            </ImageView>
+
             <ImageView fx:id="r3" fitHeight="74.0" fitWidth="79.0" layoutX="772.0" layoutY="142.0" onMouseClicked="#pickStone" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/STONE.png" />
                </image></ImageView>
+
+            <ImageView fx:id="r4" fitHeight="74.0" fitWidth="79.0" layoutX="626.0" layoutY="142.0" onMouseClicked="#pickShield" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/SHIELD.png" />
+               </image></ImageView>
+
             <Button fx:id="disc" layoutX="768.0" layoutY="267.0" mnemonicParsing="false" onAction="#discard" prefHeight="37.0" prefWidth="175.0" text="Discard this resource">
                <font>
                   <Font name="Lucida Calligraphy Italic" size="10.0" />

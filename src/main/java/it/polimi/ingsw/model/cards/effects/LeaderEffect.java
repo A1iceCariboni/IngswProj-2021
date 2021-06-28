@@ -7,4 +7,6 @@ import it.polimi.ingsw.model.Resource;
 
 public interface LeaderEffect {
     void applyEffect(Player p, PlayerBoard b);
+    String getEffectName();
+    String getType();
 }

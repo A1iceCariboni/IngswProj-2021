@@ -7,38 +7,19 @@ public class DummyLeaderCard {
     ArrayList<String> requirements;
     boolean isActive;
     String effect;
+    String effectName;
     int victoryPoints;
+    String type;
 
-    public void setExtraProduction(DummyExtraProduction extraProduction) {
-        this.extraProduction = extraProduction;
-    }
 
-    public DummyExtraProduction getExtraProduction() {
-        return extraProduction;
-    }
-
-    DummyExtraProduction extraProduction;
-    ArrayList<String> entry;
-
-    public void setEntry(ArrayList<String> entry) {
-        this.entry = entry;
-    }
-
-    public void setEid(int eid) {
-        this.eid = eid;
-    }
-
-    int eid;
-
-    public DummyLeaderCard(int id, ArrayList<String> requirements, boolean isActive, String effect, int victoryPoints) {
+    public DummyLeaderCard(int id, ArrayList<String> requirements, boolean isActive, String effect, int victoryPoints, String effectName, String type) {
         this.id = id;
         this.requirements = requirements;
         this.isActive = isActive;
         this.effect = effect;
         this.victoryPoints = victoryPoints;
-        this.extraProduction = new DummyExtraProduction(entry, eid);
-        this.entry = new ArrayList<>();
-        this.eid= 0;
+        this.effectName = effectName;
+        this.type = type;
     }
 
     public int getId() {
@@ -74,5 +55,13 @@ public class DummyLeaderCard {
                 ", effect='" + effect + '\'' +
                 ", victoryPoints=" + victoryPoints +
                 '}';
+    }
+
+    public String getEffectName() {
+        return this.effectName;
+    }
+
+    public String getType() {
+        return this.type;
     }
 }

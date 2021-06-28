@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.enumerations.GamePhase;
 import it.polimi.ingsw.enumerations.MarbleColor;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.enumerations.TurnPhase;
@@ -37,6 +38,8 @@ class FakeClientHandler extends ClientHandler{
 class MultiGameControllerTest {
   static GameController gameController = new MultiGameController();
   static ClientHandler clientHandler;
+
+
   @BeforeAll
   static void init(){
       gameController.addPlayer("Alice");
@@ -46,14 +49,19 @@ class MultiGameControllerTest {
       gameController.addConnectedClient("Alice", new FakeVirtualView("Alice"));
       gameController.addConnectedClient("Sofia", new FakeVirtualView("Sofia"));
       gameController.addConnectedClient("Alessandra", new FakeVirtualView("Alessandra"));
+      assertEquals(gameController.getConnectedClients().size(), 3 );
+      assertEquals(gameController.getDisconnectedClients().size(), 0);
   }
 
   @BeforeEach
   void start(){
       gameController.startGame();
       gameController.getTurnController().changeGamePhase();
-
+      assertTrue(gameController.isStarted());
+      assertEquals(gameController.getGamePhase(), GamePhase.FIRST_ROUND);
   }
+
+
     @Test
     void startGame() {
      assertEquals(gameController.getGame().getPlayers().size(),3);
@@ -61,15 +69,17 @@ class MultiGameControllerTest {
      assertEquals(gameController.getGame().getPlayers().get(1).getNickName(),"Sofia");
      assertEquals(gameController.getGame().getPlayers().get(2).getNickName(),"Alessandra");
      assertEquals(gameController.getGame().getPlayers().get(0).getActiveLeaderCards().size(),0);
-    assertEquals(gameController.getGame().getPlayers().get(1).getActiveLeaderCards().size(),0);
-    assertEquals(gameController.getGame().getPlayers().get(2).getActiveLeaderCards().size(),0);
-    assertEquals(gameController.getGame().getPlayers().get(0).getLeadercards().size(),4);
-    assertEquals(gameController.getGame().getPlayers().get(1).getLeadercards().size(),4);
-    assertEquals(gameController.getGame().getPlayers().get(2).getLeadercards().size(),4);
+     assertEquals(gameController.getGame().getPlayers().get(1).getActiveLeaderCards().size(),0);
+     assertEquals(gameController.getGame().getPlayers().get(2).getActiveLeaderCards().size(),0);
+     assertEquals(gameController.getGame().getPlayers().get(0).getLeadercards().size(),4);
+     assertEquals(gameController.getGame().getPlayers().get(1).getLeadercards().size(),4);
+     assertEquals(gameController.getGame().getPlayers().get(2).getLeadercards().size(),4);
   }
 
     @Test
     void activateLeaderCard() {
+        gameController.activateLeaderCard(0);
+        assertEquals(gameController.getGame().getCurrentPlayer().getActiveLeaderCards().size(),0);
     }
 
     @Test
@@ -78,12 +88,21 @@ class MultiGameControllerTest {
     int id = gameController.getGame().getCurrentPlayer().getLeadercards().get(0).getId();
     gameController.discardLeaderCard(id);
     assertEquals(player.getLeadercards().size(),3);
+    gameController.setGamePhase(GamePhase.IN_GAME);
+    assertEquals(gameController.getGamePhase(), GamePhase.IN_GAME);
+
+    int pos = player.getPlayerBoard().getFaithMarker();
+    id = gameController.getGame().getCurrentPlayer().getLeadercards().get(0).getId();
+
+    gameController.discardLeaderCard(id);
+    id = gameController.getGame().getCurrentPlayer().getLeadercards().get(0).getId();
+    gameController.discardLeaderCard(id);
+
+    assertEquals(player.getLeadercards().size(),1);
+    assertEquals(player.getPlayerBoard().getFaithMarker(), pos+1);
     }
 
-    @Test
-    void placeResources() {
 
-    }
 
     @Test
     void putResource() throws NotPossibleToAdd {
@@ -101,7 +120,14 @@ class MultiGameControllerTest {
     gameController.getGame().getCurrentPlayer().getPlayerBoard().addUnplacedResource(resources.get(0));
     gameController.getGame().getCurrentPlayer().getPlayerBoard().addUnplacedResource(resources.get(1));
 
-   assertThrows(NotPossibleToAdd.class, () -> gameController.putResource(new int[]{1,1}));
+    assertThrows(NotPossibleToAdd.class, () -> gameController.putResource(new int[]{1,1}));
+
+    gameController.putResource(new int[]{-1,-1});
+    for(Player p: gameController.getGame().getPlayers()){
+        if(!p.equals(gameController.getGame().getCurrentPlayer())){
+            assertNotEquals(p.getPlayerBoard().getFaithMarker(), 0);
+        }
+    }
 
     }
     @Test
@@ -161,6 +187,24 @@ class MultiGameControllerTest {
       int[] id = new int[]{gameController.getGame().getCurrentPlayer().getPlayerBoard().getDevelopmentCards().get(0).getId()};
       gameController.addProductionPower(id);
       assertFalse(gameController.getConnectedClients().get(gameController.getGame().getCurrentPlayer().getNickName()).getCardsToActivate().isEmpty());
+  }
+
+@Test
+  public void removeResource() throws NotPossibleToAdd {
+      Player player = gameController.getGame().getCurrentPlayer();
+      gameController.getGame().getCurrentPlayer().getPlayerBoard().addUnplacedResource(new Resource(ResourceType.SERVANT));
+      gameController.getGame().getCurrentPlayer().getPlayerBoard().addUnplacedResource(new Resource(ResourceType.SHIELD));
+
+      gameController.putResource(new int []{1,2});
+      gameController.removeResource(1);
+      assertEquals(61, player.getPlayerBoard().getResources().size());
+     for(Player p: gameController.getGame().getPlayers()){
+        if(!p.equals(gameController.getGame().getCurrentPlayer())){
+            assertNotEquals(p.getPlayerBoard().getFaithMarker(), 0);
+        }
+     }
+     gameController.removeResource(1);
+    assertEquals(61, player.getPlayerBoard().getResources().size());
   }
 }
 

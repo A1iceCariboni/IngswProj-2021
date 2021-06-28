@@ -38,5 +38,6 @@ class ExtraProductionTest {
 
     @Test
     void getId() {
+        assertEquals(extraProduction.getId(), 1);
     }
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards.effects;
 
 import it.polimi.ingsw.enumerations.PlayerMove;
+import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerBoard;
@@ -30,6 +31,16 @@ public class Discount implements LeaderEffect, Serializable {
         for(int i = 0; i<quantity; i++) {
             p.addDiscountedResource(resourceType);
         }
+    }
+
+    @Override
+    public String getEffectName() {
+        return "DISCOUNT";
+    }
+
+    @Override
+    public String getType() {
+        return (resourceType.getResourceType()).name();
     }
 
     public Resource getResourceType() {

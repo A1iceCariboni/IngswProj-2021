@@ -87,7 +87,7 @@ public class AddtoWarehouse extends ViewObservable {
 
     @FXML
     public void putex2(ActionEvent actionEvent) {
-        answer[count] = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId();
+        answer[count] = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId();
         count++;
         if(count == resource.size()) {
             notifyObserver(obs -> obs.onReadyReply(new PlaceResources(answer)));

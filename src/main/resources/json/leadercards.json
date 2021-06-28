@@ -1,5 +1,22 @@
 [
   {
+  "id" : 6,
+  "isActive": false,
+  "leaderEffect": {
+    "name": "EXTRA_SLOT",
+    "resourceType": "SERVANT",
+    "quantity": 2
+  },
+  "victoryPoints": 3,
+  "requirements": [
+    {
+      "name": "RESOURCEREQ",
+      "resourceType": "STONE",
+      "quantity": 5
+    }
+  ]
+},
+  {
     "id" : 10,
     "isActive": false,
     "leaderEffect": {
@@ -165,23 +182,7 @@
     ]
   },
 
-  {
-    "id" : 6,
-    "isActive": false,
-    "leaderEffect": {
-      "name": "EXTRA_SLOT",
-      "resourceType": "SERVANT",
-      "quantity": 2
-    },
-    "victoryPoints": 3,
-    "requirements": [
-      {
-        "name": "RESOURCEREQ",
-        "resourceType": "STONE",
-        "quantity": 5
-      }
-    ]
-  },
+
   {
     "id" : 7,
     "isActive": false,

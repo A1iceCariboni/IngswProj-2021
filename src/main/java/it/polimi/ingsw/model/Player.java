@@ -91,7 +91,9 @@ public class Player implements Serializable {
      */
     public void activateLeader(LeaderCard card, PlayerBoard b, Player p) throws NullCardException{
         if (!this.leaderCards.contains(card))   throw new NullCardException();
-         this.leaderCards.get(leaderCards.lastIndexOf(card)).active(p,b);
+         this.leaderCards.get(leaderCards.indexOf(card)).active(p,b);
+
+
     }
 
     /**

@@ -33,6 +33,16 @@ public class ExtraProductionPower implements LeaderEffect, Serializable {
         p.addExtraProductionPowers(extraProduction);
     }
 
+    @Override
+    public String getEffectName() {
+        return "EXTRA_PRODUCTION";
+    }
+
+    @Override
+    public String getType() {
+        return resourceType.getResourceType().name();
+    }
+
     public Resource getResourceType() {
         return resourceType;
     }
