@@ -239,7 +239,7 @@
                   </Lighting>
                </effect>
             </Button>
-            <Button fx:id="ex2" layoutX="873.0" layoutY="641.0" mnemonicParsing="false" onAction="#putex2" prefHeight="37.0" prefWidth="89.0" text="Extradepot 2">
+            <Button fx:id="ex2" layoutX="1100.0" layoutY="493.0" mnemonicParsing="false" onAction="#putex2" prefHeight="37.0" prefWidth="89.0" text="Extradepot ">
                <font>
                   <Font name="Lucida Calligraphy Italic" size="10.0" />
                </font>
@@ -262,7 +262,7 @@
                   </Lighting>
                </effect>
             </Button>
-            <Button fx:id="ex1" layoutX="767.0" layoutY="641.0" mnemonicParsing="false" onAction="#putex1" prefHeight="37.0" prefWidth="89.0" text="Extradepot 1">
+            <Button fx:id="ex1" layoutX="978.0" layoutY="493.0" mnemonicParsing="false" onAction="#putex1" prefHeight="37.0" prefWidth="89.0" text="Extradepot ">
                <font>
                   <Font name="Lucida Calligraphy Italic" size="10.0" />
                </font>
@@ -285,7 +285,7 @@
                   </Lighting>
                </effect>
             </Button>
-            <Button fx:id="ex12" layoutX="408.0" layoutY="645.0" mnemonicParsing="false" onAction="#payex2" prefHeight="37.0" prefWidth="89.0" text="Extradepot 2">
+            <Button fx:id="ex12" layoutX="191.0" layoutY="504.0" mnemonicParsing="false" onAction="#payex2" prefHeight="37.0" prefWidth="89.0" text="Extradepot ">
                <font>
                   <Font name="Lucida Calligraphy Italic" size="10.0" />
                </font>
@@ -308,7 +308,7 @@
                   </Lighting>
                </effect>
             </Button>
-            <Button fx:id="ex11" layoutX="311.0" layoutY="645.0" mnemonicParsing="false" onAction="#payex1" prefHeight="37.0" prefWidth="89.0" text="Extradepot 1">
+            <Button fx:id="ex11" layoutX="67.0" layoutY="504.0" mnemonicParsing="false" onAction="#payex1" prefHeight="37.0" prefWidth="89.0" text="Extradepot ">
                <font>
                   <Font name="Lucida Calligraphy Italic" size="10.0" />
                </font>
@@ -394,6 +394,66 @@
                   </Lighting>
                </effect>
             </Button>
+            <ImageView fx:id="ledp1" fitHeight="150.0" fitWidth="200.0" layoutX="61.0" layoutY="328.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../CardsFront/led7.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="ledp2" fitHeight="150.0" fitWidth="200.0" layoutX="185.0" layoutY="328.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../CardsFront/led7.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="led1" fitHeight="150.0" fitWidth="200.0" layoutX="971.0" layoutY="323.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../CardsFront/led7.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="led2" fitHeight="150.0" fitWidth="200.0" layoutX="1093.0" layoutY="323.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../CardsFront/led7.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="ep1" fitHeight="26.0" fitWidth="22.0" layoutX="81.0" layoutY="445.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/SHIELD.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="ep2" fitHeight="26.0" fitWidth="22.0" layoutX="120.0" layoutY="445.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/SHIELD.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="ep4" fitHeight="26.0" fitWidth="22.0" layoutX="242.0" layoutY="445.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/SHIELD.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="ep3" fitHeight="26.0" fitWidth="22.0" layoutX="205.0" layoutY="445.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/SHIELD.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="e1" fitHeight="26.0" fitWidth="22.0" layoutX="992.0" layoutY="436.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/SHIELD.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="e2" fitHeight="26.0" fitWidth="22.0" layoutX="1030.0" layoutY="436.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/SHIELD.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="e3" fitHeight="26.0" fitWidth="22.0" layoutX="1114.0" layoutY="436.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/SHIELD.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="e4" fitHeight="26.0" fitWidth="22.0" layoutX="1148.0" layoutY="436.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../PunchBoard/SHIELD.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>

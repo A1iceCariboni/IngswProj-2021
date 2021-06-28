@@ -52,7 +52,7 @@ public class NumberOfPlayers extends ViewObservable {
 
      @FXML
     public void GotoWaitingScene(ActionEvent event){
-         ConfirmButton.setCancelButton(true);
+         ConfirmButton.setDisable(true);
          int number = Character.getNumericValue(playerschoice.getValue().charAt(0));
          NumberOfPlayerReply message = new NumberOfPlayerReply(number);
          notifyObserver(obs -> obs.onReadyReply(message));

@@ -228,6 +228,8 @@ public class Board extends ViewObservable {
         sl1.setVisible(true);
         sl2.setVisible(true);
         sl3.setVisible(true);
+        payBtn.setVisible(false);
+        payBtn.setDisable(true);
         DiscardButton.setDisable(true);
         DevButton.setDisable(true);
         DiscardResource.setDisable(true);
@@ -236,14 +238,19 @@ public class Board extends ViewObservable {
         MarketButton.setDisable(true);
         LeaderActiveButton.setDisable(true);
         rearrangew.setDisable(true);
+        activateB.setDisable(true);
+        activeLp.setDisable(true);
+        activatedp.setDisable(true);
 
     }
 
-    /** sets slots choice buttons not visible*/
+    /** sets slots choice buttons not visible */
     public void disable(){
         sl1.setVisible(false);
         sl2.setVisible(false);
         sl3.setVisible(false);
+        led1.setDisable(true);
+        led2.setDisable(true);
 
     }
 
@@ -258,6 +265,7 @@ public class Board extends ViewObservable {
         MarketButton.setDisable(true);
         LeaderActiveButton.setDisable(true);
         rearrangew.setDisable(true);
+
 
     }
 

@@ -7,10 +7,9 @@ import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.SeePlayerBoard;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-
-import java.awt.event.ActionEvent;
 
 public class QuestionGame extends ViewObservable {
 
@@ -19,6 +18,7 @@ public class QuestionGame extends ViewObservable {
 
     @FXML
     public Button SingleBut;
+
 
     @FXML
     private Button MultiBut;
@@ -44,4 +44,6 @@ public class QuestionGame extends ViewObservable {
     public void setVirtualModel (VirtualModel virtualModel) {
         this.virtualModel = virtualModel;
     }
+
+
 }

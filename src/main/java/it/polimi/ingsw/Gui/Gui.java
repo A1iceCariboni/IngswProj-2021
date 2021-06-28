@@ -8,17 +8,12 @@ import it.polimi.ingsw.client.DummyModel.*;
 import it.polimi.ingsw.client.SocketClient;
 import it.polimi.ingsw.client.View;
 import it.polimi.ingsw.client.VirtualModel;
-import it.polimi.ingsw.enumerations.Constants;
 import it.polimi.ingsw.enumerations.TurnPhase;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
 import javafx.scene.Scene;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Scanner;
 
 
 /** @author Alessandra Atria
