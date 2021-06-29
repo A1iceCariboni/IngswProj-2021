@@ -62,10 +62,7 @@ public class RearrangeWarehouse extends ViewObservable {
 
     @FXML
     public void put1(ActionEvent actionEvent) {
-        ArrayList<String> resources = new ArrayList<>();
-        resources.addAll(dummyWareHouse.getDepot1().getResources());
-        resources.add(res.get(i));
-        dummyWareHouse.getDepot1().setResources(resources);
+        dummyWareHouse.getDepot1().addResource(res.get(i));
         Image il = new Image(getClass().getResourceAsStream("/PunchBoard/" + res.get(i) + ".png"));
         res1.setImage(il);
         res1.setOpacity(1);
@@ -77,10 +74,7 @@ public class RearrangeWarehouse extends ViewObservable {
 
     @FXML
     public void put2(ActionEvent actionEvent) {
-        ArrayList<String> resources = new ArrayList<>();
-        resources.addAll(dummyWareHouse.getDepot2().getResources());
-        resources.add(res.get(i));
-        dummyWareHouse.getDepot2().setResources(resources);
+        dummyWareHouse.getDepot2().addResource(res.get(i));
         i++;
         if(i == res.size()) {
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
@@ -90,10 +84,7 @@ public class RearrangeWarehouse extends ViewObservable {
 
     @FXML
     public void put3(ActionEvent actionEvent) {
-        ArrayList<String> resources = new ArrayList<>();
-        resources.addAll(dummyWareHouse.getDepot3().getResources());
-        resources.add(res.get(i));
-        dummyWareHouse.getDepot3().setResources(resources);
+        dummyWareHouse.getDepot3().addResource(res.get(i));
         i++;
         if(i == res.size()) {
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
@@ -102,10 +93,7 @@ public class RearrangeWarehouse extends ViewObservable {
 
     @FXML
     public void putE1(ActionEvent actionEvent) {
-        ArrayList<String> resources = new ArrayList<>();
-        resources.addAll(dummyWareHouse.getExtraDepot1().getResources());
-        resources.add(res.get(i));
-        dummyWareHouse.getExtraDepot1().setResources(resources);
+        dummyWareHouse.getExtraDepot1().addResource(res.get(i));
         i++;
         if(i == res.size()) {
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
@@ -116,10 +104,7 @@ public class RearrangeWarehouse extends ViewObservable {
 
     @FXML
     public void putE2(ActionEvent actionEvent) {
-        ArrayList<String> resources = new ArrayList<>();
-        resources.addAll(dummyWareHouse.getExtraDepot2().getResources());
-        resources.add(res.get(i));
-        dummyWareHouse.getExtraDepot2().setResources(resources);
+        dummyWareHouse.getExtraDepot2().addResource(res.get(i));
         i++;
         if(i == res.size()) {
             notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
@@ -179,6 +164,7 @@ public class RearrangeWarehouse extends ViewObservable {
                     re2.setOpacity(1);
                 }
             }
+            res.addAll(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources());
         }
         if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId() != -1) {
             if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getResources().size() >= 1) {
@@ -186,11 +172,13 @@ public class RearrangeWarehouse extends ViewObservable {
                 Image iE1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + type1 + ".png"));
                 re3.setImage(iE1);
                 re3.setOpacity(1);
-                if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResources().size() == 2) {
+                if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getResources().size() == 2) {
                     re4.setImage(iE1);
                     re4.setOpacity(1);
                 }
             }
+            res.addAll(virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getResources());
+
         }
 
 
@@ -201,7 +189,7 @@ public class RearrangeWarehouse extends ViewObservable {
             DummyExtraDepot dummyExtraDepot1 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1();
             if(dummyExtraDepot1.getId() != -1)
                 dummyWareHouse.setExtraDepot1(new DummyExtraDepot(dummyExtraDepot1.getId(),dummyExtraDepot1.getDimension(), new ArrayList<>(), dummyExtraDepot1.getResourceType()));
-            DummyExtraDepot dummyExtraDepot2 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1();
+            DummyExtraDepot dummyExtraDepot2 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2();
             if(dummyExtraDepot2.getId() != -1)
                 dummyWareHouse.setExtraDepot2(new DummyExtraDepot(dummyExtraDepot2.getId(),dummyExtraDepot2.getDimension(), new ArrayList<>(), dummyExtraDepot2.getResourceType()));
         } catch (JsonFileNotFoundException e) {

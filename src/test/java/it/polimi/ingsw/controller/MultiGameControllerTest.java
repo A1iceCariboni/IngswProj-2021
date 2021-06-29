@@ -7,9 +7,11 @@ import it.polimi.ingsw.enumerations.TurnPhase;
 import it.polimi.ingsw.exceptions.CannotAdd;
 import it.polimi.ingsw.exceptions.EmptyDeck;
 import it.polimi.ingsw.exceptions.NotPossibleToAdd;
+import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.server.ClientHandler;
 import it.polimi.ingsw.server.VirtualView;
 import org.junit.jupiter.api.BeforeAll;
@@ -154,10 +156,28 @@ class MultiGameControllerTest {
 
   @Test
     void getFromMarket(){
-      gameController.turnPhase = TurnPhase.BUY_MARKET;
+      Player player = gameController.getGame().getCurrentPlayer();
+      VirtualView vv = gameController.getConnectedClients().get(gameController.getTurnController().getActivePlayer());
+
       gameController.getFromMarketRow(2);
-      assertFalse(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedResources().isEmpty());
-      assertTrue(gameController.getConnectedClients().get(gameController.getGame().getCurrentPlayer().getNickName()).getFreeMarble().isEmpty());
+
+      gameController.getFromMarketCol(3);
+
+      assertFalse(player.getPlayerBoard().getUnplacedResources().isEmpty());
+      assertTrue(vv.getFreeMarble().isEmpty());
+      assertEquals(gameController.getTurnPhase(), TurnPhase.FREE);
+
+
+      gameController.getGame().getCurrentPlayer().addPossibleWhiteMarbles(new Resource(ResourceType.SHIELD));
+      gameController.getGame().getCurrentPlayer().addPossibleWhiteMarbles(new Resource(ResourceType.SERVANT));
+
+      gameController.getFromMarketRow(2);
+      gameController.getFromMarketCol(3);
+
+
+      assertFalse(player.getPlayerBoard().getUnplacedResources().isEmpty());
+      assertEquals(gameController.getTurnPhase(), TurnPhase.FREE);
+
   }
 
   @Test
@@ -205,6 +225,71 @@ class MultiGameControllerTest {
      }
      gameController.removeResource(1);
     assertEquals(61, player.getPlayerBoard().getResources().size());
+  }
+
+
+  @Test
+    public void startProduction() throws EmptyDeck, CannotAdd, NullCardException {
+      Player player = gameController.getGame().getCurrentPlayer();
+      VirtualView vv = gameController.getConnectedClients().get(gameController.getTurnController().getActivePlayer());
+      player.getPlayerBoard().addDevCard(gameController.getGame().getDeckDevelopment()[0][0].getCard(), 0);
+      player.getPlayerBoard().addDevCard(gameController.getGame().getDeckDevelopment()[0][0].getCard(), 1);
+      int id1 = player.getPlayerBoard().getDevCardSlots()[0].getId();
+      int id2 = player.getPlayerBoard().getDevCardSlots()[1].getId();
+      int i = 0;
+      while(gameController.getGame().getDeckLeader().getCardDeck().get(i).getLeaderEffect().getEffectName() != "EXTRA_PRODUCTION"){
+          i++;
+      }
+      LeaderCard lc = gameController.getGame().getDeckLeader().getCardDeck().get(i);
+      player.addLeaderCard(lc);
+      player.activateLeader(lc, player.getPlayerBoard(), player);
+      gameController.addProductionPower(new int[]{id1, id2});
+      assertTrue(vv.getCardsToActivate().contains(id1));
+      assertTrue(vv.getCardsToActivate().contains(id2));
+      assertTrue(vv.getExtraProductionToActivate().isEmpty());
+      assertTrue(!vv.getResourcesToProduce().contains(new Resource(ResourceType.SERVANT)));
+      assertTrue(vv.getResourcesToProduce().isEmpty());
+      gameController.addExtraProductionPower(lc.getId(), new Resource(ResourceType.SERVANT));
+      assertTrue(!vv.getExtraProductionToActivate().isEmpty());
+      assertTrue(vv.getResourcesToProduce().contains(new Resource(ResourceType.SERVANT)));
+      assertTrue(!vv.getResourcesToProduce().isEmpty());
+
+      gameController.addBasicProduction(new Resource(ResourceType.COIN), new Resource(ResourceType.COIN), new Resource(ResourceType.SHIELD));
+      gameController.addBasicProduction(new Resource(ResourceType.COIN), new Resource(ResourceType.COIN), new Resource(ResourceType.SHIELD));
+
+      assertTrue(vv.getResourcesToPay().contains(new Resource(ResourceType.COIN)));
+      assertTrue(vv.getBasicProd().equals(new Resource(ResourceType.SHIELD)));
+
+      gameController.startProduction();
+      assertTrue(vv.getCardsToActivate().isEmpty());
+      assertTrue(vv.getResourcesToProduce().isEmpty());
+      assertTrue(vv.getExtraProductionToActivate().isEmpty());
+      assertEquals(vv.getBasicProd(), null);
+
+
+
+
+  }
+
+  @Test
+    public void changeDepotsState() throws NotPossibleToAdd {
+      Player player = gameController.getGame().getCurrentPlayer();
+
+      Depot[] depots = new Depot[5];
+      depots[0] = new Depot(1, 1, new ArrayList<>() );
+      ArrayList<Resource> res = new ArrayList<>();
+      res.add(new Resource(ResourceType.COIN));
+      res.add(new Resource(ResourceType.COIN));
+      depots[1] = new Depot (2, 2, res);
+      depots[2] = new Depot(3,3, new ArrayList<>());
+      depots[3] = new ExtraDepot(-1, -1, ResourceType.NONE);
+      depots[4] = new ExtraDepot(-1, -1, ResourceType.NONE);
+      gameController.changeDepotsState(depots);
+      assertEquals(player.getPlayerBoard().getWareHouse().getDepots().size(), 5);
+      assertEquals(player.getPlayerBoard().getWareHouse().getResources().size(), 2);
+      assertTrue(player.getPlayerBoard().getWareHouse().getResources().contains(new Resource(ResourceType.COIN)));
+
+
   }
 }
 

@@ -100,7 +100,7 @@ public class SocketClient extends Observable {
 
                 System.out.println("Closing socket...");
                 socket.close();
-                System.exit(1);
+                notifyDisconnect();
             }
         } catch (IOException e) {
             System.out.println("Couldn't disconnect client");

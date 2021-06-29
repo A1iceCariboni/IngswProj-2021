@@ -63,6 +63,11 @@ public class VirtualView implements Observer {
         clientHandler.sendMessage(message);
     }
 
+    @Override
+    public void onDisconnect() {
+
+    }
+
     public String getNickname() {
         return nickname;
     }

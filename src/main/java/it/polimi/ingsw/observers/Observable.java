@@ -29,9 +29,15 @@ public abstract class Observable {
      * notify all the observers
      * @param line massage to be processed
      */
-   public void notifyObserver(String line)  {
-    for(Observer observer : observers){
-        observer.update(line);
-    }
+   public void notifyObserver(String line) {
+       for (Observer observer : observers) {
+           observer.update(line);
+       }
    }
+    public void notifyDisconnect(){
+           for(Observer observer : observers){
+               observer.onDisconnect();
+           }
+       }
+
 }

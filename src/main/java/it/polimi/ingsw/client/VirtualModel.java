@@ -344,7 +344,7 @@ public class VirtualModel {
     /**
      * This method shows the player's warehouse, and his extradepots if he has them
      */
-    public void showWarewouse(DummyPlayerBoard playerBoard) {
+    public void showWarehouse(DummyPlayerBoard playerBoard) {
         String resD1 = showResDep1(playerBoard);
         String resD2 = showResDep2(playerBoard);
         String resD3 = showResDep3(playerBoard);
@@ -653,7 +653,7 @@ public class VirtualModel {
 public void showOtherPlayerBoard(){
         showLeaderCards(otherCards);
         showFaithTrack(otherPlayer.getFaithMarker());
-        showWarewouse(otherPlayer);
+        showWarehouse(otherPlayer);
         showStrongbox(otherPlayer);
         showPlayerDevCards(otherPlayer);
         System.out.println("Victory points: "+ otherVictoryPoints);

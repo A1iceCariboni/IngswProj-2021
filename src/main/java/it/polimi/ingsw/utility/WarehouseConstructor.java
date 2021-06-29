@@ -8,6 +8,7 @@ import it.polimi.ingsw.client.DummyModel.DummyDepot;
 import it.polimi.ingsw.client.DummyModel.DummyExtraDepot;
 import it.polimi.ingsw.client.DummyModel.DummyWareHouse;
 import it.polimi.ingsw.enumerations.ResourceType;
+import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.model.Depot;
 import it.polimi.ingsw.model.ExtraDepot;
 import it.polimi.ingsw.model.Resource;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 
 public class WarehouseConstructor {
 
-    public static Depot[] parse(String json) {
+    public static Depot[] parse(String json) throws NotPossibleToAdd {
 
         JsonParser parser = new JsonParser();
         JsonObject j1 = parser.parse(json).getAsJsonObject();
@@ -46,6 +47,10 @@ public class WarehouseConstructor {
                     resourceType = ResourceType.valueOf(type);
                 }
                 depots[i] = (new ExtraDepot (dimension, id, resourceType));
+                for(Resource r: resources){
+                    depots[i].addResource(r);
+
+                }
             }
             i++;
         }

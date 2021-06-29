@@ -327,8 +327,6 @@ public void initGameController(){
         if(disconnectedClients.size() == numberOfPlayers - 1){
            turnController.goTo(nickname);
         }
-        connectedClients.get(nickname).update(new EndTurn());
-        connectedClients.get(nickname).update(new GenericMessage( "It's " + turnController.getActivePlayer() + "'s turn, wait"));
     }
 
     public void sendResourcesToPlace(){
@@ -587,8 +585,11 @@ public void initGameController(){
                     break;
                 case DEPOTS:
                         DepotMessage depotMessage = gson.fromJson(line, DepotMessage.class);
+                    try {
                         changeDepotsState(depotMessage.getWareHouse());
-                        virtualView.update(new Message(MessageType.OK, ""));
+                    } catch (NotPossibleToAdd notPossibleToAdd) {
+                    }
+                    virtualView.update(new Message(MessageType.OK, "Rearranged warehouse!"));
                         sendDepots(connectedClients.get(turnController.getActivePlayer()) , turnController.getActivePlayer());
                         virtualView.update(new NotifyTurn());
 
@@ -883,7 +884,13 @@ public void initGameController(){
             virtualView.update(new WhiteMarblesChoice(virtualView.getFreeMarble().size()));
         }else{
             virtualView.removeAllFreeMarbles();
-            this.sendResourcesToPlace();
+            if(!game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().isEmpty()) {
+                this.sendResourcesToPlace();
+            }else{
+                virtualView.update(new NotifyTurn());
+                virtualView.doneGameAction(1);
+                setTurnPhase(TurnPhase.FREE);
+            }
         }
     }
 
@@ -913,7 +920,13 @@ public void initGameController(){
             virtualView.update(new WhiteMarblesChoice(game.getCurrentPlayer().getPossibleWhiteMarbles().size()));
         }else{
             virtualView.removeAllFreeMarbles();
-            this.sendResourcesToPlace();
+            if(!game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().isEmpty()) {
+                this.sendResourcesToPlace();
+            }else{
+                virtualView.update(new NotifyTurn());
+                virtualView.doneGameAction(1);
+                setTurnPhase(TurnPhase.FREE);
+            }
         }
     }
 
@@ -989,7 +1002,6 @@ public void initGameController(){
             ExtraProductionPower extraProductionPower = (ExtraProductionPower) game.getCurrentPlayer().getLeaderCardById(id).getLeaderEffect();
             id1 = extraProductionPower.getId();
         } catch (NullCardException e) {
-            e.printStackTrace();
         }
 
         for(ExtraProduction extraProduction : game.getCurrentPlayer().getExtraProductionPowers()){

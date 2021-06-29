@@ -34,6 +34,11 @@ public class Gui extends ViewObservable implements View {
     }
 
 
+    @Override
+    public void showEndGame() {
+        bc = new Board();
+        Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers, virtualModel));
+    }
 
     @Override
     public void askNickname() {

@@ -72,6 +72,16 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
+    public void showEndGame() {
+        virtualModel.showPlayerDevCards(virtualModel.getPlayerBoard());
+        virtualModel.showPlayerDevCards(virtualModel.getPlayerBoard());
+        virtualModel.showFaithTrack(virtualModel.getPlayerBoard().getFaithMarker());
+        virtualModel.showStrongbox(virtualModel.getPlayerBoard());
+        virtualModel.showWarehouse(virtualModel.getPlayerBoard());
+        System.out.println("The game has ended relog to join a new game");
+    }
+
+    @Override
 
     public void askNickname()  {
          String nickname;
@@ -148,7 +158,7 @@ public class Cli extends ViewObservable implements View {
 
     public void wareHouseNew(DummyWareHouse dummyWareHouse){
         virtualModel.getPlayerBoard().setWareHouse(dummyWareHouse);
-        virtualModel.showWarewouse(virtualModel.getPlayerBoard());
+        virtualModel.showWarehouse(virtualModel.getPlayerBoard());
         virtualModel.showStrongbox(virtualModel.getPlayerBoard());
     }
 
@@ -234,7 +244,7 @@ public class Cli extends ViewObservable implements View {
 
 
     public void discardResource() {
-        virtualModel.showWarewouse(virtualModel.getPlayerBoard());
+        virtualModel.showWarehouse(virtualModel.getPlayerBoard());
             System.out.println("From which depot you want to discard the resource?");
             int id = readDepotId();
             notifyObserver(obs -> obs.onReadyReply(new RemoveResource(id)));
@@ -244,13 +254,13 @@ public class Cli extends ViewObservable implements View {
 
     public void modifyWarehouse()  {
         try{
-        virtualModel.showWarewouse(virtualModel.getPlayerBoard());
+        virtualModel.showWarehouse(virtualModel.getPlayerBoard());
         DummyWareHouse dummyWareHouse = DummyWarehouseConstructor.parseVoid();
         DummyExtraDepot dummyExtraDepot1 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1();
         if(dummyExtraDepot1.getId() != -1){
             dummyWareHouse.setExtraDepot1(new DummyExtraDepot(dummyExtraDepot1.getId(),dummyExtraDepot1.getDimension(), new ArrayList<>(), dummyExtraDepot1.getResourceType()));
         }
-        DummyExtraDepot dummyExtraDepot2 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1();
+        DummyExtraDepot dummyExtraDepot2 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2();
         if(dummyExtraDepot2.getId() != -1){
             dummyWareHouse.setExtraDepot2(new DummyExtraDepot(dummyExtraDepot2.getId(),dummyExtraDepot2.getDimension(), new ArrayList<>(), dummyExtraDepot2.getResourceType()));
         }
@@ -308,7 +318,7 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void addResourceToWareHouse(String[] resource) {
         int[] answer = new int[resource.length];
-        virtualModel.showWarewouse(virtualModel.getPlayerBoard());
+        virtualModel.showWarehouse(virtualModel.getPlayerBoard());
         int i = 0;
             for (String res : resource) {
                 System.out.println("Resource: " + res);
@@ -603,7 +613,7 @@ public class Cli extends ViewObservable implements View {
     @Override
 
     public void payResources(String[] resource)  {
-        virtualModel.showWarewouse(virtualModel.getPlayerBoard());
+        virtualModel.showWarehouse(virtualModel.getPlayerBoard());
         virtualModel.showStrongbox(virtualModel.getPlayerBoard());
         int[] ids = new int[resource.length];
         int i = 0;

@@ -5,6 +5,7 @@ import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.CannotAdd;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.cards.effects.Discount;
 import it.polimi.ingsw.model.cards.effects.JollyMarble;
 import it.polimi.ingsw.model.cards.effects.LeaderEffect;
 import it.polimi.ingsw.model.cards.effects.ProductionPower;
@@ -58,6 +59,15 @@ class LeaderCardTest {
         }
     }
 
+
+    @Test
+    public void getterTest(){
+        leaderCard = new LeaderCard(1, new Discount(new Resource(ResourceType.SERVANT), 1), 2, new ArrayList<>());
+        assertEquals(leaderCard.getId(), 1);
+        assertEquals(leaderCard.getLeaderEffect().getEffectName(), "DISCOUNT");
+        assertEquals(leaderCard.getLeaderEffect().getType(), "SERVANT");
+        assertEquals(leaderCard, new LeaderCard(1, new Discount(new Resource(ResourceType.SERVANT), 1),2, new ArrayList<>()));
+    }
 
     /**
      * the leadercard is not activable because the player hasn't enough yellow development card with level 3

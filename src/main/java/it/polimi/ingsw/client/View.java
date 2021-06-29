@@ -6,6 +6,10 @@ import it.polimi.ingsw.enumerations.TurnPhase;
 /** common interface between gui and cli*/
 public interface View {
 
+     /**
+      * stays on the main page when the game is ended
+      */
+     void showEndGame();
 
      /** asks the nickname to the player*/
      void askNickname();

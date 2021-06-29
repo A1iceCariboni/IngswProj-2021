@@ -2,6 +2,7 @@ package it.polimi.ingsw.messages;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.DummyModel.DummyWareHouse;
+import it.polimi.ingsw.exceptions.NotPossibleToAdd;
 import it.polimi.ingsw.model.Depot;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.WareHouse;
@@ -20,7 +21,7 @@ public class DepotMessage extends Message{
         setPayload(gson.toJson(wareHouse));
     }
 
-    public Depot[] getWareHouse(){
+    public Depot[] getWareHouse() throws NotPossibleToAdd {
 
         Depot[] depots = WarehouseConstructor.parse(getPayload());
         return depots;

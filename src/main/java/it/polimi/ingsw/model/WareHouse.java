@@ -124,7 +124,11 @@ public class WareHouse implements Serializable {
      */
     public void addToDepot(Resource res, Depot d) throws NotPossibleToAdd {
         if((d.getId() != 1) && (d.getId() != 2) && (d.getId() != 3)){
-            depots.get(depots.indexOf(d)).addResource(res);
+            int i = 0;
+            while(depots.get(i).getId() != d.getId()){
+                i++;
+            }
+            depots.get(i).addResource(res);
             return;
         }
         for(Depot dep : depots){

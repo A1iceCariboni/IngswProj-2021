@@ -250,5 +250,10 @@ public class ClientController implements ViewObserver,Observer {
     public void update(Message message) {
 
     }
+
+    @Override
+    public void onDisconnect() {
+        executionQueue.execute(() -> view.showEndGame());
+    }
 }
 

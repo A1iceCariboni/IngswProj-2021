@@ -95,7 +95,11 @@ public class InputChecker implements Serializable {
                 return checkOwnedLeaderCard(discardLeader.getIds());
             case DEPOTS:
                 DepotMessage depotMessage = gson.fromJson(line, DepotMessage.class);
-                return checkDepotsState(nickname, depotMessage.getWareHouse()) && validDepots(depotMessage.getWareHouse());
+                try {
+                    return checkDepotsState(nickname, depotMessage.getWareHouse()) && validDepots(depotMessage.getWareHouse());
+                } catch (NotPossibleToAdd notPossibleToAdd) {
+                    return false;
+                }
             case REMOVE_RESOURCES:
                 RemoveResource resource = gson.fromJson(line, RemoveResource.class);
                 return checkIdDepot(resource.getId());
@@ -201,6 +205,7 @@ public class InputChecker implements Serializable {
             if(!checkIdDepot(depot.getId()))return false;
             newPlacement.addAll(depot.getDepot());
         }
+        if(newPlacement.size() != game.getCurrentPlayer().getPlayerBoard().getWareHouse().getResources().size()) return false;
         ArrayList<Resource> intersection = new ArrayList<>();
         intersection.addAll(newPlacement);
         intersection.removeAll(game.getCurrentPlayer().getPlayerBoard().getWareHouse().getResources());
@@ -221,6 +226,13 @@ public class InputChecker implements Serializable {
      */
     public boolean validDepots( Depot[] depot) {
         WareHouse wareHouse = new WareHouse();
+        ExtraDepot ed = (ExtraDepot)depot[3];
+        wareHouse.setExtraDepot(new ExtraDepot(ed.getDimension(), ed.getId(), ed.getType()));
+
+        ed = (ExtraDepot)depot[4];
+        wareHouse.setExtraDepot(new ExtraDepot(ed.getDimension(), ed.getId(), ed.getType()));
+
+
         for(Depot d: depot) {
             for (Resource r : d.getDepot()) {
                 try{
