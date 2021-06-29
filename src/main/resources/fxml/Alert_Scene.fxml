@@ -1,35 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 <?import java.net.URL?>
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="278.0" prefWidth="540.0" styleClass="rootPane" xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.AlertScene">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="278.0" prefWidth="540.0" styleClass="rootPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.AlertScene">
 <top>
    <AnchorPane prefHeight="250.0" prefWidth="545.0">
       <children>
 
-         <Label fx:id="titleLbl" alignment="CENTER" layoutX="179.0" layoutY="38.0" prefHeight="22.0"
-                prefWidth="180.0" styleClass="customText" text="ERROR">
+         <Label fx:id="titleLbl" alignment="CENTER" layoutX="179.0" layoutY="38.0" prefHeight="22.0" prefWidth="180.0" styleClass="customText" text="ERROR" textFill="#723131">
             <font>
-               <Font size="14.0"/>
+               <Font name="Lucida Calligraphy Italic" size="25.0" />
             </font>
          </Label>
-         <Label fx:id="messageLbl" alignment="CENTER" layoutX="84.0" layoutY="83.0" prefHeight="85.0"
-                prefWidth="370.0" styleClass="alertText" text="Something went wrong :(" wrapText="true">
+         <Label fx:id="messageLbl" alignment="CENTER" layoutX="84.0" layoutY="83.0" prefHeight="85.0" prefWidth="370.0" styleClass="alertText" text="Something went wrong :(" textFill="#512424" wrapText="true">
             <font>
-               <Font size="14.0"/>
+               <Font name="Lucida Calligraphy Italic" size="16.0" />
             </font>
          </Label>
-         <Button fx:id="okBtn" layoutX="167.0" layoutY="189.0" mnemonicParsing="false" prefHeight="47.0"
-                 prefWidth="204.0" styleClass="smallButton" text="OK"/>
+         <Button fx:id="okBtn" layoutX="167.0" layoutY="168.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="204.0" styleClass="smallButton" text="OK">
+               <effect>
+                  <DropShadow height="54.6" radius="28.2825" spread="0.14" width="60.53">
+                     <color>
+                        <Color red="1.0" green="0.6509804129600525" />
+                     </color>
+                  </DropShadow>
+               </effect></Button>
       </children>
    </AnchorPane>
 </top>
 <stylesheets>
    <URL value="@../css/ChooseLeaderCards.css" />
 </stylesheets>
+   <effect>
+      <Lighting diffuseConstant="1.1" specularConstant="0.0" specularExponent="0.0" surfaceScale="0.0">
+         <bumpInput>
+            <Shadow radius="4.75" width="0.0" />
+         </bumpInput>
+         <light>
+         </light>
+      </Lighting>
+   </effect>
 </BorderPane>

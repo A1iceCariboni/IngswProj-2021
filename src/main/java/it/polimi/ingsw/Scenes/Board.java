@@ -284,6 +284,24 @@ public class Board extends ViewObservable {
 
     }
 
+    /** disables all the bottons*/
+    public void setDisableAll(){
+        payBtn.setVisible(false);
+        payBtn.setDisable(true);
+        DiscardButton.setDisable(true);
+        DevButton.setDisable(true);
+        DiscardResource.setDisable(true);
+        ViewButton.setDisable(true);
+        EndTButton.setDisable(true);
+        MarketButton.setDisable(true);
+        LeaderActiveButton.setDisable(true);
+        rearrangew.setDisable(true);
+        activateB.setDisable(true);
+        activeLp.setDisable(true);
+        activatedp.setDisable(true);
+
+    }
+
 
 
     /** opens a scene where the player can choose how to rearrange his warehouse */
@@ -736,6 +754,7 @@ public class Board extends ViewObservable {
         confirm3.setDisable(true);
         devb1.setDisable(true);
         devb2.setDisable(true);
+        devb3.setDisable(true);
         bplabel.setDisable(true);
         bpback.setDisable(true);
         coinbp.setDisable(true);

@@ -29,32 +29,32 @@
                   <Font name="Lucida Calligraphy Italic" size="41.0" />
                </font>
             </Label>
-            <ImageView fx:id="r1" fitHeight="74.0" fitWidth="79.0" layoutX="451.0" layoutY="230.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="r1" fitHeight="74.0" fitWidth="79.0" layoutX="220.0" layoutY="230.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/COIN.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="r2" fitHeight="67.0" fitWidth="63.0" layoutX="555.0" layoutY="230.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="r2" fitHeight="67.0" fitWidth="63.0" layoutX="320.0" layoutY="229.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/SHIELD.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="r3" fitHeight="74.0" fitWidth="79.0" layoutX="634.0" layoutY="227.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="r3" fitHeight="74.0" fitWidth="79.0" layoutX="397.0" layoutY="226.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/STONE.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="r4" fitHeight="67.0" fitWidth="63.0" layoutX="750.0" layoutY="230.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="r4" fitHeight="67.0" fitWidth="63.0" layoutX="507.0" layoutY="230.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/SHIELD.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="r5" fitHeight="67.0" fitWidth="63.0" layoutX="837.0" layoutY="230.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="r5" fitHeight="67.0" fitWidth="63.0" layoutX="584.0" layoutY="229.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/SHIELD.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="r6" fitHeight="67.0" fitWidth="63.0" layoutX="924.0" layoutY="229.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="r6" fitHeight="67.0" fitWidth="63.0" layoutX="673.0" layoutY="229.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/SHIELD.png" />
                </image>
@@ -146,22 +146,22 @@
                   </DropShadow>
                </effect>
             </Button>
-            <ImageView fx:id="re1" fitHeight="74.0" fitWidth="79.0" layoutX="79.0" layoutY="230.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="re1" fitHeight="74.0" fitWidth="79.0" layoutX="752.0" layoutY="229.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/COIN.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="re2" fitHeight="74.0" fitWidth="79.0" layoutX="170.0" layoutY="230.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="re2" fitHeight="74.0" fitWidth="79.0" layoutX="839.0" layoutY="229.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/COIN.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="re3" fitHeight="74.0" fitWidth="79.0" layoutX="262.0" layoutY="229.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="re3" fitHeight="74.0" fitWidth="79.0" layoutX="931.0" layoutY="230.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/COIN.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="re4" fitHeight="74.0" fitWidth="79.0" layoutX="361.0" layoutY="229.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="re4" fitHeight="74.0" fitWidth="79.0" layoutX="1026.0" layoutY="230.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../PunchBoard/COIN.png" />
                </image>
