@@ -37,7 +37,7 @@ public class Gui extends ViewObservable implements View {
     @Override
     public void showEndGame() {
         bc = new Board();
-        Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers, virtualModel).setButtons());
+        Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers, virtualModel).setDisableAll());
     }
 
     @Override
