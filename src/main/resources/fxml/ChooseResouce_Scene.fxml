@@ -228,7 +228,7 @@
                   </DropShadow>
                </effect>
             </Button>
-            <Button fx:id="d3" layoutX="781.0" layoutY="438.0" mnemonicParsing="false" onAction="#put3" prefHeight="55.0" prefWidth="147.0" text="Depot 1">
+            <Button fx:id="d3" layoutX="781.0" layoutY="438.0" mnemonicParsing="false" onAction="#put3" prefHeight="55.0" prefWidth="147.0" text="Depot 3">
                <font>
                   <Font name="Lucida Calligraphy Italic" size="10.0" />
                </font>
@@ -240,7 +240,7 @@
                   </DropShadow>
                </effect>
             </Button>
-            <Button fx:id="d2" layoutX="781.0" layoutY="370.0" mnemonicParsing="false" onAction="#put2" prefHeight="55.0" prefWidth="147.0" text="Depot 1">
+            <Button fx:id="d2" layoutX="781.0" layoutY="370.0" mnemonicParsing="false" onAction="#put2" prefHeight="55.0" prefWidth="147.0" text="Depot 2">
                <font>
                   <Font name="Lucida Calligraphy Italic" size="10.0" />
                </font>
