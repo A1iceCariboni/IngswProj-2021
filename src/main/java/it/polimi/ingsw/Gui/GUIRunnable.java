@@ -312,7 +312,7 @@ public class GUIRunnable extends Application {
 
     public static OtherBoard otherPlayerBoard (OtherBoard board, ArrayList<ViewObserver> observers) {
         try {
-            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Other_B.fxml"));
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Other_Board_Scene.fxml"));
             Parent root = loader.load();
             scene.setRoot(root);
             board  = loader.getController();
