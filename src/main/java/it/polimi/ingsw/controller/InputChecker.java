@@ -112,18 +112,18 @@ public class InputChecker implements Serializable {
         }
     }
 
-    private boolean checkNickname(String nickname) {
+    public boolean checkNickname(String nickname) {
         for(Player p : game.getPlayers()){
             if(p.getNickName().equals(nickname)) return true;
         }
         return false;
     }
 
-    private boolean canAddToDepot(Resource res, Depot d) {
+    public boolean canAddToDepot(Resource res, Depot d) {
         return game.getCurrentPlayer().getPlayerBoard().getWareHouse().canAddToDepot(res, d);
     }
 
-    private boolean checkResources( ArrayList<Resource> resource) {
+    public boolean checkResources( ArrayList<Resource> resource) {
         ArrayList<Resource> price = new ArrayList<>();
         price.addAll(gameController.getVirtualView(game.getCurrentPlayer().getNickName()).getResourcesToPay());
         price.addAll(resource);
@@ -147,6 +147,7 @@ public class InputChecker implements Serializable {
      * @return true if the payment can be done, false otherwise
      */
     public boolean checkPayment(int[] ids, String nickname) {
+
         List<Integer> depotIds = Arrays.stream(ids).boxed().collect(Collectors.toList());
         ArrayList<Resource> cost;
         if (gameController.getTurnPhase() == TurnPhase.BUY_DEV) {
@@ -154,6 +155,7 @@ public class InputChecker implements Serializable {
         } else {
             cost = gameController.getVirtualView(nickname).getResourcesToPay();
         }
+        if(ids.length < cost.size()) return false;
         for(int j = 0; j < ids.length; j++){
             if(ids[j]!=-1){
                 try {
@@ -252,6 +254,7 @@ public class InputChecker implements Serializable {
      * @return true if he owns them
      */
     public boolean checkIdDev(int[] cards) {
+        if(cards.length == 0) return false;
         ArrayList<Integer> owned = new ArrayList<>();
         for (DevelopmentCard developmentCard : game.getCurrentPlayer().getPlayerBoard().getDevelopmentCards()) {
             owned.add(developmentCard.getId());
@@ -285,6 +288,7 @@ public class InputChecker implements Serializable {
      * @return true if he owns them
      */
     public boolean checkIdExtraProduction(int[] powers) {
+        if(powers.length == 0) return false;
         for (int j : powers) {
             try {
                 if ((!(game.getCurrentPlayer().getLeaderCardById(j).getLeaderEffect() instanceof ExtraProductionPower))||(!game.getCurrentPlayer().getLeaderCardById(j).isActive())) {
@@ -348,6 +352,11 @@ public class InputChecker implements Serializable {
         }
     }
 
+    /**
+     * checks if the player can activate the  development cards he wants to activate the production power
+     * @param cards the cards he wants to activate
+     * @return true if he can buy false otherwise
+     */
     public boolean checkResources(int[] cards){
         ArrayList<Resource> price = gameController.getVirtualView(game.getCurrentPlayer().getNickName()).getResourcesToPay();
         for(int id: cards){

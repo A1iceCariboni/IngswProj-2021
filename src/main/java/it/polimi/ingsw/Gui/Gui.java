@@ -182,7 +182,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void victoryPointsIn(int victoryPoints) {
-
+        virtualModel.setVictoryPoints(victoryPoints);
     }
 
     @Override

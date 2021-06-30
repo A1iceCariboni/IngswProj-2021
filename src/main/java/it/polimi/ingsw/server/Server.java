@@ -4,10 +4,7 @@ import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.MultiGameController;
 import it.polimi.ingsw.controller.SingleGameController;
 import it.polimi.ingsw.enumerations.GamePhase;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
-import it.polimi.ingsw.messages.ErrorMessage;
-import it.polimi.ingsw.messages.NumberOfPlayerRequest;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.utility.Persistence;
 
 import java.io.IOException;
@@ -52,8 +49,8 @@ public class Server {
         if (waiting.isEmpty()) {
             LOGGER.info("Client " + nickname + " registered" + clientHandler);
         } else {
-            if (virtualClients.get(nickname) != null) {
-                if(gameController.isStarted()){
+            if ((virtualClients.get(nickname) != null)) {
+                if(gameController.isStarted() && !gameController.getConnectedClients().containsKey(nickname)){
                     onReconnect(nickname,virtualView);
                     clients.put(clientHandler, nickname);
                     virtualClients.remove(nickname);
@@ -112,6 +109,7 @@ public class Server {
          } else {
             if (gameController.isStarted()) {
                 clientHandler.sendMessage(new ErrorMessage("The game is already started, try again later"));
+                virtualView.update(new Out());
                 clientHandler.disconnect();
             } else {
                 int missingPlayers = gameController.getNumberOfPlayers() - waiting.size();

@@ -54,12 +54,13 @@ public class TurnController implements Serializable {
                     Persistence persistence = new Persistence();
                     GameController savedGameController = persistence.restore();
                     gameController.setGame(savedGameController.getGame());
+                    game = savedGameController.getGame();
+
                     for(String name : gameController.getConnectedClients().keySet()) {
                         gameController.sendUpdateMarketDev(gameController.getVirtualView(name),name );
                         gameController.sendUpdateFaithTrack(gameController.getVirtualView(name),name);
-                        gameController.sendUpdateMarketTray(gameController.getVirtualView(name),name);
+                        gameController.sendUpdateMarketTray(gameController.getVirtualView(name));
                     }
-                    game = savedGameController.getGame();
                     nextPlayer();
                 }else {
                     if (!((vv.isGameActionDone()) &&
@@ -101,7 +102,7 @@ public class TurnController implements Serializable {
     /**
      * complete the turn of a player who has disconnected on the first round
      */
-    private void randomFirstRound() {
+    public void randomFirstRound() {
         while(game.getCurrentPlayer().getLeadercards().size() > 2){
             try {
                 game.getCurrentPlayer().discardLeader(game.getCurrentPlayer().getLeadercards().get(0));
@@ -131,7 +132,7 @@ public class TurnController implements Serializable {
     /**
      * check if the players have completed a round
      */
-    private void nextPlayer(){
+    public void nextPlayer(){
         changeGamePhase();
         do{
             nickNamesQueue.add(activePlayer);

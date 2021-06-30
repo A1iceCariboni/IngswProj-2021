@@ -25,8 +25,6 @@ public class ConnectScene extends ViewObservable {
     public void Connect() {
         String ip;
         int port = Constants.DEFAULT_PORT;
-        System.out.println(">Insert the server IP address [Press enter for localhost] ");
-        System.out.print(">");
         ip = serverName.getText();
         try {
             port = Integer.parseInt(serverPort.getText());

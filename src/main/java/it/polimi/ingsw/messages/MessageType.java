@@ -42,5 +42,6 @@ public enum MessageType {
     OTHER_LEADER,
     BLACK_CROSS,
     OTHER_VICTORY_POINTS,
-    VICTORY_POINTS
+    VICTORY_POINTS,
+    OUT
 }

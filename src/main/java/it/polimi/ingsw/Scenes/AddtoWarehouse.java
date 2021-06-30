@@ -532,7 +532,7 @@ public class AddtoWarehouse extends ViewObservable {
         answer[count] = -1;
         count++;
         if(count == resource.size()) {
-            Message message = new Message(MessageType.RESOURCE_PAYMENT, gson.toJson(answer));
+            Message message = new ResourcePayment(answer);
             notifyObserver(obs -> obs.onReadyReply(message));
         }
     }

@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.DummyModel.DummyExtraDepot;
 import it.polimi.ingsw.client.DummyModel.DummyWareHouse;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
+import it.polimi.ingsw.messages.DepotMessage;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.observers.ViewObservable;
@@ -68,7 +69,7 @@ public class RearrangeWarehouse extends ViewObservable {
         res1.setOpacity(1);
         i++;
         if(i == res.size()) {
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
+            notifyObserver(obs -> obs.onReadyReply(new DepotMessage(dummyWareHouse)));
         }
     }
 
@@ -77,7 +78,7 @@ public class RearrangeWarehouse extends ViewObservable {
         dummyWareHouse.getDepot2().addResource(res.get(i));
         i++;
         if(i == res.size()) {
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
+            notifyObserver(obs -> obs.onReadyReply(new DepotMessage(dummyWareHouse)));
         }
 
     }
@@ -87,7 +88,7 @@ public class RearrangeWarehouse extends ViewObservable {
         dummyWareHouse.getDepot3().addResource(res.get(i));
         i++;
         if(i == res.size()) {
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
+            notifyObserver(obs -> obs.onReadyReply(new DepotMessage(dummyWareHouse)));
         }
     }
 
@@ -96,7 +97,7 @@ public class RearrangeWarehouse extends ViewObservable {
         dummyWareHouse.getExtraDepot1().addResource(res.get(i));
         i++;
         if(i == res.size()) {
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
+            notifyObserver(obs -> obs.onReadyReply(new DepotMessage(dummyWareHouse)));
         }
     }
 
@@ -107,7 +108,7 @@ public class RearrangeWarehouse extends ViewObservable {
         dummyWareHouse.getExtraDepot2().addResource(res.get(i));
         i++;
         if(i == res.size()) {
-            notifyObserver(obs -> obs.onReadyReply(new Message(MessageType.DEPOTS, gson.toJson(dummyWareHouse))));
+            notifyObserver(obs -> obs.onReadyReply(new DepotMessage(dummyWareHouse)));
         }
     }
 

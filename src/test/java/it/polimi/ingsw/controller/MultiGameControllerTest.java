@@ -4,10 +4,7 @@ import it.polimi.ingsw.enumerations.GamePhase;
 import it.polimi.ingsw.enumerations.MarbleColor;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.enumerations.TurnPhase;
-import it.polimi.ingsw.exceptions.CannotAdd;
-import it.polimi.ingsw.exceptions.EmptyDeck;
-import it.polimi.ingsw.exceptions.NotPossibleToAdd;
-import it.polimi.ingsw.exceptions.NullCardException;
+import it.polimi.ingsw.exceptions.*;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
@@ -38,12 +35,13 @@ class FakeClientHandler extends ClientHandler{
 
 
 class MultiGameControllerTest {
-  static GameController gameController = new MultiGameController();
+  static GameController gameController;
   static ClientHandler clientHandler;
 
 
-  @BeforeAll
-  static void init(){
+  @BeforeEach
+   void init(){
+      gameController = new MultiGameController();
       gameController.addPlayer("Alice");
       gameController.addPlayer("Sofia");
       gameController.addPlayer("Alessandra");
@@ -53,15 +51,14 @@ class MultiGameControllerTest {
       gameController.addConnectedClient("Alessandra", new FakeVirtualView("Alessandra"));
       assertEquals(gameController.getConnectedClients().size(), 3 );
       assertEquals(gameController.getDisconnectedClients().size(), 0);
-  }
 
-  @BeforeEach
-  void start(){
       gameController.startGame();
       gameController.getTurnController().changeGamePhase();
       assertTrue(gameController.isStarted());
       assertEquals(gameController.getGamePhase(), GamePhase.FIRST_ROUND);
   }
+
+
 
 
     @Test
@@ -165,7 +162,6 @@ class MultiGameControllerTest {
 
       assertFalse(player.getPlayerBoard().getUnplacedResources().isEmpty());
       assertTrue(vv.getFreeMarble().isEmpty());
-      assertEquals(gameController.getTurnPhase(), TurnPhase.FREE);
 
 
       gameController.getGame().getCurrentPlayer().addPossibleWhiteMarbles(new Resource(ResourceType.SHIELD));
@@ -176,7 +172,6 @@ class MultiGameControllerTest {
 
 
       assertFalse(player.getPlayerBoard().getUnplacedResources().isEmpty());
-      assertEquals(gameController.getTurnPhase(), TurnPhase.FREE);
 
   }
 
@@ -288,6 +283,64 @@ class MultiGameControllerTest {
       assertEquals(player.getPlayerBoard().getWareHouse().getDepots().size(), 5);
       assertEquals(player.getPlayerBoard().getWareHouse().getResources().size(), 2);
       assertTrue(player.getPlayerBoard().getWareHouse().getResources().contains(new Resource(ResourceType.COIN)));
+
+
+  }
+
+  @Test
+    public void pay() throws EmptyDeck {
+      gameController.setTurnPhase(TurnPhase.BUY_DEV);
+      Player player = gameController.getGame().getCurrentPlayer();
+      VirtualView vv = gameController.getConnectedClients().get(gameController.getTurnController().getActivePlayer());
+
+      DevelopmentCard dc = gameController.getGame().getDeckDevelopment()[0][0].getCard();
+      player.getPlayerBoard().setUnplacedDevelopment(dc);
+      int dim = player.getPlayerBoard().getResources().size();
+      int c = dc.getCost().size();
+      int[] ids = new int[c];
+      for(int i = 0; i< c; i++){
+          ids[i] = - 1 ;
+      }
+      gameController.pay(ids);
+      assertEquals(player.getPlayerBoard().getResources().size(), dim-c);
+
+      gameController.setTurnPhase(TurnPhase.ACTIVATE_PRODUCTION);
+      ArrayList<Resource> toPay = new ArrayList<>();
+      toPay.add(new Resource(ResourceType.COIN));
+      toPay.add(new Resource(ResourceType.COIN));
+      toPay.add(new Resource(ResourceType.STONE));
+      toPay.add(new Resource(ResourceType.STONE));
+      dim = player.getPlayerBoard().getResources().size();
+
+      vv.addAllResourcesToPay(toPay);
+      gameController.pay(new int[]{-1,-1,-1,-1});
+      assertEquals(player.getPlayerBoard().getResources().size(), dim-4);
+
+  }
+
+  @Test
+    void singleGame() throws InvalidNickname, NotPossibleToAdd {
+      gameController = new SingleGameController();
+      gameController.addConnectedClient("Alice", new FakeVirtualView("Alice"));
+      gameController.addPlayer("Alice");
+      gameController.startGame();
+      Player p = gameController.getGame().getCurrentPlayer();
+
+      assertEquals(gameController.getGame().getPlayers().size(), 1);
+      assertDoesNotThrow(() -> gameController.getGame().getFakePlayer());
+
+      p.getPlayerBoard().getWareHouse().addToDepot(new Resource(ResourceType.SERVANT), new Depot(2, 2 , new ArrayList<>()));
+      gameController.removeResource(2);
+      assertEquals(gameController.getGame().getFakePlayer().getBlackCross(), 1);
+
+      p.getPlayerBoard().addUnplacedResource(new Resource(ResourceType.COIN));
+      p.getPlayerBoard().addUnplacedResource(new Resource(ResourceType.COIN));
+
+      gameController.putResource(new int[]{-1, 2});
+      assertEquals(gameController.getGame().getFakePlayer().getBlackCross(), 2);
+      assertEquals(p.getPlayerBoard().getWareHouse().getResources().size(), 1);
+
+
 
 
   }

@@ -148,6 +148,11 @@ public void initGameController(){
         }
     }
 
+    public void sendAllUpdateMarketTray(){
+        for(VirtualView vv : connectedClients.values()){
+            sendUpdateMarketTray(vv);
+        }
+    }
     /**
      * sends the new dummy devs to the player
      */
@@ -192,10 +197,10 @@ public void initGameController(){
                 sendStrongBox(connectedClients.get(name), name);
 
                 sendUpdateMarketDev(connectedClients.get(name), name);
-                sendUpdateMarketTray(connectedClients.get(name), name);
                 sendUpdateFaithTrack(connectedClients.get(name), name);
                 updateFaith(connectedClients.get(name) , name);
             }
+            sendAllUpdateMarketTray();
             sendAll(new GenericMessage("Game restored"));
             getVirtualView(turnController.getActivePlayer()).update( new NotifyTurn());
             sendAllExcept(new GenericMessage("It's " + turnController.getActivePlayer() + " turn, wait"), getVirtualView(turnController.getActivePlayer()));
@@ -230,7 +235,7 @@ public void initGameController(){
     /**
      * sends the updated market tray to all players
      */
-    public void sendUpdateMarketTray(VirtualView virtualView, String nickname){
+    public void sendUpdateMarketTray(VirtualView virtualView){
 
             virtualView.update(new MarketTrayMessage(game.getMarketTray()));
 
@@ -316,7 +321,7 @@ public void initGameController(){
         sendDummyDevs(vv, nickname);
         sendDummyLead(vv, nickname);
         sendUpdateMarketDev(vv, nickname);
-        sendUpdateMarketTray(vv, nickname);
+        sendUpdateMarketTray(vv);
         sendUpdateFaithTrack(vv, nickname);
         updateFaith(vv, nickname);
         try {
@@ -326,6 +331,9 @@ public void initGameController(){
         }
         if(disconnectedClients.size() == numberOfPlayers - 1){
            turnController.goTo(nickname);
+        }else{
+            vv.update(new GenericMessage("Wait it's "+ turnController.getActivePlayer() +"'s turn"));
+            vv.update(new EndTurn());
         }
     }
 
@@ -879,7 +887,7 @@ public void initGameController(){
         marbles.removeIf(marble -> marble.getMarbleColor() != MarbleColor.WHITE);
         virtualView.addAllFreeMarbles(marbles);
         this.updateFaith(virtualView, name);
-        this.sendUpdateMarketTray(virtualView, name);
+        sendAllUpdateMarketTray();
         if((!this.game.getCurrentPlayer().getPossibleWhiteMarbles().isEmpty())&&(!virtualView.getFreeMarble().isEmpty())){
             virtualView.update(new WhiteMarblesChoice(virtualView.getFreeMarble().size()));
         }else{
@@ -915,7 +923,7 @@ public void initGameController(){
         this.sendUpdateMarketDev(virtualView, name);
 
         this.updateFaith(virtualView, name);
-        this.sendUpdateMarketTray(virtualView, name);
+        sendAllUpdateMarketTray();
         if((!this.game.getCurrentPlayer().getPossibleWhiteMarbles().isEmpty())&&(!virtualView.getFreeMarble().isEmpty())){
             virtualView.update(new WhiteMarblesChoice(game.getCurrentPlayer().getPossibleWhiteMarbles().size()));
         }else{
@@ -1198,7 +1206,7 @@ public void initGameController(){
              this .sendStrongBox(this.connectedClients.get(name), name);
             this.sendUpdateMarketDev(this.connectedClients.get(name), name);
             this.sendUpdateFaithTrack(this.connectedClients.get(name), name);
-            this.sendUpdateMarketTray(this.connectedClients.get(name), name);
+            this.sendUpdateMarketTray(this.connectedClients.get(name));
         }
         final ArrayList<String> nickNames = new ArrayList<>();
         final ArrayList<Player> players = this.game.getPlayers();
