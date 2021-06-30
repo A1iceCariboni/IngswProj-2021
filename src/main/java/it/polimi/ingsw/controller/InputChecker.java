@@ -291,7 +291,7 @@ public class InputChecker implements Serializable {
         if(powers.length == 0) return false;
         for (int j : powers) {
             try {
-                if ((!(game.getCurrentPlayer().getLeaderCardById(j).getLeaderEffect() instanceof ExtraProductionPower))||(!game.getCurrentPlayer().getLeaderCardById(j).isActive())) {
+                if ((!(game.getCurrentPlayer().getLeaderCardById(j).getLeaderEffect().getEffectName().equals("EXTRA_PRODUCTION")))||(!game.getCurrentPlayer().getLeaderCardById(j).isActive())) {
                      return false;
                 }else{
                     ExtraProductionPower extraProductionPower = (ExtraProductionPower) game.getCurrentPlayer().getLeaderCardById(j).getLeaderEffect();

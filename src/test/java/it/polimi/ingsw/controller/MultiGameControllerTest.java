@@ -507,4 +507,6 @@ class FakeVirtualView extends VirtualView {
     public void removeResourceToProduce(int pos) {
         this.resourcesToProduce.remove(pos);
     }
+
+    public void close(){}
 }
