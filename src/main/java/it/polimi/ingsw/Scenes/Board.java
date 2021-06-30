@@ -21,7 +21,7 @@ import java.util.Arrays;
 
 
 /** @author Alessandra Atria
- * this class represents the player's board
+ * This class represents the controller for the player's board scene
  */
 public class Board extends ViewObservable {
     @FXML
@@ -373,6 +373,8 @@ public class Board extends ViewObservable {
     public void activateLeaderProducion(ActionEvent actionEvent) {
         notifyObserver(obs -> obs.setTurnPhase(TurnPhase.ACTIVATE_PRODUCTION));
         setPBtn();
+        led1.setDisable(false);
+        led2.setDisable(false);
     }
 
     /** on image click the player choose this development card to start the production*/
@@ -782,6 +784,12 @@ public class Board extends ViewObservable {
 
         victoryPoints.setText(Integer.toString(virtualModel.getVictoryPoints()));
 
+        if(!virtualModel.getLeaderCards().get(0).isActive()&& !virtualModel.getLeaderCards().get(1).isActive())
+            activeLp.setDisable(true);
+
+        if(virtualModel.getPlayerBoard().getDevSections()[0]== null && virtualModel.getPlayerBoard().getDevSections()[1]== null &&virtualModel.getPlayerBoard().getDevSections()[2]== null){
+            activatedp.setDisable(true);
+        }
     }
 
 

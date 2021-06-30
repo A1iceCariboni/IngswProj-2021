@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**@author Alessandra Atria*
- * This class implements the controller of a generic Alert Scene.
+ * This class represents the controller of a generic Alert Scene.
  */
 public class AlertScene {
 

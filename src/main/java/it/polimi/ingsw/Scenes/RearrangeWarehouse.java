@@ -1,8 +1,6 @@
 package it.polimi.ingsw.Scenes;
-
 import com.google.gson.Gson;
 import it.polimi.ingsw.Gui.GUIRunnable;
-import it.polimi.ingsw.client.DummyModel.DummyDepot;
 import it.polimi.ingsw.client.DummyModel.DummyExtraDepot;
 import it.polimi.ingsw.client.DummyModel.DummyWareHouse;
 import it.polimi.ingsw.client.VirtualModel;
@@ -18,9 +16,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import java.util.ArrayList;
 
+
+/**@author Alessandra Atria*/
+/** This class represents the controller for the scene where
+ * the player can rearrange his resources in the warehouse*/
 public class RearrangeWarehouse extends ViewObservable {
 
     @FXML
@@ -60,7 +61,7 @@ public class RearrangeWarehouse extends ViewObservable {
     }
 
 
-
+ /** buttons used to choose to put the resource in the selected depot */
     @FXML
     public void put1(ActionEvent actionEvent) {
         dummyWareHouse.getDepot1().addResource(res.get(i));
@@ -113,7 +114,7 @@ public class RearrangeWarehouse extends ViewObservable {
     }
 
 
-
+    /**sets the scene */
     public void setWarehouse(VirtualModel virtualModel) throws JsonFileNotFoundException {
         this.virtualModel = virtualModel;
 
@@ -255,7 +256,7 @@ public class RearrangeWarehouse extends ViewObservable {
 
 
 
-
+    /** button to go back to the player's board scene*/
     public void exit(ActionEvent actionEvent) {
         Board bc = new Board();
         GUIRunnable.changetoStart(bc, observers, virtualModel);

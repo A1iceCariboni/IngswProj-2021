@@ -18,6 +18,8 @@ import java.util.Arrays;
 
 /**@author Alessandra Atria*/
 
+/** This class represents the controller for the scene where the player can add the resources to
+ * his warehouse and also represents the scene where he chooses the resources he wants to use for payments*/
 public class AddtoWarehouse extends ViewObservable {
     public Button d1,d2,d3, c1, c2,c3 ;
     public Button disc;
@@ -57,6 +59,7 @@ public class AddtoWarehouse extends ViewObservable {
 
     }
 
+    /** puts the resource in the first depot*/
     @FXML
     public void put1(ActionEvent actionEvent) {
         answer[count] = 1;
@@ -66,6 +69,7 @@ public class AddtoWarehouse extends ViewObservable {
         }
     }
 
+    /** puts the resource in the second depot*/
     @FXML
     public void put2(ActionEvent actionEvent) {
         answer[count] = 2;
@@ -75,6 +79,7 @@ public class AddtoWarehouse extends ViewObservable {
         }
     }
 
+    /** puts the resource in the third depot*/
     @FXML
     public void put3(ActionEvent actionEvent) {
         answer[count] = 3;
@@ -84,6 +89,7 @@ public class AddtoWarehouse extends ViewObservable {
         }
     }
 
+    /** puts the resource in the first extra depot*/
     @FXML
     public void putex1(ActionEvent actionEvent) {
         answer[count] = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId();
@@ -93,6 +99,7 @@ public class AddtoWarehouse extends ViewObservable {
         }
     }
 
+    /** puts the resource in the second  extra depot*/
     @FXML
     public void putex2(ActionEvent actionEvent) {
         answer[count] = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId();
@@ -103,6 +110,7 @@ public class AddtoWarehouse extends ViewObservable {
     }
 
 
+    /** instead of putting the resource in the warehouse, the player can choose to discard it*/
     @FXML
     public void discard(ActionEvent actionEvent) {
         answer[count] = -1;
@@ -113,6 +121,7 @@ public class AddtoWarehouse extends ViewObservable {
     }
 
 
+    /** choose the correspondent resource*/
     public void pickServant(MouseEvent mouseEvent) {
         chosenRes[i] = "SERVANT";
         i++;
@@ -153,7 +162,8 @@ public class AddtoWarehouse extends ViewObservable {
 
 
 
-    
+    /** sets virtual model and the resource used in th scene.
+     * It also allows the player to see what he already has in his warehouse*/
     public void setResource(String[] resource, VirtualModel virtualModel) {
         wLabel.setText("Where do you want to put it?");
         this.virtualModel = virtualModel;
@@ -323,7 +333,9 @@ public class AddtoWarehouse extends ViewObservable {
 
     }
 
-
+    /** sets virtual model and the resource used in th scene to pay .
+     * It also allows the player to see what he already has in his warehouse
+     * @param resource are the resources to add */
     public void setPay(ArrayList<String> resource, VirtualModel virtualModel) {
         wLabel.setText("Choose the resources you want to use to pay");
         this.virtualModel = virtualModel;
@@ -475,7 +487,8 @@ public class AddtoWarehouse extends ViewObservable {
 
 
 
-
+    /** this is used in the first scene when the players have to choose witch resources to pick.
+     * @param quantity is the number of resources*/
     public void setQuantity(int quantity){
         chosenRes = new String[quantity];
         r1.setOpacity(1);
@@ -496,6 +509,8 @@ public class AddtoWarehouse extends ViewObservable {
     }
 
 
+
+    /** takes the resource in the first depot*/
     @FXML
     public void pay1(ActionEvent actionEvent) {
         answer[count] = 1;
@@ -506,6 +521,7 @@ public class AddtoWarehouse extends ViewObservable {
         }
     }
 
+    /** takes the resource in the second depot*/
     @FXML
     public void pay2(ActionEvent actionEvent) {
         answer[count] = 2;
@@ -516,6 +532,8 @@ public class AddtoWarehouse extends ViewObservable {
         }
     }
 
+
+    /** takes the resource in the third depot*/
     @FXML
     public void pay3(ActionEvent actionEvent) {
         answer[count] = 3;
@@ -527,6 +545,7 @@ public class AddtoWarehouse extends ViewObservable {
     }
 
 
+    /** takes the resource in the strongbox*/
     @FXML
     public void pays1(ActionEvent actionEvent) {
         answer[count] = -1;
@@ -538,7 +557,7 @@ public class AddtoWarehouse extends ViewObservable {
     }
 
 
-
+    /** takes the resource in the first extra depot*/
     @FXML
     public void payex1(ActionEvent actionEvent) {
         answer[count] = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId();
@@ -549,6 +568,7 @@ public class AddtoWarehouse extends ViewObservable {
         }
     }
 
+    /** takes the resource in the second extra depot*/
     @FXML
     public void payex2(ActionEvent actionEvent) {
         answer[count] = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId();

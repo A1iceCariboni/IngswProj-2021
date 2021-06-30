@@ -1,24 +1,18 @@
 package it.polimi.ingsw.Scenes;
-
 import com.google.gson.Gson;
 import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.messages.BuyMarket;
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 
-import static it.polimi.ingsw.enumerations.Constants.*;
-import static it.polimi.ingsw.enumerations.Constants.ANSI_RESET;
-
+/** @author Alessandra Atria*/
 public class Market extends ViewObservable {
-    Gson gson = new Gson();
     public ImageView slide;
     public ImageView b00;
     public ImageView b01;
@@ -32,15 +26,9 @@ public class Market extends ViewObservable {
     public ImageView b21;
     public ImageView b22;
     public ImageView b23;
-
-
-
-
     private VirtualModel virtualModel;
 
-
-
-
+        /**constructor*/
         public Market() {
             this.virtualModel = new VirtualModel();
         }
@@ -51,7 +39,7 @@ public class Market extends ViewObservable {
 
         }
 
-
+        /**to set the market scene with his resources*/
         public void setMarket(VirtualModel virtualModel) {
             this.virtualModel = virtualModel;
             String[][] marbles = virtualModel.getDummyMarbles();
@@ -85,6 +73,8 @@ public class Market extends ViewObservable {
 
 
         }
+
+    /** buttons to get the row or column selected  */
 
 
     public void getrow1(ActionEvent actionEvent) {
@@ -127,6 +117,7 @@ public class Market extends ViewObservable {
     }
 
 
+    /**button to go back to the player's board*/
     public void exit(ActionEvent actionEvent) {
         Board bc = new Board();
         GUIRunnable.changetoStart(bc, observers, virtualModel);

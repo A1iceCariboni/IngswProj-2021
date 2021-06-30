@@ -1,10 +1,6 @@
 package it.polimi.ingsw.Scenes;
-
-import com.google.gson.Gson;
 import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.VirtualModel;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.RemoveResource;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
@@ -17,6 +13,7 @@ import javafx.scene.image.ImageView;
 
 
 /** @author Alessandra Atria */
+/**This class represents the controller for the scene where the player can discard the resources he owns */
 public class DiscardResource extends ViewObservable {
     public Button d1, d2,d3, ex1 , ex2;
     VirtualModel virtualModel;
@@ -24,27 +21,34 @@ public class DiscardResource extends ViewObservable {
     @FXML
     ImageView res1, res2, res3, res4, res5, res6, led1, led2, e1, e2, e3, e4;
 
+
+    /** discard the resource from the first depot*/
     public void disc1(ActionEvent actionEvent) {
         notifyObserver(obs -> obs.onReadyReply(new RemoveResource(1)));
     }
 
+    /** discard the resource from the second depot*/
     public void disc2(ActionEvent actionEvent) {
         notifyObserver(obs -> obs.onReadyReply(new RemoveResource(2)));
     }
 
+    /** discard the resource from the third depot*/
     public void disc3(ActionEvent actionEvent) { notifyObserver(obs -> obs.onReadyReply(new RemoveResource(3)));
     }
 
+    /** discard the resource from the first extra depot*/
     public void discex1(ActionEvent actionEvent) {
         int id1 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId();
         notifyObserver(obs -> obs.onReadyReply(new RemoveResource(id1)));
     }
 
+    /** discard the resource from the second extra depot*/
     public void discex2(ActionEvent actionEvent) {
         int id2 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId();
         notifyObserver(obs -> obs.onReadyReply(new RemoveResource(id2)));
     }
 
+    /** button to go back to the player's board scene*/
     public void back(ActionEvent actionEvent) {
         Board bc = new Board();
         Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers, virtualModel));

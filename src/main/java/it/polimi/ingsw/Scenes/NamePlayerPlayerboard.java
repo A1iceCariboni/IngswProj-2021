@@ -1,9 +1,6 @@
 package it.polimi.ingsw.Scenes;
-
 import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.VirtualModel;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.SeePlayerBoard;
 import it.polimi.ingsw.observers.ViewObservable;
 import javafx.application.Platform;
@@ -11,6 +8,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+
+
 
 public class NamePlayerPlayerboard extends ViewObservable {
 

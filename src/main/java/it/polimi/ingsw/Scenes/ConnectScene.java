@@ -11,17 +11,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
-
 import java.io.IOException;
-import java.util.Scanner;
+
+
+/**@author Alessandra Atria */
+/** This class represents the  controller for the connection scene */
+
 
 public class ConnectScene extends ViewObservable {
-
 
     public Button back_to_menu;
     public TextField serverPort;
     public TextField serverName;
 
+
+    /**connection button, inserting the serverPort and name the player joins the game*/
     public void Connect() {
         String ip;
         int port = Constants.DEFAULT_PORT;
@@ -36,6 +40,8 @@ public class ConnectScene extends ViewObservable {
         notifyObserver(obs -> obs.onConnectionRequest(finalIp, finalPort));
     }
 
+
+    /**butoon to go back to the menu*/
     public void GotMenuScene(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Menu_Scene.fxml"));
         Stage window =(Stage) back_to_menu.getScene().getWindow();

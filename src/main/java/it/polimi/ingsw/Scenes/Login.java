@@ -14,6 +14,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/** @author Alessandra Atria
+ * Controller for the login scene*/
+
 public class Login extends ViewObservable {
 
 
@@ -31,10 +34,9 @@ public class Login extends ViewObservable {
     @FXML
     public void initialize(){
         InvalidNickname.setOpacity(0);
-
-      //  back_to_menu.addEventHandler(MouseEvent.MOUSE_CLICKED, this::GotMenuScene);
     }
 
+    /**to let the player insert nickname */
     @FXML
     public void Login(Event event)  {
         String nickname;
@@ -49,7 +51,7 @@ public class Login extends ViewObservable {
 
     }
 
-
+   /** back to the menu scene*/
     @FXML
     public void GotMenuScene(Event event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Menu_Scene.fxml"));

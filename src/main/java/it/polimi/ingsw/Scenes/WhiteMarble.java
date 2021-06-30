@@ -9,7 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 /**@author Alessandra Atria*/
-
+/** This class represents the controller for the scene where the player
+ * chooses witch resources he wants from the white marbles*/
 public class WhiteMarble extends ViewObservable {
     int i;
     int n;
@@ -26,6 +27,8 @@ public class WhiteMarble extends ViewObservable {
 
     }
 
+
+    /**pick the selected resource*/
     public void pickStone(MouseEvent mouseEvent){
         String resource = "STONE";
         powers[i] = resource;
@@ -70,7 +73,7 @@ public class WhiteMarble extends ViewObservable {
         }
     }
 
-
+   /**@param  num is the number of white marbles*/
     public void setnumber(int num, VirtualModel virtualModel){
         this.virtualModel= virtualModel;
         powers = new String[num];

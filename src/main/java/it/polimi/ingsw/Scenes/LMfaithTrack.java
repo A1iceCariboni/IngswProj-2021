@@ -11,6 +11,8 @@ import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 
+
+/** Lorenzo il Magnifico FaithTrack*/
 public class LMfaithTrack extends ViewObservable {
 
     @FXML
@@ -55,6 +57,7 @@ public class LMfaithTrack extends ViewObservable {
             faithTrack.get(i).setVisible(false);
         }
     }
+
 
     public void setBlackCross(VirtualModel virtualModel, int blackCross){
         this.virtualModel = virtualModel;

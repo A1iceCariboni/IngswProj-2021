@@ -1,5 +1,4 @@
 package it.polimi.ingsw.Scenes;
-import com.google.gson.Gson;
 import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.enumerations.Constants;
@@ -14,10 +13,9 @@ import javafx.scene.image.ImageView;
 import java.util.ArrayList;
 import java.util.Objects;
 
-
+/**This class represents the controller for the development cards' market */
 /** @author Alessandra Atria */
 public class DevelopmentMarket extends ViewObservable {
-    Gson gson = new Gson();
     VirtualModel virtualModel;
     ArrayList<Integer> payloadDev = new ArrayList<>();
     int id;
@@ -29,7 +27,7 @@ public class DevelopmentMarket extends ViewObservable {
  @FXML
  public ImageView img00, img01, img02, img03, img10,img11, img12, img13, img20, img21, img22, img23;
 
-
+   /** by selecting the card, the player chooses to buy it*/
    @FXML
    public void select00(){
        payloadDev.add(0);
@@ -129,6 +127,7 @@ public class DevelopmentMarket extends ViewObservable {
 
 
 
+    /**set the development cards' board*/
         public void setDevCards(VirtualModel virtualModel){
             this.virtualModel= virtualModel;
             ArrayList<Image> images2 = new ArrayList<>();
@@ -170,7 +169,7 @@ public class DevelopmentMarket extends ViewObservable {
             img23.setImage(images2.get(11));
         }
 
-
+    /**button used to go back to the player's board scene*/
     public void back(ActionEvent actionEvent) {
        Board bc = new Board();
        Platform.runLater(() -> GUIRunnable.changetoStart(bc, observers, virtualModel));

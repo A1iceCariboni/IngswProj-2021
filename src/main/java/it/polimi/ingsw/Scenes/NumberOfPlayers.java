@@ -16,6 +16,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/** @author Alessandra Atria*/
+/** This class represents the controller for the scene wher
+ * e the first player chooses the number of players he wants to play with */
+
 public class NumberOfPlayers extends ViewObservable {
   ObservableList list = FXCollections.observableArrayList();
     @FXML
@@ -24,12 +28,6 @@ public class NumberOfPlayers extends ViewObservable {
     public Button back_to_menu;
     @FXML
     public ChoiceBox<String> playerschoice;
-
-    @FXML
-    AnchorPane Waiting;
-
-
-
 
 
     public void initialize(){
@@ -50,6 +48,7 @@ public class NumberOfPlayers extends ViewObservable {
 
 
 
+    /**to go to the next scene */
      @FXML
     public void GotoWaitingScene(ActionEvent event){
          ConfirmButton.setDisable(true);
@@ -60,7 +59,7 @@ public class NumberOfPlayers extends ViewObservable {
 
 
 
-
+    /**to go back to the menu*/
     @FXML
     public void GotMenuScene(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Menu_Scene.fxml"));

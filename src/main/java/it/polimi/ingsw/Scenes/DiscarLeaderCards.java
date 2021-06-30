@@ -12,7 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /** @author  Alessandra Atria*/
-
+/** This class represents the controller for the scene where the player can discard his leadercards or activates them */
 
 public class DiscarLeaderCards extends ViewObservable {
 
@@ -32,17 +32,13 @@ public class DiscarLeaderCards extends ViewObservable {
     @FXML
     public ImageView l4;
 
+    /**constructor*/
     public DiscarLeaderCards() {
         this.virtualModel = new VirtualModel();
     }
 
 
-    @FXML
-    public void initialize() {
-
-
-    }
-
+   /** button to discard a leadercard*/
     @FXML
     public void DiscardLeader1() {
         notifyObserver(obs -> obs.onReadyReply(new DiscardLeader(virtualModel.getLeaderCards().get(0).getId())));
@@ -70,7 +66,7 @@ public class DiscarLeaderCards extends ViewObservable {
 
     }
 
-
+   /** button to activate a leadercard*/
     @FXML
     public void ActivateLeader1(){
         Message message = new ActivateLeader(virtualModel.getLeaderCards().get(0).getId());
@@ -95,6 +91,7 @@ public class DiscarLeaderCards extends ViewObservable {
     }
 
 
+    /**disable buttons to discard when the player choose to activate a leader card*/
     public void disableDevButtons(){
          DiscardButton1.setDisable(true);
          DiscardButton2.setDisable(true);
@@ -102,7 +99,7 @@ public class DiscarLeaderCards extends ViewObservable {
          DiscardButton4.setDisable(true);
     }
 
-
+    /**disable buttons to activate when the player choose to discard a leader card*/
     public void disableActiveButtons(){
         ActivateButton1.setDisable(true);
         ActivateButton2.setDisable(true);
@@ -113,6 +110,7 @@ public class DiscarLeaderCards extends ViewObservable {
 
 
 
+    /**sets the scene*/
     public void setLeaderCards(VirtualModel virtualModel) {
         this.virtualModel =  virtualModel;
         if(virtualModel.getLeaderCards().size() >= 1) {
@@ -134,7 +132,7 @@ public class DiscarLeaderCards extends ViewObservable {
 
     }
 
-
+    /**button to go back to player 's board scene */
     public void back(ActionEvent actionEvent) {
         Board bc = new Board();
         GUIRunnable.changetoStart(bc, observers,virtualModel);
