@@ -49,7 +49,7 @@ public class GUIRunnable extends Application {
             Stage.setHeight(720d);
             Stage.setResizable(false);
             Stage.setMaximized(true);
-            Stage.setFullScreen(true);
+          //  Stage.setFullScreen(true);
             Stage.setFullScreenExitHint("");
             Stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
             Stage.show();
