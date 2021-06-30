@@ -1,19 +1,15 @@
 package it.polimi.ingsw.Scenes;
-import com.google.gson.Gson;
 import it.polimi.ingsw.Gui.GUIRunnable;
 import it.polimi.ingsw.client.VirtualModel;
 import it.polimi.ingsw.messages.ActivateLeader;
 import it.polimi.ingsw.messages.DiscardLeader;
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.observers.ViewObservable;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 
 /** @author  Alessandra Atria*/
 
@@ -22,6 +18,11 @@ public class DiscarLeaderCards extends ViewObservable {
 
     private VirtualModel virtualModel;
 
+    @FXML
+    private Button DiscardButton1, DiscardButton2, DiscardButton3, DiscardButton4;
+
+    @FXML
+    private Button ActivateButton1, ActivateButton2, ActivateButton3, ActivateButton4;
     @FXML
     public ImageView l1;
     @FXML
@@ -42,26 +43,6 @@ public class DiscarLeaderCards extends ViewObservable {
 
     }
 
-    @FXML
-    public void pick1(){
-
-    }
-
-
-    @FXML
-    public void pick2(){
-
-    }
-
-    @FXML
-    public void pick3(){
-
-    }
-
-    @FXML
-    public void pick4(){
-
-    }
     @FXML
     public void DiscardLeader1() {
         notifyObserver(obs -> obs.onReadyReply(new DiscardLeader(virtualModel.getLeaderCards().get(0).getId())));
@@ -113,6 +94,22 @@ public class DiscarLeaderCards extends ViewObservable {
         notifyObserver(obs -> obs.onReadyReply(message));
     }
 
+
+    public void disableDevButtons(){
+         DiscardButton1.setDisable(true);
+         DiscardButton2.setDisable(true);
+         DiscardButton3.setDisable(true);
+         DiscardButton4.setDisable(true);
+    }
+
+
+    public void disableActiveButtons(){
+        ActivateButton1.setDisable(true);
+        ActivateButton2.setDisable(true);
+        ActivateButton3.setDisable(true);
+        ActivateButton4.setDisable(true);
+
+    }
 
 
 

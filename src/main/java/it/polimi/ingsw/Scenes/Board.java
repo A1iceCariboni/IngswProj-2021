@@ -208,7 +208,7 @@ public class Board extends ViewObservable {
     @FXML
     public void DiscardLeaderCards() {
         DiscarLeaderCards f = new DiscarLeaderCards();
-        Platform.runLater(() -> GUIRunnable.FirstScene(f, observers).setLeaderCards(virtualModel));
+        Platform.runLater(() -> GUIRunnable.leaderCardsScene(f, observers, virtualModel).disableActiveButtons());
 
     }
 
@@ -332,7 +332,7 @@ public class Board extends ViewObservable {
     @FXML
     public void ActivateLeader(ActionEvent actionEvent) {
         DiscarLeaderCards f = new DiscarLeaderCards();
-        Platform.runLater(() -> GUIRunnable.FirstScene(f, observers).setLeaderCards(virtualModel));
+        Platform.runLater(() -> GUIRunnable.leaderCardsScene(f, observers, virtualModel).disableDevButtons());
     }
 
 
@@ -442,7 +442,6 @@ public class Board extends ViewObservable {
     /** on image click the player choose these resources to start the production*/
     public void pickServant(MouseEvent mouseEvent) {
         command1[z] = "SERVANT";
-        servantbp.setOpacity(0.5);
         z++;
         if(z == 3) {
             confirm2.setDisable(false);
@@ -453,7 +452,6 @@ public class Board extends ViewObservable {
 
     public void pickCoin(MouseEvent mouseEvent) {
         command1[z] = "COIN";
-        coinbp.setOpacity(0.5);
         z++;
         if(z == 3) {
             confirm2.setDisable(false);
@@ -464,7 +462,6 @@ public class Board extends ViewObservable {
 
     public void pickShield(MouseEvent mouseEvent) {
         command1[z] = "SHIELD";
-        shieldbp.setOpacity(0.5);
         z++;
         if(z == 3) {
             confirm2.setDisable(false);
@@ -474,7 +471,6 @@ public class Board extends ViewObservable {
 
     public void pickStone(MouseEvent mouseEvent) {
         command1[z] = "STONE";
-        stonebp.setOpacity(0.5);
         z++;
         if(z == 3) {
             confirm2.setDisable(false);

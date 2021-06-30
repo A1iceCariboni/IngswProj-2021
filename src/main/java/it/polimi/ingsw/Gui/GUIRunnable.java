@@ -142,7 +142,7 @@ public class GUIRunnable extends Application {
     }
 
 
-    public static DiscarLeaderCards FirstScene(DiscarLeaderCards f, ArrayList<ViewObserver> observers) {
+    public static DiscarLeaderCards leaderCardsScene(DiscarLeaderCards f, ArrayList<ViewObserver> observers, VirtualModel virtualModel) {
         try {
 
             FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/DiscardLeaderCards_Scene.fxml"));
@@ -150,7 +150,7 @@ public class GUIRunnable extends Application {
             scene.setRoot(root);
             f = loader.getController();
             f.addAllObservers(observers);
-
+            f.setLeaderCards(virtualModel);
         } catch (IOException e) {
             SocketClient.LOGGER.severe(e.getMessage());
         }

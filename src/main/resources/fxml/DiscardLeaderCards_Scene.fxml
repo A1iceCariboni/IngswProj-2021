@@ -33,22 +33,22 @@
                   <RowConstraints maxHeight="360.0" minHeight="10.0" prefHeight="360.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ImageView fx:id="l2" fitHeight="366.0" fitWidth="298.0" onMouseClicked="#pick2" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <ImageView fx:id="l2" fitHeight="366.0" fitWidth="298.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <image>
                         <Image url="@../CardsBack/MastersofRenaissance__Cards_BACK_3mmBleed-49-1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="l3" fitHeight="364.0" fitWidth="332.0" onMouseClicked="#pick3" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                  <ImageView fx:id="l3" fitHeight="364.0" fitWidth="332.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <image>
                         <Image url="@../CardsBack/MastersofRenaissance__Cards_BACK_3mmBleed-49-1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="l4" fitHeight="367.0" fitWidth="379.0" onMouseClicked="#pick4" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <ImageView fx:id="l4" fitHeight="367.0" fitWidth="379.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <image>
                         <Image url="@../CardsBack/MastersofRenaissance__Cards_BACK_3mmBleed-49-1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="l1" fitHeight="413.0" fitWidth="236.0" onMouseClicked="#pick1" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+                  <ImageView fx:id="l1" fitHeight="413.0" fitWidth="236.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                      <image>
                         <Image url="@../CardsBack/MastersofRenaissance__Cards_BACK_3mmBleed-49-1.png" />
                      </image>
