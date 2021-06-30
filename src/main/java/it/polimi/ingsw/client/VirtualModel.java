@@ -22,8 +22,6 @@ import static it.polimi.ingsw.enumerations.Constants.*;
  * @author Alessandra Atria and Sofia Canestraci
  */
 
-
-
 public class VirtualModel {
     private final DummyPlayerBoard playerBoard;
     private ArrayList<DummyLeaderCard> leaderCards;

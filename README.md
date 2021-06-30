@@ -80,4 +80,4 @@ java -jar AM26.jar  [--port <port_number>]
 ## Componenti del gruppo
 - [__Alessandra Atria__](https://github.com/alessandraatria)
 - [__Alice Cariboni__](https://github.com/alicecariboni)
-- [__Sofia Canestraci __](https://github.com/sofiacanestraci)
+- [__Sofia Canestraci__](https://github.com/sofiacanestraci)

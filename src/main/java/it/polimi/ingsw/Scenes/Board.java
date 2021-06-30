@@ -491,6 +491,9 @@ public class Board extends ViewObservable {
         coinbp1.setDisable(true);
         shieldbp1.setDisable(true);
         stonebp1.setDisable(true);
+        activateB.setDisable(true);
+        activeLp.setDisable(true);
+        activatedp.setDisable(true);
     }
 
     public void pickCoinL(MouseEvent mouseEvent) {
@@ -501,6 +504,9 @@ public class Board extends ViewObservable {
         servantbp1.setDisable(true);
         shieldbp1.setDisable(true);
         stonebp1.setDisable(true);
+        activateB.setDisable(true);
+        activeLp.setDisable(true);
+        activatedp.setDisable(true);
     }
 
     public void pickShieldL(MouseEvent mouseEvent) {
@@ -511,6 +517,9 @@ public class Board extends ViewObservable {
         coinbp1.setDisable(true);
         servantbp1.setDisable(true);
         stonebp1.setDisable(true);
+        activateB.setDisable(true);
+        activeLp.setDisable(true);
+        activatedp.setDisable(true);
 
     }
 
@@ -522,6 +531,9 @@ public class Board extends ViewObservable {
         shieldbp1.setDisable(true);
         confirm3.setOpacity(1);
         confirm3.setDisable(false);
+        activateB.setDisable(true);
+        activeLp.setDisable(true);
+        activatedp.setDisable(true);
 
 
     }
