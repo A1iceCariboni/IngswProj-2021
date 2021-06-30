@@ -664,13 +664,13 @@ public class Board extends ViewObservable {
                 devb3.setImage(im3);
                 devb3.setOpacity(1);
         }
-        if(virtualModel.getLeaderCards().get(0)!= null) {
+        if(virtualModel.getLeaderCards().size() > 0) {
             if (virtualModel.getLeaderCards().get(0).isActive()) {
                 Image image1 = new Image((getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getLeaderCards().get(0).getId() + ".png")));
                 led1.setImage(image1);
             }
         }
-        if(virtualModel.getLeaderCards().get(1)!= null){
+        if(virtualModel.getLeaderCards().size() > 1){
             if(virtualModel.getLeaderCards().get(1).isActive()) {
                 Image image2 = new Image((getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getLeaderCards().get(1).getId() + ".png")));
                 led2.setImage(image2);
@@ -796,9 +796,10 @@ public class Board extends ViewObservable {
 
         victoryPoints.setText(Integer.toString(virtualModel.getVictoryPoints()));
 
-        if(!virtualModel.getLeaderCards().get(0).isActive()&& !virtualModel.getLeaderCards().get(1).isActive())
-            activeLp.setDisable(true);
-
+        if(virtualModel.getLeaderCards().size() == 2) {
+            if (!virtualModel.getLeaderCards().get(0).isActive() && !virtualModel.getLeaderCards().get(1).isActive())
+                activeLp.setDisable(true);
+        }
         if(virtualModel.getPlayerBoard().getDevSections()[0]== null && virtualModel.getPlayerBoard().getDevSections()[1]== null &&virtualModel.getPlayerBoard().getDevSections()[2]== null){
             activatedp.setDisable(true);
         }
