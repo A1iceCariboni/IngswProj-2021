@@ -11,8 +11,8 @@ import java.util.Objects;
  * an extra production power is a special production power given by a leadercard effect
  * the player can choose th resource he wants to produce
  */
-public class ExtraProduction {
-
+public class ExtraProduction implements  Serializable{
+    private static final long serialVersionUID = -1219837209023544815L;
     private final int id;
     private final ArrayList<Resource> entryResources;
 

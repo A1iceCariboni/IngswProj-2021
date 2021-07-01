@@ -21,7 +21,7 @@ public class Persistence {
 
 
         } catch (IOException e) {
-            Server.LOGGER.severe(e.getMessage());
+            Server.LOGGER.severe("Couldn't save");
         }
     }
 
@@ -38,7 +38,7 @@ public class Persistence {
             } catch (IOException e) {
                 Server.LOGGER.severe("No File Found.");
             } catch (ClassNotFoundException e) {
-                Server.LOGGER.severe(e.getMessage());
+                Server.LOGGER.severe("Couldn't restore");
             }
             return null;
     }
