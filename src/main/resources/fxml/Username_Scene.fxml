@@ -25,19 +25,7 @@
                   <Font size="20.0" />
                </font>
             </TextField>
-<Button fx:id="joinButton" contentDisplay="CENTER" layoutX="465.0" layoutY="361.0" mnemonicParsing="false" onAction="#Login" prefHeight="60.0" prefWidth="175.0" text="Join">
-   <effect>
-      <DropShadow height="66.47" radius="32.239999999999995" spread="0.38" width="64.49">
-         <color>
-            <Color red="0.7456140518188477" green="0.3375207483768463" blue="0.046025559306144714" />
-         </color>
-      </DropShadow>
-   </effect>
-   <font>
-      <Font name="Lucida Calligraphy Italic" size="19.0" />
-   </font>
-</Button>
-<Button fx:id="back_to_menu" alignment="CENTER" contentDisplay="CENTER" layoutX="677.0" layoutY="362.0" mnemonicParsing="false" onAction="#GotMenuScene" prefHeight="57.0" prefWidth="176.0" text="Back to Menu">
+<Button fx:id="joinButton" contentDisplay="CENTER" layoutX="573.0" layoutY="360.0" mnemonicParsing="false" onAction="#Login" prefHeight="60.0" prefWidth="175.0" text="Join">
    <effect>
       <DropShadow height="66.47" radius="32.239999999999995" spread="0.38" width="64.49">
          <color>

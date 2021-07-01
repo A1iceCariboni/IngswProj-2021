@@ -21,19 +21,7 @@
                </font>
             </Label>
             <ChoiceBox fx:id="playerschoice" layoutX="469.0" layoutY="315.0" prefHeight="56.0" prefWidth="377.0" />
-            <Button fx:id="ConfirmButton" contentDisplay="CENTER" layoutX="468.0" layoutY="414.0" mnemonicParsing="false" onAction="#GotoWaitingScene" prefHeight="60.0" prefWidth="175.0" text="Confirm">
-               <effect>
-                  <DropShadow height="66.47" radius="32.239999999999995" spread="0.38" width="64.49">
-                     <color>
-                        <Color red="0.7456140518188477" green="0.3375207483768463" blue="0.046025559306144714" />
-                     </color>
-                  </DropShadow>
-               </effect>
-               <font>
-                  <Font name="Lucida Calligraphy Italic" size="19.0" />
-               </font>
-            </Button>
-            <Button fx:id="back_to_menu" contentDisplay="CENTER" layoutX="659.0" layoutY="413.0" mnemonicParsing="false" onAction="#GotMenuScene" prefHeight="60.0" prefWidth="175.0" text="Back to Menu">
+            <Button fx:id="ConfirmButton" contentDisplay="CENTER" layoutX="570.0" layoutY="414.0" mnemonicParsing="false" onAction="#GotoWaitingScene" prefHeight="60.0" prefWidth="175.0" text="Confirm">
                <effect>
                   <DropShadow height="66.47" radius="32.239999999999995" spread="0.38" width="64.49">
                      <color>
