@@ -11,14 +11,7 @@ Interazione e gameplay: linea di comando (CLI) e grafica (GUI).
 ## Documentazione
 
 ### UML
-I seguenti diagrammi delle classi rappresentano rispettivamente il modello iniziale sviluppato durante la fase di progettazione e i diagrammi del prodotto finale nelle parti critiche riscontrate.
-- [UML Iniziali](https://github.com/)
-- [UML Finali](https://github.com/ )
-### JavaDoc
-La seguente documentazione include una descrizione per la maggior parte delle classi e dei metodi utilizzati, segue le tecniche di documentazione di Java e può essere consultata al seguente indirizzo: [Javadoc]()
-
-### Coverage report
-Al seguente link è possibile consultare il report della coverage dei test effettuati con Junit: [Report]()
+I diagrammi UML delle classi si trovano nella cartella deliverables del progetto, rappresentano rispettivamente il modello iniziale sviluppato durante la fase di progettazione e i diagrammi del prodotto finale.
 
 
 ### Librerie e Plugins
@@ -36,46 +29,31 @@ Al seguente link è possibile consultare il report della coverage dei test effet
 - Socket
 - 2 FA (Funzionalità Avanzate):
     - __Resilienza alle disconnessioni
-    - __
+    - __Persistenza del server
 
 
 ## Compilazione e packaging
 I jar sono stati realizzati con l'ausilio di Maven Shade Plugin.
-Di seguito sono forniti i jar precompilati.
-Per compilare i jar autonomamente, posizionarsi nella root del progetto e lanciare il comando:
-```
-mvn clean package
-```
-I jar compilati verranno posizionati all'interno della cartella ```target/``` con i nomi
-```masterofrenaissance-client.jar``` e ```masterofrenaissance-server.jar```.
+Nella cartella shade è fornito il jar precompilato.
 
-### Jars
-I Jar del progetto possono essere scaricati al seguente link: [Jars]().
 
 
 ### Master of Renaissance 
 Le seguenti istruzioni descrivono come eseguire il client con interfaccia CLI o GUI.
 
-#### CLI
-Per lanciare  Master of Renaissance CLI digitare da terminale il comando:
+Digitare da terminale il comando:
 ```
 java -jar AM26.jar 
 ```
-#### GUI
-Per poter lanciare la modalità GUI sono disponibili due opzioni:
-- effettuare doppio click sull'eseguibile ```masterofrenaissance-client.jar```
-- digitare da terminale il comando:
-```
-java -jar AM26.jar 
-```
+successivamente sarà possibile scegliere se lanciare server , cli o gui.
 
-### Master of Renaissance Server
-Per lanciare MAsters of Renaissance Server digitare da terminale il comando:
-```
-java -jar AM26.jar  [--port <port_number>]
-```
-#### Parametri
-- `--port` `-p` : permette di specificare la porta del server. Se non specificato il valore di default è __1234__;
+Il progetto è stato testato su: 
+
+shell bash(macOS Catalina 10) , shell cmd e poweshell (Windows 10).
+
+Su OS Windows la Cli deve essere lanciata da terminale WSL2, la Gui da cmd o Powershell.
+
+
 
 ## Componenti del gruppo
 - [__Alessandra Atria__](https://github.com/alessandraatria)

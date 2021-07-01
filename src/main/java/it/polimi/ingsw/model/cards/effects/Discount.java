@@ -43,6 +43,11 @@ public class Discount implements LeaderEffect, Serializable {
         return (resourceType.getResourceType()).name();
     }
 
+    @Override
+    public void deactivateEffect(Player p, PlayerBoard b) {
+        p.getDiscountedResource().remove(resourceType);
+    }
+
     public Resource getResourceType() {
         return resourceType;
     }

@@ -38,17 +38,19 @@ public class MultiGameController extends GameController {
     public synchronized void endGame() {
         ArrayList<Player> winners = game.getWinners();
             for(Player p: winners){
-                getVirtualView(p.getNickName()).update(new WinnerMessage());
-                try {
-                    getVirtualView(p.getNickName()).update(new VictoryPoints(game.getPlayerByNickname(p.getNickName()).getVictoryPoints()));
-                } catch (InvalidNickname invalidNickname) {
-                    invalidNickname.printStackTrace();
+                if(!getDisconnectedClients().contains(p.getNickName())) {
+                    getVirtualView(p.getNickName()).update(new WinnerMessage());
+                    try {
+                        getVirtualView(p.getNickName()).update(new VictoryPoints(game.getPlayerByNickname(p.getNickName()).getVictoryPoints()));
+                    } catch (InvalidNickname invalidNickname) {
+                        invalidNickname.printStackTrace();
+                    }
+
                 }
-
-
             }
             for(Player player: game.getPlayers()){
-                if(!winners.contains(player)) {
+                if(!winners.contains(player) && !getDisconnectedClients().contains(player.getNickName())) {
+
                     getVirtualView(player.getNickName()).update(new LoserMessage());
                     try {
                         getVirtualView(player.getNickName()).update(new VictoryPoints(game.getPlayerByNickname(player.getNickName()).getVictoryPoints()));

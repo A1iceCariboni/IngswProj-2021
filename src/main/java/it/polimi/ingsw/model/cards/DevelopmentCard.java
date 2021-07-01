@@ -66,15 +66,14 @@ public class DevelopmentCard extends Card{
      * @param b playerboard in which che power is applied
      */
     public void startProduction(PlayerBoard b, Player p) {
+        int faithpoints = 0;
         ArrayList<Resource> productResources = this.productionPower.getProductResources();
-        long faithPoints= productResources.stream()
-                            .filter(r -> r.equals(new Resource(ResourceType.FAITH)))
-                            .count();
-        productResources.removeIf(res -> res.equals(new Resource(ResourceType.FAITH)));
-
-
-
-        b.moveFaithMarker((int) faithPoints);
+        for(Resource res: productResources){
+            if(res.getResourceType() == ResourceType.FAITH){
+                faithpoints ++;
+            }
+        }
+        b.moveFaithMarker(faithpoints);
         for (Resource productResourceElem : productResources) {
             b.getStrongBox().addResources(productResourceElem);
         }

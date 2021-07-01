@@ -43,6 +43,16 @@ public class ExtraProductionPower implements LeaderEffect, Serializable {
         return resourceType.getResourceType().name();
     }
 
+    @Override
+    public void deactivateEffect(Player p, PlayerBoard b) {
+       for(ExtraProduction ep: p.getExtraProductionPowers()){
+           if(ep.getId() == id){
+               p.getExtraProductionPowers().remove(ep);
+               break;
+           }
+       }
+    }
+
     public Resource getResourceType() {
         return resourceType;
     }

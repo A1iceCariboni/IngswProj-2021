@@ -160,4 +160,13 @@ public class WareHouse implements Serializable {
         }
         return true;
     }
+
+
+    public void removeExtraDepot(int id){
+     for(Depot d: depots){
+         if(d.getId() == id){
+             depots.remove(d);
+         }
+     }
+    }
 }

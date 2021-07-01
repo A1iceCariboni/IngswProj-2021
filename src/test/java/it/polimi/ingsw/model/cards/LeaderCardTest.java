@@ -4,6 +4,8 @@ import it.polimi.ingsw.enumerations.CardColor;
 import it.polimi.ingsw.enumerations.ResourceType;
 import it.polimi.ingsw.exceptions.CannotAdd;
 import it.polimi.ingsw.exceptions.JsonFileNotFoundException;
+import it.polimi.ingsw.exceptions.NotPossibleToAdd;
+import it.polimi.ingsw.exceptions.NullCardException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.effects.Discount;
 import it.polimi.ingsw.model.cards.effects.JollyMarble;
@@ -187,5 +189,56 @@ class LeaderCardTest {
         LeaderCard l3 = leaderCards.get(1);
         assertEquals(l1,l2);
         assertFalse(l1.equals(l3));
+    }
+
+    @Test
+    public void deactivate() throws JsonFileNotFoundException, NullCardException {
+        Player p = new Player(true, "Alice", 0 , new PlayerBoard(new WareHouse(), new StrongBox()));
+        LeaderDeck leaderDeck = new LeaderDeck(LeaderCardParser.parseLeadCards());
+        LeaderCard leaderCard = null;
+        for(LeaderCard lc: leaderDeck.getCardDeck()){
+            if(lc.getLeaderEffect().getEffectName().equals("EXTRA_PRODUCTION")){
+                leaderCard = lc;
+                p.addLeaderCard(lc);
+                break;
+            }
+        }
+        p.activateLeader(leaderCard, p.getPlayerBoard(), p);
+        assertEquals(p.getExtraProductionPowers().size() ,1);
+        p.discardLeader(leaderCard);
+        assertEquals(p.getExtraProductionPowers().size(), 0);
+        for(LeaderCard lc: leaderDeck.getCardDeck()){
+            if(lc.getLeaderEffect().getEffectName().equals("EXTRA_SLOT")){
+                leaderCard = lc;
+                p.addLeaderCard(lc);
+                break;
+            }
+        }
+        p.activateLeader(leaderCard, p.getPlayerBoard(), p);
+        assertDoesNotThrow(() -> p.getDepotById(4));
+        p.discardLeader(leaderCard);
+        assertThrows(NotPossibleToAdd.class, () -> p.getDepotById(4));
+        for(LeaderCard lc: leaderDeck.getCardDeck()){
+            if(lc.getLeaderEffect().getEffectName().equals("JOLLY_MARBLE")){
+                leaderCard = lc;
+                p.addLeaderCard(lc);
+                break;
+            }
+        }
+        p.activateLeader(leaderCard, p.getPlayerBoard(), p);
+        assertEquals(p.getPossibleWhiteMarbles().size() ,1);
+        p.discardLeader(leaderCard);
+        assertEquals(p.getPossibleWhiteMarbles().size(), 0);
+        for(LeaderCard lc: leaderDeck.getCardDeck()){
+            if(lc.getLeaderEffect().getEffectName().equals("DISCOUNT")){
+                leaderCard = lc;
+                p.addLeaderCard(lc);
+                break;
+            }
+        }
+        p.activateLeader(leaderCard, p.getPlayerBoard(), p);
+        assertEquals(p.getDiscountedResource().size() ,1);
+        p.discardLeader(leaderCard);
+        assertEquals(p.getDiscountedResource().size(), 0);
     }
 }

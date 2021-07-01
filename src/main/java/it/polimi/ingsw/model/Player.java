@@ -103,8 +103,12 @@ public class Player implements Serializable {
      */
     public void discardLeader(LeaderCard card) throws NullCardException {
         if (!this.leaderCards.contains(card)) throw new NullCardException();
-        else
-         this.leaderCards.remove(card);
+        else {
+            if(this.leaderCards.get(leaderCards.indexOf(card)).isActive()){
+                this.leaderCards.get(leaderCards.indexOf(card)).deactivate(this, getPlayerBoard());
+            }
+            this.leaderCards.remove(card);
+        }
     }
 
 

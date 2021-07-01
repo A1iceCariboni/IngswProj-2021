@@ -174,9 +174,10 @@ public class TurnController implements Serializable {
                   }
                   break;
               case LAST_ROUND:
-                  if (activePlayer.equals(game.getFirstPlayer().getNickName())) {
-                      gameController.endGame();
-                  }
+                      if (gameController.getDisconnectedClients().contains(game.getFirstPlayer().getNickName()) || activePlayer.equals(game.getFirstPlayer().getNickName())) {
+                          gameController.endGame();
+                      }
+
                   break;
           }
     }

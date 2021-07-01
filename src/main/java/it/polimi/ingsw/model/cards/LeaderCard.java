@@ -48,6 +48,15 @@ public class LeaderCard extends Card {
         leaderEffect.applyEffect(p,b);
     }
 
+    /**
+     * deactivate the power of the leader card if it's discarded while it's active
+     * @param p
+     * @param b
+     */
+    public void deactivate(Player p, PlayerBoard b){
+        leaderEffect.deactivateEffect(p,b);
+    }
+
     public ArrayList<Requirement> getRequirements() {
         return requirements;
     }

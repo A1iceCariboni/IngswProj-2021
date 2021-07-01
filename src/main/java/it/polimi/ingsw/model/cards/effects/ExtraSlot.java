@@ -13,16 +13,19 @@ public class ExtraSlot implements LeaderEffect, Serializable {
 
     private final ResourceType resourceType;
     private final int quantity;
-
+    private int id;
 
     public ExtraSlot(ResourceType resourceType, int quantity) {
+
         this.resourceType = resourceType;
         this.quantity = quantity;
+        this.id = 0;
     }
 
     @Override
     public void applyEffect(Player p, PlayerBoard b) {
         ExtraDepot extraDepot = new ExtraDepot(quantity,b.getIdForDepot(),resourceType);
+        this.id = extraDepot.getId();
         b.getWareHouse().setExtraDepot(extraDepot);
     }
 
@@ -34,6 +37,11 @@ public class ExtraSlot implements LeaderEffect, Serializable {
     @Override
     public String getType() {
         return resourceType.name();
+    }
+
+    @Override
+    public void deactivateEffect(Player p, PlayerBoard b) {
+        b.getWareHouse().removeExtraDepot(id);
     }
 
     public ResourceType getResourceType() {

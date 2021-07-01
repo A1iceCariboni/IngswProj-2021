@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.cards.effects.ProductionPower;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * an extra production power is a special production power given by a leadercard effect
@@ -44,5 +45,18 @@ public class ExtraProduction {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ExtraProduction that = (ExtraProduction) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, entryResources);
     }
 }

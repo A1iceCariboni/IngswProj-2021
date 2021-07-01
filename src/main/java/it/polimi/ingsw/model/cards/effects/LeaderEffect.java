@@ -9,4 +9,5 @@ public interface LeaderEffect {
     void applyEffect(Player p, PlayerBoard b);
     String getEffectName();
     String getType();
+    void deactivateEffect(Player p, PlayerBoard b);
 }

@@ -814,6 +814,9 @@ public void initGameController(){
        ArrayList<Resource> cost ;
        if(turnPhase == TurnPhase.BUY_DEV) {
            cost = game.getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment().getCost();
+           for(Resource res: game.getCurrentPlayer().getDiscountedResource()){
+               cost.remove(res);
+           }
        }else{
            cost = virtualView.getResourcesToPay();
        }

@@ -36,6 +36,11 @@ public class JollyMarble implements LeaderEffect, Serializable {
         return resourceType.getResourceType().name();
     }
 
+    @Override
+    public void deactivateEffect(Player p, PlayerBoard b) {
+        p.getPossibleWhiteMarbles().remove(resourceType);
+    }
+
     public Resource getResourceType() {
         return resourceType;
     }

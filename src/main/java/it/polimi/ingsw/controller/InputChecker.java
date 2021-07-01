@@ -152,6 +152,9 @@ public class InputChecker implements Serializable {
         ArrayList<Resource> cost;
         if (gameController.getTurnPhase() == TurnPhase.BUY_DEV) {
             cost = game.getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment().getCost();
+            for(Resource res : game.getCurrentPlayer().getDiscountedResource()){
+                cost.remove(res);
+            }
         } else {
             cost = gameController.getVirtualView(nickname).getResourcesToPay();
         }
