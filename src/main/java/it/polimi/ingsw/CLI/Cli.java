@@ -14,6 +14,7 @@ import it.polimi.ingsw.observers.ViewObservable;
 import it.polimi.ingsw.utility.DummyWarehouseConstructor;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
@@ -199,45 +200,27 @@ public class Cli extends ViewObservable implements View {
         System.out.println("9. To see someone else's playerboard");
         int  choice = readInt(9, 1, "What you want to do? Choose a number");
         switch (choice) {
-            case 1:
-                discardLeader();
-                break;
-            case 2:
+            case 1 -> discardLeader();
+            case 2 -> {
                 turnPhase = TurnPhase.ACTIVATE_PRODUCTION;
-
                 activateProduction(new String[0]);
-                break;
-
-            case 3:
-                activateLeader();
-                break;
-
-            case 4:
+            }
+            case 3 -> activateLeader();
+            case 4 -> {
                 turnPhase = TurnPhase.BUY_DEV;
                 buyDevelopmentCard();
-                break;
-
-            case 5:
+            }
+            case 5 -> {
                 turnPhase = TurnPhase.BUY_MARKET;
                 takeResourcesFromMarket();
-                break;
-
-            case 6:
-                modifyWarehouse();
-                break;
-
-            case 7:
-                discardResource();
-                break;
-
-            case 8:
+            }
+            case 6 -> modifyWarehouse();
+            case 7 -> discardResource();
+            case 8 -> {
                 turnPhase = TurnPhase.NOT_YOUR_TURN;
                 notifyObserver(obs -> obs.onReadyReply(new EndTurn()));
-                break;
-
-            case 9:
-                chooseName();
-                break;
+            }
+            case 9 -> chooseName();
         }
     }
 
@@ -265,7 +248,7 @@ public class Cli extends ViewObservable implements View {
             dummyWareHouse.setExtraDepot2(new DummyExtraDepot(dummyExtraDepot2.getId(),dummyExtraDepot2.getDimension(), new ArrayList<>(), dummyExtraDepot2.getResourceType()));
         }
             for(DummyDepot dummyDepot: dummyWareHouse.getDummyDepots()){
-                String answer = "y";
+                String answer ;
                 if(dummyDepot.getId() != -1) {
                     ArrayList<String> res = new ArrayList<>();
                     System.out.println("You want to put resources in depot "+dummyDepot.getId()+ " ?");
@@ -282,7 +265,7 @@ public class Cli extends ViewObservable implements View {
             }
             notifyObserver(obs -> obs.onReadyReply(new DepotMessage(dummyWareHouse)));
         } catch (JsonFileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Error parsing warehouse");
         }
 
 
@@ -304,7 +287,7 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void chooseResources(int quantity) {
         String[] chosenResources = new String[quantity];
-        String resource = null;
+        String resource ;
         for (int i = 0; i < quantity; i++) {
                 resource = readResource();
 
@@ -384,16 +367,12 @@ public class Cli extends ViewObservable implements View {
                     validInput = true;
                     rOc = readLine("Do you want to buy a row(row) or a column(col)?");
                     switch (rOc) {
-                        case "row":
-                            n = readInt(3,1, "Which row? [1/2/3]");
-                            break;
-                        case "col":
-                            n = readInt(4,1,"Which column? [1/2/3/4]");
-                            break;
-                        default:
+                        case "row" -> n = readInt(3, 1, "Which row? [1/2/3]");
+                        case "col" -> n = readInt(4, 1, "Which column? [1/2/3/4]");
+                        default -> {
                             System.out.println("Answer not accepted.\n");
                             validInput = false;
-                            break;
+                        }
                     }
                 } catch (ExecutionException|InterruptedException e) {
                     System.out.println("Interrupted input");
@@ -453,7 +432,7 @@ public class Cli extends ViewObservable implements View {
                 int i = 0;
                 String response = "n";
                     while((i < 3) && (response.equalsIgnoreCase("n"))) {
-                        int id = 0;
+                        int id ;
                         id = readAnyInt("Type the card's id");
                         ids.add(id);
                         i++;
@@ -506,7 +485,7 @@ public class Cli extends ViewObservable implements View {
 
 
     public String readYN(){
-        String res = null;
+        String res = "y";
       do {
           try {
               res = readLine("Type y or n");
@@ -551,11 +530,10 @@ public class Cli extends ViewObservable implements View {
      * reads a number without any restriction
      * @param question question asked to the player
      * @return the number given by the player
-     * @throws ExecutionException if the input stream thread is interrupted
      */
     public int readAnyInt(String question) {
         int number = 0;
-        boolean ok = true;
+        boolean ok ;
         do {
             try {
                 try {
@@ -575,7 +553,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     public String readResource() {
-        String res = null;
+        String res = " ";
         try {
             do {
                 res = readLine("Type the resource name you want : [COIN,SHIELD,SERVANT,STONE]");
@@ -593,13 +571,9 @@ public class Cli extends ViewObservable implements View {
 
 
     public void checkResponse(String name) {
-        switch(name){
-            case "OK":
-                System.out.println("Action completed with success! You can proceed");
-                break;
-            case "ERROR":
-                System.out.println("Invalid action");
-                break;
+        switch (name) {
+            case "OK" -> System.out.println("Action completed with success! You can proceed");
+            case "ERROR" -> System.out.println("Invalid action");
         }
     }
 
@@ -633,7 +607,7 @@ public class Cli extends ViewObservable implements View {
 
 
     public void slotChoice() {
-        int answer = 0;
+        int answer ;
         virtualModel.showPlayerDevCards(virtualModel.getPlayerBoard());
             answer = readInt(3, 1, "In which slot do you want to put the card? [1/2/3]");
             Message messageSlot = new SlotChoice(answer - 1);
@@ -641,7 +615,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     public int readDepotId(){
-        int id = 0;
+        int id ;
         do{
                 id = readAnyInt("Type the id of the depot");
                 if(!virtualModel.getPlayerBoard().getWareHouse().getIds().contains(id)){

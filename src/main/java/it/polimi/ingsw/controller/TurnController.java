@@ -107,7 +107,6 @@ public class TurnController implements Serializable {
             try {
                 game.getCurrentPlayer().discardLeader(game.getCurrentPlayer().getLeadercards().get(0));
             } catch (NullCardException e) {
-                e.printStackTrace();
             }
         }
         int i = 1;

@@ -136,7 +136,7 @@ class MultiGameControllerTest {
       for(Resource resource: res) {
           gameController.getGame().getCurrentPlayer().getPlayerBoard().getStrongBox().addResources(resource);
       }
-      assertEquals(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment(),null);
+        assertNull(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment());
 
       gameController.buyDevelopment(0, 0);
       assertNotEquals(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment(),null);
@@ -148,7 +148,7 @@ class MultiGameControllerTest {
       assertNotEquals(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment(),null);
       assertFalse(gameController.getGame().getCurrentPlayer().getPlayerBoard().getStrongBox().getRes().isEmpty());
       gameController.placeCard(0);
-      assertEquals(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment(),null);
+        assertNull(gameController.getGame().getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment());
   }
 
   @Test
@@ -197,7 +197,6 @@ class MultiGameControllerTest {
       try {
           gameController.getGame().getCurrentPlayer().getPlayerBoard().addDevCard(gameController.getGame().getDeckDevelopment()[0][0].getCard(),0);
       } catch (EmptyDeck emptyDeck) {
-          emptyDeck.printStackTrace();
       }
       int[] id = new int[]{gameController.getGame().getCurrentPlayer().getPlayerBoard().getDevelopmentCards().get(0).getId()};
       gameController.addProductionPower(id);
@@ -232,7 +231,7 @@ class MultiGameControllerTest {
       int id1 = player.getPlayerBoard().getDevCardSlots()[0].getId();
       int id2 = player.getPlayerBoard().getDevCardSlots()[1].getId();
       int i = 0;
-      while(gameController.getGame().getDeckLeader().getCardDeck().get(i).getLeaderEffect().getEffectName() != "EXTRA_PRODUCTION"){
+      while(!gameController.getGame().getDeckLeader().getCardDeck().get(i).getLeaderEffect().getEffectName().equals("EXTRA_PRODUCTION")){
           i++;
       }
       LeaderCard lc = gameController.getGame().getDeckLeader().getCardDeck().get(i);
@@ -242,24 +241,24 @@ class MultiGameControllerTest {
       assertTrue(vv.getCardsToActivate().contains(id1));
       assertTrue(vv.getCardsToActivate().contains(id2));
       assertTrue(vv.getExtraProductionToActivate().isEmpty());
-      assertTrue(!vv.getResourcesToProduce().contains(new Resource(ResourceType.SERVANT)));
+      assertFalse(vv.getResourcesToProduce().contains(new Resource(ResourceType.SERVANT)));
       assertTrue(vv.getResourcesToProduce().isEmpty());
       gameController.addExtraProductionPower(lc.getId(), new Resource(ResourceType.SERVANT));
-      assertTrue(!vv.getExtraProductionToActivate().isEmpty());
+      assertFalse(vv.getExtraProductionToActivate().isEmpty());
       assertTrue(vv.getResourcesToProduce().contains(new Resource(ResourceType.SERVANT)));
-      assertTrue(!vv.getResourcesToProduce().isEmpty());
+      assertFalse(vv.getResourcesToProduce().isEmpty());
 
       gameController.addBasicProduction(new Resource(ResourceType.COIN), new Resource(ResourceType.COIN), new Resource(ResourceType.SHIELD));
       gameController.addBasicProduction(new Resource(ResourceType.COIN), new Resource(ResourceType.COIN), new Resource(ResourceType.SHIELD));
 
       assertTrue(vv.getResourcesToPay().contains(new Resource(ResourceType.COIN)));
-      assertTrue(vv.getBasicProd().equals(new Resource(ResourceType.SHIELD)));
+      assertEquals(vv.getBasicProd(), new Resource(ResourceType.SHIELD));
 
       gameController.startProduction();
       assertTrue(vv.getCardsToActivate().isEmpty());
       assertTrue(vv.getResourcesToProduce().isEmpty());
       assertTrue(vv.getExtraProductionToActivate().isEmpty());
-      assertEquals(vv.getBasicProd(), null);
+      assertNull(vv.getBasicProd());
 
 
 
@@ -267,7 +266,7 @@ class MultiGameControllerTest {
   }
 
   @Test
-    public void changeDepotsState() throws NotPossibleToAdd {
+    public void changeDepotsState(){
       Player player = gameController.getGame().getCurrentPlayer();
 
       Depot[] depots = new Depot[5];

@@ -65,25 +65,21 @@ public class SingleGameController extends GameController{
         try {
             tokenDeck = game.getFakePlayer().getTokenDeck();
         } catch (InvalidNickname invalidNickname) {
-            invalidNickname.printStackTrace();
         }
-        switch(tokenDeck.getPickedTokens().get(tokenDeck.getPickedTokens().size() - 1).getTokenType()){
-            case MOVE_2 :
-            case MOVE_AND_SHUFFLE:
-                if(game.checkPopeSpace()) updateFaith(getVirtualView(turnController.getActivePlayer()), turnController.getActivePlayer() );
+        switch (tokenDeck.getPickedTokens().get(tokenDeck.getPickedTokens().size() - 1).getTokenType()) {
+            case MOVE_2, MOVE_AND_SHUFFLE -> {
+                if (game.checkPopeSpace())
+                    updateFaith(getVirtualView(turnController.getActivePlayer()), turnController.getActivePlayer());
                 sendAll(new GenericMessage("Your opponent picked the " +
                         tokenDeck.getPickedTokens().get(tokenDeck.getPickedTokens().size() - 1).getTokenType() +
                         " token"));
-                break;
-            case DRAW_BLUE:
-            case DRAW_GREEN:
-            case DRAW_PURPLE:
-            case DRAW_YELLOW:
+            }
+            case DRAW_BLUE, DRAW_GREEN, DRAW_PURPLE, DRAW_YELLOW -> {
                 sendUpdateMarketDev(getVirtualView(turnController.getActivePlayer()), turnController.getActivePlayer());
                 sendAll(new GenericMessage("Your opponent picked the " +
                         tokenDeck.getPickedTokens().get(tokenDeck.getPickedTokens().size() - 1).getTokenType() +
                         " token"));
-                break;
+            }
         }
     }
 
@@ -114,7 +110,6 @@ public void putResource(int[] id) throws NotPossibleToAdd{
             try {
                 game.getFakePlayer().moveBlackCross(1);
             } catch (InvalidNickname invalidNickname) {
-                invalidNickname.printStackTrace();
             }
 
         } else {

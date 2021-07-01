@@ -25,7 +25,7 @@ public class DummyPlayerBoard {
         try {
             wareHouse = DummyWarehouseConstructor.parseVoid();
         } catch (JsonFileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Error parsing the warehouse");
         }
         strongBox = new DummyStrongbox(new ArrayList<>());
         faithMarker = 0;

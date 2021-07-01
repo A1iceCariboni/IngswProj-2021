@@ -312,7 +312,7 @@ public class Board extends ViewObservable {
             try {
                 GUIRunnable.moveFromDepot(r, observers).setWarehouse(virtualModel);
             } catch (JsonFileNotFoundException e) {
-                e.printStackTrace();
+                System.out.println("Error loading the warehouse");
             }
         });
     }

@@ -13,6 +13,7 @@ import it.polimi.ingsw.model.cards.effects.ExtraProductionPower;
 import it.polimi.ingsw.server.Server;
 import it.polimi.ingsw.server.VirtualView;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -107,11 +108,11 @@ public void initGameController(){
         try {
             vv.update(new DepotMessage(game.getPlayerByNickname(nickname).getPlayerBoard().getWareHouse().getDummy()));
         } catch (InvalidNickname invalidNickname) {
-            invalidNickname.printStackTrace();
+            vv.update(new ErrorMessage("This is not a player"));
         }
     }
     public void removeAllDisconnectedClients(){
-        disconnectedClients.removeAll(disconnectedClients);
+        disconnectedClients.clear();
     }
 
     /**
@@ -123,7 +124,8 @@ public void initGameController(){
         try {
             strongBox = game.getPlayerByNickname(nickname).getPlayerBoard().getStrongBox();
         } catch (InvalidNickname invalidNickname) {
-            invalidNickname.printStackTrace();
+            vv.update(new ErrorMessage("This is not a player"));
+
         }
         vv.update(new DummyStrongBox(strongBox));
     }
@@ -140,7 +142,7 @@ public void initGameController(){
 
     /**
      * sends a generic message to all clients
-     * @param message
+     * @param message message to send
      */
     public void sendAll(Message message){
         for(VirtualView vv: connectedClients.values()){
@@ -162,7 +164,7 @@ public void initGameController(){
         try {
             developmentCards = game.getPlayerByNickname(nickname).getPlayerBoard().getDevCardSlots();
         } catch (InvalidNickname invalidNickname) {
-            invalidNickname.printStackTrace();
+            virtualView.update(new ErrorMessage("This is not a player"));
         }
 
         virtualView.update(new DevelopmentSlots(developmentCards));
@@ -176,7 +178,7 @@ public void initGameController(){
         try {
             leaderCards = game.getPlayerByNickname(nickname).getLeadercards();
         } catch (InvalidNickname invalidNickname) {
-            invalidNickname.printStackTrace();
+            virtualView.update(new ErrorMessage("This is not a player"));
         }
 
         virtualView.update(new DummyLeader(leaderCards));
@@ -327,7 +329,7 @@ public void initGameController(){
         try {
             vv.update(new FaithMove(game.getPlayerByNickname(nickname).getPlayerBoard().getFaithMarker()));
         } catch (InvalidNickname invalidNickname) {
-            invalidNickname.printStackTrace();
+            vv.update(new ErrorMessage("This is not a player"));
         }
         if(disconnectedClients.size() == numberOfPlayers - 1){
            turnController.goTo(nickname);
@@ -353,7 +355,7 @@ public void initGameController(){
         try {
             view.update(new FaithMove(game.getPlayerByNickname(nickname).getPlayerBoard().getFaithMarker()));
         } catch (InvalidNickname invalidNickname) {
-            invalidNickname.printStackTrace();
+            view.update(new ErrorMessage("This is not a player"));
         }
         if(game.checkPopeSpace()){
              for(String name : connectedClients.keySet()) {
@@ -372,26 +374,18 @@ public void initGameController(){
             try {
                 virtualView.update(new FaithMove(game.getPlayerByNickname(virtualView.getNickname()).getPlayerBoard().getFaithMarker()));
             } catch (InvalidNickname invalidNickname) {
-                invalidNickname.printStackTrace();
+                virtualView.update(new ErrorMessage("This is not a player"));
             }
         }
     }
 
     public void actionHandler(String line, VirtualView virtualView) {
 
-        switch(turnPhase){
-            case FREE:
-                inGameHandler(line,virtualView);
-                break;
-            case BUY_DEV:
-                buyDevHandler(line,virtualView);
-                break;
-            case BUY_MARKET:
-                buyMarketHandler(line,virtualView);
-                break;
-            case ACTIVATE_PRODUCTION:
-                productionHandler(line, virtualView);
-                break;
+        switch (turnPhase) {
+            case FREE -> inGameHandler(line, virtualView);
+            case BUY_DEV -> buyDevHandler(line, virtualView);
+            case BUY_MARKET -> buyMarketHandler(line, virtualView);
+            case ACTIVATE_PRODUCTION -> productionHandler(line, virtualView);
         }
     }
 
@@ -512,8 +506,7 @@ public void initGameController(){
         ArrayList<String> names = new ArrayList<>();
         DevelopmentCard developmentCard;
         if(turnPhase == TurnPhase.BUY_DEV){
-            ArrayList<Resource> cost = new ArrayList<>();
-            cost.addAll(game.getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment().getCost());
+            ArrayList<Resource> cost = new ArrayList<>(game.getCurrentPlayer().getPlayerBoard().getUnplacedDevelopment().getCost());
             for(Resource res : game.getCurrentPlayer().getDiscountedResource()){
                 cost.remove(res);
             }
@@ -527,7 +520,7 @@ public void initGameController(){
             }
         }
 
-        virtualView.update(new ResourcePayment(names.toArray(new String[names.size()])));
+        virtualView.update(new ResourcePayment(names.toArray(new String[0])));
     }
 
     public  void buyDevHandler(String line, VirtualView virtualView) {
@@ -566,8 +559,8 @@ public void initGameController(){
 
     /**
      * handels the actions in the game
-     * @param line
-     * @param virtualView
+     * @param line line received
+     * @param virtualView virtual view of the client
      */
 
     public void inGameHandler(String line, VirtualView virtualView) {
@@ -576,12 +569,12 @@ public void initGameController(){
         Gson gson = new Gson();
         if(inputChecker.checkReceivedMessage(line, turnController.getActivePlayer())) {
             switch (message.getCode()) {
-                case BUY_DEV:
+                case BUY_DEV -> {
                     BuyDev buyDev = gson.fromJson(line, BuyDev.class);
                     int[] dim = buyDev.getCoordinates();
                     buyDevelopment(dim[0], dim[1]);
-                    break;
-                case BUY_MARKET:
+                }
+                case BUY_MARKET -> {
                     turnPhase = TurnPhase.BUY_MARKET;
                     BuyMarket buyMarket = gson.fromJson(line, BuyMarket.class);
                     String choice = buyMarket.getRoc();
@@ -590,65 +583,61 @@ public void initGameController(){
                     } else {
                         getFromMarketCol(buyMarket.getNum());
                     }
-                    break;
-                case DEPOTS:
-                        DepotMessage depotMessage = gson.fromJson(line, DepotMessage.class);
+                }
+                case DEPOTS -> {
+                    DepotMessage depotMessage = gson.fromJson(line, DepotMessage.class);
                     try {
                         changeDepotsState(depotMessage.getWareHouse());
                     } catch (NotPossibleToAdd notPossibleToAdd) {
+                        virtualView.update(new ErrorMessage(""));
                     }
                     virtualView.update(new Message(MessageType.OK, "Rearranged warehouse!"));
-                        sendDepots(connectedClients.get(turnController.getActivePlayer()) , turnController.getActivePlayer());
-                        virtualView.update(new NotifyTurn());
-
-                    break;
-                case ACTIVATE_PRODUCTION:
-                case EXTRA_PRODUCTION:
-                case BASE_PRODUCTION:
+                    sendDepots(connectedClients.get(turnController.getActivePlayer()), turnController.getActivePlayer());
+                    virtualView.update(new NotifyTurn());
+                }
+                case ACTIVATE_PRODUCTION, EXTRA_PRODUCTION, BASE_PRODUCTION -> {
                     turnPhase = TurnPhase.ACTIVATE_PRODUCTION;
                     productionHandler(line, virtualView);
-                    break;
-                case ACTIVATE_LEADER_CARD:
+                }
+                case ACTIVATE_LEADER_CARD -> {
                     ActivateLeader activateLeader = gson.fromJson(line, ActivateLeader.class);
                     activateLeaderCard(activateLeader.getId());
-                    break;
-                case DISCARD_LEADER:
+                }
+                case DISCARD_LEADER -> {
                     DiscardLeader discardLeader = gson.fromJson(line, DiscardLeader.class);
                     discardLeaderCard(discardLeader.getIds());
-                        break;
-                case END_TURN:
-                    turnController.nextTurn();
-                    break;
-                case REMOVE_RESOURCES:
+                }
+                case END_TURN -> turnController.nextTurn();
+                case REMOVE_RESOURCES -> {
                     RemoveResource resource = gson.fromJson(line, RemoveResource.class);
                     removeResource(resource.getId());
-                    break;
-                case SEE_PLAYERBOARD:
+                }
+                case SEE_PLAYERBOARD -> {
                     SeePlayerBoard seePlayerBoard = gson.fromJson(line, SeePlayerBoard.class);
-                    if(numberOfPlayers == 1){
+                    if (numberOfPlayers == 1) {
                         try {
                             virtualView.update(new OtherVictoryPoints(game.getFakePlayer().getVictoryPoints()));
                         } catch (InvalidNickname invalidNickname) {
-                            invalidNickname.printStackTrace();
+                            virtualView.update(new ErrorMessage("This is not a player"));
                         }
                         sendBlackCross();
                         virtualView.update(new NotifyTurn());
 
-                    }else{
-                    try {
-                        sendOtherPlayerBoard(seePlayerBoard.getNickname());
-                        virtualView.update(new NotifyTurn());
+                    } else {
+                        try {
+                            sendOtherPlayerBoard(seePlayerBoard.getNickname());
+                            virtualView.update(new NotifyTurn());
 
-                    } catch (InvalidNickname invalidNickname) {
-                        virtualView.update(new ErrorMessage("not a player"));
-                        virtualView.update(new NotifyTurn());
+                        } catch (InvalidNickname invalidNickname) {
+                            virtualView.update(new ErrorMessage("not a player"));
+                            virtualView.update(new NotifyTurn());
+                        }
                     }
-                    }
-                    break;
-                default:
+                }
+                default -> {
                     virtualView.update(new ErrorMessage("Invalid message for this state"));
                     virtualView.update(new NotifyTurn());
-                    break;
+                }
             }
         }else{
             virtualView.sendInvalidActionMessage();
@@ -662,8 +651,8 @@ public void initGameController(){
 
     /**
      * handles the first round of the game where the players can only discard 2 leadercards and choose initial the resources
-     * @param line
-     * @param virtualView
+     * @param line  line received
+     * @param virtualView of the client who sent the line
      */
     public void firstRoundHandler(String line, VirtualView virtualView) {
         Gson gson = new Gson();
@@ -746,12 +735,12 @@ public void initGameController(){
        try {
            vv.update(new BlackCross(game.getFakePlayer().getBlackCross()));
        } catch (InvalidNickname invalidNickname) {
-           invalidNickname.printStackTrace();
+           vv.update(new ErrorMessage("This is not a player"));
        }
    }
     /**
      * place the payed card in the chosen slot
-     * @param slot
+     * @param slot the chosen slot
      */
    public void placeCard(int slot){
        String name = game.getCurrentPlayer().getNickName();
@@ -826,6 +815,7 @@ public void initGameController(){
                    cost.remove(game.getCurrentPlayer().getDepotById(j).getDepot().get(0));
                    game.getCurrentPlayer().getDepotById(j).removeResource();
                } catch (NotPossibleToAdd notPossibleToAdd) {
+                   virtualView.update(new ErrorMessage(""));
                }
            }
        }
@@ -950,9 +940,7 @@ public void initGameController(){
         final VirtualView virtualView = this.getConnectedClients().get(name);
         for(int i = 0; i < marb.length; i++){
             Resource resource = new Resource(ResourceType.valueOf(marb[i]));
-            virtualView.getFreeMarble().get(i).setMarbleEffect(playerBoard -> {
-                playerBoard.addUnplacedResource(resource);
-            });
+            virtualView.getFreeMarble().get(i).setMarbleEffect(playerBoard -> playerBoard.addUnplacedResource(resource));
             virtualView.getFreeMarble().get(i).getMarbleEffect().giveResourceTo(this.game.getCurrentPlayer().getPlayerBoard());
         }
         virtualView.removeAllFreeMarbles();
@@ -974,13 +962,15 @@ public void initGameController(){
         final String name = this.game.getCurrentPlayer().getNickName();
         final VirtualView virtualView = this.getConnectedClients().get(name);
         for( Depot d: depots){
-            Depot toChange = null;
+            Depot toChange ;
             try {
                 toChange = this.game.getCurrentPlayer().getDepotById(d.getId());
+                toChange.setDepot(d.getDepot());
+
             } catch (NotPossibleToAdd notPossibleToAdd) {
+                virtualView.update(new ErrorMessage(""));
 
             }
-            toChange.setDepot(d.getDepot());
         }
     }
 
@@ -1013,6 +1003,7 @@ public void initGameController(){
             ExtraProductionPower extraProductionPower = (ExtraProductionPower) game.getCurrentPlayer().getLeaderCardById(id).getLeaderEffect();
             id1 = extraProductionPower.getId();
         } catch (NullCardException e) {
+            virtualView.update(new ErrorMessage(""));
         }
 
         for(ExtraProduction extraProduction : game.getCurrentPlayer().getExtraProductionPowers()){
@@ -1092,6 +1083,7 @@ public void initGameController(){
                 getVirtualView(game.getCurrentPlayer().getNickName()).update(new ErrorMessage("You don't fit the requirements"));
             }
         } catch (NullCardException e) {
+
         }
         getVirtualView(game.getCurrentPlayer().getNickName()).update(new NotifyTurn());
     }
@@ -1107,7 +1099,6 @@ public void initGameController(){
      * discard the selected leader card, if it's the first round proceed to add resources to
      * the players as in the rules, if it's not the turn of the player continues
      * @param id array of ids of the leadercard to discard form the hand of the player
-     * @throws NullCardException if the player has not the card but this really shouldn't happen
      */
     public  void discardLeaderCard(final int id) {
         final String name = this.game.getCurrentPlayer().getNickName();
@@ -1124,7 +1115,7 @@ public void initGameController(){
             this.updateFaith(virtualView, name);
         }
         }catch (NullCardException e) {
-            e.printStackTrace();
+            virtualView.update(new ErrorMessage(""));
         }
         virtualView.update(new OkMessage("Card successfully discarded!"));
         if(this.gamePhase == GamePhase.FIRST_ROUND){

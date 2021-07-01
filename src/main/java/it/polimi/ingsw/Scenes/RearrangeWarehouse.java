@@ -19,7 +19,7 @@ import javafx.scene.image.ImageView;
 import java.util.ArrayList;
 
 
-/**@author Alessandra Atria*/
+/**@author Alessandra Atria
 /** This class represents the controller for the scene where
  * the player can rearrange his resources in the warehouse*/
 public class RearrangeWarehouse extends ViewObservable {
@@ -119,37 +119,37 @@ public class RearrangeWarehouse extends ViewObservable {
         this.virtualModel = virtualModel;
 
         //sets warehouse
-        if(virtualModel.getSlot1()!= "") {
+        if(!virtualModel.getSlot1().equals("")) {
             Image im1 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot1() + ".png"));
             r1.setImage(im1);
             r1.setOpacity(1);
             res.add(virtualModel.getSlot1());
         }
-        if(virtualModel.getSlot2()!= "") {
+        if(!virtualModel.getSlot2().equals("")) {
             Image im2 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot2() + ".png"));
             r2.setImage(im2);
             r2.setOpacity(1);
             res.add(virtualModel.getSlot2());
         }
-        if(virtualModel.getSlot3()!= "") {
+        if(!virtualModel.getSlot3().equals("")) {
             Image im3 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot3() + ".png"));
             r3.setImage(im3);
             r3.setOpacity(1);
             res.add(virtualModel.getSlot3());
         }
-        if(virtualModel.getSlot4()!= "") {
+        if(!virtualModel.getSlot4().equals("")) {
             Image im4 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot4() + ".png"));
             r4.setImage(im4);
             r4.setOpacity(1);
             res.add(virtualModel.getSlot4());
         }
-        if(virtualModel.getSlot5()!= "") {
+        if(!virtualModel.getSlot5().equals("")) {
             Image im5 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot5() + ".png"));
             r5.setImage(im5);
             r5.setOpacity(1);
             res.add(virtualModel.getSlot5());
         }
-        if(virtualModel.getSlot6()!= "") {
+        if(!virtualModel.getSlot6().equals("")) {
             Image im6 = new Image(getClass().getResourceAsStream("/PunchBoard/" + virtualModel.getSlot6() + ".png"));
             r6.setImage(im6);
             r6.setOpacity(1);
@@ -195,7 +195,7 @@ public class RearrangeWarehouse extends ViewObservable {
             if(dummyExtraDepot2.getId() != -1)
                 dummyWareHouse.setExtraDepot2(new DummyExtraDepot(dummyExtraDepot2.getId(),dummyExtraDepot2.getDimension(), new ArrayList<>(), dummyExtraDepot2.getResourceType()));
         } catch (JsonFileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Error loading the warehouse");
         }
 
         if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId() == -1) {
@@ -209,21 +209,13 @@ public class RearrangeWarehouse extends ViewObservable {
         }
 
         String type = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResourceType();
-        Image i = null;
-        switch (type) {
-            case ("COIN"):
-                i = new Image((getClass().getResourceAsStream("/CardsFront/led8.png")));
-                break;
-            case ("STONE"):
-                i = new Image((getClass().getResourceAsStream("/CardsFront/led5.png")));
-                break;
-            case ("SERVANT"):
-                i = new Image((getClass().getResourceAsStream("/CardsFront/led6.png")));
-                break;
-            case ("SHIELD"):
-                i = new Image((getClass().getResourceAsStream("/CardsFront/led7.png")));
-                break;
-        }
+        Image i = switch (type) {
+            case ("COIN") -> new Image((getClass().getResourceAsStream("/CardsFront/led8.png")));
+            case ("STONE") -> new Image((getClass().getResourceAsStream("/CardsFront/led5.png")));
+            case ("SERVANT") -> new Image((getClass().getResourceAsStream("/CardsFront/led6.png")));
+            case ("SHIELD") -> new Image((getClass().getResourceAsStream("/CardsFront/led7.png")));
+            default -> null;
+        };
 
         if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId() != -1) {
             led1.setImage(i);
@@ -231,21 +223,13 @@ public class RearrangeWarehouse extends ViewObservable {
         }
 
         String type1 = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getResourceType();
-        Image i2 = null;
-        switch (type1) {
-            case ("COIN"):
-                i2 = new Image((getClass().getResourceAsStream("/CardsFront/led8.png")));
-                break;
-            case ("STONE"):
-                i2 = new Image((getClass().getResourceAsStream("/CardsFront/led5.png")));
-                break;
-            case ("SERVANT"):
-                i2 = new Image((getClass().getResourceAsStream("/CardsFront/led6.png")));
-                break;
-            case ("SHIELD"):
-                i2 = new Image((getClass().getResourceAsStream("/CardsFront/led7.png")));
-                break;
-        }
+        Image i2 = switch (type1) {
+            case ("COIN") -> new Image((getClass().getResourceAsStream("/CardsFront/led8.png")));
+            case ("STONE") -> new Image((getClass().getResourceAsStream("/CardsFront/led5.png")));
+            case ("SERVANT") -> new Image((getClass().getResourceAsStream("/CardsFront/led6.png")));
+            case ("SHIELD") -> new Image((getClass().getResourceAsStream("/CardsFront/led7.png")));
+            default -> null;
+        };
 
         if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId() != -1) {
             led2.setOpacity(1);

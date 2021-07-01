@@ -48,6 +48,7 @@ public class VirtualView implements Observer {
                 clientHandler.sendMessage(new ErrorMessage("The game is already started, try again later"));
             } else {
                 clientHandler.sendMessage(new InvalidNickname("This nickname is already in use, try another one"));
+                clientHandler.sendMessage(new ErrorMessage("Nickname already in use"));
             }
         }
     }
@@ -95,7 +96,7 @@ public class VirtualView implements Observer {
     }
 
     public void removeAllFreeMarbles() {
-        this.freeMarble.removeAll(this.freeMarble);
+        this.freeMarble.clear();
     }
 
 
@@ -110,11 +111,11 @@ public class VirtualView implements Observer {
     }
 
     public void removeCardsToActivate() {
-        this.cardsToActivate.removeAll(this.cardsToActivate);
+        this.cardsToActivate.clear();
     }
 
     public void removeResourcesToPay() {
-        this.resourcesToPay.removeAll(this.resourcesToPay);
+        this.resourcesToPay.clear();
     }
 
     public ArrayList<Resource> getResourcesToPay() {
@@ -130,7 +131,7 @@ public class VirtualView implements Observer {
     }
 
     public void removeAllExtraProduction(){
-        this.extraProductionToActivate.removeAll(this.extraProductionToActivate);
+        this.extraProductionToActivate.clear();
     }
 
     public void addResourceToProduce(Resource resource){
@@ -138,7 +139,7 @@ public class VirtualView implements Observer {
     }
 
     public void removeAllResourcesToProduce(){
-        this.resourcesToProduce.removeAll(this.resourcesToProduce);
+        this.resourcesToProduce.clear();
     }
 
     public Resource getBasicProd() {

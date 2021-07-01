@@ -49,7 +49,7 @@ public class InputChecker implements Serializable {
                 return (checkPayment(resourcePayment.getIds(), nickname)) && ((gameController.getTurnPhase() == TurnPhase.BUY_DEV) || (gameController.getTurnPhase() == TurnPhase.ACTIVATE_PRODUCTION));
             case PLACE_RESOURCE_WAREHOUSE:
                 PlaceResources placeResources = gson.fromJson(line, PlaceResources.class);
-                int id[] = placeResources.getIds();
+                int[] id = placeResources.getIds();
                 for(int j = 0; j < id.length; j++){
                     try {
                         if((id[j] != -1) && (!checkIdDepot(id[j])||(!canAddToDepot(game.getCurrentPlayer().getPlayerBoard().getUnplacedResources().get(j), game.getCurrentPlayer().getDepotById(id[j]))))) return false;
@@ -85,7 +85,7 @@ public class InputChecker implements Serializable {
                 ArrayList<Resource> resources1 = new ArrayList<>();
                 resources1.add(res1);
                 resources1.add(res2);
-                return checkResources(resources1);
+                return checkResources(resources1) && gameController.getVirtualView(game.getCurrentPlayer().getNickName()).getBasicProd() == null;
 
             case ACTIVATE_LEADER_CARD:
                 ActivateLeader activateLeader = gson.fromJson(line,ActivateLeader.class);
@@ -127,9 +127,15 @@ public class InputChecker implements Serializable {
         ArrayList<Resource> price = new ArrayList<>();
         price.addAll(gameController.getVirtualView(game.getCurrentPlayer().getNickName()).getResourcesToPay());
         price.addAll(resource);
+        for(int id: gameController.getVirtualView(game.getCurrentPlayer().getNickName()).getCardsToActivate()){
+            for(DevelopmentCard developmentCard: game.getCurrentPlayer().getPlayerBoard().getDevelopmentCards()){
+                if(developmentCard.getId() == id){
+                    price.addAll(developmentCard.getProductionPower().getEntryResources());
+                }
+            }
+        }
         if(game.getCurrentPlayer().getPlayerBoard().getResources().isEmpty())return false;
-        ArrayList<Resource> wallet = new ArrayList<>();
-        wallet.addAll(game.getCurrentPlayer().getPlayerBoard().getResources());
+        ArrayList<Resource> wallet = new ArrayList<>(game.getCurrentPlayer().getPlayerBoard().getResources());
 
         while(!wallet.isEmpty() && !price.isEmpty() && wallet.contains(price.get(0))){
             wallet.remove(price.get(0));
@@ -211,8 +217,7 @@ public class InputChecker implements Serializable {
             newPlacement.addAll(depot.getDepot());
         }
         if(newPlacement.size() != game.getCurrentPlayer().getPlayerBoard().getWareHouse().getResources().size()) return false;
-        ArrayList<Resource> intersection = new ArrayList<>();
-        intersection.addAll(newPlacement);
+        ArrayList<Resource> intersection = new ArrayList<>(newPlacement);
         intersection.removeAll(game.getCurrentPlayer().getPlayerBoard().getWareHouse().getResources());
         if (intersection.isEmpty()) {
             intersection.addAll(game.getCurrentPlayer().getPlayerBoard().getWareHouse().getResources());
@@ -317,7 +322,7 @@ public class InputChecker implements Serializable {
      * @return true if it is owned
      */
     public boolean checkLeaderCard(int id) {
-        LeaderCard leaderCard = null;
+        LeaderCard leaderCard ;
         try {
             leaderCard = game.getCurrentPlayer().getLeaderCardById(id);
             return !leaderCard.isActive();

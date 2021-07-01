@@ -43,7 +43,7 @@ public class MultiGameController extends GameController {
                     try {
                         getVirtualView(p.getNickName()).update(new VictoryPoints(game.getPlayerByNickname(p.getNickName()).getVictoryPoints()));
                     } catch (InvalidNickname invalidNickname) {
-                        invalidNickname.printStackTrace();
+                        getVirtualView(p.getNickName()).update(new ErrorMessage("This is not a player"));
                     }
 
                 }
@@ -55,7 +55,7 @@ public class MultiGameController extends GameController {
                     try {
                         getVirtualView(player.getNickName()).update(new VictoryPoints(game.getPlayerByNickname(player.getNickName()).getVictoryPoints()));
                     } catch (InvalidNickname invalidNickname) {
-                        invalidNickname.printStackTrace();
+                        getVirtualView(player.getNickName()).update(new ErrorMessage("This is not a player"));
                     }
                 }
             }

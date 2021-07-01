@@ -30,7 +30,8 @@ I diagrammi UML delle classi si trovano nella cartella deliverables del progetto
 - 2 FA (Funzionalità Avanzate):
     - __Resilienza alle disconnessioni
     - __Persistenza del server
-
+  
+Il server gestisce una sola partita per volta, anche in caso di disconnessione di tutti i giocatori la partita si conserva e non viene automaticamente terminata
 
 ## Compilazione e packaging
 I jar sono stati realizzati con l'ausilio di Maven Shade Plugin.
@@ -56,6 +57,6 @@ Su OS Windows la Cli deve essere lanciata da terminale WSL2, la Gui da cmd o Pow
 
 
 ## Componenti del gruppo
-- [__Alessandra Atria__](https://github.com/alessandraatria)
-- [__Alice Cariboni__](https://github.com/alicecariboni)
-- [__Sofia Canestraci__](https://github.com/sofiacanestraci)
+- [__Alessandra Atria__](https://github.com/Aleatria)
+- [__Alice Cariboni__](https://github.com/A1iceCariboni)
+- [__Sofia Canestraci__](https://github.com/SofiaGretaCanestraci)

@@ -32,14 +32,13 @@ public class ClientHandler implements  Runnable{
     /**
      * default constructor
      * @param client the new client connected to the socket
-     * @param socketServer
+     * @param socketServer socket server side
      */
     public ClientHandler(Socket client, SocketServer socketServer, Server server) {
         this.client = client;
         connected = true;
         this.server = server;
         this.socketServer = socketServer;
-        connected = true;
         ponger = Executors.newSingleThreadScheduledExecutor();
 
         try {
@@ -47,7 +46,6 @@ public class ClientHandler implements  Runnable{
             in = new BufferedReader(new InputStreamReader(client.getInputStream()));
             out = new PrintWriter(client.getOutputStream());
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
