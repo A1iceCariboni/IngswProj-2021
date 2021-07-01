@@ -116,18 +116,28 @@ public class DiscarLeaderCards extends ViewObservable {
         if(virtualModel.getLeaderCards().size() >= 1) {
             Image img1 = new Image(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getLeaderCards().get(0).getId() + ".png"));
             l1.setImage(img1);
-        }
+        }else{
+            DiscardButton1.setDisable(true);
+            ActivateButton1.setDisable(true);}
         if(virtualModel.getLeaderCards().size() >= 2) {
             Image img2 = new Image(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getLeaderCards().get(1).getId() + ".png"));
             l2.setImage(img2);
-        }
+        }else {
+            DiscardButton2.setDisable(true);
+            ActivateButton2.setDisable(true);}
         if(virtualModel.getLeaderCards().size() >= 3) {
             Image img3 = new Image(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getLeaderCards().get(2).getId() + ".png"));
             l3.setImage(img3);
+        }else {
+            DiscardButton3.setDisable(true);
+            ActivateButton3.setDisable(true);
         }
         if(virtualModel.getLeaderCards().size() >= 4) {
             Image img4 = new Image(getClass().getResourceAsStream("/CardsFront/led" + virtualModel.getLeaderCards().get(3).getId() + ".png"));
             l4.setImage(img4);
+        }else {
+            DiscardButton4.setDisable(true);
+            ActivateButton4.setDisable(true);
         }
 
     }

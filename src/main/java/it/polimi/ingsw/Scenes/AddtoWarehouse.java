@@ -253,7 +253,7 @@ public class AddtoWarehouse extends ViewObservable {
 
         if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId() == -1) {
             ex2.setDisable(true);
-            ex1.setOpacity(0);
+            ex2.setOpacity(0);
         }
         type = virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getResourceType();
         Image ex1 = null;
@@ -401,10 +401,12 @@ public class AddtoWarehouse extends ViewObservable {
 
         if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot1().getId() == -1) {
             ex11.setDisable(true);
+            ex11.setOpacity(0);
         }
 
         if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId() == -1) {
             ex12.setDisable(true);
+            ex12.setOpacity(0);
         }
 
 
@@ -506,6 +508,7 @@ public class AddtoWarehouse extends ViewObservable {
         ex1.setOpacity(0);
         ex2.setOpacity(0);
         disc.setOpacity(0);
+        strongbox.setOpacity(0);
     }
 
 
