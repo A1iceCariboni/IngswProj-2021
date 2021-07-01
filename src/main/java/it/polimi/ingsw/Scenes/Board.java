@@ -446,8 +446,16 @@ public class Board extends ViewObservable {
         command1[z] = "SERVANT";
         z++;
         if(z == 3) {
-            confirm2.setDisable(false);
-            confirm2.setOpacity(1);
+            confirm2.setDisable(true);
+            confirm2.setOpacity(0);
+            stonebp.setOpacity(0);
+            stonebp.setDisable(true);
+            shieldbp.setOpacity(0);
+            shieldbp.setDisable(true);
+            servantbp.setDisable(true);
+            servantbp.setOpacity(0);
+            coinbp.setOpacity(0);
+            coinbp.setDisable(true);
 
         }
     }
@@ -458,7 +466,14 @@ public class Board extends ViewObservable {
         if(z == 3) {
             confirm2.setDisable(false);
             confirm2.setOpacity(1);
-
+            stonebp.setOpacity(0);
+            stonebp.setDisable(true);
+            shieldbp.setOpacity(0);
+            shieldbp.setDisable(true);
+            servantbp.setDisable(true);
+            servantbp.setOpacity(0);
+            coinbp.setOpacity(0);
+            coinbp.setDisable(true);
         }
     }
 
@@ -468,6 +483,14 @@ public class Board extends ViewObservable {
         if(z == 3) {
             confirm2.setDisable(false);
             confirm2.setOpacity(1);
+            stonebp.setOpacity(0);
+            stonebp.setDisable(true);
+            shieldbp.setOpacity(0);
+            shieldbp.setDisable(true);
+            servantbp.setDisable(true);
+            servantbp.setOpacity(0);
+            coinbp.setOpacity(0);
+            coinbp.setDisable(true);
         }
     }
 
@@ -477,6 +500,14 @@ public class Board extends ViewObservable {
         if(z == 3) {
             confirm2.setDisable(false);
             confirm2.setOpacity(1);
+            stonebp.setOpacity(0);
+            stonebp.setDisable(true);
+            shieldbp.setOpacity(0);
+            shieldbp.setDisable(true);
+            servantbp.setDisable(true);
+            servantbp.setOpacity(0);
+            coinbp.setOpacity(0);
+            coinbp.setDisable(true);
         }
     }
 
@@ -796,10 +827,11 @@ public class Board extends ViewObservable {
 
         victoryPoints.setText(Integer.toString(virtualModel.getVictoryPoints()));
 
-        if(virtualModel.getLeaderCards().size() == 2) {
-            if (!virtualModel.getLeaderCards().get(0).isActive() && !virtualModel.getLeaderCards().get(1).isActive())
-                activeLp.setDisable(true);
-        }
+        activeLp.setDisable(true);
+        if(virtualModel.getLeaderCards().size()>=2)
+         if (virtualModel.getLeaderCards().get(0).isActive() || virtualModel.getLeaderCards().get(1).isActive())
+                activeLp.setDisable(false);
+
         if(virtualModel.getPlayerBoard().getDevSections()[0]== null && virtualModel.getPlayerBoard().getDevSections()[1]== null &&virtualModel.getPlayerBoard().getDevSections()[2]== null){
             activatedp.setDisable(true);
         }

@@ -17,8 +17,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /** @author Alessandra Atria*/
-/** This class represents the controller for the scene wher
- * e the first player chooses the number of players he wants to play with */
+/** This class represents the controller for the scene where
+ *  the first player chooses the number of players he wants to play with */
 
 public class NumberOfPlayers extends ViewObservable {
   ObservableList list = FXCollections.observableArrayList();
