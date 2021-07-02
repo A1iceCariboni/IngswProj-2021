@@ -165,7 +165,7 @@ public class WareHouse implements Serializable {
     public void removeExtraDepot(int id){
      for(Depot d: depots){
          if(d.getId() == id){
-             depots.remove(d);
+             depots.set(depots.indexOf(d), new ExtraDepot(0, -1, ResourceType.NONE));
          }
      }
     }

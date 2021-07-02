@@ -101,6 +101,10 @@ public void initGameController(){
         sendAll(new GenericMessage("Player " + nickname + " disconnected"));
     }
 
+    public void removePlayer(String nickname){
+        players.remove(nickname);
+    }
+
     /**
      * sends the depots new depots to the current player, regular depot and extra depots
      */
@@ -331,7 +335,7 @@ public void initGameController(){
         } catch (InvalidNickname invalidNickname) {
             vv.update(new ErrorMessage("This is not a player"));
         }
-        if(disconnectedClients.size() == numberOfPlayers - 1){
+        if(connectedClients.size() == 1){
            turnController.goTo(nickname);
         }else{
             vv.update(new GenericMessage("Wait it's "+ turnController.getActivePlayer() +"'s turn"));
@@ -438,7 +442,7 @@ public void initGameController(){
                         virtualView.update(new NotifyTurn());
                         virtualView.doneGameAction(1);
                     }else {
-                      virtualView.update(new ErrorMessage(""));
+                      virtualView.update(new ErrorMessage("These are not the right resources!"));
                       sendResourcesToPay();
                     }
                     break;
@@ -453,7 +457,7 @@ public void initGameController(){
                         virtualView.removeAllResourcesToProduce();
                         virtualView.removeCardsToActivate();
                         virtualView.removeResourcesToPay();
-                        virtualView.update(new ErrorMessage(""));
+                        virtualView.update(new ErrorMessage("You can't activate this!"));
                         virtualView.update(new NotifyTurn());
                     }
                     break;
@@ -468,7 +472,7 @@ public void initGameController(){
                         virtualView.removeAllResourcesToProduce();
                         virtualView.removeCardsToActivate();
                         virtualView.removeResourcesToPay();
-                        virtualView.update(new ErrorMessage(""));
+                        virtualView.update(new ErrorMessage("You can't activate this!"));
                         virtualView.update(new NotifyTurn());
                     }
                     break;
@@ -487,7 +491,7 @@ public void initGameController(){
                     virtualView.removeAllResourcesToProduce();
                     virtualView.removeCardsToActivate();
                     virtualView.removeResourcesToPay();
-                    virtualView.update(new ErrorMessage(""));
+                    virtualView.update(new ErrorMessage("You can't activate this!"));
                     virtualView.update(new NotifyTurn());
                 }
                     break;
@@ -1151,6 +1155,7 @@ public void initGameController(){
                     break;
             }
         }else{
+            sendDepots(virtualView, name);
             virtualView.update(new NotifyTurn());
         }
     }

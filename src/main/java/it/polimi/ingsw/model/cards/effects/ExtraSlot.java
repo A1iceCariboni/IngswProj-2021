@@ -59,4 +59,8 @@ public class ExtraSlot implements LeaderEffect, Serializable {
                 ", quantity=" + quantity +
                 '}';
     }
+
+    public int getId() {
+        return id;
+    }
 }

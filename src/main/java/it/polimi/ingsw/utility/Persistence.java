@@ -20,6 +20,8 @@ public class Persistence {
             Server.LOGGER.info("Game Saved.");
 
 
+        } catch(NotSerializableException ex) {
+           Server.LOGGER.severe("Not serializable class");
         } catch (IOException e) {
             Server.LOGGER.severe("Couldn't save");
         }

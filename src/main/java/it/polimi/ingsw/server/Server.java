@@ -160,7 +160,7 @@ public class Server {
      */
     public  void onDisconnect(ClientHandler clientHandler){
         if(!gameController.isStarted()){
-            waiting.remove(clientHandler);
+            unregisterClient(clientHandler);
         }else{
             String name = clients.get(clientHandler);
             clients.remove(clientHandler);
@@ -186,7 +186,21 @@ public class Server {
         gameController.reconnectClient(nickname, virtualView);
     }
 
+    /**
+     * if a client disconnects when the game is not started it's deleted
+     * @param clientHandler of the player who has disconnect
+     */
+    public void unregisterClient(ClientHandler clientHandler){
+        waiting.remove(clientHandler);
+        String name = clients.get(clientHandler);
 
+        virtualClients.remove(name);
+        clients.remove(clientHandler);
+        if(gameController.getConnectedClients().get(name) != null){
+            gameController.removeConnectedClient(name);
+            gameController.removePlayer(name);
+        }
+    }
 }
 
 

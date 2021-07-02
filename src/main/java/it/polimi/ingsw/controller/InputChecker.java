@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.effects.ExtraProductionPower;
+import it.polimi.ingsw.model.cards.effects.ExtraSlot;
 import it.polimi.ingsw.server.VirtualView;
 import it.polimi.ingsw.utility.WarehouseConstructor;
 
@@ -347,15 +348,21 @@ public class InputChecker implements Serializable {
     }
 
     /**
-     * checks if the player owns the leadercads with the given ids
+     * checks if the player owns the leadercads with the given id and if it's possible to discard
      * @param ca the ids of the card
      * @return true if he owns the cards false otherwise
      */
     public boolean checkOwnedLeaderCard(int ca) {
         try {
-            game.getCurrentPlayer().getLeaderCardById(ca);
+            LeaderCard le = game.getCurrentPlayer().getLeaderCardById(ca);
+            if(le.getLeaderEffect().getEffectName().equals("EXTRA_SLOT") && (le.isActive())){
+                int id = ((ExtraSlot) le.getLeaderEffect()).getId();
+                if(!game.getCurrentPlayer().getDepotById(id).isEmpty()){
+                    return false;
+                }
+            }
             return true;
-        } catch (NullCardException e) {
+        } catch (NullCardException | NotPossibleToAdd e) {
             return false;
         }
     }

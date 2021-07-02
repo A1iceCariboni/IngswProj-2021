@@ -77,6 +77,7 @@ public class TurnController implements Serializable {
 
                     } else {
                         vv.update(new VictoryPoints(game.getCurrentPlayer().getVictoryPoints()));
+                        vv.update(new EndTurn());
                         nextPlayer();
                     }
                 }

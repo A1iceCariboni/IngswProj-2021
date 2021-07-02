@@ -11,7 +11,7 @@ Interazione e gameplay: linea di comando (CLI) e grafica (GUI).
 ## Documentazione
 
 ### UML
-I diagrammi UML delle classi si trovano nella cartella deliverables del progetto, rappresentano rispettivamente il modello iniziale sviluppato durante la fase di progettazione e i diagrammi del prodotto finale.
+I diagrammi UML delle classi si trovano nella cartella deliveries del progetto, rappresentano rispettivamente il modello iniziale sviluppato durante la fase di progettazione e i diagrammi del prodotto finale.
 
 
 ### Librerie e Plugins
@@ -32,6 +32,10 @@ I diagrammi UML delle classi si trovano nella cartella deliverables del progetto
     - __Persistenza del server
   
 Il server gestisce una sola partita per volta, anche in caso di disconnessione di tutti i giocatori la partita si conserva e non viene automaticamente terminata
+
+La persistenza del server è realizzata tramite salvataggio su file del game controller.
+
+Il game controller viene salvato tramite selializzazione su file "game.txt" salvato nella home directory della macchina su cui gira il server.
 
 ## Compilazione e packaging
 I jar sono stati realizzati con l'ausilio di Maven Shade Plugin.

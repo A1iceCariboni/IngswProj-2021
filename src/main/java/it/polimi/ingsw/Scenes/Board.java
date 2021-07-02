@@ -380,25 +380,32 @@ public class Board extends ViewObservable {
     /** on image click the player choose this development card to start the production*/
     @FXML
     public void pick1(){
-        ids.add(i, virtualModel.getPlayerBoard().getDevSections()[0].getId());
-        devb1.setDisable(true);
-        devb1.setOpacity(0.5);
+        if(virtualModel.getPlayerBoard().getDevSections()[0] != null) {
+
+            ids.add(i, virtualModel.getPlayerBoard().getDevSections()[0].getId());
+            devb1.setDisable(true);
+            devb1.setOpacity(0.5);
+        }
     }
 
     /** on image click the player choose this development card to start the production*/
     @FXML
     public void pick2(){
-        ids.add(i, virtualModel.getPlayerBoard().getDevSections()[1].getId());
-        devb2.setDisable(true);
-        devb2.setOpacity(0.5);
+        if(virtualModel.getPlayerBoard().getDevSections()[1] != null) {
+            ids.add(i, virtualModel.getPlayerBoard().getDevSections()[1].getId());
+            devb2.setDisable(true);
+            devb2.setOpacity(0.5);
+        }
     }
 
     /** on image click the player choose this development card to start the production*/
     @FXML
     public void pick3(){
-        ids.add(virtualModel.getPlayerBoard().getDevSections()[2].getId());
-        devb3.setDisable(true);
-        devb3.setOpacity(0.5);
+        if(virtualModel.getPlayerBoard().getDevSections()[2] != null) {
+            ids.add(virtualModel.getPlayerBoard().getDevSections()[2].getId());
+            devb3.setDisable(true);
+            devb3.setOpacity(0.5);
+        }
     }
 
     /** on image click the player choose this leader card to start the production*/
