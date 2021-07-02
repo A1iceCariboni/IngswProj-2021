@@ -944,7 +944,7 @@ public void initGameController(){
         final VirtualView virtualView = this.getConnectedClients().get(name);
         for(int i = 0; i < marb.length; i++){
             Resource resource = new Resource(ResourceType.valueOf(marb[i]));
-            virtualView.getFreeMarble().get(i).setMarbleEffect(playerBoard -> playerBoard.addUnplacedResource(resource));
+            virtualView.getFreeMarble().get(i).setMarbleEffect((MarbleEffect & Serializable) playerBoard -> playerBoard.addUnplacedResource(resource));
             virtualView.getFreeMarble().get(i).getMarbleEffect().giveResourceTo(this.game.getCurrentPlayer().getPlayerBoard());
         }
         virtualView.removeAllFreeMarbles();

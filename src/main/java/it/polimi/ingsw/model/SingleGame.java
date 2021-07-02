@@ -29,7 +29,7 @@ public class SingleGame extends Game{
     public void startGame() {
         for (int i = 0; i < Constants.smallDecks; i++) {
             players.get(1).addLeaderCard(deckLeader.popCard());
-            players.get(1).getPlayerBoard().getStrongBox().setStrongbox(StrongBoxParser.parseFull());
+           // players.get(1).getPlayerBoard().getStrongBox().setStrongbox(StrongBoxParser.parseFull());
         }
     }
 

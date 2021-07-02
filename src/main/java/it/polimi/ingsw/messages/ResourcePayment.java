@@ -3,6 +3,7 @@ package it.polimi.ingsw.messages;
 import com.google.gson.Gson;
 
 public class ResourcePayment extends Message{
+
     public ResourcePayment(String[] res) {
         super(MessageType.RESOURCE_PAYMENT, "");
         Gson gson = new Gson();

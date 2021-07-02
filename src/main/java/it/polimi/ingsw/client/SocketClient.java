@@ -59,7 +59,7 @@ public class SocketClient extends Observable {
                       String line = in.readLine();
                       if(line == null )break;
                       notifyObserver(line);
-                      LOGGER.info("Message received " + line);
+                     // LOGGER.info("Message received " + line);
                   }while(active) ;
 
 
@@ -83,7 +83,7 @@ public class SocketClient extends Observable {
         out.flush();
 
         if(message.getCode() != MessageType.PING) {
-            LOGGER.info("Message sent " + message.getCode());
+           // LOGGER.info("Message sent " + message.getCode());
         }
     }
 

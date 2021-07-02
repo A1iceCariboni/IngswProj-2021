@@ -69,7 +69,7 @@ public abstract class Game implements Serializable {
           for(Player player: players) {
               for (int i = 0; i < Constants.smallDecks; i++) {
                   player.addLeaderCard(this.deckLeader.popCard());
-                  player.getPlayerBoard().getStrongBox().setStrongbox(StrongBoxParser.parseFull());
+                  //player.getPlayerBoard().getStrongBox().setStrongbox(StrongBoxParser.parseFull());
               }
               if(player.getInkwell()){
                   this.currentPlayer = players.indexOf(player);

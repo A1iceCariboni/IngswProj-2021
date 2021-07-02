@@ -75,7 +75,9 @@ public class DevelopmentCard extends Card{
         }
         b.moveFaithMarker(faithpoints);
         for (Resource productResourceElem : productResources) {
-            b.getStrongBox().addResources(productResourceElem);
+            if(productResourceElem.getResourceType() != ResourceType.FAITH) {
+                b.getStrongBox().addResources(productResourceElem);
+            }
         }
     }
 
