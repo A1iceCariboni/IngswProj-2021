@@ -835,10 +835,11 @@ public class Board extends ViewObservable {
         victoryPoints.setText(Integer.toString(virtualModel.getVictoryPoints()));
 
         activeLp.setDisable(true);
-        if(virtualModel.getLeaderCards().size()>=2)
-         if (virtualModel.getLeaderCards().get(0).isActive() || virtualModel.getLeaderCards().get(1).isActive())
-                activeLp.setDisable(false);
-
+        if(!virtualModel.getLeaderCards().isEmpty()){
+         if (virtualModel.getLeaderCards().get(0).isActive() || virtualModel.getLeaderCards().get(1).isActive()) {
+             activeLp.setDisable(false);
+         }
+         }
         if(virtualModel.getPlayerBoard().getDevSections()[0]== null && virtualModel.getPlayerBoard().getDevSections()[1]== null &&virtualModel.getPlayerBoard().getDevSections()[2]== null){
             activatedp.setDisable(true);
         }
