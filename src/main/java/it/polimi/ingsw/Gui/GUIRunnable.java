@@ -326,7 +326,7 @@ public class GUIRunnable extends Application {
 
     public static QuestionGame questionGame (QuestionGame game, ArrayList<ViewObserver> observers) {
         try {
-            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Con_Scene.fxml"));
+            FXMLLoader loader = new FXMLLoader(GUIRunnable.class.getResource("/fxml/Question_Game_Scene.fxml"));
             Parent root = loader.load();
             scene.setRoot(root);
             game  = loader.getController();

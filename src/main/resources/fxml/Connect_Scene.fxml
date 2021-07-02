@@ -10,7 +10,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="760.0" prefWidth="1300.0" styleClass="anchor" stylesheets="@../css/login_scene.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.ConnectScene">
+<StackPane prefHeight="760.0" prefWidth="1300.0" styleClass="anchor" stylesheets="@../css/login_scene.css" xmlns="http://javafx.com/javafx/14.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Scenes.ConnectScene">
    <children>
       <Group scaleX="1.5" scaleY="1.5">
          <children>

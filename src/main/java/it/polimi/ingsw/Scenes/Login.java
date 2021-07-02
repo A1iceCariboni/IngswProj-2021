@@ -47,6 +47,7 @@ public class Login extends ViewObservable {
         }else {
             SetupMessage setupMessage = new SetupMessage(nickname);
             notifyObserver(obs -> obs.onUpdateNickname(setupMessage));
+            joinButton.setDisable(true);
         }
 
     }

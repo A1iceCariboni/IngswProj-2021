@@ -453,8 +453,8 @@ public class Board extends ViewObservable {
         command1[z] = "SERVANT";
         z++;
         if(z == 3) {
-            confirm2.setDisable(true);
-            confirm2.setOpacity(0);
+            confirm2.setDisable(false);
+            confirm2.setOpacity(1);
             stonebp.setOpacity(0);
             stonebp.setDisable(true);
             shieldbp.setOpacity(0);
