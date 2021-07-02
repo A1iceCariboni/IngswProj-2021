@@ -51,26 +51,13 @@ public class NumberOfPlayers extends ViewObservable {
     /**to go to the next scene */
      @FXML
     public void GotoWaitingScene(ActionEvent event){
-         ConfirmButton.setDisable(true);
+        ;
          int number = Character.getNumericValue(playerschoice.getValue().charAt(0));
-         NumberOfPlayerReply message = new NumberOfPlayerReply(number);
-         notifyObserver(obs -> obs.onReadyReply(message));
+         if(number != 0) {
+             NumberOfPlayerReply message = new NumberOfPlayerReply(number);
+             notifyObserver(obs -> obs.onReadyReply(message));
+             ConfirmButton.setDisable(true);
+         }
     }
 
-
-
-    /**to go back to the menu*/
-    @FXML
-    public void GotMenuScene(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Menu_Scene.fxml"));
-        Stage window =(Stage) back_to_menu.getScene().getWindow();
-        window.setScene(new Scene(root));
-        window.setWidth(1280d);
-        window.setHeight(720d);
-        window.setResizable(false);
-        window.setMaximized(true);
-        window.setFullScreen(true);
-        window.setFullScreenExitHint(" ");
-        window.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-    }
 }
