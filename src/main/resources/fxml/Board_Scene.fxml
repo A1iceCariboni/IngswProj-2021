@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.Group?>
@@ -829,7 +830,7 @@
                   </Lighting>
                </effect>
             </Button>
-            <Rectangle fx:id="rectangleVP" arcHeight="5.0" arcWidth="5.0" height="87.0" layoutX="12.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" width="92.0">
+            <Rectangle fx:id="rectangleVP" arcHeight="5.0" arcWidth="5.0" height="77.0" layoutX="25.0" layoutY="31.0" stroke="BLACK" strokeType="INSIDE" width="84.0">
                <fill>
                   <LinearGradient endX="1.0" endY="1.0">
                      <stops>
@@ -847,9 +848,9 @@
                   </LinearGradient>
                </fill>
             </Rectangle>
-            <Text fx:id="victoryPointsText" layoutX="10.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Victory Points" wrappingWidth="92.0">
+            <Text fx:id="victoryPointsText" layoutX="28.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Victory Points" wrappingWidth="92.0">
                <font>
-                  <Font name="Lucida Calligraphy Italic" size="21.0" />
+                  <Font name="Lucida Calligraphy Italic" size="18.0" />
                </font>
             </Text>
             <Button fx:id="activeLp" layoutX="1004.0" layoutY="627.0" mnemonicParsing="false" onAction="#activateLeaderProducion" prefHeight="33.0" prefWidth="256.0" text="Activate Production">
@@ -875,7 +876,7 @@
                   </Lighting>
                </effect>
             </Button>
-            <Label fx:id="victoryPoints" layoutX="49.0" layoutY="74.0" prefHeight="28.0" prefWidth="30.0" text="0" textAlignment="CENTER">
+            <Label fx:id="victoryPoints" layoutX="34.0" layoutY="73.0" prefHeight="28.0" prefWidth="37.0" text="0" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>

@@ -65,9 +65,6 @@ public class RearrangeWarehouse extends ViewObservable {
     @FXML
     public void put1(ActionEvent actionEvent) {
         dummyWareHouse.getDepot1().addResource(res.get(i));
-        Image il = new Image(getClass().getResourceAsStream("/PunchBoard/" + res.get(i) + ".png"));
-        res1.setImage(il);
-        res1.setOpacity(1);
         i++;
         if(i == res.size()) {
             notifyObserver(obs -> obs.onReadyReply(new DepotMessage(dummyWareHouse)));
@@ -234,6 +231,14 @@ public class RearrangeWarehouse extends ViewObservable {
         if (virtualModel.getPlayerBoard().getWareHouse().getExtraDepot2().getId() != -1) {
             led2.setOpacity(1);
             led2.setImage(i2);
+        }
+
+        if(res.size()==0){
+            d1.setDisable(true);
+            d2.setDisable(true);
+            d3.setDisable(true);
+            ex1.setDisable(true);
+            ex2.setDisable(true);
         }
 
     }

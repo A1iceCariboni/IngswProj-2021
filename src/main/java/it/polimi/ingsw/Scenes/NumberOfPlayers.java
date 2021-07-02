@@ -51,7 +51,7 @@ public class NumberOfPlayers extends ViewObservable {
     /**to go to the next scene */
      @FXML
     public void GotoWaitingScene(ActionEvent event){
-        ;
+
          int number = Character.getNumericValue(playerschoice.getValue().charAt(0));
          if(number != 0) {
              NumberOfPlayerReply message = new NumberOfPlayerReply(number);
